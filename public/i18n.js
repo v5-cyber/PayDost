@@ -8,7 +8,7 @@ App.i18n = {
     en: {
       // Nav
       nav_dashboard: "Dashboard", nav_projects: "Projects", nav_invoices: "Invoices", 
-      nav_payments: "Payments", nav_tally: "Tally", nav_reminders: "Reminders", nav_settings: "Settings",
+      nav_payments: "Payments", nav_tally: "Tally", nav_diary: "Site Diary", nav_reminders: "Reminders", nav_settings: "Settings",
       
       // Dashboard
       dash_total_outstanding: "Total Outstanding", dash_collected: "Collected", dash_overdue: "Overdue", 
@@ -36,7 +36,7 @@ App.i18n = {
     },
     hi: {
       nav_dashboard: "डैशबोर्ड", nav_projects: "प्रोजेक्ट", nav_invoices: "चालान", 
-      nav_payments: "भुगतान", nav_tally: "टैली", nav_reminders: "रिमाइंडर", nav_settings: "सेटिंग",
+      nav_payments: "भुगतान", nav_tally: "टैली", nav_diary: "साइट डायरी", nav_reminders: "रिमाइंडर", nav_settings: "सेटिंग",
       
       dash_total_outstanding: "कुल बकाया", dash_collected: "प्राप्त", dash_overdue: "अतिदेय", 
       dash_late_fees: "विलंब शुल्क", dash_recent_projects: "हाल के प्रोजेक्ट", dash_overdue_payments: "बकाया भुगतान",

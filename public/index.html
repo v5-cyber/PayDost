@@ -33,9 +33,7 @@
         <input type="password" id="login-password" placeholder="••••••••" />
       </div>
       <button class="btn btn-primary btn-block" onclick="App.auth.login()">Login to PayDost</button>
-      <p style="text-align:center;margin-top:14px;font-size:13px;color:var(--text-muted)">
-        Demo: <strong>demo@paydost.in</strong> / <strong>demo123</strong>
-      </p>
+
     </div>
 
     <!-- Register Form -->
@@ -92,8 +90,8 @@
       <button class="nav-item" data-page="tally" onclick="App.navigate('tally')">
         <span class="icon">📈</span> <span data-i18n="nav_tally">Tally</span>
       </button>
-      <button class="nav-item" data-page="reminders" onclick="App.navigate('reminders')">
-        <span class="icon">🔔</span> <span data-i18n="nav_reminders">Reminders</span>
+      <button class="nav-item" data-page="diary" onclick="App.navigate('diary')">
+        <span class="icon">📔</span> <span data-i18n="nav_diary">Site Diary</span>
       </button>
       <button class="nav-item" data-page="settings" onclick="App.navigate('settings')">
         <span class="icon">⚙️</span> <span data-i18n="nav_settings">Settings</span>
@@ -346,6 +344,8 @@
 <!-- Toast Container -->
 <div id="toast-container"></div>
 
+<!-- Supabase SDK -->
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <!-- Razorpay SDK -->
 <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>

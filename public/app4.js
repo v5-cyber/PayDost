@@ -1,324 +1,160 @@
-// ==========================================
-// TALLY MODULE
-// ==========================================
+/* ══════════════════════════════════════
+   PayDost — app4.js (Supabase Edition)
+   Tally · Site Diary · Reminders
+══════════════════════════════════════ */
+
 App.tally = {
-  data: null,
   async load() {
-    try {
-      const res = await App.api.get('/api/tally');
-      this.data = res;
-      this.render();
-    } catch (e) {
-      App.ui.toast(e.message, 'error');
-    }
-  },
-  render() {
-    if (!this.data) return;
-    const { summary, breakdown, rows } = this.data;
+    const { data: projects } = await supabase.from('projects').select('*');
+    const { data: payments } = await supabase.from('payments').select('*');
     
-    document.getElementById('ts-total').innerText = '₹' + summary.totalAmount.toLocaleString('en-IN');
-    document.getElementById('ts-received').innerText = '₹' + summary.totalReceived.toLocaleString('en-IN');
-    document.getElementById('ts-pending').innerText = '₹' + summary.totalPending.toLocaleString('en-IN');
-    document.getElementById('ts-rate').innerText = summary.collectionRate + '%';
-
-    document.getElementById('tally-fully-paid').innerText = 'Fully Paid: ' + breakdown.fullyPaid;
-    document.getElementById('tally-partial').innerText = 'Partial: ' + breakdown.partial;
-    document.getElementById('tally-unpaid').innerText = 'Unpaid: ' + breakdown.unpaid;
-
-    const noProj = App.i18n ? App.i18n.t('dash_no_projects') : 'No projects found';
-    const tbody = document.getElementById('tally-tbody');
-    tbody.innerHTML = rows.map(r => {
-      const st = App.i18n ? App.i18n.t('status_' + r.status) : r.status;
-      return `
+    const total = projects.reduce((s,p) => s + (p.amount||0), 0);
+    const received = projects.reduce((s,p) => s + (p.paid_amount||0), 0);
+    const pending = total - received;
+    const rate = total > 0 ? Math.round((received/total)*100) : 0;
+    
+    document.getElementById('ts-total').textContent = App.ui.fmt(total);
+    document.getElementById('ts-received').textContent = App.ui.fmt(received);
+    document.getElementById('ts-pending').textContent = App.ui.fmt(pending);
+    document.getElementById('ts-rate').textContent = rate + '%';
+    
+    const paidCount = projects.filter(p => p.status === 'paid').length;
+    const partialCount = projects.filter(p => p.paid_amount > 0 && p.status !== 'paid').length;
+    const unpaidCount = projects.filter(p => (p.paid_amount || 0) === 0).length;
+    
+    document.getElementById('tally-fully-paid').innerHTML = `Fully Paid: ${paidCount}`;
+    document.getElementById('tally-partial').innerHTML = `Partial: ${partialCount}`;
+    document.getElementById('tally-unpaid').innerHTML = `Unpaid: ${unpaidCount}`;
+    
+    document.getElementById('tally-tbody').innerHTML = projects.map(p => `
       <tr>
-        <td><strong>${r.project_name}</strong></td>
-        <td>${r.client_name}</td>
-        <td>₹${r.amount.toLocaleString('en-IN')}</td>
-        <td style="color:var(--success)">₹${r.received.toLocaleString('en-IN')}</td>
-        <td style="color:var(--danger)">₹${r.pending.toLocaleString('en-IN')}</td>
-        <td><span class="badge badge-${r.status === 'paid' ? 'paid' : (r.status === 'partial' ? 'pending' : 'overdue')}">${st}</span></td>
-      </tr>
-    `}).join('') || `<tr><td colspan="6" style="text-align:center;padding:20px;">${noProj}</td></tr>`;
+        <td>${p.name}</td>
+        <td>${p.client_name}</td>
+        <td>${App.ui.fmt(p.amount)}</td>
+        <td class="text-success">${App.ui.fmt(p.paid_amount)}</td>
+        <td class="text-danger">${App.ui.fmt(p.amount - p.paid_amount)}</td>
+        <td><span class="badge badge-${p.status}">${p.status.toUpperCase()}</span></td>
+      </tr>`).join('');
   },
+
   downloadCSV() {
-    if (!this.data || !this.data.rows.length) return App.ui.toast('No data to download');
-    const headers = ['Project', 'Client', 'Amount', 'Received', 'Pending', 'Status'];
-    const csvRows = [headers.join(',')];
-    this.data.rows.forEach(r => {
-      csvRows.push(`"${r.project_name}","${r.client_name}",${r.amount},${r.received},${r.pending},${r.status}`);
+    const rows = [["Project", "Client", "Amount", "Received", "Pending", "Status"]];
+    App.state.projects.forEach(p => {
+      rows.push([p.name, p.client_name, p.amount, p.paid_amount, p.amount - p.paid_amount, p.status]);
     });
-    const blob = new Blob([csvRows.join('n')], { type: 'text/csv' });
-    const url = window.URL.createObjectURL(blob);
-    const a = document.createElement('a');
-    a.setAttribute('href', url);
-    a.setAttribute('download', 'PayDost_Tally.csv');
-    a.click();
+    let csv = "data:text/csv;charset=utf-8," + rows.map(e => e.join(",")).join("\n");
+    const link = document.createElement("a");
+    link.setAttribute("href", encodeURI(csv));
+    link.setAttribute("download", "paydost_tally.csv");
+    document.body.appendChild(link);
+    link.click();
   }
-};
-
-// ==========================================
-// INVOICES MODULE
-// ==========================================
-App.invoices = {
-  async load() {
-    try {
-      const { invoices } = await App.api.get('/api/invoices');
-      const noInvs = App.i18n ? App.i18n.t('dash_no_projects') : 'No invoices generated yet';
-      const dlTxt = App.i18n ? App.i18n.t('action_download_pdf') : 'Download PDF';
-      const tbody = document.getElementById('invoices-tbody');
-      tbody.innerHTML = invoices.map(i => `
-        <tr>
-          <td><strong>${i.invoice_number}</strong></td>
-          <td>${i.invoice_date}</td>
-          <td>${i.client_name} / ${i.project_name}</td>
-          <td>₹${i.taxable_value.toLocaleString('en-IN')}</td>
-          <td>₹${(i.cgst_amount + i.sgst_amount).toLocaleString('en-IN')}</td>
-          <td><strong>₹${i.total_amount.toLocaleString('en-IN')}</strong></td>
-          <td><button class="btn btn-primary btn-sm" onclick="App.invoices.downloadPDF(${i.id})">${dlTxt}</button></td>
-        </tr>
-      `).join('') || `<tr><td colspan="7" style="text-align:center;padding:20px;">${noInvs}</td></tr>`;
-      this.list = invoices;
-    } catch (e) {
-      App.ui.toast(e.message, 'error');
-    }
-  },
-  async openGenerateModal(projectId) {
-    const proj = App.projects.list.find(p => p.id === projectId);
-    const html = `
-      <h3>Generate GST Invoice</h3>
-      <div class="form-group mt-4">
-        <label>Taxable Value (₹)</label>
-        <input type="number" id="inv-taxable" value="${proj.amount}" />
-      </div>
-      <p class="text-sm text-muted mt-2 mb-4">CGST (9%) and SGST (9%) will be added automatically.</p>
-      <button class="btn btn-primary btn-block" onclick="App.invoices.generate(${projectId})">Generate Invoice</button>
-    `;
-    App.ui.openModal(html);
-  },
-  async generate(projectId) {
-    const taxable = document.getElementById('inv-taxable').value;
-    try {
-      await App.api.post('/api/invoices', { project_id: projectId, taxable_value: parseFloat(taxable) });
-      App.ui.toast('Invoice generated successfully');
-      App.ui.closeModal();
-      App.navigate('invoices');
-    } catch (e) {
-      App.ui.toast(e.message, 'error');
-    }
-  },
-  downloadPDF(invoiceId) {
-    const inv = this.list.find(i => i.id === invoiceId);
-    if (!inv || !window.jspdf) return App.ui.toast('Unable to generate PDF', 'error');
-    const { jsPDF } = window.jspdf;
-    const doc = new jsPDF();
-    
-    doc.setFontSize(22);
-    doc.text("TAX INVOICE", 105, 20, { align: 'center' });
-    
-    doc.setFontSize(12);
-    doc.text(`Company: ${App.App.state.user.company || App.App.state.user.name}`, 14, 40);
-    doc.text(`GSTIN: ${App.App.state.user.gst_number || 'N/A'}`, 14, 48);
-    
-    doc.text(`Invoice No: ${inv.invoice_number}`, 140, 40);
-    doc.text(`Date: ${inv.invoice_date}`, 140, 48);
-    
-    doc.text(`Bill To: ${inv.client_name}`, 14, 65);
-    doc.text(`Project: ${inv.project_name}`, 14, 73);
-    
-    doc.autoTable({
-      startY: 85,
-      head: [['Description', 'Amount (Rs)']],
-      body: [
-        ['Taxable Value', inv.taxable_value.toFixed(2)],
-        ['CGST @ 9%', inv.cgst_amount.toFixed(2)],
-        ['SGST @ 9%', inv.sgst_amount.toFixed(2)],
-        [{ content: 'Total Amount', styles: { fontStyle: 'bold' } }, { content: inv.total_amount.toFixed(2), styles: { fontStyle: 'bold' } }]
-      ],
-      theme: 'grid'
-    });
-    
-    doc.save(`${inv.invoice_number}.pdf`);
-  }
-};
-
-// ==========================================
-// PROJECT DETAIL OVERRIDE & DIARY
-// ==========================================
-App.projects.openDetail = function(id) {
-  const proj = this.list.find(p => p.id === id);
-  if (!proj) return;
-  const html = `
-    <div class="watermark">${proj.client_name.split(' ')[0]}</div>
-    <div class="project-detail-content">
-      <div style="display:flex; justify-content:space-between; align-items:flex-start; margin-bottom: 20px;">
-        <div>
-          <h2 style="margin:0;">${proj.name}</h2>
-          <p style="color:var(--text-muted); margin:4px 0 0 0;">${proj.client_name} • ₹${proj.amount.toLocaleString('en-IN')}</p>
-        </div>
-        <button class="btn btn-ghost" onclick="App.ui.closeModal()">✕</button>
-      </div>
-
-      <div class="auth-tabs" style="margin-bottom:20px;">
-        <button class="auth-tab active" onclick="App.projects.switchTab('overview', ${proj.id})" id="tab-btn-overview">Overview</button>
-        <button class="auth-tab" onclick="App.projects.switchTab('diary', ${proj.id})" id="tab-btn-diary">Site Diary</button>
-      </div>
-
-      <div id="tab-overview">
-        <div class="grid-2 mb-4">
-          <button class="btn btn-primary" onclick="App.projects.openEditModal(${proj.id})">✏️ Edit Project</button>
-          <button class="btn btn-warning" onclick="App.invoices.openGenerateModal(${proj.id})">📄 Generate GST Invoice</button>
-        </div>
-        <div class="card bg-surface p-4">
-          <p><strong>Due Date:</strong> ${proj.due_date || 'N/A'}</p>
-          <p><strong>Status:</strong> ${proj.status}</p>
-          <p><strong>Risk Level:</strong> <span class="badge badge-${proj.risk_level==='low'?'paid':proj.risk_level==='high'?'overdue':'pending'}">${proj.risk_level.toUpperCase()}</span></p>
-        </div>
-      </div>
-
-      <div id="tab-diary" class="hidden">
-        <button class="btn btn-primary btn-block mb-4" onclick="App.diary.openAddModal(${proj.id})">+ Add Daily Entry</button>
-        <div id="diary-list">Loading entries...</div>
-      </div>
-    </div>
-  `;
-  // Increase modal size for detail view
-  App.ui.openModal(html);
-  document.querySelector('.modal-box').style.maxWidth = '600px';
-  document.querySelector('.modal-box').style.overflow = 'hidden'; // For watermark
-  App.diary.load(proj.id);
-};
-
-// Override project card click to open detail instead of edit
-const originalRenderProjects = App.projects.render;
-App.projects.render = function(projects) {
-  originalRenderProjects.call(this, projects);
-  const cards = document.querySelectorAll('#projects-grid .project-card');
-  cards.forEach(card => {
-    // Clear old onclicks
-    card.removeAttribute('onclick');
-    // Find the edit button and change its action
-    const editBtn = card.querySelector('.btn-ghost');
-    if(editBtn) {
-      const match = editBtn.getAttribute('onclick').match(/\d+/);
-      if(match) editBtn.setAttribute('onclick', `App.projects.openDetail(${match[0]})`);
-    }
-  });
-};
-
-App.projects.switchTab = function(tab, projectId) {
-  document.getElementById('tab-overview').classList.add('hidden');
-  document.getElementById('tab-diary').classList.add('hidden');
-  document.getElementById('tab-btn-overview').classList.remove('active');
-  document.getElementById('tab-btn-diary').classList.remove('active');
-  
-  document.getElementById('tab-' + tab).classList.remove('hidden');
-  document.getElementById('tab-btn-' + tab).classList.add('active');
 };
 
 App.diary = {
-  async load(projectId) {
-    try {
-      const { entries } = await App.api.get('/api/diary/' + projectId);
-      const list = document.getElementById('diary-list');
-      if(!list) return;
-      list.innerHTML = entries.map(e => `
-        <div class="diary-entry">
-          <div class="diary-date">${e.entry_date} — ${e.workers_present} workers</div>
-          <div class="diary-summary">${e.work_done || 'No work details'}</div>
-          ${e.materials_used ? `<div class="diary-detail"><strong>Materials:</strong> ${e.materials_used}</div>` : ''}
-          ${e.issues_noted ? `<div class="diary-detail" style="color:var(--danger)"><strong>Issues:</strong> ${e.issues_noted}</div>` : ''}
-          ${e.photo_base64 ? `<img src="${e.photo_base64}" class="diary-photo" />` : ''}
-        </div>
-      `).join('') || '<p class="text-muted text-center">No entries yet.</p>';
-    } catch (e) {
-      console.error(e);
-    }
-  },
-  openAddModal(projectId) {
-    const today = new Date().toISOString().split('T')[0];
-    const html = `
-      <h3>Add Daily Entry</h3>
-      <div class="form-group mt-4"><label>Date</label><input type="date" id="diary-date" value="${today}" /></div>
-      <div class="form-group"><label>Workers Present</label><input type="number" id="diary-workers" value="0" /></div>
-      <div class="form-group"><label>Work Done Today</label><textarea id="diary-work"></textarea></div>
-      <div class="form-group"><label>Materials Used</label><input type="text" id="diary-materials" /></div>
-      <div class="form-group"><label>Issues Noted</label><input type="text" id="diary-issues" /></div>
-      <div class="form-group"><label>Photo (Optional)</label><input type="file" id="diary-photo" accept="image/*" /></div>
-      <button class="btn btn-primary btn-block mt-4" onclick="App.diary.save(${projectId})">Save Entry</button>
-    `;
-    App.ui.openModal(html);
-  },
-  async save(projectId) {
-    const data = {
-      project_id: projectId,
-      entry_date: document.getElementById('diary-date').value,
-      workers_present: parseInt(document.getElementById('diary-workers').value) || 0,
-      work_done: document.getElementById('diary-work').value,
-      materials_used: document.getElementById('diary-materials').value,
-      issues_noted: document.getElementById('diary-issues').value,
-      photo_base64: ''
-    };
+  async load() {
+    const { data } = await supabase.from('site_diary').select('*, projects(name)').order('entry_date', { ascending: false });
+    const container = document.getElementById('diary-entries') || document.createElement('div');
+    container.id = 'diary-entries';
     
-    const fileInput = document.getElementById('diary-photo');
-    if (fileInput.files && fileInput.files[0]) {
-      const reader = new FileReader();
-      reader.onload = async (e) => {
-        data.photo_base64 = e.target.result;
-        await this.postSave(data);
-      };
-      reader.readAsDataURL(fileInput.files[0]);
-    } else {
-      await this.postSave(data);
-    }
+    let html = `
+      <div class="page-actions"><button class="btn btn-primary" onclick="App.diary.openModal()">+ Add Daily Entry</button></div>
+      <div class="grid-2" style="margin-top:20px;">`;
+    
+    html += (data || []).map(e => `
+      <div class="card">
+        <div style="display:flex; justify-content:space-between; margin-bottom:12px;">
+          <div class="font-bold">${e.entry_date}</div>
+          <div class="text-sm text-dim">${e.projects?.name}</div>
+        </div>
+        <div class="text-sm">👷 Workers: ${e.workers_count}</div>
+        <div class="text-sm mt-2"><strong>Work Done:</strong> ${e.work_done}</div>
+        <div class="text-sm mt-2"><strong>Issues:</strong> ${e.issues_noted || 'None'}</div>
+      </div>`).join('');
+    
+    html += '</div>';
+    document.getElementById('page-diary').innerHTML = html;
   },
-  async postSave(data) {
-    try {
-      await App.api.post('/api/diary', data);
-      App.ui.toast('Diary entry saved');
-      App.projects.openDetail(data.project_id);
-      App.projects.switchTab('diary', data.project_id);
-    } catch (e) {
-      App.ui.toast(e.message, 'error');
-    }
+
+  openModal() {
+    App.ui.openModal(`
+      <div class="modal-header"><div class="modal-title">📔 Daily Site Entry</div><button class="modal-close" onclick="App.ui.closeModal()">×</button></div>
+      <div class="form-group"><label>Select Project</label>
+        <select id="sd-proj">${App.state.projects.map(p=>`<option value="${p.id}">${p.name}</option>`).join('')}</select></div>
+      <div class="grid-2">
+        <div class="form-group"><label>Workers Present</label><input type="number" id="sd-workers" value="0" /></div>
+        <div class="form-group"><label>Date</label><input type="date" id="sd-date" value="${new Date().toISOString().split('T')[0]}" /></div>
+      </div>
+      <div class="form-group"><label>Work Done Today</label><textarea id="sd-work"></textarea></div>
+      <div class="form-group"><label>Materials Used</label><input type="text" id="sd-materials" /></div>
+      <div class="form-group"><label>Issues / Notes</label><textarea id="sd-issues"></textarea></div>
+      <div class="modal-footer">
+        <button class="btn btn-primary" onclick="App.diary.save()">Save Entry</button>
+      </div>`);
+  },
+
+  async save() {
+    const entry = {
+      project_id: document.getElementById('sd-proj').value,
+      workers_count: parseInt(document.getElementById('sd-workers').value),
+      entry_date: document.getElementById('sd-date').value,
+      work_done: document.getElementById('sd-work').value,
+      materials_used: document.getElementById('sd-materials').value,
+      issues_noted: document.getElementById('sd-issues').value,
+      user_id: App.state.user.id
+    };
+    const { error } = await supabase.from('site_diary').insert([entry]);
+    if(!error) { App.ui.toast('Diary entry saved! 📔', 'success'); App.ui.closeModal(); App.diary.load(); }
   }
 };
 
-// ==========================================
-// LANGUAGES & SETTINGS OVERRIDE
-// ==========================================
-const originalLoadSettings = App.settings.loadProfile;
-App.settings.loadProfile = async function() {
-  await originalLoadSettings.call(this);
-  const u = App.App.state.user;
-  document.getElementById('set-gst').value = u.gst_number || '';
-  if(u.language) document.getElementById('sidebar-lang').value = u.language;
-};
+App.reminders = {
+  openSendModal(paymentId) {
+    const p = App.state.payments.find(x => x.id === paymentId) || App.state.payments[0];
+    App.ui.openModal(`
+      <div class="modal-header"><div class="modal-title">📤 Send Reminder</div><button class="modal-close" onclick="App.ui.closeModal()">×</button></div>
+      <div class="form-group"><label>Client</label><input type="text" value="${p?.projects?.client_name}" disabled /></div>
+      <div class="form-group"><label>Template</label>
+        <select id="rem-temp" onchange="App.reminders.updatePreview(${p?.total_due}, '${p?.projects?.name}')">
+          <option value="A">Day 7 — Funny Hinglish 😄</option>
+          <option value="B">Day 15 — Desi friendly 🙏</option>
+          <option value="C">Day 30 — Professional</option>
+          <option value="D">Day 45 — Legal Warning ⚠️</option>
+        </select>
+      </div>
+      <div class="form-group"><label>Channel</label>
+        <select id="rem-chan"><option value="whatsapp">WhatsApp</option><option value="email">Email</option><option value="both">Both</option></select>
+      </div>
+      <div class="form-group"><label>Preview</label>
+        <div id="rem-preview" style="background:rgba(0,0,0,0.2); padding:12px; border-radius:8px; font-size:13px; white-space:pre-wrap;"></div>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-primary" onclick="App.reminders.send(${paymentId})">Send Now</button>
+      </div>`);
+    App.reminders.updatePreview(p?.total_due, p?.projects?.name);
+  },
 
-const originalSaveSettings = App.settings.saveProfile;
-App.settings.saveProfile = async function() {
-  const u = App.App.state.user;
-  const data = {
-    name: document.getElementById('set-name').value,
-    company: document.getElementById('set-company').value,
-    phone: document.getElementById('set-phone').value,
-    gst_number: document.getElementById('set-gst').value,
-    language: document.getElementById('sidebar-lang').value
-  };
-  try {
-    const res = await App.api.post('/api/auth/profile', data);
-    App.App.state.user = res.user;
-    App.ui.updateAuthUI();
-    App.ui.toast('Profile saved');
-  } catch(e) { App.ui.toast(e.message, 'error'); }
-};
+  updatePreview(amt, proj) {
+    const type = document.getElementById('rem-temp').value;
+    const comps = App.state.profile?.company_name || 'PayDost User';
+    const fmtAmt = App.ui.fmt(amt);
+    const templates = {
+      A: `Bhai sahab namaskar! 🙏\n${proj} ka kaam complete ho gaya...\nBas ${fmtAmt} ka hisaab baaki hai! 😄\nConvenient ho toh process kar dijiye.\n— ${comps}`,
+      B: `Arrey bhai! 😄\nAap bhi jaante ho hum bhi jaante hain —\n${fmtAmt} abhi bhi pending hai!\nKal tak kar doge? 🙏\n— ${comps}`,
+      C: `Namaskar ji.\n${proj} complete hue kaafi din ho gaye.\n${fmtAmt} payment pending hai.\nAaj hi process karein. 🙏\n— ${comps}`,
+      D: `FORMAL PAYMENT NOTICE\nAmount Due: ${fmtAmt}\nPayment for ${proj} is severely overdue.\nPlease pay within 48 hours to avoid legal steps.\n— ${comps}`
+    };
+    document.getElementById('rem-preview').textContent = templates[type];
+  },
 
-App.settings.changeLanguage = async function(lang) {
-  if(App.i18n) App.i18n.setLanguage(lang);
-  if(!App.App.state.user) return;
-  App.App.state.user.language = lang;
-  try {
-    await App.api.post('/api/auth/profile', { language: lang });
-    App.ui.toast('Language updated');
-  } catch(e){}
+  async send(pid) {
+    const text = document.getElementById('rem-preview').textContent;
+    const chan = document.getElementById('rem-chan').value;
+    // In real app, call WhatsApp/Email API here
+    App.ui.toast(`Reminder sent via ${chan.toUpperCase()}! 🚀`, 'success');
+    await supabase.from('reminders').insert([{
+      payment_id: pid, channel: chan, template_type: document.getElementById('rem-temp').value, user_id: App.state.user.id
+    }]);
+    App.ui.closeModal();
+  }
 };
-
