@@ -446,7 +446,81 @@ window.App = Object.assign(window.App || {}, {
     }
   },
 
+  // ── AI ASSISTANT (Rumik AI) ─────────────
+  ai: {
+    toggleChat() {
+      document.getElementById('ai-chat-window').classList.toggle('hidden');
+    },
+    async sendMessage() {
+      const input = document.getElementById('ai-chat-input');
+      const text = input.value.trim();
+      if(!text) return;
+      
+      this.addMessage(text, 'user');
+      input.value = '';
+      
+      // Simulate Bot Response
+      setTimeout(() => {
+        let resp = "I'm not sure about that. Try asking about your projects or payments!";
+        const lowText = text.toLowerCase();
+        if(lowText.includes('total')) resp = `Your total outstanding is ${App.ui.fmt(App.dashboard._lastStats?.totalOutstanding || 0)}.`;
+        if(lowText.includes('overdue')) resp = `You have ${App.dashboard._lastStats?.overdue || 0} overdue payments.`;
+        if(lowText.includes('help')) resp = "I can help you add projects, check your balance, or generate invoices. Just ask!";
+        if(lowText.includes('hi') || lowText.includes('hello')) resp = "Namaste! I am Rumik. How can I help you with PayDost today?";
+        
+        this.addMessage(resp, 'bot');
+      }, 800);
+    },
+    addMessage(text, type) {
+      const container = document.getElementById('ai-chat-messages');
+      const msg = document.createElement('div');
+      msg.className = `ai-msg ${type}`;
+      msg.textContent = text;
+      container.appendChild(msg);
+      container.scrollTop = container.scrollHeight;
+    }
+  },
+
+  // ── VOICE RECOGNITION ────────────────────
+  voice: {
+    startFor(idName, idClient, idAmt, idDays) {
+      const recognition = new (window.SpeechRecognition || window.webkitSpeechRecognition)();
+      recognition.lang = 'en-IN'; // Supports Indian accents
+      
+      App.ui.toast('Listening... Speak now 🎤', 'info');
+      
+      recognition.onresult = (event) => {
+        const transcript = event.results[0][0].transcript.toLowerCase();
+        App.ui.toast(`You said: "${transcript}"`, 'success');
+        
+        // Simple NLP: "Build office for Sharma ji 2 lakhs"
+        // Regex to find amounts like "2 lakhs", "50000"
+        const amtMatch = transcript.match(/(\d+)\s*(lakh|lakhs|thousand|k)?/);
+        if(amtMatch) {
+          let val = parseInt(amtMatch[1]);
+          if(transcript.includes('lakh')) val *= 100000;
+          if(transcript.includes('thousand') || transcript.includes(' k')) val *= 1000;
+          document.getElementById(idAmt).value = val;
+        }
+        
+        // Extract names (very basic)
+        const parts = transcript.split(' ');
+        if(parts.length > 1) {
+          document.getElementById(idName).value = parts[0].charAt(0).toUpperCase() + parts[0].slice(1);
+          if(transcript.includes('for ')) {
+            const client = transcript.split('for ')[1].split(' ')[0];
+            document.getElementById(idClient).value = client.charAt(0).toUpperCase() + client.slice(1);
+          }
+        }
+      };
+      
+      recognition.onerror = () => App.ui.toast('Voice recognition failed ❌', 'error');
+      recognition.start();
+    }
+  },
+
   // ── UI UTILITIES ─────────────────────────
+
   ui: {
     applyTheme() {
       document.documentElement.setAttribute('data-theme', state.theme);
