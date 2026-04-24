@@ -9,7 +9,7 @@
 </head>
 <body>
 
-<!-- ══════════════ AUTH SCREEN (RE-DESIGNED) ══════════════ -->
+<!-- ══════════════ AUTH SCREEN ══════════════ -->
 <div id="auth-screen">
   <div class="auth-card">
     <div class="auth-logo">
@@ -28,19 +28,16 @@
       <div class="form-group">
         <label>Email Address</label>
         <div class="input-wrap">
-          <span class="icon">✉️</span>
           <input type="email" id="login-email" placeholder="aapki@email.com" />
         </div>
       </div>
       <div class="form-group">
         <label>Password</label>
         <div class="input-wrap">
-          <span class="icon">🔒</span>
           <input type="password" id="login-password" placeholder="••••••••" />
-          <button class="eye-btn" onclick="App.auth.togglePass('login-password')">👁️</button>
         </div>
       </div>
-      <button class="btn-primary btn-block" id="btn-login" onclick="App.auth.login()">Login to PayDost</button>
+      <button class="btn-primary btn-block" onclick="App.auth.login()">Login to PayDost</button>
       
       <div class="auth-footer">
         <a href="#" onclick="App.auth.forgotPass()">Forgot password?</a>
@@ -55,7 +52,7 @@
 
     <!-- Register Form -->
     <div id="register-form" class="hidden">
-      <div class="grid-2" style="display:grid; grid-template-columns:1fr 1fr; gap:12px;">
+      <div style="display:grid; grid-template-columns:1fr 1fr; gap:12px;">
         <div class="form-group">
           <label>Full Name</label>
           <input type="text" id="reg-name" placeholder="Ramesh Kumar" />
@@ -67,31 +64,14 @@
       </div>
       <div class="form-group">
         <label>Email Address</label>
-        <div class="input-wrap">
-          <span class="icon">✉️</span>
-          <input type="email" id="reg-email" placeholder="aapki@email.com" />
-        </div>
+        <input type="email" id="reg-email" placeholder="aapki@email.com" />
       </div>
       <div class="form-group">
         <label>Password</label>
-        <div class="input-wrap">
-          <span class="icon">🔒</span>
-          <input type="password" id="reg-password" placeholder="Min 6 characters" />
-        </div>
+        <input type="password" id="reg-password" placeholder="Min 6 characters" />
       </div>
-      <div class="form-group">
-        <label>Confirm Password</label>
-        <div class="input-wrap">
-          <span class="icon">🔒</span>
-          <input type="password" id="reg-confirm" placeholder="••••••••" />
-        </div>
-      </div>
-      <button class="btn-primary btn-block" id="btn-register" onclick="App.auth.register()">Create Free Account</button>
+      <button class="btn-primary btn-block" onclick="App.auth.register()">Create Free Account</button>
       
-      <p style="text-align:center; font-size:11px; color:var(--text-dim); margin-top:16px;">
-        By registering you agree to our Terms of Service
-      </p>
-
       <div class="divider-wrap">
         <div class="divider-line"></div><span>ALREADY JOINED?</span><div class="divider-line"></div>
       </div>
@@ -103,9 +83,7 @@
 <!-- ══════════════ MAIN APP ══════════════ -->
 <div id="app" class="hidden">
   <aside id="sidebar">
-    <div class="sidebar-logo">
-      <h1>💰 PayDost</h1>
-    </div>
+    <div class="sidebar-logo"><h1>💰 PayDost</h1></div>
     <nav class="nav-links">
       <button class="nav-item active" data-page="dashboard" onclick="App.navigate('dashboard')">📊 Dashboard</button>
       <button class="nav-item" data-page="projects" onclick="App.navigate('projects')">📁 Projects</button>
@@ -115,62 +93,38 @@
       <button class="nav-item" data-page="settings" onclick="App.navigate('settings')">⚙️ Settings</button>
     </nav>
     <div style="padding:20px; border-top:1px solid var(--border);">
-      <div style="display:flex; align-items:center; gap:12px; margin-bottom:12px;">
-        <div id="sidebar-avatar" style="width:36px; height:36px; background:var(--primary); border-radius:50%; display:flex; align-items:center; justify-content:center; font-weight:bold;">U</div>
-        <div>
-          <div id="sidebar-name" style="font-size:14px; font-weight:700;">Loading...</div>
-          <div id="sidebar-plan" style="font-size:11px; color:var(--text-dim);">FREE PLAN</div>
-        </div>
-      </div>
-      <button onclick="App.auth.logout()" style="width:100%; padding:8px; border:1px solid var(--border); background:none; color:var(--text-muted); border-radius:6px; cursor:pointer; font-size:12px;">Logout</button>
+      <div id="sidebar-name" style="font-weight:700;">My Company</div>
+      <button onclick="App.auth.logout()" style="margin-top:10px; width:100%; cursor:pointer;">Logout</button>
     </div>
   </aside>
 
   <div id="main">
-    <div class="top-bar">
-      <h2 id="page-title">Dashboard</h2>
-      <button class="btn-ghost" onclick="App.ui.toggleTheme()" style="background:none; border:none; font-size:20px; cursor:pointer;">🌙</button>
-    </div>
-
-    <!-- Pages (rendered dynamically) -->
+    <div class="top-bar"><h2 id="page-title">Dashboard</h2></div>
     <div id="page-dashboard" class="page-content">
-      <div id="stats-grid" style="display:grid; grid-template-columns:repeat(auto-fit, minmax(200px, 1fr)); gap:20px; margin-bottom:32px;"></div>
-      <div style="display:grid; grid-template-columns:1fr 1fr; gap:24px;">
-        <div class="card"><h3>Recent Projects</h3><div id="recent-projects-list"></div></div>
-        <div class="card"><h3>Overdue Payments</h3><div id="overdue-list"></div></div>
-      </div>
+      <div id="stats-grid" style="display:grid; grid-template-columns:repeat(auto-fit, minmax(200px, 1fr)); gap:20px;"></div>
     </div>
-    <div id="page-projects" class="page-content hidden">
-      <div style="display:flex; justify-content:space-between; margin-bottom:24px;">
-        <h3>Projects</h3>
-        <button class="btn-primary" onclick="App.projects.openCreateModal()">+ Add Project</button>
-      </div>
-      <div id="projects-grid" style="display:grid; grid-template-columns:repeat(auto-fill, minmax(300px, 1fr)); gap:20px;"></div>
-    </div>
-    <div id="page-payments" class="page-content hidden">
-       <div class="card">
-         <table><thead><tr><th>Invoice</th><th>Client</th><th>Amount</th><th>Status</th><th>Actions</th></tr></thead><tbody id="payments-tbody"></tbody></table>
-       </div>
-    </div>
+    <div id="page-projects" class="page-content hidden"></div>
+    <div id="page-payments" class="page-content hidden"></div>
     <div id="page-tally" class="page-content hidden"></div>
     <div id="page-diary" class="page-content hidden"></div>
-    <div id="page-settings" class="page-content hidden"></div>
   </div>
 </div>
 
-<div id="modal-overlay" style="position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.8); z-index:1000; display:flex; align-items:center; justify-content:center;" class="hidden" onclick="App.ui.closeModal()">
-  <div style="background:var(--surface); border:1px solid var(--border); border-radius:16px; padding:32px; width:100%; max-width:500px;" onclick="event.stopPropagation()">
-    <div id="modal-content"></div>
-  </div>
-</div>
-
-<div id="toast-container"></div>
-
+<!-- Supabase MUST be first -->
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.31/jspdf.plugin.autotable.min.js"></script>
 <script src="/app.js"></script>
 <script src="/app2.js"></script>
 <script src="/app4.js"></script>
+
+<script>
+// Tab Switching logic inside HTML for safety
+function showAuthTab(tab) {
+  const isLogin = tab === 'login';
+  document.getElementById('login-form').classList.toggle('hidden', !isLogin);
+  document.getElementById('register-form').classList.toggle('hidden', isLogin);
+  document.getElementById('tab-btn-login').classList.toggle('active', isLogin);
+  document.getElementById('tab-btn-register').classList.toggle('active', !isLogin);
+}
+</script>
 </body>
 </html>
