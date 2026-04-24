@@ -38,6 +38,7 @@ h1, h2, h3 {
   background: linear-gradient(135deg, #10b981, #3b82f6, #10b981);
   background-size: 200% auto;
   -webkit-background-clip: text;
+  background-clip: text;
   -webkit-text-fill-color: transparent;
   animation: gradientShift 5s linear infinite;
 }

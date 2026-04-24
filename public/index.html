@@ -4,41 +4,58 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>PayDost — Apka Payment Partner</title>
-  <meta name="description" content="Smart payment management for Indian contractors. Track, Invoice, Remind, Collect & Grow." />
   <link rel="stylesheet" href="/style.css" />
   <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>💰</text></svg>" />
 </head>
 <body>
 
-<!-- ══════════════ AUTH SCREEN ══════════════ -->
+<!-- ══════════════ AUTH SCREEN (RE-DESIGNED) ══════════════ -->
 <div id="auth-screen">
   <div class="auth-card">
     <div class="auth-logo">
+      <p class="subtitle">💰 PAYDOST</p>
       <h1>💰 PayDost</h1>
-      <p>Apka Payment Partner — Track | Invoice | Remind | Collect | Grow</p>
+      <p class="muted">Apka Payment Partner — Track | Invoice | Remind | Collect</p>
     </div>
+
     <div class="auth-tabs">
-      <button class="auth-tab active" onclick="showAuthTab('login')"><span data-i18n="nav_settings">Login</span></button>
-      <button class="auth-tab" onclick="showAuthTab('register')"><span data-i18n="nav_settings">Register</span></button>
+      <button class="auth-tab active" id="tab-btn-login" onclick="showAuthTab('login')">Login</button>
+      <button class="auth-tab" id="tab-btn-register" onclick="showAuthTab('register')">Register</button>
     </div>
 
     <!-- Login Form -->
     <div id="login-form">
       <div class="form-group">
         <label>Email Address</label>
-        <input type="email" id="login-email" placeholder="you@example.com" />
+        <div class="input-wrap">
+          <span class="icon">✉️</span>
+          <input type="email" id="login-email" placeholder="aapki@email.com" />
+        </div>
       </div>
       <div class="form-group">
         <label>Password</label>
-        <input type="password" id="login-password" placeholder="••••••••" />
+        <div class="input-wrap">
+          <span class="icon">🔒</span>
+          <input type="password" id="login-password" placeholder="••••••••" />
+          <button class="eye-btn" onclick="App.auth.togglePass('login-password')">👁️</button>
+        </div>
       </div>
-      <button class="btn btn-primary btn-block" onclick="App.auth.login()">Login to PayDost</button>
+      <button class="btn-primary btn-block" id="btn-login" onclick="App.auth.login()">Login to PayDost</button>
+      
+      <div class="auth-footer">
+        <a href="#" onclick="App.auth.forgotPass()">Forgot password?</a>
+        <p class="promo-text">30 din free — koi credit card nahi</p>
+      </div>
 
+      <div class="divider-wrap">
+        <div class="divider-line"></div><span>NEW HERE?</span><div class="divider-line"></div>
+      </div>
+      <button class="btn-ghost btn-block" style="border:1px solid var(--border); color:var(--text-muted); padding:10px; border-radius:8px; cursor:pointer;" onclick="showAuthTab('register')">Register free →</button>
     </div>
 
     <!-- Register Form -->
     <div id="register-form" class="hidden">
-      <div class="grid-2">
+      <div class="grid-2" style="display:grid; grid-template-columns:1fr 1fr; gap:12px;">
         <div class="form-group">
           <label>Full Name</label>
           <input type="text" id="reg-name" placeholder="Ramesh Kumar" />
@@ -50,310 +67,110 @@
       </div>
       <div class="form-group">
         <label>Email Address</label>
-        <input type="email" id="reg-email" placeholder="you@example.com" />
-      </div>
-      <div class="form-group">
-        <label>Phone</label>
-        <input type="text" id="reg-phone" placeholder="+91 98765 43210" />
+        <div class="input-wrap">
+          <span class="icon">✉️</span>
+          <input type="email" id="reg-email" placeholder="aapki@email.com" />
+        </div>
       </div>
       <div class="form-group">
         <label>Password</label>
-        <input type="password" id="reg-password" placeholder="Min 6 characters" />
+        <div class="input-wrap">
+          <span class="icon">🔒</span>
+          <input type="password" id="reg-password" placeholder="Min 6 characters" />
+        </div>
       </div>
-      <button class="btn btn-primary btn-block" onclick="App.auth.register()">Create Free Account</button>
+      <div class="form-group">
+        <label>Confirm Password</label>
+        <div class="input-wrap">
+          <span class="icon">🔒</span>
+          <input type="password" id="reg-confirm" placeholder="••••••••" />
+        </div>
+      </div>
+      <button class="btn-primary btn-block" id="btn-register" onclick="App.auth.register()">Create Free Account</button>
+      
+      <p style="text-align:center; font-size:11px; color:var(--text-dim); margin-top:16px;">
+        By registering you agree to our Terms of Service
+      </p>
+
+      <div class="divider-wrap">
+        <div class="divider-line"></div><span>ALREADY JOINED?</span><div class="divider-line"></div>
+      </div>
+      <button class="btn-ghost btn-block" style="border:1px solid var(--border); color:var(--text-muted); padding:10px; border-radius:8px; cursor:pointer;" onclick="showAuthTab('login')">Login to account →</button>
     </div>
   </div>
 </div>
 
 <!-- ══════════════ MAIN APP ══════════════ -->
 <div id="app" class="hidden">
-
-  <!-- Sidebar -->
   <aside id="sidebar">
     <div class="sidebar-logo">
       <h1>💰 PayDost</h1>
-      <p>Apka Payment Partner</p>
     </div>
     <nav class="nav-links">
-      <button class="nav-item active" data-page="dashboard" onclick="App.navigate('dashboard')">
-        <span class="icon">📊</span> <span data-i18n="nav_dashboard">Dashboard</span>
-      </button>
-      <button class="nav-item" data-page="projects" onclick="App.navigate('projects')">
-        <span class="icon">📁</span> <span data-i18n="nav_projects">Projects</span>
-      </button>
-      <button class="nav-item" data-page="invoices" onclick="App.navigate('invoices')">
-        <span class="icon">📄</span> <span data-i18n="nav_invoices">Invoices</span>
-      </button>
-      <button class="nav-item" data-page="payments" onclick="App.navigate('payments')">
-        <span class="icon">💳</span> <span data-i18n="nav_payments">Payments</span>
-      </button>
-      <button class="nav-item" data-page="tally" onclick="App.navigate('tally')">
-        <span class="icon">📈</span> <span data-i18n="nav_tally">Tally</span>
-      </button>
-      <button class="nav-item" data-page="diary" onclick="App.navigate('diary')">
-        <span class="icon">📔</span> <span data-i18n="nav_diary">Site Diary</span>
-      </button>
-      <button class="nav-item" data-page="settings" onclick="App.navigate('settings')">
-        <span class="icon">⚙️</span> <span data-i18n="nav_settings">Settings</span>
-      </button>
+      <button class="nav-item active" data-page="dashboard" onclick="App.navigate('dashboard')">📊 Dashboard</button>
+      <button class="nav-item" data-page="projects" onclick="App.navigate('projects')">📁 Projects</button>
+      <button class="nav-item" data-page="payments" onclick="App.navigate('payments')">💳 Payments</button>
+      <button class="nav-item" data-page="tally" onclick="App.navigate('tally')">📈 Tally</button>
+      <button class="nav-item" data-page="diary" onclick="App.navigate('diary')">📔 Site Diary</button>
+      <button class="nav-item" data-page="settings" onclick="App.navigate('settings')">⚙️ Settings</button>
     </nav>
-    <div class="sidebar-footer">
-      <div style="margin-bottom: 12px; display: flex; align-items: center; justify-content: space-between; padding: 0 10px;">
-        <span style="font-size: 12px; color: var(--text-muted);">Language</span>
-        <select class="lang-selector" onchange="App.settings.changeLanguage(this.value)" id="sidebar-lang">
-          <option value="en">English</option>
-          <option value="hi">हिंदी (Hindi)</option>
-          <option value="mr">मराठी (Marathi)</option>
-          <option value="gu">ગુજરાતી (Gujarati)</option>
-          <option value="te">తెలుగు (Telugu)</option>
-        </select>
-      </div>
-      <div class="user-info" onclick="App.navigate('settings')">
-        <div class="avatar" id="sidebar-avatar">R</div>
-        <div class="user-details">
-          <div class="name" id="sidebar-name">User</div>
-          <div class="plan" id="sidebar-plan">Free Plan</div>
+    <div style="padding:20px; border-top:1px solid var(--border);">
+      <div style="display:flex; align-items:center; gap:12px; margin-bottom:12px;">
+        <div id="sidebar-avatar" style="width:36px; height:36px; background:var(--primary); border-radius:50%; display:flex; align-items:center; justify-content:center; font-weight:bold;">U</div>
+        <div>
+          <div id="sidebar-name" style="font-size:14px; font-weight:700;">Loading...</div>
+          <div id="sidebar-plan" style="font-size:11px; color:var(--text-dim);">FREE PLAN</div>
         </div>
       </div>
-      <button class="btn btn-ghost btn-sm btn-block" style="margin-top:8px;" onclick="App.auth.logout()">Logout</button>
+      <button onclick="App.auth.logout()" style="width:100%; padding:8px; border:1px solid var(--border); background:none; color:var(--text-muted); border-radius:6px; cursor:pointer; font-size:12px;">Logout</button>
     </div>
   </aside>
 
-  <!-- Main Content -->
   <div id="main">
     <div class="top-bar">
-      <div style="display:flex;align-items:center;gap:12px;">
-        <button id="menu-btn" class="theme-btn" onclick="toggleSidebar()" style="display:none;">☰</button>
-        <h2 id="page-title">Dashboard</h2>
-      </div>
-      <div class="top-bar-actions">
-        <button class="theme-btn" onclick="App.ui.toggleTheme()" title="Toggle theme" id="theme-btn">🌙</button>
-      </div>
+      <h2 id="page-title">Dashboard</h2>
+      <button class="btn-ghost" onclick="App.ui.toggleTheme()" style="background:none; border:none; font-size:20px; cursor:pointer;">🌙</button>
     </div>
 
-    <!-- ── DASHBOARD PAGE ── -->
+    <!-- Pages (rendered dynamically) -->
     <div id="page-dashboard" class="page-content">
-      <div class="stats-grid" id="stats-grid">
-        <div class="stat-card blue loading-skeleton" style="height:110px;"></div>
-        <div class="stat-card green loading-skeleton" style="height:110px;"></div>
-        <div class="stat-card orange loading-skeleton" style="height:110px;"></div>
-        <div class="stat-card purple loading-skeleton" style="height:110px;"></div>
-      </div>
-      <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;" class="mb-6" id="dash-bottom">
-        <div class="card">
-          <div class="card-header"><div class="card-title" data-i18n="dash_recent_projects">Recent Projects</div></div>
-          <div id="recent-projects-list"></div>
-        </div>
-        <div class="card">
-          <div class="card-header"><div class="card-title" data-i18n="dash_overdue_payments">Overdue Payments</div></div>
-          <div id="overdue-list"></div>
-        </div>
+      <div id="stats-grid" style="display:grid; grid-template-columns:repeat(auto-fit, minmax(200px, 1fr)); gap:20px; margin-bottom:32px;"></div>
+      <div style="display:grid; grid-template-columns:1fr 1fr; gap:24px;">
+        <div class="card"><h3>Recent Projects</h3><div id="recent-projects-list"></div></div>
+        <div class="card"><h3>Overdue Payments</h3><div id="overdue-list"></div></div>
       </div>
     </div>
-
-    <!-- ── PROJECTS PAGE ── -->
     <div id="page-projects" class="page-content hidden">
-      <div class="page-actions">
-        <button class="btn btn-primary" onclick="App.projects.openCreateModal()" data-i18n="btn_add_project">+ Add Project</button>
-        <button class="btn btn-ghost" onclick="App.projects.load()">🔄 <span data-i18n="action_refresh">Refresh</span></button>
+      <div style="display:flex; justify-content:space-between; margin-bottom:24px;">
+        <h3>Projects</h3>
+        <button class="btn-primary" onclick="App.projects.openCreateModal()">+ Add Project</button>
       </div>
-      <div class="projects-grid" id="projects-grid">
-        <div class="card loading-skeleton" style="height:180px;"></div>
-        <div class="card loading-skeleton" style="height:180px;"></div>
-      </div>
+      <div id="projects-grid" style="display:grid; grid-template-columns:repeat(auto-fill, minmax(300px, 1fr)); gap:20px;"></div>
     </div>
-
-    <!-- ── PAYMENTS PAGE ── -->
     <div id="page-payments" class="page-content hidden">
-      <div class="page-actions">
-        <button class="btn btn-primary" onclick="App.reminders.openSmartModal()">🤖 <span data-i18n="btn_ai_smart">AI Smart Reminders</span></button>
-        <button class="btn btn-warning" onclick="App.reminders.openSendModal()">📤 <span data-i18n="btn_send_reminder">Send Reminder</span></button>
-        <button class="btn btn-ghost" onclick="App.payments.openCreateModal()">+ <span data-i18n="btn_new_invoice">New Invoice</span></button>
-        <button class="btn btn-ghost" onclick="App.payments.load()">🔄 <span data-i18n="action_refresh">Refresh</span></button>
-      </div>
-      <div class="table-wrap">
-        <table>
-          <thead>
-            <tr>
-              <th>Invoice</th>
-              <th>Client / Project</th>
-              <th>Amount</th>
-              <th>Due Date</th>
-              <th>Status</th>
-              <th>Email</th>
-              <th>Actions</th>
-            </tr>
-          </thead>
-          <tbody id="payments-tbody">
-            <tr><td colspan="7" style="text-align:center;padding:40px;color:var(--text-muted);">Loading...</td></tr>
-          </tbody>
-        </table>
-      </div>
+       <div class="card">
+         <table><thead><tr><th>Invoice</th><th>Client</th><th>Amount</th><th>Status</th><th>Actions</th></tr></thead><tbody id="payments-tbody"></tbody></table>
+       </div>
     </div>
+    <div id="page-tally" class="page-content hidden"></div>
+    <div id="page-diary" class="page-content hidden"></div>
+    <div id="page-settings" class="page-content hidden"></div>
+  </div>
+</div>
 
-    <!-- ── INVOICES PAGE ── -->
-    <div id="page-invoices" class="page-content hidden">
-      <div class="page-actions">
-        <button class="btn btn-ghost" onclick="App.invoices.load()">🔄 <span data-i18n="action_refresh">Refresh</span></button>
-      </div>
-      <div class="table-wrap">
-        <table>
-          <thead>
-            <tr>
-              <th data-i18n="th_invoice">Invoice No</th>
-              <th data-i18n="th_due_date">Date</th>
-              <th data-i18n="th_client">Client / Project</th>
-              <th>Taxable Value</th>
-              <th>GST (18%)</th>
-              <th data-i18n="th_amount">Total Amount</th>
-              <th data-i18n="th_actions">Actions</th>
-            </tr>
-          </thead>
-          <tbody id="invoices-tbody">
-            <tr><td colspan="7" style="text-align:center;padding:40px;color:var(--text-muted);">Loading...</td></tr>
-          </tbody>
-        </table>
-      </div>
-    </div>
-
-    <!-- ── TALLY PAGE ── -->
-    <div id="page-tally" class="page-content hidden">
-      <div class="page-actions" style="justify-content:space-between; display:flex; width: 100%;">
-        <button class="btn btn-primary" onclick="App.tally.load()">🔄 <span data-i18n="btn_run_tally">Run Tally</span></button>
-        <button class="btn btn-ghost" onclick="App.tally.downloadCSV()">📥 <span data-i18n="btn_download_csv">Download CSV</span></button>
-      </div>
-      <div class="tally-summary">
-        <div class="tally-grid" id="tally-summary-grid">
-          <div class="tally-stat"><div class="label" data-i18n="tally_total_amount">Total Amount</div><div class="value" id="ts-total">₹0</div></div>
-          <div class="tally-stat"><div class="label" data-i18n="tally_total_received">Total Received</div><div class="value" id="ts-received">₹0</div></div>
-          <div class="tally-stat"><div class="label" data-i18n="tally_total_pending">Total Pending</div><div class="value" id="ts-pending">₹0</div></div>
-          <div class="tally-stat"><div class="label" data-i18n="tally_collection_rate">Collection Rate</div><div class="value" id="ts-rate">0%</div></div>
-        </div>
-      </div>
-      <div style="display:flex; gap:16px; margin-bottom: 24px;">
-        <div class="badge badge-paid" id="tally-fully-paid"><span data-i18n="tally_fully_paid">Fully Paid</span>: 0</div>
-        <div class="badge badge-pending" id="tally-partial"><span data-i18n="tally_partial">Partial</span>: 0</div>
-        <div class="badge badge-overdue" id="tally-unpaid"><span data-i18n="tally_unpaid">Unpaid</span>: 0</div>
-      </div>
-      <div class="table-wrap">
-        <table>
-          <thead>
-            <tr>
-              <th data-i18n="nav_projects">Project</th>
-              <th data-i18n="th_client">Client</th>
-              <th data-i18n="th_amount">Amount</th>
-              <th data-i18n="th_received">Received</th>
-              <th data-i18n="th_pending">Pending</th>
-              <th data-i18n="th_status">Status</th>
-            </tr>
-          </thead>
-          <tbody id="tally-tbody">
-            <tr><td colspan="6" style="text-align:center;padding:40px;color:var(--text-muted);">Loading...</td></tr>
-          </tbody>
-        </table>
-      </div>
-    </div>
-
-    <!-- ── REMINDERS PAGE ── -->
-    <div id="page-reminders" class="page-content hidden">
-      <div class="page-actions">
-        <button class="btn btn-primary" onclick="App.reminders.loadTimeline()">🔄 Refresh Timeline</button>
-      </div>
-      <div id="reminders-container"></div>
-    </div>
-
-    <!-- ── SETTINGS PAGE ── -->
-    <div id="page-settings" class="page-content hidden">
-      <div style="display:grid;grid-template-columns:1fr 1fr;gap:20px;margin-bottom:24px;" class="dash-bottom">
-        <div class="card">
-          <div class="card-header"><div class="card-title" data-i18n="nav_settings">Profile Settings</div></div>
-          <div class="form-group"><label>Full Name</label><input type="text" id="set-name" /></div>
-          <div class="form-group"><label>Company</label><input type="text" id="set-company" /></div>
-          <div class="form-group"><label>Phone</label><input type="text" id="set-phone" /></div>
-          <div class="form-group"><label>GST Number</label><input type="text" id="set-gst" placeholder="Optional for Invoices" /></div>
-          <button class="btn btn-primary" onclick="App.settings.saveProfile()"><span data-i18n="action_save">Save Profile</span></button>
-        </div>
-        <div class="card">
-          <div class="card-header"><div class="card-title">API Keys</div></div>
-          <div class="form-group"><label>Razorpay Key ID</label><input type="text" id="set-rzp" placeholder="rzp_test_..." /></div>
-          <div class="form-group"><label>SendGrid API Key</label><input type="text" id="set-sg" placeholder="SG.xxx..." /></div>
-          <p class="text-sm text-muted">Keys stored locally for demo. Configure in .env for production.</p>
-        </div>
-      </div>
-      <div class="card mb-6" style="border: 1px solid var(--success); background: rgba(16, 185, 129, 0.05);">
-        <div class="card-header"><div class="card-title" style="color: var(--success);">🔒 Security & Data Privacy</div></div>
-        <p style="font-size:14px; line-height:1.6; color:var(--text);">
-          <strong>End-to-End Protection:</strong> PayDost uses state-of-the-art security to keep your business data safe.<br><br>
-          <strong>Authentication:</strong> All sessions are secured with highly encrypted <code>JSON Web Tokens (JWT)</code>. Your passwords are hashed and salted using bcrypt, meaning even we cannot read them.<br><br>
-          <strong>Data Storage:</strong> Your data is stored locally in an encrypted <code>SQLite</code> database securely on your local server. It is <strong>NOT</strong> shared with third parties. Your financial information, client details, and project records are entirely private to you.
-        </p>
-      </div>
-      <div class="card mb-6">
-        <div class="card-header"><div class="card-title">Pricing Plans</div></div>
-        <div class="plans-grid" id="plans-grid"></div>
-      </div>
-    </div>
-  </div><!-- end #main -->
-
-  <!-- Mobile Bottom Nav -->
-  <nav id="bottom-nav">
-    <div class="bottom-nav-items">
-      <button class="bottom-nav-item active" data-page="dashboard" onclick="App.navigate('dashboard')"><span class="icon">📊</span><span data-i18n="nav_dashboard">Dashboard</span></button>
-      <button class="bottom-nav-item" data-page="projects" onclick="App.navigate('projects')"><span class="icon">📁</span><span data-i18n="nav_projects">Projects</span></button>
-      <button class="bottom-nav-item" data-page="payments" onclick="App.navigate('payments')"><span class="icon">💳</span><span data-i18n="nav_payments">Payments</span></button>
-      <button class="bottom-nav-item" data-page="reminders" onclick="App.navigate('reminders')"><span class="icon">🔔</span><span data-i18n="nav_reminders">Reminders</span></button>
-      <button class="bottom-nav-item" data-page="settings" onclick="App.navigate('settings')"><span class="icon">⚙️</span><span data-i18n="nav_settings">Settings</span></button>
-    </div>
-  </nav>
-</div><!-- end #app -->
-
-<!-- ══════════════ MODALS (rendered dynamically) ══════════════ -->
-<div id="modal-overlay" class="modal-overlay hidden" onclick="App.ui.closeModal(event)">
-  <div class="modal-box" id="modal-box" onclick="event.stopPropagation()">
+<div id="modal-overlay" style="position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.8); z-index:1000; display:flex; align-items:center; justify-content:center;" class="hidden" onclick="App.ui.closeModal()">
+  <div style="background:var(--surface); border:1px solid var(--border); border-radius:16px; padding:32px; width:100%; max-width:500px;" onclick="event.stopPropagation()">
     <div id="modal-content"></div>
   </div>
 </div>
 
-<!-- AI Floating Button -->
-<div id="ai-float-btn" onclick="App.ai.toggleChat()" title="Talk to PayDost AI">
-  <div class="ai-pulse"></div>
-  <span>🤖</span>
-</div>
-
-<!-- AI Chat Window -->
-<div id="ai-chat-window" class="hidden">
-  <div class="ai-chat-header">
-    <div style="display:flex;align-items:center;gap:10px;">
-      <div class="ai-avatar">🤖</div>
-      <div>
-        <div style="font-weight:700;font-size:14px;">Rumik AI Assistant</div>
-        <div style="font-size:11px;color:#10b981;">● Online</div>
-      </div>
-    </div>
-    <button class="modal-close" onclick="App.ai.toggleChat()">×</button>
-  </div>
-  <div id="ai-chat-messages">
-    <div class="ai-msg bot">Hello! I am Rumik, your PayDost AI assistant. I can help you track payments, set reminders, or answer questions about your business. How can I help today?</div>
-  </div>
-  <div class="ai-chat-input-area">
-    <input type="text" id="ai-chat-input" placeholder="Ask Rumik anything..." onkeypress="if(event.key==='Enter') App.ai.sendMessage()" />
-    <button class="btn btn-primary btn-sm" onclick="App.ai.sendMessage()">➤</button>
-  </div>
-</div>
-
-<!-- Toast Container -->
 <div id="toast-container"></div>
 
-<!-- Supabase SDK -->
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-<!-- Razorpay SDK -->
-<script src="https://checkout.razorpay.com/v1/checkout.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.31/jspdf.plugin.autotable.min.js"></script>
-  <script src="/i18n.js"></script>
-  <script src="/app.js"></script>
-  <script src="/app2.js"></script>
-  <script src="/app3.js"></script>
-  <script src="/app4.js"></script>
+<script src="/app.js"></script>
+<script src="/app2.js"></script>
+<script src="/app4.js"></script>
 </body>
 </html>
