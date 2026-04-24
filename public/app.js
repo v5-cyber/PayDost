@@ -3,10 +3,17 @@
    Auth · Projects · Dashboard · UI Core
 ══════════════════════════════════════════ */
 
-// ── Supabase Setup ──────────────────────
+// ── Supabase Configuration ───────────────
 const SB_URL = "https://jwtjnrbwwjwtaukaoeda.supabase.co";
 const SB_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imp3dGpucmJ3d2p3dGF1a2FvZWRhIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzcwMTE0ODEsImV4cCI6MjA5MjU4NzQ4MX0.diAAnRtaTCw9BvHMW3AFE2l4d_B9er2yRLN5sYLdawo";
-const supabase = window.supabase.createClient(SB_URL, SB_KEY);
+
+let supabase;
+try {
+  supabase = window.supabase.createClient(SB_URL, SB_KEY);
+  console.log("PayDost: Supabase Initialized ✅");
+} catch (e) {
+  console.error("PayDost: Supabase Load Error ❌", e);
+}
 
 // ── State ────────────────────────────────
 const state = {
@@ -22,21 +29,26 @@ window.App = {
   state: state,
 
   async init() {
+    console.log("PayDost: App Initializing...");
     App.ui.applyTheme();
     
     // Check session
-    const { data: { session } } = await supabase.auth.getSession();
+    const { data: { session }, error } = await supabase.auth.getSession();
     if (session) {
+      console.log("PayDost: User logged in", session.user.email);
       state.user = session.user;
       await App.auth.loadProfile();
       App.ui.showApp();
       App.navigate('dashboard');
     } else {
+      console.log("PayDost: No session found");
       App.auth.showAuth();
     }
 
+    // Listen for auth changes
     supabase.auth.onAuthStateChange(async (event, session) => {
-      if (event === 'SIGNED_IN') {
+      console.log("PayDost Auth Change:", event);
+      if (event === 'SIGNED_IN' && session) {
         state.user = session.user;
         await App.auth.loadProfile();
         App.ui.showApp();
@@ -62,6 +74,7 @@ window.App = {
     const titles = { dashboard: 'Dashboard', projects: 'Projects', payments: 'Payments', tally: 'Tally', diary: 'Site Diary', settings: 'Settings' };
     document.getElementById('page-title').textContent = titles[page] || page;
 
+    // Load page-specific data
     if (page === 'dashboard') App.dashboard.load();
     if (page === 'projects') App.projects.load();
     if (page === 'payments') App.payments.load();
@@ -78,6 +91,7 @@ window.App = {
       const name = document.getElementById('reg-name').value;
       const company = document.getElementById('reg-company').value;
 
+      console.log("PayDost: Registering...", email);
       if(!email || !pass || !name) return App.ui.toast('Please fill all fields', 'error');
 
       const { data, error } = await supabase.auth.signUp({
@@ -85,21 +99,29 @@ window.App = {
         options: { data: { full_name: name, company_name: company } }
       });
 
-      if(error) return App.ui.toast(error.message, 'error');
-      App.ui.toast('Verification email sent! Check your inbox.', 'success');
+      if(error) {
+        console.error("PayDost: Register Error", error);
+        return App.ui.toast(error.message, 'error');
+      }
+      App.ui.toast('Account created! Try logging in now.', 'success');
     },
 
     async login() {
       const email = document.getElementById('login-email').value;
       const pass = document.getElementById('login-password').value;
+      console.log("PayDost: Logging in...", email);
       const { error } = await supabase.auth.signInWithPassword({ email, password: pass });
-      if(error) return App.ui.toast(error.message, 'error');
+      if(error) {
+        console.error("PayDost: Login Error", error);
+        return App.ui.toast(error.message, 'error');
+      }
     },
 
     async logout() { await supabase.auth.signOut(); },
 
     async loadProfile() {
-      const { data } = await supabase.from('profiles').select('*').eq('id', state.user.id).single();
+      const { data, error } = await supabase.from('profiles').select('*').eq('id', state.user.id).single();
+      if(error) console.error("Profile load error", error);
       state.profile = data;
       App.ui.updateSidebar();
     },
@@ -114,10 +136,10 @@ window.App = {
       const { data: projects } = await supabase.from('projects').select('*');
       const { data: payments } = await supabase.from('payments').select('*, projects(*)');
       
-      const totalOutstanding = payments.reduce((sum, p) => p.status !== 'paid' ? sum + p.total_due : sum, 0);
-      const collected = projects.reduce((sum, p) => sum + (p.paid_amount || 0), 0);
-      const totalValue = projects.reduce((sum, p) => sum + (p.amount || 0), 0);
-      const overdue = payments.filter(p => p.status !== 'paid' && new Date(p.due_date) < new Date()).length;
+      const totalOutstanding = (payments||[]).reduce((sum, p) => p.status !== 'paid' ? sum + p.total_due : sum, 0);
+      const collected = (projects||[]).reduce((sum, p) => sum + (p.paid_amount || 0), 0);
+      const totalValue = (projects||[]).reduce((sum, p) => sum + (p.amount || 0), 0);
+      const overdue = (payments||[]).filter(p => p.status !== 'paid' && new Date(p.due_date) < new Date()).length;
       
       const rate = totalValue > 0 ? Math.round((collected / totalValue) * 100) : 0;
 
@@ -125,20 +147,9 @@ window.App = {
         <div class="stat-card purple"><div class="stat-label">Total Outstanding</div><div class="stat-value">${App.ui.fmt(totalOutstanding)}</div></div>
         <div class="stat-card green"><div class="stat-label">Total Collected</div><div class="stat-value">${App.ui.fmt(collected)}</div><div style="font-size:12px; color:var(--success)">Collection Rate: ${rate}%</div></div>
         <div class="stat-card orange"><div class="stat-label">Overdue Invoices</div><div class="stat-value">${overdue}</div></div>
-        <div class="stat-card blue"><div class="stat-label">Active Projects</div><div class="stat-value">${projects.length}</div></div>
+        <div class="stat-card blue"><div class="stat-label">Active Projects</div><div class="stat-value">${(projects||[]).length}</div></div>
       `;
-
-      // Urgent Alert Banner
-      const urgent = projects.filter(p => p.status === 'active' && new Date(p.due_date) < new Date(new Date().setDate(new Date().getDate() - 30)));
-      const banner = document.getElementById('urgent-banner') || document.createElement('div');
-      banner.id = 'urgent-banner';
-      if(urgent.length > 0) {
-        banner.className = 'alert-banner warning';
-        banner.innerHTML = `⚠️ ${urgent.length} projects need urgent attention (30+ days overdue). <button onclick="App.navigate('projects')">Fix Now</button>`;
-        document.getElementById('page-dashboard').prepend(banner);
-      } else { banner.remove(); }
-
-      App.dashboard.renderLists(projects, payments);
+      App.dashboard.renderLists(projects||[], payments||[]);
     },
 
     renderLists(projects, payments) {
@@ -146,13 +157,13 @@ window.App = {
       const overdue = payments.filter(p => p.status !== 'paid' && new Date(p.due_date) < new Date());
 
       document.getElementById('recent-projects-list').innerHTML = recent.map(p => `
-        <div class="list-item">
+        <div class="list-item" style="display:flex; justify-content:space-between; padding:10px 0; border-bottom:1px solid var(--border);">
           <div><div class="font-bold">${p.name}</div><div class="text-sm text-dim">${p.client_name}</div></div>
           <div class="font-bold">${App.ui.fmt(p.amount)}</div>
         </div>`).join('') || '<p class="text-dim">No recent projects</p>';
 
       document.getElementById('overdue-list').innerHTML = overdue.map(p => `
-        <div class="list-item">
+        <div class="list-item" style="display:flex; justify-content:space-between; padding:10px 0; border-bottom:1px solid var(--border);">
           <div><div class="font-bold">${p.projects?.name}</div><div class="text-sm text-danger">Due: ${p.due_date}</div></div>
           <div class="font-bold text-danger">${App.ui.fmt(p.total_due)}</div>
         </div>`).join('') || '<p class="text-dim">No overdue payments</p>';
@@ -224,21 +235,14 @@ window.App = {
 
       if(error) return App.ui.toast(error.message, 'error');
       
-      // Auto-create initial payment
       if(data[0]) {
         await supabase.from('payments').insert([{
           project_id: data[0].id,
           invoice_number: `INV-${new Date().getFullYear()}-${Math.floor(1000+Math.random()*9000)}`,
-          original_amount: amount,
-          total_due: amount,
-          due_date: due,
-          user_id: state.user.id
+          original_amount: amount, total_due: amount, due_date: due, user_id: state.user.id
         }]);
       }
-
-      App.ui.closeModal();
-      App.ui.toast('Project & Invoice created! 🚀', 'success');
-      App.projects.load();
+      App.ui.closeModal(); App.ui.toast('Project created! 🚀', 'success'); App.projects.load();
     },
 
     async openEditModal(id) {
@@ -270,9 +274,7 @@ window.App = {
       }).eq('id', id);
 
       if(error) return App.ui.toast(error.message, 'error');
-      App.ui.closeModal();
-      App.ui.toast('Project updated! ✅', 'success');
-      App.projects.load();
+      App.ui.closeModal(); App.ui.toast('Project updated! ✅', 'success'); App.projects.load();
     }
   },
 
@@ -289,8 +291,9 @@ window.App = {
     },
     showApp() { document.getElementById('auth-screen').classList.add('hidden'); document.getElementById('app').classList.remove('hidden'); },
     toast(msg, type='info') {
+      const c = document.getElementById('toast-container');
       const t = document.createElement('div'); t.className = `toast toast-${type}`; t.innerHTML = msg;
-      document.getElementById('toast-container').appendChild(t);
+      c.appendChild(t);
       setTimeout(() => t.remove(), 4000);
     },
     openModal(html) { document.getElementById('modal-content').innerHTML = html; document.getElementById('modal-overlay').classList.remove('hidden'); },
@@ -298,7 +301,7 @@ window.App = {
     fmt: (n) => '₹' + new Intl.NumberFormat('en-IN').format(Math.round(n || 0))
   },
 
-  // ── VOICE ────────────────────────────────
+  // ── VOICE / AI ───────────────────────────
   voice: {
     start(idName, idClient, idAmt) {
       const rec = new (window.SpeechRecognition || window.webkitSpeechRecognition)();
@@ -307,7 +310,6 @@ window.App = {
       rec.onresult = (e) => {
         const t = e.results[0][0].transcript.toLowerCase();
         App.ui.toast(`Suna: "${t}"`, 'success');
-        // Smart Parsing
         const amtMatch = t.match(/(\d+)\s*(lakh|hazaar|thousand|k)?/);
         if(amtMatch) {
           let v = parseInt(amtMatch[1]);
@@ -324,16 +326,13 @@ window.App = {
     }
   },
 
-  // ── AI BOT ───────────────────────────────
   ai: {
     toggleChat() { document.getElementById('ai-chat-window').classList.toggle('hidden'); },
     async sendMessage() {
       const inp = document.getElementById('ai-chat-input');
       const text = inp.value; if(!text) return;
       this.addMessage(text, 'user'); inp.value = '';
-      setTimeout(() => {
-        this.addMessage("I'm Rumik, your AI. I can help with GST, payments, and tracking. Ask me anything!", 'bot');
-      }, 600);
+      setTimeout(() => { this.addMessage("I'm Rumik, your AI. Ask me about your Tally or projects!", 'bot'); }, 600);
     },
     addMessage(t, type) {
       const div = document.createElement('div'); div.className = `ai-msg ${type}`; div.textContent = t;
@@ -342,12 +341,13 @@ window.App = {
   }
 };
 
+// Global Switchers
 function showAuthTab(tab) {
   document.querySelectorAll('.auth-tab').forEach((t,i) => t.classList.toggle('active', (i===0&&tab==='login')||(i===1&&tab==='register')));
   document.getElementById('login-form').classList.toggle('hidden', tab !== 'login');
   document.getElementById('register-form').classList.toggle('hidden', tab !== 'register');
 }
-
 function toggleSidebar() { document.getElementById('sidebar').classList.toggle('open'); }
 
+// Init
 window.onload = () => App.init();
