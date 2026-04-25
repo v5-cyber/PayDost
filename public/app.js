@@ -1,5 +1,5 @@
 /* ══════════════════════════════════════════
-   PayDost — app.js (CRITICAL AUTH FIX)
+   PayVlt — app.js (CRITICAL AUTH FIX)
 ══════════════════════════════════════════ */
 
 // STEP 1 — Supabase Initialization
@@ -14,6 +14,12 @@ window.App = {
     if (session) {
       this.user = session.user;
       this.redirectToDashboard();
+    }
+
+    // Check for ?register=true in URL
+    const urlParams = new URLSearchParams(window.location.search);
+    if (urlParams.get('register') === 'true') {
+      window.setTab('reg');
     }
     
     supabase.auth.onAuthStateChange((event, session) => {

@@ -26,7 +26,7 @@ app.use('/api/invoices', require('./routes/invoices'));
 
 // Health check
 app.get('/api/health', (req, res) => {
-  res.json({ status: 'ok', app: 'PayDost', version: '1.0.0', time: new Date().toISOString() });
+  res.json({ status: 'ok', app: 'PayVlt', version: '1.0.0', time: new Date().toISOString() });
 });
 
 // Root serves the professional landing page
@@ -49,7 +49,7 @@ const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
   console.log(`
 ╔═══════════════════════════════════════╗
-║   🚀 PayDost Server Running           ║
+║   🚀 PayVlt Server Running            ║
 ║   URL: http://localhost:${PORT}          ║
 ║   Apka Payment Partner                ║
 ╚═══════════════════════════════════════╝
