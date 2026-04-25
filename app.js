@@ -1,152 +1,149 @@
 /* ══════════════════════════════════════════
-   PayDost — app.js (Consolidated Fix)
+   PayDost — app.js (CRITICAL AUTH FIX)
 ══════════════════════════════════════════ */
 
+// STEP 1 — Supabase Initialization
 const SB_URL = "https://jwtjnrbwwjwtaukaoeda.supabase.co";
 const SB_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imp3dGpucmJ3d2p3dGF1a2FvZWRhIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzcwMTE0ODEsImV4cCI6MjA5MjU4NzQ4MX0.diAAnRtaTCw9BvHMW3AFE2l4d_B9er2yRLN5sYLdawo";
-const sb = window.supabase.createClient(SB_URL, SB_KEY);
+
+const supabase = window.supabase.createClient(SB_URL, SB_KEY);
 
 window.App = {
   async init() {
-    const { data: { session } } = await sb.auth.getSession();
+    const { data: { session } } = await supabase.auth.getSession();
     if (session) {
       this.user = session.user;
-      await this.loadProfile();
-      this.ui.showApp();
-      this.navigate('dashboard');
+      this.redirectToDashboard();
     }
-
-    // Listen for session changes
-    sb.auth.onAuthStateChange(async (event, session) => {
+    
+    supabase.auth.onAuthStateChange((event, session) => {
       if (session) {
         this.user = session.user;
-        await this.loadProfile();
-        this.ui.showApp();
-        this.navigate('dashboard');
+        this.redirectToDashboard();
       } else {
-        this.ui.showAuth();
+        this.showAuth();
       }
     });
   },
 
+  redirectToDashboard() {
+    document.getElementById('auth-screen').classList.add('hidden');
+    document.getElementById('app').classList.remove('hidden');
+    this.loadProfile();
+  },
+
+  showAuth() {
+    document.getElementById('auth-screen').classList.remove('hidden');
+    document.getElementById('app').classList.add('hidden');
+  },
+
   async loadProfile() {
-    const { data } = await sb.from('profiles').select('*').eq('id', this.user.id).single();
-    const profile = data || { company_name: this.user.user_metadata.company_name };
-    const el = document.getElementById('sidebar-name');
-    if (el) el.textContent = profile.company_name || "My Company";
-  },
-
-  navigate(page) {
-    document.querySelectorAll('.page-content').forEach(p => p.classList.add('hidden'));
-    const target = document.getElementById('page-' + page);
-    if(target) target.classList.remove('hidden');
-    
-    document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
-    const navItem = document.getElementById('nav-' + page);
-    if(navItem) navItem.classList.add('active');
-    
-    if (page === 'dashboard') this.loadDashboard();
-    if (page === 'projects') this.loadProjects();
-  },
-
-  async loadDashboard() {
-    const { data: projects } = await sb.from('projects').select('*');
-    const { data: payments } = await sb.from('payments').select('*, projects(*)');
-    
-    const totalOut = (payments||[]).reduce((sum, p) => p.status !== 'paid' ? sum + p.total_due : sum, 0);
-    const totalColl = (projects||[]).reduce((sum, p) => sum + (p.paid_amount || 0), 0);
-    const totalVal = (projects||[]).reduce((sum, p) => sum + (p.amount || 0), 0);
-    const rate = totalVal > 0 ? Math.round((totalColl / totalVal) * 100) : 0;
-    
-    const stats = document.getElementById('stats-grid');
-    if (stats) {
-      stats.innerHTML = `
-        <div class="stat-card">
-          <div class="stat-label">Total Outstanding</div>
-          <div class="stat-value">${this.fmt(totalOut)}</div>
-        </div>
-        <div class="stat-card">
-          <div class="stat-label">Total Collected</div>
-          <div class="stat-value">${this.fmt(totalColl)}</div>
-          <div style="font-size:13px; font-weight:700; color:${rate > 50 ? '#10B981' : '#F59E0B'}">Collection Rate: ${rate}%</div>
-        </div>
-        <div class="stat-card">
-          <div class="stat-label">Active Projects</div>
-          <div class="stat-value">${(projects||[]).length}</div>
-        </div>
-      `;
+    const user = this.user;
+    const nameEl = document.getElementById('sidebar-name');
+    if (nameEl) {
+      nameEl.textContent = user.user_metadata.company_name || user.user_metadata.full_name || "My Company";
     }
-
-    const urgentCount = (projects||[]).filter(p => {
-       const days = (new Date() - new Date(p.created_at)) / 86400000;
-       return days > 30 && p.status !== 'received';
-    }).length;
-    
-    const alertArea = document.getElementById('alert-area');
-    if (alertArea) {
-      alertArea.innerHTML = urgentCount > 0 ? `<div class="alert-banner">⚠️ ${urgentCount} projects need urgent attention (Pending 30+ days)</div>` : '';
-    }
-  },
-
-  async loadProjects() {
-    const { data } = await sb.from('projects').select('*').order('created_at', { ascending: false });
-    const grid = document.getElementById('projects-grid');
-    if (grid) {
-      grid.innerHTML = (data || []).map(p => {
-        const borderClass = `status-${p.status || 'pending'}`;
-        const riskGlow = p.risk_level === 'high' ? 'risk-high' : '';
-        return `
-          <div class="project-card ${borderClass}">
-            <div style="display:flex; justify-content:space-between; margin-bottom:12px;">
-              <h4 style="margin:0;">${p.name}</h4>
-              ${riskGlow ? `<span class="${riskGlow}">HIGH RISK</span>` : ''}
-            </div>
-            <p style="font-size:12px; color:#94A3B8; margin-bottom:16px;">${p.client_name}</p>
-            <div style="font-size:24px; font-weight:800; margin-bottom:4px;">${this.fmt(p.amount)}</div>
-            <div style="font-size:11px; color:#64748B;">Created: ${new Date(p.created_at).toLocaleDateString()}</div>
-          </div>
-        `;
-      }).join('');
-    }
-  },
-
-  ui: {
-    showApp() { document.getElementById('auth-screen').classList.add('hidden'); document.getElementById('app').classList.remove('hidden'); },
-    showAuth() { document.getElementById('auth-screen').classList.remove('hidden'); document.getElementById('app').classList.add('hidden'); }
-  },
-  
-  fmt: (n) => '₹' + new Intl.NumberFormat('en-IN').format(Math.round(n || 0))
+  }
 };
 
-// ── GLOBAL FUNCTIONS (For HTML Buttons) ──
+// STEP 2 — Fix Register function
+async function handleRegister() {
+  const btn = document.getElementById('btn-register');
+  const email = document.getElementById('reg-email').value;
+  const pass = document.getElementById('reg-password').value;
+  const company = document.getElementById('reg-company').value;
+  const name = document.getElementById('reg-name').value;
 
-window.setTab = function(t) {
+  if (!email || !pass) return showError("Email and Password are required!");
+
+  // STEP 4 — Add loading state
+  setLoading(btn, true, "Creating Account...");
+
+  try {
+    const { data, error } = await supabase.auth.signUp({
+      email: email,
+      password: pass,
+      options: {
+        data: {
+          full_name: name,
+          company_name: company
+        }
+      }
+    });
+
+    if (error) {
+      // STEP 5 — Add proper error messages
+      if (error.message.includes('already registered')) {
+        showError("Ye email already registered hai. Login karein.");
+      } else if (error.message.includes('at least 6 characters')) {
+        showError("Password kam se kam 6 characters ka hona chahiye.");
+      } else {
+        showError(error.message);
+      }
+      setLoading(btn, false, "Create Free Account");
+      return;
+    }
+
+    if (data.user) {
+      alert("Registration Successful! Redirecting...");
+      // Redirect handled by onAuthStateChange
+    }
+  } catch (err) {
+    showError("Connection problem. Please try again.");
+    setLoading(btn, false, "Create Free Account");
+  }
+}
+
+// STEP 3 — Fix Login function
+async function handleLogin() {
+  const btn = document.getElementById('btn-login');
+  const email = document.getElementById('l-email').value;
+  const pass = document.getElementById('l-pass').value;
+
+  if (!email || !pass) return showError("Email aur password bharein.");
+
+  setLoading(btn, true, "Logging in...");
+
+  try {
+    const { data, error } = await supabase.auth.signInWithPassword({
+      email: email,
+      password: pass
+    });
+
+    if (error) {
+      // STEP 5 — Wrong password error
+      showError("Email ya password galat hai.");
+      setLoading(btn, false, "Login to PayDost");
+      return;
+    }
+
+    if (data.user) {
+      // Success! Redirect handled by onAuthStateChange
+    }
+  } catch (err) {
+    showError("Connection problem. Please try again.");
+    setLoading(btn, false, "Login to PayDost");
+  }
+}
+
+// Helpers
+function setLoading(btn, isLoading, text) {
+  if (btn) {
+    btn.disabled = isLoading;
+    btn.innerHTML = isLoading ? `<span class="spinner"></span> ${text}` : text;
+  }
+}
+
+function showError(msg) {
+  alert(msg); // Using alert for maximum reliability during fix
+}
+
+function setTab(t) {
   const isL = t === 'login';
   document.getElementById('form-login').classList.toggle('hidden', !isL);
   document.getElementById('form-reg').classList.toggle('hidden', isL);
   document.getElementById('tab-login').classList.toggle('active', isL);
   document.getElementById('tab-reg').classList.toggle('active', !isL);
-}
-
-window.doAuth = async function(type) {
-  if (type === 'login') {
-    const email = document.getElementById('l-email').value;
-    const pass = document.getElementById('l-pass').value;
-    const { error } = await sb.auth.signInWithPassword({ email, password: pass });
-    if(error) alert("Email ya password galat hai");
-  } else if (type === 'reg') {
-    const email = document.getElementById('r-email').value;
-    const pass = document.getElementById('r-pass').value;
-    const { error } = await sb.auth.signUp({ 
-      email, password: pass,
-      options: { data: { full_name: document.getElementById('r-name').value, company_name: document.getElementById('r-comp').value } }
-    });
-    if(error) alert(error.message);
-    else alert("Success! Check your dashboard.");
-  } else if (type === 'logout') {
-    await sb.auth.signOut();
-    location.reload();
-  }
 }
 
 window.onload = () => window.App.init();
