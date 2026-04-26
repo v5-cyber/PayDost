@@ -53,15 +53,21 @@
 <div id="app" class="hidden" style="padding:40px;">
   <h1>Welcome to PayVlt Dashboard</h1>
   <div id="user-info"></div>
-  <button onclick="runAuth('logout')" style="margin-top:20px;">Logout</button>
+  <button onclick="runAuth('logout')" style="margin-top:20px; padding:10px; background:#ef4444; color:white; border:none; border-radius:6px; cursor:pointer;">Logout</button>
 </div>
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script>
-  // 🛡️ ISOLATED LOGIC — No dependencies on app.js
-  const URL = "https://jwtjnrbwwjwtaukaoeda.supabase.co";
-  const KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imp3dGpucmJ3d2p3dGF1a2FvZWRhIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzcwMTE0ODEsImV4cCI6MjA5MjU4NzQ4MX0.diAAnRtaTCw9BvHMW3AFE2l4d_B9er2yRLN5sYLdawo";
-  const sb = window.supabase.createClient(URL, KEY);
+  // ── CONFIG ──
+  const U = "https://jwtjnrbwwjwtaukaoeda.supabase.co";
+  const K = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imp3dGpucmJ3d2p3dGF1a2FvZWRhIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzcwMTE0ODEsImV4cCI6MjA5MjU4NzQ4MX0.diAAnRtaTCw9BvHMW3AFE2l4d_B9er2yRLN5sYLdawo";
+  
+  // Safe Initialization
+  let sb;
+  function getSB() {
+    if (!sb) sb = window.supabase.createClient(U, K);
+    return sb;
+  }
 
   function switchT(t) {
     const isL = t === 'login';
@@ -72,7 +78,8 @@
   }
 
   async function runAuth(type) {
-    if (type === 'logout') { await sb.auth.signOut(); return location.reload(); }
+    const client = getSB();
+    if (type === 'logout') { await client.auth.signOut(); return location.reload(); }
     
     const isL = type === 'login';
     const btn = document.getElementById(isL ? 'b-login' : 'b-reg');
@@ -83,9 +90,9 @@
     try {
       let r;
       if (isL) {
-        r = await sb.auth.signInWithPassword({ email: document.getElementById('l-email').value, password: document.getElementById('l-pass').value });
+        r = await client.auth.signInWithPassword({ email: document.getElementById('l-email').value, password: document.getElementById('l-pass').value });
       } else {
-        r = await sb.auth.signUp({ 
+        r = await client.auth.signUp({ 
           email: document.getElementById('r-email').value, 
           password: document.getElementById('r-pass').value,
           options: { data: { full_name: document.getElementById('r-name').value, company_name: document.getElementById('r-comp').value } }
@@ -97,20 +104,22 @@
         btn.disabled = false; btn.innerHTML = old;
       }
     } catch (e) {
-      alert("Connection Problem: " + e.message);
+      alert("System Error: " + e.message);
       btn.disabled = false; btn.innerHTML = old;
     }
   }
 
-  sb.auth.onAuthStateChange((ev, sess) => {
-    if (sess) {
-      document.getElementById('auth-screen').classList.add('hidden');
-      document.getElementById('app').classList.remove('hidden');
-      document.getElementById('user-info').textContent = "Logged in as: " + sess.user.email;
-    }
-  });
-
+  // Setup Session Watcher
   window.onload = () => {
+    const client = getSB();
+    client.auth.onAuthStateChange((ev, sess) => {
+      if (sess) {
+        document.getElementById('auth-screen').classList.add('hidden');
+        document.getElementById('app').classList.remove('hidden');
+        document.getElementById('user-info').textContent = "Logged in as: " + sess.user.email;
+      }
+    });
+
     const p = new URLSearchParams(window.location.search);
     if (p.get('register') === 'true') switchT('reg');
   };
