@@ -97,7 +97,7 @@
         btn.disabled = false; btn.innerHTML = old;
       }
     } catch (e) {
-      alert("Connection Problem");
+      alert("Connection Problem: " + e.message);
       btn.disabled = false; btn.innerHTML = old;
     }
   }
