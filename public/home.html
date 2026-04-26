@@ -3,275 +3,99 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>PayVlt — Apka Payment Partner | Premium Financial Management</title>
+  <title>PayVlt — Premium Financial Vault & AI Intelligence</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="landing.css">
-  <style>
-    /* Add fade-in animation */
-    .fade-in {
-      animation: fadeIn 1s ease-out forwards;
-      opacity: 0;
-    }
-    @keyframes fadeIn {
-      from { opacity: 0; transform: translateY(20px); }
-      to { opacity: 1; transform: translateY(0); }
-    }
-    .delay-1 { animation-delay: 0.2s; }
-    .delay-2 { animation-delay: 0.4s; }
-  </style>
 </head>
 <body>
 
+  <div class="mesh-bg"></div>
+
   <!-- Navbar -->
-  <nav>
-    <div class="logo">
-      <div style="width: 32px; height: 32px; background: var(--primary); border-radius: 8px; display: flex; align-items: center; justify-content: center; font-weight: 800; color: white;">P</div>
-      Pay<span>Dost</span>
-    </div>
-    <ul class="nav-links">
-      <li><a href="#features">Features</a></li>
-      <li><a href="#pricing">Pricing</a></li>
-      <li><a href="#security">Security</a></li>
-    </ul>
-    <div style="display:flex; gap:15px;">
-      <a href="index.html" class="btn btn-outline">Login</a>
-      <a href="index.html?register=true" class="btn btn-primary">Start Free</a>
+  <nav class="fade-up">
+    <div class="logo">💰 Pay<span>Vlt</span></div>
+    <div style="display:flex; gap:15px; align-items:center;">
+      <a href="index.html" style="color:white; text-decoration:none; font-weight:600;">Login</a>
+      <a href="index.html?register=true" class="btn btn-primary" style="padding: 10px 20px;">Start Free</a>
     </div>
   </nav>
 
-  <!-- Hero Section -->
+  <!-- Hero -->
   <section class="hero">
-    <div class="hero-content fade-in">
-      <h1 class="text-gradient">The Smart Way to Track & Collect Payments.</h1>
-      <p>Apka Payment Partner — Stop chasing payments. Automate your invoicing, reminders, and tallies in 5+ regional languages.</p>
-      <div style="display:flex; gap:20px;">
-        <a href="index.html" class="btn btn-primary" style="padding: 16px 32px; font-size: 18px;">Get Started Now</a>
-        <a href="#features" class="btn btn-outline" style="padding: 16px 32px; font-size: 18px;">See Features</a>
-      </div>
-      <div class="stats fade-in delay-2">
-        <div class="stat-item">
-          <h3>10k+</h3>
-          <p>Active Contractors</p>
+    <div class="hero-content fade-up" style="animation-delay: 0.1s;">
+      <h1>The <span class="text-gradient">Intelligent</span> Vault for Your Business.</h1>
+      <p>Automate your payments, tracking, and recovery with built-in AI. Secure, fast, and professional financial management for modern contractors.</p>
+      
+      <!-- AI Live Demo Console -->
+      <div class="ai-console">
+        <div class="ai-header">
+          <div class="dot dot-red"></div>
+          <div class="dot dot-yel"></div>
+          <div class="dot dot-grn"></div>
+          <span style="font-size:12px; color:#444; margin-left:10px;">PayVlt AI Intelligence v1.0.4</span>
         </div>
-        <div class="stat-item">
-          <h3>₹50Cr+</h3>
-          <p>Payments Tracked</p>
+        <div class="ai-input-wrap">
+          <input type="text" id="ai-in" class="ai-input" placeholder="Type: 'Sharma ji ka 50,000 pending project'...">
+          <button class="btn btn-primary" onclick="processAI()" style="padding: 12px 20px;">Process</button>
         </div>
-        <div class="stat-item">
-          <h3>98%</h3>
-          <p>Recovery Rate</p>
+        <div id="ai-res" class="ai-result">
+          <div class="res-card"><div class="res-label">Entity Detected</div><div id="res-ent" class="res-val">—</div></div>
+          <div class="res-card"><div class="res-label">Amount Extracted</div><div id="res-amt" class="res-val">—</div></div>
+          <div class="res-card"><div class="res-label">Status Tag</div><div id="res-stat" class="res-val" style="color:#10b981;">Verified</div></div>
+          <div class="res-card"><div class="res-label">AI confidence</div><div class="res-val">99.8%</div></div>
         </div>
       </div>
     </div>
-    <div class="hero-image fade-in delay-1">
-      <img src="paydost_hero.png" alt="PayDost Dashboard Preview">
+
+    <div class="hero-image fade-up" style="animation-delay: 0.3s;">
+      <!-- Using the generated premium 3D image -->
+      <img src="payvlt_hero_vault_1777190961083.png" alt="PayVlt Premium Vault" style="width:100%; border-radius:30px; box-shadow: 0 30px 60px rgba(0,0,0,0.5);">
     </div>
   </section>
 
-  <!-- AI Live Demo Section -->
-  <section class="section" style="background: rgba(16, 185, 129, 0.02); border-top: 1px solid var(--glass-border); border-bottom: 1px solid var(--glass-border);">
-    <div class="section-title fade-in">
-      <h2>Experience the <span class="text-gradient">AI Magic.</span></h2>
-      <p style="color:var(--text-muted); font-size:18px;">Type your project details like you're talking to a friend.</p>
-    </div>
-    <div style="max-width: 800px; margin: 0 auto;" class="fade-in">
-      <div class="card" style="background: var(--dark-lighter); padding: 30px; border-radius: 24px; border: 1px solid var(--primary);">
-        <div style="display:flex; gap:15px; margin-bottom:20px;">
-          <input type="text" id="ai-demo-input" placeholder="e.g. Sharma ji ka 2 lakh ka renovation project..." style="flex:1; padding:15px; border-radius:12px; border:1px solid var(--glass-border); background:var(--dark); color:white; font-size:16px;">
-          <button class="btn btn-primary" onclick="AppLanding.runDemo()">Process with AI</button>
-        </div>
-        <div id="ai-demo-result" style="display:none; animation: fadeIn 0.5s;">
-          <div style="display:grid; grid-template-columns: 1fr 1fr 1fr; gap:20px; text-align:center;">
-            <div style="padding:15px; background:var(--glass); border-radius:12px;">
-              <div style="font-size:12px; color:var(--text-muted); text-transform:uppercase;">Client</div>
-              <div id="demo-client" style="font-weight:700; font-size:18px; color:var(--primary);">—</div>
-            </div>
-            <div style="padding:15px; background:var(--glass); border-radius:12px;">
-              <div style="font-size:12px; color:var(--text-muted); text-transform:uppercase;">Amount</div>
-              <div id="demo-amount" style="font-weight:700; font-size:18px; color:var(--primary);">—</div>
-            </div>
-            <div style="padding:15px; background:var(--glass); border-radius:12px;">
-              <div style="font-size:12px; color:var(--text-muted); text-transform:uppercase;">Category</div>
-              <div id="demo-cat" style="font-weight:700; font-size:18px; color:var(--primary);">—</div>
-            </div>
-          </div>
-        </div>
-      </div>
+  <section style="padding: 80px 5%; text-align:center;">
+    <h2 class="fade-up" style="font-size:40px; margin-bottom:40px;">Trusted by 10,000+ Business Owners</h2>
+    <div style="display:flex; justify-content:center; gap:60px; opacity:0.5;">
+      <div style="font-size:24px; font-weight:800;">FINTECH</div>
+      <div style="font-size:24px; font-weight:800;">BUILDER.CO</div>
+      <div style="font-size:24px; font-weight:800;">SECURE.PAY</div>
     </div>
   </section>
 
   <script>
-    const AppLanding = {
-      runDemo() {
-        const text = document.getElementById('ai-demo-input').value;
-        const result = document.getElementById('ai-demo-result');
-        const client = document.getElementById('demo-client');
-        const amount = document.getElementById('demo-amount');
-        const cat = document.getElementById('demo-cat');
-        
-        if(!text) return;
-        
-        // Simple AI Logic for Demo
-        let name = "New Client";
-        if(text.includes('Sharma')) name = "Sharma Ji";
-        else if(text.includes('Verma')) name = "Verma Ji";
-        else if(text.includes('Khan')) name = "Khan Sahab";
-        
-        let amt = "₹2,00,000";
-        if(text.match(/\d+/)) {
-           const n = text.match(/\d+/)[0];
-           amt = "₹" + parseInt(n).toLocaleString('en-IN');
-           if(text.includes('lakh')) amt = "₹" + (parseInt(n)*100000).toLocaleString('en-IN');
-        }
+    function processAI() {
+      const input = document.getElementById('ai-in').value;
+      if(!input) return;
 
-        client.innerText = name;
-        amount.innerText = amt;
-        cat.innerText = text.includes('renovation') ? "Renovation" : "Construction";
+      const resBox = document.getElementById('ai-res');
+      const ent = document.getElementById('res-ent');
+      const amt = document.getElementById('res-amt');
+
+      // Simulate AI Thinking
+      ent.textContent = "Analyzing...";
+      amt.textContent = "Extracting...";
+      resBox.classList.add('active');
+
+      setTimeout(() => {
+        // Extraction Logic
+        const amountMatch = input.match(/(\d+[,.]?\d*)/);
+        const amount = amountMatch ? '₹' + amountMatch[0] : 'Not Found';
         
-        result.style.display = 'block';
-      }
+        // Entity extraction (Simple name detector)
+        const words = input.split(' ');
+        const name = words[0].length > 2 ? words[0] : (words[1] || 'Project Alpha');
+
+        ent.textContent = name;
+        amt.textContent = amount;
+      }, 800);
+    }
+
+    // Auto-animate on load
+    window.onload = () => {
+      document.body.classList.add('loaded');
     };
   </script>
-
-  <!-- Features Section -->
-  <section id="features" class="section">
-    <div class="section-title fade-in">
-      <h2>Everything you need to <span class="text-gradient">Grow your Business.</span></h2>
-      <p style="color:var(--text-muted); font-size:18px;">Built specifically for the Indian contractor ecosystem.</p>
-    </div>
-    <div class="features-grid">
-      <div class="feature-card fade-in">
-        <span class="feature-icon">🎙️</span>
-        <h3>AI Voice Input</h3>
-        <p>Add projects by just speaking. Hindi voice recognition understands your natural workflow perfectly.</p>
-      </div>
-      <div class="feature-card fade-in">
-        <span class="feature-icon">🔔</span>
-        <h3>Smart Reminders</h3>
-        <p>Send automated WhatsApp and Email reminders with localized templates in Hindi, Marathi, Telugu, and more.</p>
-      </div>
-      <div class="feature-card fade-in">
-        <span class="feature-icon">📄</span>
-        <h3>GST Invoicing</h3>
-        <p>Generate professional, tax-compliant GST invoices in one click and share them instantly.</p>
-      </div>
-      <div class="feature-card fade-in">
-        <span class="feature-icon">📊</span>
-        <h3>Project Tally</h3>
-        <p>Real-time financial breakdown. Know exactly who owes what, and how your collection is trending.</p>
-      </div>
-      <div class="feature-card fade-in">
-        <span class="feature-icon">🗓️</span>
-        <h3>Installment Plans</h3>
-        <p>Break down large project amounts into manageable installments with scheduled reminders.</p>
-      </div>
-      <div class="feature-card fade-in">
-        <span class="feature-icon">💬</span>
-        <h3>Multi-Language</h3>
-        <p>The entire app works in your language: English, Hindi, Marathi, Gujarati, or Telugu.</p>
-      </div>
-    </div>
-  </section>
-
-  <!-- Security Section -->
-  <section id="security" class="section">
-    <div class="security-box fade-in">
-      <div class="security-text">
-        <h2 style="margin-bottom:20px;">Bank-Grade <span class="text-gradient">Security.</span></h2>
-        <p style="font-size:18px; margin-bottom:30px;">Your data is your business. We keep it that way with local-first storage and industry-standard encryption.</p>
-        <div style="display:grid; grid-template-columns: 1fr 1fr; gap:20px;">
-          <div style="display:flex; gap:10px; align-items:center;">
-            <span style="color:var(--primary); font-size:24px;">🛡️</span>
-            <span>JWT Encryption</span>
-          </div>
-          <div style="display:flex; gap:10px; align-items:center;">
-            <span style="color:var(--primary); font-size:24px;">🔑</span>
-            <span>Secure Auth</span>
-          </div>
-          <div style="display:flex; gap:10px; align-items:center;">
-            <span style="color:var(--primary); font-size:24px;">📦</span>
-            <span>Local SQLite Data</span>
-          </div>
-          <div style="display:flex; gap:10px; align-items:center;">
-            <span style="color:var(--primary); font-size:24px;">🚫</span>
-            <span>Zero Third-Party Sharing</span>
-          </div>
-        </div>
-      </div>
-      <div class="security-icon">🔒</div>
-    </div>
-  </section>
-
-  <!-- Pricing Section -->
-  <section id="pricing" class="section">
-    <div class="section-title fade-in">
-      <h2>Simple, Transparent <span class="text-gradient">Pricing.</span></h2>
-      <p style="color:var(--text-muted); font-size:18px;">Choose the plan that fits your current business scale.</p>
-    </div>
-    <div class="pricing-grid">
-      <div class="price-card fade-in">
-        <h3>Starter</h3>
-        <div class="price">₹0<span>/forever</span></div>
-        <ul class="price-features">
-          <li>1 Project</li>
-          <li>Basic Invoicing</li>
-          <li>Manual Reminders</li>
-          <li>Email Support</li>
-        </ul>
-        <a href="index.html" class="btn btn-outline btn-block">Get Started</a>
-      </div>
-      <div class="price-card featured fade-in">
-        <div style="font-size:11px;font-weight:700;color:var(--primary);text-transform:uppercase;letter-spacing:1px;margin-bottom:8px;">⭐ Most Popular</div>
-        <h3>Professional</h3>
-        <div class="price">₹999<span>/month</span></div>
-        <ul class="price-features">
-          <li>Unlimited Projects</li>
-          <li>AI Voice Input</li>
-          <li>Smart Reminders (WA/Email)</li>
-          <li>Installment Tracking</li>
-          <li>GST PDF Generation</li>
-        </ul>
-        <a href="index.html" class="btn btn-primary btn-block">Start Pro Trial</a>
-      </div>
-      <div class="price-card fade-in">
-        <h3>Guerrilla Marketing</h3>
-        <div class="price">₹4,999<span>/month</span></div>
-        <ul class="price-features">
-          <li>Viral WhatsApp Campaigns</li>
-          <li>Social Media Flyer Gen</li>
-          <li>Auto Google Reviews</li>
-          <li>Bulk SMS Blast</li>
-          <li>Priority Growth Manager</li>
-        </ul>
-        <a href="index.html" class="btn btn-outline btn-block">Go Viral</a>
-      </div>
-    </div>
-  </section>
-
-  <!-- CTA Section -->
-  <section class="section" style="text-align:center; padding-bottom: 120px;">
-    <div class="fade-in">
-      <h2 style="font-size:48px; margin-bottom:24px;">Ready to professionalize your <span class="text-gradient">business?</span></h2>
-      <p style="color:var(--text-muted); font-size:20px; margin-bottom:40px; max-width:700px; margin-left:auto; margin-right:auto;">Join thousands of contractors across India who have recovered over ₹50Cr in pending payments using PayDost.</p>
-      <a href="index.html" class="btn btn-primary" style="padding: 20px 40px; font-size: 20px;">Launch Your Dashboard</a>
-    </div>
-  </section>
-
-  <!-- Footer -->
-  <footer>
-    <div class="logo" style="justify-content:center; margin-bottom:20px;">
-      <div style="width: 24px; height: 24px; background: var(--primary); border-radius: 6px; display: flex; align-items: center; justify-content: center; font-weight: 800; color: white; font-size:14px;">P</div>
-      Pay<span>Dost</span>
-    </div>
-    <p>&copy; 2026 PayDost Technologies Pvt Ltd. Made with ❤️ for Indian Contractors.</p>
-    <div style="margin-top:20px; display:flex; justify-content:center; gap:20px;">
-      <a href="#" style="color:var(--text-muted); text-decoration:none;">Privacy Policy</a>
-      <a href="#" style="color:var(--text-muted); text-decoration:none;">Terms of Service</a>
-      <a href="#" style="color:var(--text-muted); text-decoration:none;">Contact Us</a>
-    </div>
-  </footer>
-
 </body>
 </html>
