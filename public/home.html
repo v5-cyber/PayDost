@@ -3,99 +3,353 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>PayVlt — Premium Financial Vault & AI Intelligence</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="landing.css">
+  <title>PayVlt — Apka Payment Partner</title>
+  <link rel="stylesheet" href="landing.css?v=4">
 </head>
 <body>
 
-  <div class="mesh-bg"></div>
-
-  <!-- Navbar -->
-  <nav class="fade-up">
-    <div class="logo">💰 Pay<span>Vlt</span></div>
-    <div style="display:flex; gap:15px; align-items:center;">
-      <a href="index.html" style="color:white; text-decoration:none; font-weight:600;">Login</a>
-      <a href="index.html?register=true" class="btn btn-primary" style="padding: 10px 20px;">Start Free</a>
+  <!-- SECTION 1 — NAVBAR -->
+  <nav>
+    <a href="/" class="logo">💰 PayVlt</a>
+    <div class="nav-links">
+      <a href="#features">Features</a>
+      <a href="#pricing">Pricing</a>
+      <a href="#about">About</a>
+      <a href="#contact">Contact</a>
+    </div>
+    <div class="nav-actions">
+      <a href="/login" class="btn btn-outline" style="padding: 10px 20px;">Login</a>
+      <a href="/register" class="btn btn-primary" style="padding: 10px 20px;">Start Free Trial &rarr;</a>
     </div>
   </nav>
 
-  <!-- Hero -->
+  <!-- SECTION 2 — HERO -->
   <section class="hero">
-    <div class="hero-content fade-up" style="animation-delay: 0.1s;">
-      <h1>The <span class="text-gradient">Intelligent</span> Vault for Your Business.</h1>
-      <p>Automate your payments, tracking, and recovery with built-in AI. Secure, fast, and professional financial management for modern contractors.</p>
-      
-      <!-- AI Live Demo Console -->
-      <div class="ai-console">
-        <div class="ai-header">
-          <div class="dot dot-red"></div>
-          <div class="dot dot-yel"></div>
-          <div class="dot dot-grn"></div>
-          <span style="font-size:12px; color:#444; margin-left:10px;">PayVlt AI Intelligence v1.0.4</span>
+    <div class="badge-trust">🏆 Trusted by Indian Contractors</div>
+    <h1>Apka Payment Partner</h1>
+    <h2>Smart. Simple. Desi.</h2>
+    <p>Indian contractors finish projects worth lakhs — then wait months chasing payments. PayVlt ends this. Automatic WhatsApp reminders, GST invoices, and legal protection — all in Hindi.</p>
+    
+    <div class="hero-actions">
+      <a href="/register" class="btn btn-primary" style="padding: 16px 32px; font-size: 18px;">Start Free Trial &rarr;</a>
+      <a href="#how-it-works" class="btn btn-outline" style="padding: 16px 32px; font-size: 18px;">Watch Demo</a>
+    </div>
+    <div style="font-size:14px; color:var(--success); font-weight:600;">30 din free — no credit card needed</div>
+
+    <div class="social-proof">
+      <span>⭐ Trusted by 500+ contractors</span>
+      <span>|</span>
+      <span>₹10Cr+ payments tracked</span>
+      <span>|</span>
+      <span>4 Indian languages supported</span>
+    </div>
+  </section>
+
+  <!-- SECTION 3 — PROBLEM -->
+  <section id="problem">
+    <div class="section-title fade-up">
+      <h2>Har Contractor Ki Yahi Kahani</h2>
+    </div>
+    <div class="grid-3 fade-up">
+      <div class="card problem-card">
+        <h3>😤</h3>
+        <p>Project complete kiya</p>
+        <p>Invoice bheja</p>
+        <p style="color:var(--warning);">Payment? Abhi bhi pending...</p>
+      </div>
+      <div class="card problem-card">
+        <h3>📞</h3>
+        <p>Khud call karna pada</p>
+        <p>Awkward feel hua</p>
+        <p style="color:var(--danger);">Client ne uthaya nahi</p>
+      </div>
+      <div class="card problem-card">
+        <h3>⏳</h3>
+        <p>60 din baad payment aayi</p>
+        <p>Cash flow suffer kiya</p>
+        <p style="color:var(--accent-light);">Next project miss hua</p>
+      </div>
+    </div>
+    <div class="fade-up" style="text-align:center; margin-top: 40px; font-size: 24px; font-weight: bold; color: var(--accent-light);">
+      PayVlt ye sab automatically handle karta hai — aap sirf kaam karo.
+    </div>
+  </section>
+
+  <!-- SECTION 4 — HOW IT WORKS -->
+  <section id="how-it-works">
+    <div class="section-title fade-up">
+      <h2>Kaise Kaam Karta Hai?</h2>
+    </div>
+    <div class="step-flow fade-up">
+      <div class="step-card">
+        <div class="step-icon">📋</div>
+        <div class="step-content">
+          <h3>Step 1: Digital Agreement</h3>
+          <p>Project shuru hone se pehle client se OTP-verified agreement sign karwao.</p>
         </div>
-        <div class="ai-input-wrap">
-          <input type="text" id="ai-in" class="ai-input" placeholder="Type: 'Sharma ji ka 50,000 pending project'...">
-          <button class="btn btn-primary" onclick="processAI()" style="padding: 12px 20px;">Process</button>
+      </div>
+      <div class="step-card">
+        <div class="step-icon">📄</div>
+        <div class="step-content">
+          <h3>Step 2: GST Invoice</h3>
+          <p>Ek click mein professional GST invoice generate karo (CGST/SGST auto-calculated).</p>
         </div>
-        <div id="ai-res" class="ai-result">
-          <div class="res-card"><div class="res-label">Entity Detected</div><div id="res-ent" class="res-val">—</div></div>
-          <div class="res-card"><div class="res-label">Amount Extracted</div><div id="res-amt" class="res-val">—</div></div>
-          <div class="res-card"><div class="res-label">Status Tag</div><div id="res-stat" class="res-val" style="color:#10b981;">Verified</div></div>
-          <div class="res-card"><div class="res-label">AI confidence</div><div class="res-val">99.8%</div></div>
+      </div>
+      <div class="step-card">
+        <div class="step-icon">📲</div>
+        <div class="step-content">
+          <h3>Step 3: Auto Reminders</h3>
+          <p>WhatsApp pe automatically funny Hinglish reminders jaate hain.</p>
+        </div>
+      </div>
+      <div class="step-card">
+        <div class="step-icon">⚖️</div>
+        <div class="step-content">
+          <h3>Step 4: MSME Protection</h3>
+          <p>45-day legal rule automatically track hota hai, with instant legal notice generation.</p>
+        </div>
+      </div>
+      <div class="step-card">
+        <div class="step-icon">💰</div>
+        <div class="step-content">
+          <h3>Step 5: Payment Collected</h3>
+          <p>Paisa time pe aata hai — bina awkward calls ke.</p>
         </div>
       </div>
     </div>
+  </section>
 
-    <div class="hero-image fade-up" style="animation-delay: 0.3s;">
-      <!-- Using the generated premium 3D image -->
-      <img src="payvlt_hero_vault_1777190961083.png" alt="PayVlt Premium Vault" style="width:100%; border-radius:30px; box-shadow: 0 30px 60px rgba(0,0,0,0.5);">
+  <!-- SECTION 5 — FEATURES -->
+  <section id="features">
+    <div class="section-title fade-up">
+      <h2>Sab Kuch Ek Jagah</h2>
+    </div>
+    <div class="grid-2x3 fade-up">
+      <div class="card feature-card">
+        <h3>💸 Payment Dashboard</h3>
+        <p>Total receivable, overdue, collected — real-time mein.</p>
+      </div>
+      <div class="card feature-card">
+        <h3>📄 GST Invoice PDF</h3>
+        <p>Professional invoices — CGST + SGST auto calculate.</p>
+      </div>
+      <div class="card feature-card">
+        <h3>📲 WhatsApp Reminders</h3>
+        <p>Funny Hinglish templates — Day 7, 15, 30, 45.</p>
+      </div>
+      <div class="card feature-card">
+        <h3>🟢 Risk Score</h3>
+        <p>Low, Medium, High — client payment risk auto detect.</p>
+      </div>
+      <div class="card feature-card">
+        <h3>⚖️ MSME Compliance</h3>
+        <p>45-day tracker — legal protection automatic.</p>
+      </div>
+      <div class="card feature-card">
+        <h3>🤝 Digital Agreement</h3>
+        <p>OTP-verified contracts — legally binding.</p>
+      </div>
     </div>
   </section>
 
-  <section style="padding: 80px 5%; text-align:center;">
-    <h2 class="fade-up" style="font-size:40px; margin-bottom:40px;">Trusted by 10,000+ Business Owners</h2>
-    <div style="display:flex; justify-content:center; gap:60px; opacity:0.5;">
-      <div style="font-size:24px; font-weight:800;">FINTECH</div>
-      <div style="font-size:24px; font-weight:800;">BUILDER.CO</div>
-      <div style="font-size:24px; font-weight:800;">SECURE.PAY</div>
+  <!-- SECTION 6 — LEGAL PROTECTION -->
+  <section id="legal">
+    <div class="legal-section fade-up">
+      <div>
+        <h2 style="font-size:36px; margin-bottom:24px;">PayVlt = <br><span style="color:var(--accent-light);">Contractor Ka Legal Shield</span></h2>
+        <p style="font-size:18px; color:var(--text-muted); margin-bottom:24px;">Did you know? Under Section 43B(h) of Income Tax Act 2023 — if a client doesn't pay within 45 days, they lose their tax deduction.</p>
+        <p style="font-size:18px; color:var(--text-muted); margin-bottom:32px;">PayVlt automatically tracks this and reminds clients — so they pay on time to protect their own taxes.</p>
+        <a href="#pricing" class="btn btn-primary">Learn More About MSME Protection</a>
+      </div>
+      <div class="legal-stats">
+        <div class="stat-box"><h4>50%+</h4><p>B2B invoices overdue in India</p></div>
+        <div class="stat-box"><h4>34 Days</h4><p>Average extra wait time</p></div>
+        <div class="stat-box"><h4>₹3L Crore</h4><p>Stuck in payment disputes</p></div>
+      </div>
     </div>
   </section>
 
+  <!-- SECTION 7 — PRICING PREVIEW -->
+  <section id="pricing">
+    <div class="section-title fade-up">
+      <h2>Simple Pricing</h2>
+      <p>Designed for Indian SMEs</p>
+      <div style="background:var(--warning); color:#000; padding:8px 16px; border-radius:8px; display:inline-block; font-weight:bold; margin-top:16px;">🔥 Founder's pricing ends soon!</div>
+    </div>
+    
+    <div class="grid-3 fade-up">
+      <div class="card pricing-card">
+        <h3 style="font-size:24px;">Free</h3>
+        <div class="price">₹0<span>/forever</span></div>
+        <ul>
+          <li>✔️ 1 project</li>
+          <li>✔️ Basic tracking</li>
+          <li>✔️ Dashboard</li>
+          <li>✔️ Email support</li>
+        </ul>
+        <a href="/register" class="btn btn-outline" style="width:100%;">Get Started Free</a>
+      </div>
+      
+      <div class="card pricing-card popular">
+        <div class="pricing-badge">Founder's Price</div>
+        <h3 style="font-size:24px; color:var(--accent-light);">Professional</h3>
+        <div style="text-decoration:line-through; color:var(--text-muted); margin-top:16px;">₹1,999</div>
+        <div class="price" style="margin-top:0;">₹999<span>/month</span></div>
+        <ul>
+          <li>✔️ Unlimited projects</li>
+          <li>✔️ Auto WhatsApp reminders</li>
+          <li>✔️ Site diary & GST invoices</li>
+          <li>✔️ 4 languages support</li>
+          <li>✔️ MSME compliance tracker</li>
+        </ul>
+        <a href="/register" class="btn btn-primary" style="width:100%;">Start Free Trial</a>
+      </div>
+      
+      <div class="card pricing-card">
+        <h3 style="font-size:24px;">Business</h3>
+        <div class="price">₹3,499<span>/month</span></div>
+        <ul>
+          <li>✔️ Everything in Pro</li>
+          <li>✔️ Multi-user access</li>
+          <li>✔️ Custom branding</li>
+          <li>✔️ Legal notice generation</li>
+          <li>✔️ Priority support</li>
+        </ul>
+        <a href="/register" class="btn btn-outline" style="width:100%;">Start Free Trial</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- SECTION 8 — TESTIMONIALS -->
+  <section id="testimonials">
+    <div class="section-title fade-up">
+      <h2>Contractors Ka Bharosa</h2>
+      <p>Early Beta Users</p>
+    </div>
+    <div class="grid-3 fade-up">
+      <div class="card testimonial-card">
+        <p class="quote">"PayVlt se mera ₹5 lakh 15 din mein aa gaya jo 2 mahine se pending tha."</p>
+        <div class="author">Ramesh Sharma <span>HVAC Contractor, Indore</span></div>
+      </div>
+      <div class="card testimonial-card">
+        <p class="quote">"Pehle khud call karna padta tha. Ab system automatically remind karta hai. Relationship bhi safe hai aur paisa bhi aata hai."</p>
+        <div class="author">Suresh Patel <span>Civil Contractor, Surat</span></div>
+      </div>
+      <div class="card testimonial-card">
+        <p class="quote">"Hindi mein reminder — client ne turant pay kiya. Mujhe kuch nahi karna pada."</p>
+        <div class="author">Vikram Singh <span>Interior Designer, Pune</span></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SECTION 9 — FAQ -->
+  <section id="faq">
+    <div class="section-title fade-up">
+      <h2>Aksar Pooche Jaane Waale Sawaal</h2>
+    </div>
+    <div class="faq-list fade-up">
+      <div class="faq-item">
+        <div class="faq-q">Q: Kya ye legally valid hai?</div>
+        <div class="faq-a">A: Haan — IT Act 2000 Section 10A ke tahat digital agreements legally valid hain India mein.</div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q">Q: Agar client pay na kare?</div>
+        <div class="faq-a">A: PayVlt automatic reminders bhejta hai. 45 din ke baad MSME legal protection automatically activate hoti hai. Legal notice bhi generate kar sakte hain.</div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q">Q: WhatsApp reminder real mein jaata hai kya?</div>
+        <div class="faq-a">A: Haan — Twilio WhatsApp Business API se verified messages jaate hain.</div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q">Q: Kya data secure hai?</div>
+        <div class="faq-a">A: Haan — Supabase encrypted storage — DPDP Act compliant.</div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q">Q: Free plan mein kya milta hai?</div>
+        <div class="faq-a">A: 1 project — basic tracking — dashboard — hamesha free.</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SECTION 10 — CTA -->
+  <section class="cta-section fade-up">
+    <h2>Apna Paisa Time Pe Lena Shuru Karo</h2>
+    <p style="font-size:20px; color:var(--text-muted); margin-bottom:40px;">30 din free — no credit card — setup in 10 minutes</p>
+    <a href="/register" class="btn btn-primary" style="padding:16px 40px; font-size:20px;">Start Free Trial &rarr;</a>
+    <p style="margin-top:24px; color:var(--text-muted); font-size:14px;">payvlt.in | Made in Indore 🇮🇳</p>
+  </section>
+
+  <!-- SECTION 11 — FOOTER -->
+  <footer>
+    <div class="footer-grid">
+      <div class="footer-col">
+        <h4 style="font-size:24px; color:white;">💰 PayVlt</h4>
+        <p style="color:var(--text-muted); margin-bottom:16px;">Apka Payment Partner</p>
+        <p style="color:var(--text-muted);">Made in Indore, India 🇮🇳</p>
+      </div>
+      <div class="footer-col">
+        <h4>Product</h4>
+        <ul>
+          <li><a href="#features">Features</a></li>
+          <li><a href="#pricing">Pricing</a></li>
+          <li><a href="#">Digital Agreement</a></li>
+          <li><a href="#">MSME Compliance</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Legal</h4>
+        <ul>
+          <li><a href="#">Privacy Policy</a></li>
+          <li><a href="#">Terms of Service</a></li>
+          <li><a href="#">Refund Policy</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Contact</h4>
+        <ul>
+          <li><a href="mailto:support@payvlt.in">support@payvlt.in</a></li>
+          <li><a href="#">WhatsApp Support</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <div>© 2026 PayVlt. All rights reserved.</div>
+      <div>Built for Indian contractors 🇮🇳</div>
+    </div>
+  </footer>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <script>
-    function processAI() {
-      const input = document.getElementById('ai-in').value;
-      if(!input) return;
+    // Intersection Observer for scroll animations
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('visible');
+        }
+      });
+    }, { threshold: 0.1 });
+    
+    document.querySelectorAll('.fade-up').forEach(el => observer.observe(el));
 
-      const resBox = document.getElementById('ai-res');
-      const ent = document.getElementById('res-ent');
-      const amt = document.getElementById('res-amt');
+    // Redirect to Dashboard if already logged in
+    const U = "https://jwtjnrbwwjwtaukaoeda.supabase.co";
+    const K = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imp3dGpucmJ3d2p3dGF1a2FvZWRhIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzcwMTE0ODEsImV4cCI6MjA5MjU4NzQ4MX0.diAAnRtaTCw9BvHMW3AFE2l4d_B9er2yRLN5sYLdawo";
+    const sb = window.supabase.createClient(U, K);
 
-      // Simulate AI Thinking
-      ent.textContent = "Analyzing...";
-      amt.textContent = "Extracting...";
-      resBox.classList.add('active');
+    sb.auth.getSession().then(({ data: { session } }) => {
+      if (session) {
+        window.location.href = '/dashboard';
+      }
+    });
 
-      setTimeout(() => {
-        // Extraction Logic
-        const amountMatch = input.match(/(\d+[,.]?\d*)/);
-        const amount = amountMatch ? '₹' + amountMatch[0] : 'Not Found';
-        
-        // Entity extraction (Simple name detector)
-        const words = input.split(' ');
-        const name = words[0].length > 2 ? words[0] : (words[1] || 'Project Alpha');
-
-        ent.textContent = name;
-        amt.textContent = amount;
-      }, 800);
-    }
-
-    // Auto-animate on load
-    window.onload = () => {
-      document.body.classList.add('loaded');
-    };
+    // Handle routing clicks (Since it's a mock routing environment)
+    document.querySelectorAll('a[href="/login"], a[href="/register"]').forEach(a => {
+      a.addEventListener('click', (e) => {
+        e.preventDefault();
+        const url = a.getAttribute('href');
+        window.location.href = url === '/login' ? '/index.html' : '/index.html?register=true';
+      });
+    });
   </script>
 </body>
 </html>
