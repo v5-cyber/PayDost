@@ -2,7 +2,8 @@ const express = require('express');
 const router = express.Router();
 const auth = require('../middleware/auth');
 const db = require('../db');
-
+const { createClient } = require('@supabase/supabase-js');
+const supabase = createClient(process.env.SUPABASE_URL, process.env.SUPABASE_KEY);
 // Calculate risk level for a project
 function getRiskLevel(project) {
   if (project.status === 'paid' || project.status === 'completed') return 'low';
@@ -42,7 +43,7 @@ router.get('/:id', auth, (req, res) => {
 });
 
 // POST /api/projects
-router.post('/', auth, (req, res) => {
+router.post('/', auth, async (req, res) => {
   try {
     const {
       name, client_name, client_phone, client_email, client_lang,
@@ -52,19 +53,35 @@ router.post('/', auth, (req, res) => {
     if (!name || !client_name || !amount)
       return res.status(400).json({ error: 'Name, client name, and amount are required.' });
 
-    const result = db.prepare(`
-      INSERT INTO projects (user_id, name, client_name, client_phone, client_email, client_lang,
-        amount, start_date, due_date, late_fee_pct, late_fee_type, grace_period, notes)
-      VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
-    `).run(
-      req.user.id, name, client_name,
-      client_phone || '', client_email || '', client_lang || 'en',
-      amount, start_date || null, due_date || null,
-      late_fee_pct || 1.5, late_fee_type || 'week', grace_period || 5, notes || ''
-    );
+    // Assuming Supabase schema matches the frontend expectatons: project_name, total_amount, etc.
+    // If not, we map them here. We'll include both formats to be safe.
+    const projectData = {
+      user_id: req.user.id,
+      name: name,
+      project_name: name, // for frontend compatibility
+      client_name: client_name,
+      client_phone: client_phone || '',
+      client_email: client_email || '',
+      client_lang: client_lang || 'en',
+      amount: amount,
+      total_amount: amount, // for frontend compatibility
+      start_date: start_date || null,
+      due_date: due_date || null,
+      late_fee_pct: late_fee_pct || 1.5,
+      late_fee_type: late_fee_type || 'week',
+      grace_period: grace_period || 5,
+      notes: notes || '',
+      description: notes || '', // for frontend compatibility
+      status: 'pending'
+    };
 
-    const project = db.prepare('SELECT * FROM projects WHERE id = ?').get(result.lastInsertRowid);
-    res.status(201).json({ project: enrichProject(project) });
+    const { data, error } = await supabase.from('projects').insert([projectData]).select();
+
+    if (error) {
+      throw new Error(`Supabase Error: ${error.message}`);
+    }
+
+    res.status(201).json({ project: enrichProject(data[0]) });
   } catch (err) {
     res.status(500).json({ error: err.message });
   }

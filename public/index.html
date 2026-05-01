@@ -244,11 +244,11 @@
       }
 
       if (r.error) {
-        alert(isL ? "Email ya password galat hai." : r.error.message);
+        showToast(isL ? "Email ya password galat hai." : r.error.message, "error");
         btn.disabled = false; btn.innerHTML = old;
       }
     } catch (e) {
-      alert("System Error: " + e.message);
+      showToast("System Error: " + e.message, "error");
       btn.disabled = false; btn.innerHTML = old;
     }
   }
@@ -326,7 +326,7 @@
           </div>
           <div style="margin-top:12px; font-size:12px; display:flex; justify-content:space-between;">
             <span style="color:var(--accent-light);">Agreement Sent ⏳</span>
-            <button class="btn-danger" style="padding:4px 8px; font-size:10px;" onclick="alert('Generate Legal Notice with MSMED Act Sec 16 and Sec 43B(h)?')">Legal Notice</button>
+            <button class="btn-danger" style="padding:4px 8px; font-size:10px;" onclick="showToast('Generate Legal Notice with MSMED Act Sec 16 and Sec 43B(h)?', 'warning')">Legal Notice</button>
           </div>
         </div>
       `;
@@ -372,10 +372,10 @@
     
     const { data, error } = await client.from('projects').insert([project]);
     if(error) {
-      alert("Note: Connecting to mock DB as table might not be ready. Creating offline...");
+      showToast("Note: Connecting to mock DB as table might not be ready. Creating offline...", "warning");
     }
     
-    alert("Project saved! Digital Agreement link generated and sent to " + project.client_phone + " via WhatsApp.");
+    showToast("Project saved! Digital Agreement link generated and sent to " + project.client_phone + " via WhatsApp.", "success");
     closeModal('modal-project');
     loadData();
   }
@@ -400,6 +400,90 @@
     const p = new URLSearchParams(window.location.search);
     if (p.get('register') === 'true') switchT('reg');
   };
+
+  // Toast Functionality
+  function showToast(message, type = 'info') {
+    const container = document.getElementById('toast-container');
+    const toast = document.createElement('div');
+    toast.className = `toast ${type}`;
+    toast.textContent = message;
+    container.appendChild(toast);
+    setTimeout(() => {
+      toast.style.animation = 'slideIn 0.3s ease-out reverse forwards';
+      setTimeout(() => toast.remove(), 300);
+    }, 4000);
+  }
+
+  // AI Chat Widget Functionality
+  function toggleChat() {
+    const chatWindow = document.getElementById('chat-window');
+    chatWindow.classList.toggle('hidden');
+  }
+
+  async function sendChatMessage() {
+    const input = document.getElementById('chat-input');
+    const msg = input.value.trim();
+    if (!msg) return;
+
+    appendChatMsg(msg, 'user');
+    input.value = '';
+
+    // Show typing indicator
+    const typingId = 'typing-' + Date.now();
+    appendChatMsg("...", 'ai', typingId);
+
+    try {
+      const response = await fetch('/api/chat', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ message: msg })
+      });
+      const data = await response.json();
+      
+      const typingEl = document.getElementById(typingId);
+      if (typingEl) typingEl.remove();
+
+      if (data.reply) {
+        appendChatMsg(data.reply, 'ai');
+      } else {
+        appendChatMsg("Sorry, network issue aagayi.", 'error');
+      }
+    } catch (err) {
+      const typingEl = document.getElementById(typingId);
+      if (typingEl) typingEl.remove();
+      appendChatMsg("Error: " + err.message, 'error');
+    }
+  }
+
+  function appendChatMsg(text, type, id = '') {
+    const body = document.getElementById('chat-body');
+    const div = document.createElement('div');
+    div.className = `chat-msg ${type}`;
+    if(id) div.id = id;
+    div.textContent = text;
+    body.appendChild(div);
+    body.scrollTop = body.scrollHeight;
+  }
 </script>
+
+<!-- Toast Container -->
+<div id="toast-container" class="toast-container"></div>
+
+<!-- Chat Widget -->
+<button class="chat-widget-btn" onclick="toggleChat()">🤖</button>
+<div id="chat-window" class="chat-widget-window hidden">
+  <div class="chat-header">
+    <span>PayDost AI (Beta)</span>
+    <button onclick="toggleChat()" style="background:none; border:none; color:white; cursor:pointer;">✖</button>
+  </div>
+  <div id="chat-body" class="chat-body">
+    <div class="chat-msg ai">Namaste! Main PayDost AI hu. Aapki kaise help karu? 🛠️</div>
+  </div>
+  <div class="chat-footer">
+    <input type="text" id="chat-input" class="chat-input" placeholder="Type message in Hinglish..." onkeypress="if(event.key === 'Enter') sendChatMessage()" />
+    <button class="chat-send" onclick="sendChatMessage()">➤</button>
+  </div>
+</div>
+
 </body>
 </html>
