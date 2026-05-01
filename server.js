@@ -34,6 +34,17 @@ app.get('/', (req, res) => {
   res.sendFile(path.join(__dirname, 'public', 'home.html'));
 });
 
+// Standalone public pages
+app.get('/pricing', (req, res) => {
+  res.sendFile(path.join(__dirname, 'public', 'pricing.html'));
+});
+app.get('/privacy', (req, res) => {
+  res.sendFile(path.join(__dirname, 'public', 'privacy.html'));
+});
+app.get('/terms', (req, res) => {
+  res.sendFile(path.join(__dirname, 'public', 'terms.html'));
+});
+
 // All other routes serve the App Dashboard (SPA)
 app.get('*', (req, res) => {
   res.sendFile(path.join(__dirname, 'public', 'index.html'));
