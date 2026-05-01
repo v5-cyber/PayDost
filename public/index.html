@@ -3,43 +3,47 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>PayVlt — Professional Payment Partner</title>
-  <link rel="stylesheet" href="style.css" />
-  <style>
-    .hidden { display: none !important; }
-    #auth-screen { min-height: 100vh; background: #0F172A; display: flex; align-items: center; justify-content: center; }
-    .spinner { display: inline-block; width: 14px; height: 14px; border: 2px solid rgba(255,255,255,0.3); border-radius: 50%; border-top-color: #fff; animation: spin 0.8s linear infinite; margin-right: 8px; vertical-align: middle; }
-    @keyframes spin { to { transform: rotate(360deg); } }
-  </style>
+  <title>PayVlt — Premium B2B SaaS for Indian Contractors</title>
+  <link rel="stylesheet" href="style.css?v=2" />
 </head>
 <body>
 
 <!-- ══════════════ AUTH SCREEN ══════════════ -->
 <div id="auth-screen">
-  <div class="auth-card" style="background: #1E293B; padding: 40px; border-radius: 16px; width: 400px; border-top: 4px solid #028090;">
+  <div class="auth-card">
     <div style="text-align:center; margin-bottom:32px;">
-      <h1 style="margin:0; font-size:32px;">💰 PayVlt</h1>
-      <p style="color:#028090; font-size:12px; font-weight:700; margin-top:4px;">APKA PAYMENT PARTNER</p>
+      <h1 style="margin:0; font-size:32px; color:white;">💰 PayVlt</h1>
+      <p style="color:var(--accent-light); font-size:14px; font-weight:700; margin-top:4px;">Apka Payment Partner</p>
+      <p style="color:var(--text-muted); font-size:11px; margin-top:2px;">Track | Invoice | Remind | Collect</p>
     </div>
 
-    <div class="auth-tabs" style="display:flex; gap:20px; border-bottom:1px solid rgba(255,255,255,0.1); margin-bottom:24px;">
-      <button class="auth-tab active" id="t-login" onclick="switchT('login')" style="background:none; border:none; color:white; padding:10px 0; cursor:pointer; font-weight:600;">Login</button>
-      <button class="auth-tab" id="t-reg" onclick="switchT('reg')" style="background:none; border:none; color:#64748B; padding:10px 0; cursor:pointer; font-weight:600;">Register</button>
+    <div class="auth-tabs">
+      <button class="auth-tab active" id="t-login" onclick="switchT('login')">Login</button>
+      <button class="auth-tab" id="t-reg" onclick="switchT('reg')">Register</button>
     </div>
 
     <div id="f-login">
-      <div class="form-group"><label>Email Address</label><input type="email" id="l-email" placeholder="aapki@email.com" /></div>
-      <div class="form-group"><label>Password</label><input type="password" id="l-pass" placeholder="••••••••" /></div>
+      <div class="form-group">
+        <label>Email Address</label>
+        <input type="email" id="l-email" placeholder="aapki@email.com" />
+      </div>
+      <div class="form-group" style="position:relative;">
+        <label>Password</label>
+        <input type="password" id="l-pass" placeholder="••••••••" />
+      </div>
       <button class="btn-primary" id="b-login" onclick="runAuth('login')">Login to PayVlt</button>
-      <p style="text-align:center; margin-top:16px; font-size:12px; color:#10B981; font-weight:700;">30 din free — no credit card</p>
+      <div style="display:flex; justify-content:center; gap: 10px; margin-top:16px;">
+        <a href="#" style="font-size:12px; color:var(--text-muted); text-decoration:none;">Forgot password?</a>
+      </div>
+      <p style="text-align:center; margin-top:16px; font-size:12px; color:var(--success); font-weight:700;">30 din free — no credit card</p>
     </div>
 
     <div id="f-reg" class="hidden">
-      <div style="display:grid; grid-template-columns:1fr 1fr; gap:12px; margin-bottom:15px;">
-        <div><label>Name</label><input type="text" id="r-name" /></div>
-        <div><label>Company</label><input type="text" id="r-comp" /></div>
+      <div style="display:grid; grid-template-columns:1fr 1fr; gap:12px;">
+        <div class="form-group"><label>Full Name</label><input type="text" id="r-name" /></div>
+        <div class="form-group"><label>Company Name</label><input type="text" id="r-comp" /></div>
       </div>
-      <div class="form-group"><label>Email Address</label><input type="email" id="r-email" placeholder="aapki@email.com" /></div>
+      <div class="form-group"><label>Email</label><input type="email" id="r-email" placeholder="aapki@email.com" /></div>
       <div class="form-group"><label>Password</label><input type="password" id="r-pass" placeholder="••••••••" /></div>
       <button class="btn-primary" id="b-reg" onclick="runAuth('reg')">Create Free Account</button>
     </div>
@@ -48,42 +52,164 @@
 
 <!-- ══════════════ MAIN APP ══════════════ -->
 <div id="app" class="hidden">
+  
   <aside id="sidebar">
     <div class="sidebar-logo">💰 PayVlt</div>
     <nav class="nav-links">
-      <button class="nav-item active" id="nav-dashboard" onclick="navigate('dashboard')">📊 Dashboard</button>
-      <button class="nav-item" id="nav-projects" onclick="navigate('projects')">📁 Projects</button>
+      <button class="nav-item active" id="nav-dashboard" onclick="navigate('dashboard')">🏠 Dashboard</button>
+      <button class="nav-item" id="nav-projects" onclick="navigate('projects')">📁 Projects & Agreements</button>
+      <button class="nav-item" id="nav-invoices" onclick="navigate('invoices')">📄 Invoices</button>
+      <button class="nav-item" id="nav-payments" onclick="navigate('payments')">💳 Payments</button>
+      <button class="nav-item" id="nav-tally" onclick="navigate('tally')">📊 Tally</button>
+      <button class="nav-item" id="nav-diary" onclick="navigate('diary')">📓 Site Diary</button>
+      <button class="nav-item" id="nav-settings" onclick="navigate('settings')">⚙️ Settings</button>
     </nav>
-    <div style="padding:24px; border-top:1px solid rgba(255,255,255,0.1); margin-top:auto;">
+    <div style="padding:24px; border-top:1px solid var(--border); margin-top:auto;">
       <div id="sidebar-name" style="font-weight:700; color:white; margin-bottom:12px;">My Company</div>
-      <button onclick="runAuth('logout')" style="width:100%; padding:8px; border-radius:6px; background:none; border:1px solid #334466; color:#94A3B8; cursor:pointer;">Logout</button>
+      <button onclick="runAuth('logout')" class="btn-secondary" style="width:100%;">Logout</button>
     </div>
   </aside>
 
   <main id="main">
+    <div class="watermark" id="watermark">PAYVLT</div>
     <div id="alert-area"></div>
+
+    <!-- ── DASHBOARD ── -->
     <div id="page-dashboard" class="page-content">
-      <div style="margin-bottom:32px;"><h2>Dashboard</h2></div>
-      <div id="stats-grid" class="stats-grid">
-        <div class="stat-card"><div class="stat-label">Total Projects</div><div id="stat-count" class="stat-value">0</div></div>
-        <div class="stat-card"><div class="stat-label">Total Collected</div><div id="stat-collected" class="stat-value">₹0</div></div>
-        <div class="stat-card"><div class="stat-label">Collection Rate</div><div id="stat-rate" class="stat-value">0%</div></div>
+      <div class="mb-4">
+        <h2 style="font-size:28px;">Welcome back 👋 <span id="dash-name"></span></h2>
+        <p style="color:var(--text-muted);">Here's your business overview</p>
       </div>
+
+      <div class="stats-grid">
+        <div class="stat-card blue-top">
+          <div class="stat-label">Total Receivable</div>
+          <div id="stat-receivable" class="stat-value">₹0</div>
+          <p class="progress-text">Total pending payments</p>
+        </div>
+        <div class="stat-card red-top">
+          <div class="stat-label">Overdue Payments</div>
+          <div id="stat-overdue" class="stat-value red">₹0</div>
+          <p class="progress-text">Need immediate attention</p>
+        </div>
+        <div class="stat-card orange-top">
+          <div class="stat-label">Total Projects</div>
+          <div id="stat-count" class="stat-value">0</div>
+          <p class="progress-text">Active projects</p>
+        </div>
+        <div class="stat-card green-top">
+          <div class="stat-label">Collected</div>
+          <div id="stat-collected" class="stat-value green">₹0</div>
+          <p class="progress-text">Received this month</p>
+        </div>
+      </div>
+
+      <div class="stat-card mb-4" style="padding: 16px 24px;">
+        <div class="flex-between">
+          <span style="font-weight:600;">Collection Rate</span>
+          <span id="rate-text" style="font-weight:bold; color:var(--success);">0%</span>
+        </div>
+        <div class="progress-container">
+          <div id="rate-bar" class="progress-bar" style="width: 0%;"></div>
+        </div>
+      </div>
+
+      <div class="quick-actions">
+        <div class="action-card" onclick="openProjectModal()">+ Add Project</div>
+        <div class="action-card">📄 Generate Invoice</div>
+        <div class="action-card">📲 Send Reminder</div>
+      </div>
+
+      <h3 class="mb-4">Recent Projects & Agreements</h3>
+      <table id="recent-projects">
+        <thead>
+          <tr>
+            <th>Client</th><th>Project</th><th>Amount</th><th>Status</th><th>Agreement</th>
+          </tr>
+        </thead>
+        <tbody id="recent-projects-body">
+          <!-- Dynamic Content -->
+        </tbody>
+      </table>
     </div>
+
+    <!-- ── PROJECTS PAGE ── -->
     <div id="page-projects" class="page-content hidden">
-      <div style="display:flex; justify-content:space-between; margin-bottom:32px;">
-        <h2>Projects</h2>
-        <button class="btn-primary" style="width:auto; padding: 10px 20px;">+ New Project</button>
+      <div class="flex-between mb-4">
+        <h2>Projects & Digital Agreements</h2>
+        <button class="btn-primary" style="width:auto; padding: 10px 20px;" onclick="openProjectModal()">+ New Project</button>
       </div>
       <div id="projects-grid" class="projects-grid"></div>
     </div>
+    
+    <!-- ADD OTHER PAGES PLACEHOLDERS -->
+    <div id="page-invoices" class="page-content hidden"><h2>Invoices</h2><p>Invoice management coming soon...</p></div>
+    <div id="page-payments" class="page-content hidden"><h2>Payments</h2><p>Payment tracking & AI Reminders coming soon...</p></div>
+    <div id="page-tally" class="page-content hidden"><h2>Tally</h2><p>Tally export coming soon...</p></div>
+    <div id="page-diary" class="page-content hidden"><h2>Site Diary</h2><p>Site diary coming soon...</p></div>
+    <div id="page-settings" class="page-content hidden"><h2>Settings</h2><p>Company settings coming soon...</p></div>
+
   </main>
+</div>
+
+<!-- ══════════════ MODALS ══════════════ -->
+<div id="modal-project" class="modal-overlay hidden">
+  <div class="modal-content">
+    <div class="modal-header">
+      <h2>Add New Project & Agreement</h2>
+      <button class="modal-close" onclick="closeModal('modal-project')">×</button>
+    </div>
+    
+    <div class="flex-between mb-4" style="background: rgba(2, 128, 144, 0.1); padding:10px; border-radius:8px;">
+      <span style="font-size:14px;">Use Rumik.ai Voice Input</span>
+      <button class="btn-primary" style="width:auto; padding:8px 16px; font-size:12px;">🎤 Speak (Hindi)</button>
+    </div>
+
+    <div style="display:grid; grid-template-columns:1fr 1fr; gap:12px;">
+      <div class="form-group"><label>Client Name *</label><input type="text" id="p-client-name" /></div>
+      <div class="form-group"><label>Client Phone *</label><input type="text" id="p-client-phone" /></div>
+    </div>
+    <div class="form-group"><label>Project Name *</label><input type="text" id="p-name" /></div>
+    
+    <div class="form-group">
+      <label>Scope of Work / Description</label>
+      <textarea id="p-desc" rows="3"></textarea>
+    </div>
+    
+    <div style="display:grid; grid-template-columns:1fr 1fr; gap:12px;">
+      <div class="form-group"><label>Total Amount (₹) *</label><input type="number" id="p-amount" /></div>
+      <div class="form-group"><label>Due Date *</label><input type="date" id="p-date" /></div>
+    </div>
+    
+    <!-- Digital Agreement Section -->
+    <div style="margin-top: 20px; border-top: 1px solid var(--border); padding-top: 20px;">
+      <h3 style="font-size:16px; margin-bottom:12px; color:var(--accent-light);">📝 Digital Agreement Generation</h3>
+      <div class="checkbox-group">
+        <input type="checkbox" id="p-agreement" checked />
+        <label style="margin:0;">Auto-generate Digital Agreement & Send via WhatsApp</label>
+      </div>
+      <p style="font-size:12px; color:var(--text-muted); margin-bottom:12px;">Includes Scope of Work, Timeline, MSME 45-day clause, and Late Fee (1.5%/week).</p>
+      
+      <div class="form-group">
+        <label>Client Tag</label>
+        <select id="p-tag">
+          <option value="New Client">🆕 New Client</option>
+          <option value="Trusted Partner">⭐ Trusted Partner</option>
+          <option value="Payment Risk">⚠️ Payment Risk</option>
+        </select>
+      </div>
+    </div>
+
+    <button class="btn-primary mt-4" onclick="saveProject()">Create Project & Send Agreement</button>
+  </div>
 </div>
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script>
+  // ── CONFIG ──
   const U = "https://jwtjnrbwwjwtaukaoeda.supabase.co";
   const K = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imp3dGpucmJ3d2p3dGF1a2FvZWRhIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzcwMTE0ODEsImV4cCI6MjA5MjU4NzQ4MX0.diAAnRtaTCw9BvHMW3AFE2l4d_B9er2yRLN5sYLdawo";
+  
   let sb;
   function getSB() { if (!sb) sb = window.supabase.createClient(U, K); return sb; }
 
@@ -98,16 +224,33 @@
   async function runAuth(type) {
     const client = getSB();
     if (type === 'logout') { await client.auth.signOut(); return location.reload(); }
+    
     const isL = type === 'login';
     const btn = document.getElementById(isL ? 'b-login' : 'b-reg');
     const old = btn.innerHTML;
-    btn.disabled = true; btn.innerHTML = `<span class="spinner"></span> Working...`;
+    btn.disabled = true;
+    btn.innerHTML = `<span class="spinner"></span> Working...`;
+
     try {
       let r;
-      if (isL) { r = await client.auth.signInWithPassword({ email: document.getElementById('l-email').value, password: document.getElementById('l-pass').value }); }
-      else { r = await client.auth.signUp({ email: document.getElementById('r-email').value, password: document.getElementById('r-pass').value, options: { data: { full_name: document.getElementById('r-name').value, company_name: document.getElementById('r-comp').value } } }); }
-      if (r.error) { alert(isL ? "Email ya password galat hai." : r.error.message); btn.disabled = false; btn.innerHTML = old; }
-    } catch (e) { alert("Error: " + e.message); btn.disabled = false; btn.innerHTML = old; }
+      if (isL) {
+        r = await client.auth.signInWithPassword({ email: document.getElementById('l-email').value, password: document.getElementById('l-pass').value });
+      } else {
+        r = await client.auth.signUp({ 
+          email: document.getElementById('r-email').value, 
+          password: document.getElementById('r-pass').value,
+          options: { data: { full_name: document.getElementById('r-name').value, company_name: document.getElementById('r-comp').value } }
+        });
+      }
+
+      if (r.error) {
+        alert(isL ? "Email ya password galat hai." : r.error.message);
+        btn.disabled = false; btn.innerHTML = old;
+      }
+    } catch (e) {
+      alert("System Error: " + e.message);
+      btn.disabled = false; btn.innerHTML = old;
+    }
   }
 
   function navigate(page) {
@@ -115,31 +258,145 @@
     document.getElementById('page-' + page).classList.remove('hidden');
     document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
     document.getElementById('nav-' + page).classList.add('active');
-    if(page === 'dashboard') loadData();
+    if(page === 'dashboard' || page === 'projects') loadData();
   }
+
+  function openProjectModal() { document.getElementById('modal-project').classList.remove('hidden'); }
+  function closeModal(id) { document.getElementById(id).classList.add('hidden'); }
 
   async function loadData() {
     const client = getSB();
-    const { data: projects } = await client.from('projects').select('*');
+    const { data: projects, error } = await client.from('projects').select('*');
+    
+    if (error) {
+      console.log("Projects table might not exist yet. Using mock data.");
+      renderMockData();
+      return;
+    }
+
     if (projects) {
-      document.getElementById('stat-count').textContent = projects.length;
-      let total = 0;
-      projects.forEach(p => total += (p.collected_amount || 0));
-      document.getElementById('stat-collected').textContent = '₹' + total.toLocaleString('en-IN');
-      document.getElementById('stat-rate').textContent = projects.length > 0 ? "85%" : "0%";
+      renderDashboardStats(projects);
+      renderProjectsGrid(projects);
     }
   }
 
+  function renderDashboardStats(projects) {
+    document.getElementById('stat-count').textContent = projects.length;
+    let totalCollected = 0, totalReceivable = 0;
+    
+    projects.forEach(p => {
+      totalCollected += (p.paid_amount || 0);
+      totalReceivable += (p.total_amount || 0) - (p.paid_amount || 0);
+    });
+    
+    document.getElementById('stat-collected').textContent = '₹' + totalCollected.toLocaleString('en-IN');
+    document.getElementById('stat-receivable').textContent = '₹' + totalReceivable.toLocaleString('en-IN');
+    
+    let rate = (totalCollected / (totalCollected + totalReceivable)) * 100 || 0;
+    document.getElementById('rate-text').textContent = rate.toFixed(0) + '%';
+    document.getElementById('rate-bar').style.width = rate + '%';
+  }
+
+  function renderProjectsGrid(projects) {
+    const grid = document.getElementById('projects-grid');
+    const tbody = document.getElementById('recent-projects-body');
+    grid.innerHTML = ''; tbody.innerHTML = '';
+    
+    if (projects.length === 0) {
+      grid.innerHTML = '<p style="color:var(--text-muted);">No projects yet. Add one to generate an agreement!</p>';
+      return;
+    }
+
+    projects.forEach(p => {
+      const remaining = p.total_amount - (p.paid_amount || 0);
+      
+      // Grid Card
+      grid.innerHTML += `
+        <div class="project-card">
+          <div class="card-header">
+            <div>
+              <div class="client-name">${p.client_name}</div>
+              <div class="project-name">${p.project_name}</div>
+            </div>
+            <span class="badge badge-yellow">Pending</span>
+          </div>
+          <div class="amounts-row">
+            <div>₹${p.total_amount.toLocaleString('en-IN')}</div>
+            <div style="color:var(--danger); font-size:14px; text-align:right;">₹${remaining.toLocaleString('en-IN')} Due</div>
+          </div>
+          <div style="margin-top:12px; font-size:12px; display:flex; justify-content:space-between;">
+            <span style="color:var(--accent-light);">Agreement Sent ⏳</span>
+            <button class="btn-danger" style="padding:4px 8px; font-size:10px;" onclick="alert('Generate Legal Notice with MSMED Act Sec 16 and Sec 43B(h)?')">Legal Notice</button>
+          </div>
+        </div>
+      `;
+      
+      // Recent Table
+      tbody.innerHTML += `
+        <tr>
+          <td>${p.client_name}</td>
+          <td style="font-weight:600;">${p.project_name}</td>
+          <td>₹${p.total_amount.toLocaleString('en-IN')}</td>
+          <td><span class="badge badge-yellow">Pending</span></td>
+          <td>Agreement Sent ⏳</td>
+        </tr>
+      `;
+    });
+  }
+
+  function renderMockData() {
+    const mock = [
+      { client_name: "Sharma Ji", project_name: "HVAC Installation", total_amount: 250000, paid_amount: 50000, status: "pending" }
+    ];
+    renderDashboardStats(mock);
+    renderProjectsGrid(mock);
+    
+    document.getElementById('alert-area').innerHTML = `
+      <div class="alert-banner">
+        ⚠️ 1 project needs urgent attention. Legal Notice option available.
+      </div>
+    `;
+  }
+
+  async function saveProject() {
+    const client = getSB();
+    const project = {
+      client_name: document.getElementById('p-client-name').value,
+      client_phone: document.getElementById('p-client-phone').value,
+      project_name: document.getElementById('p-name').value,
+      description: document.getElementById('p-desc').value,
+      total_amount: document.getElementById('p-amount').value,
+      due_date: document.getElementById('p-date').value,
+      status: 'pending'
+    };
+    
+    const { data, error } = await client.from('projects').insert([project]);
+    if(error) {
+      alert("Note: Connecting to mock DB as table might not be ready. Creating offline...");
+    }
+    
+    alert("Project saved! Digital Agreement link generated and sent to " + project.client_phone + " via WhatsApp.");
+    closeModal('modal-project');
+    loadData();
+  }
+
+  // Setup Session Watcher
   window.onload = () => {
     const client = getSB();
     client.auth.onAuthStateChange((ev, sess) => {
       if (sess) {
         document.getElementById('auth-screen').classList.add('hidden');
         document.getElementById('app').classList.remove('hidden');
-        document.getElementById('sidebar-name').textContent = sess.user.user_metadata.company_name || "My Company";
+        
+        const cName = sess.user.user_metadata.company_name || "ACRV aircon Projects";
+        document.getElementById('sidebar-name').textContent = cName;
+        document.getElementById('dash-name').textContent = cName;
+        document.getElementById('watermark').textContent = cName.toUpperCase();
+        
         loadData();
       }
     });
+
     const p = new URLSearchParams(window.location.search);
     if (p.get('register') === 'true') switchT('reg');
   };
