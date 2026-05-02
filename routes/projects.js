@@ -3,7 +3,9 @@ const router = express.Router();
 const auth = require('../middleware/auth');
 const db = require('../db');
 const { createClient } = require('@supabase/supabase-js');
-const supabase = createClient(process.env.SUPABASE_URL, process.env.SUPABASE_KEY);
+const supabaseUrl = process.env.SUPABASE_URL;
+const supabaseKey = process.env.SUPABASE_KEY;
+const supabase = (supabaseUrl && supabaseKey) ? createClient(supabaseUrl, supabaseKey) : null;
 // Calculate risk level for a project
 function getRiskLevel(project) {
   if (project.status === 'paid' || project.status === 'completed') return 'low';
@@ -74,6 +76,10 @@ router.post('/', auth, async (req, res) => {
       description: notes || '', // for frontend compatibility
       status: 'pending'
     };
+
+    if (!supabase) {
+      return res.status(500).json({ error: 'Database configuration missing (SUPABASE_URL or KEY not set in environment).' });
+    }
 
     const { data, error } = await supabase.from('projects').insert([projectData]).select();
 

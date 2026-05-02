@@ -169,7 +169,23 @@
       <div class="form-group"><label>Client Name *</label><input type="text" id="p-client-name" /></div>
       <div class="form-group"><label>Client Phone *</label><input type="text" id="p-client-phone" /></div>
     </div>
-    <div class="form-group"><label>Project Name *</label><input type="text" id="p-name" /></div>
+    <div style="display:grid; grid-template-columns:1fr 1fr; gap:12px;">
+      <div class="form-group"><label>Project Name *</label><input type="text" id="p-name" /></div>
+      <div class="form-group">
+        <label>Client Language</label>
+        <select id="p-lang">
+          <option value="Hinglish">Hinglish</option>
+          <option value="Hindi">Hindi</option>
+          <option value="English">English</option>
+          <option value="Marathi">Marathi</option>
+          <option value="Gujarati">Gujarati</option>
+          <option value="Tamil">Tamil</option>
+          <option value="Telugu">Telugu</option>
+          <option value="Punjabi">Punjabi</option>
+          <option value="Bengali">Bengali</option>
+        </select>
+      </div>
+    </div>
     
     <div class="form-group">
       <label>Scope of Work / Description</label>
@@ -364,6 +380,7 @@
       client_name: document.getElementById('p-client-name').value,
       client_phone: document.getElementById('p-client-phone').value,
       project_name: document.getElementById('p-name').value,
+      client_lang: document.getElementById('p-lang').value,
       description: document.getElementById('p-desc').value,
       total_amount: document.getElementById('p-amount').value,
       due_date: document.getElementById('p-date').value,
@@ -422,6 +439,7 @@
 
   async function sendChatMessage() {
     const input = document.getElementById('chat-input');
+    const langSelect = document.getElementById('chat-lang');
     const msg = input.value.trim();
     if (!msg) return;
 
@@ -436,7 +454,7 @@
       const response = await fetch('/api/chat', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ message: msg })
+        body: JSON.stringify({ message: msg, language: langSelect.value })
       });
       const data = await response.json();
       
@@ -445,6 +463,8 @@
 
       if (data.reply) {
         appendChatMsg(data.reply, 'ai');
+      } else if (data.error) {
+        appendChatMsg(`Error: ${data.details || data.error}`, 'error');
       } else {
         appendChatMsg("Sorry, network issue aagayi.", 'error');
       }
@@ -473,8 +493,21 @@
 <button class="chat-widget-btn" onclick="toggleChat()">🤖</button>
 <div id="chat-window" class="chat-widget-window hidden">
   <div class="chat-header">
-    <span>PayDost AI (Beta)</span>
-    <button onclick="toggleChat()" style="background:none; border:none; color:white; cursor:pointer;">✖</button>
+    <span>PayVlt AI (Beta)</span>
+    <div style="display:flex; gap:8px;">
+      <select id="chat-lang" style="background:var(--primary); color:white; border:1px solid var(--border); border-radius:4px; padding:2px; font-size:12px;">
+        <option value="Hinglish">Hinglish</option>
+        <option value="Hindi">Hindi</option>
+        <option value="English">English</option>
+        <option value="Marathi">Marathi</option>
+        <option value="Gujarati">Gujarati</option>
+        <option value="Tamil">Tamil</option>
+        <option value="Telugu">Telugu</option>
+        <option value="Punjabi">Punjabi</option>
+        <option value="Bengali">Bengali</option>
+      </select>
+      <button onclick="toggleChat()" style="background:none; border:none; color:white; cursor:pointer;">✖</button>
+    </div>
   </div>
   <div id="chat-body" class="chat-body">
     <div class="chat-msg ai">Namaste! Main PayDost AI hu. Aapki kaise help karu? 🛠️</div>
