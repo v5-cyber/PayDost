@@ -338,7 +338,10 @@
 
     sb.auth.getSession().then(({ data: { session } }) => {
       if (session) {
-        window.location.href = '/dashboard';
+        const navActions = document.querySelector('.nav-actions');
+        if (navActions) {
+          navActions.innerHTML = '<a href="/dashboard" class="btn btn-primary" style="padding: 10px 20px; background-color: teal; border-color: teal;">Go to Dashboard &rarr;</a>';
+        }
       }
     });
 
