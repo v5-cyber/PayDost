@@ -31,7 +31,9 @@ p { color: var(--text-muted); font-size: 16px; }
 .gradient-text {
   background: linear-gradient(135deg, var(--accent-cyan), var(--accent-blurple));
   -webkit-background-clip: text;
+  background-clip: text;
   -webkit-text-fill-color: transparent;
+  color: transparent;
 }
 
 /* ── NAVBAR (GLASSMORPHISM) ── */
