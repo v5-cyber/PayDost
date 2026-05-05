@@ -53,26 +53,71 @@
 <!-- ══════════════ MAIN APP ══════════════ -->
 <div id="app" class="hidden">
   
-  <aside id="sidebar">
-    <div class="sidebar-logo">💰 PayVlt</div>
+  <!-- Segment Selection Overlay -->
+  <div id="segment-selection" class="segment-overlay hidden">
+    <div class="segment-container">
+      <h1 style="font-size:32px; margin-bottom:12px;">What type of business are you?</h1>
+      <p style="color:var(--text-muted); margin-bottom:40px;">Select your primary segment to customize your dashboard.</p>
+      
+      <div class="segment-grid">
+        <div class="segment-card" onclick="selectSegment('projects')">
+          <div style="font-size:48px; margin-bottom:16px;">🏗️</div>
+          <h3 style="font-size:24px; margin-bottom:8px;">Project-Based Contractor</h3>
+          <p style="color:var(--text-muted); font-size:14px; margin-bottom:24px;">HVAC, Civil, Interior, Electrical, Plumbing — project-based work</p>
+          <button class="btn-primary" style="width:100%;">Select Projects &rarr;</button>
+        </div>
+        <div class="segment-card" onclick="selectSegment('trade')">
+          <div style="font-size:48px; margin-bottom:16px;">🏪</div>
+          <h3 style="font-size:24px; margin-bottom:8px;">Trader / Supplier</h3>
+          <p style="color:var(--text-muted); font-size:14px; margin-bottom:24px;">Daily goods, materials, wholesale, retail supply</p>
+          <button class="btn-primary" style="width:100%; background:var(--warning); color:#000;">Select Trade &rarr;</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <aside id="sidebar-projects" class="sidebar hidden">
+    <div class="sidebar-logo">💰 PayVlt Projects</div>
     <nav class="nav-links">
-      <button class="nav-item active" id="nav-dashboard" onclick="navigate('dashboard')">🏠 Dashboard</button>
-      <button class="nav-item" id="nav-projects" onclick="navigate('projects')">📁 Projects & Agreements</button>
-      <button class="nav-item" id="nav-invoices" onclick="navigate('invoices')">📄 Invoices</button>
-      <button class="nav-item" id="nav-payments" onclick="navigate('payments')">💳 Payments</button>
-      <button class="nav-item" id="nav-tally" onclick="navigate('tally')">📊 Tally</button>
-      <button class="nav-item" id="nav-diary" onclick="navigate('diary')">📓 Site Diary</button>
-      <button class="nav-item" id="nav-settings" onclick="navigate('settings')">⚙️ Settings</button>
+      <button class="nav-item active" id="nav-dashboard-p" onclick="navigate('dashboard')">🏠 Dashboard</button>
+      <button class="nav-item" id="nav-projects-p" onclick="navigate('projects')">📁 Projects</button>
+      <button class="nav-item" id="nav-agreements-p" onclick="navigate('agreements')">📋 Agreements</button>
+      <button class="nav-item" id="nav-invoices-p" onclick="navigate('invoices')">📄 Invoices</button>
+      <button class="nav-item" id="nav-payments-p" onclick="navigate('payments')">💳 Payments</button>
+      <button class="nav-item" id="nav-diary-p" onclick="navigate('diary')">📓 Site Diary</button>
+      <button class="nav-item" id="nav-tally-p" onclick="navigate('tally')">📊 Tally</button>
+      <button class="nav-item" id="nav-score-p" onclick="navigate('score')">⭐ My Score</button>
+      <button class="nav-item" id="nav-settings-p" onclick="navigate('settings')">⚙️ Settings</button>
     </nav>
     <div style="padding:24px; border-top:1px solid var(--border); margin-top:auto;">
-      <div id="sidebar-name" style="font-weight:700; color:white; margin-bottom:12px;">My Company</div>
+      <div id="sidebar-name-p" style="font-weight:700; color:white; margin-bottom:12px;">My Company</div>
       <button onclick="runAuth('logout')" class="btn-secondary" style="width:100%;">Logout</button>
-      <button onclick="window.location.href='/'" class="btn-outline" style="width:100%; margin-top:8px; padding:6px; font-size:13px; border-color:var(--border);">🌐 View Website</button>
+      <button onclick="window.location.href='/home'" class="btn-outline" style="width:100%; margin-top:8px; padding:6px; font-size:13px; border-color:var(--border);">🌐 View Website</button>
+    </div>
+  </aside>
+
+  <aside id="sidebar-trade" class="sidebar hidden">
+    <div class="sidebar-logo" style="color:var(--warning);">💰 PayVlt Trade</div>
+    <nav class="nav-links">
+      <button class="nav-item active" id="nav-dashboard-t" onclick="navigate('dashboard')">🏠 Dashboard</button>
+      <button class="nav-item" id="nav-buyers-t" onclick="navigate('buyers')">👥 Buyers</button>
+      <button class="nav-item" id="nav-ledger-t" onclick="navigate('ledger')">📒 Ledger</button>
+      <button class="nav-item" id="nav-invoices-t" onclick="navigate('invoices')">📄 Invoices</button>
+      <button class="nav-item" id="nav-payments-t" onclick="navigate('payments')">💳 Payments</button>
+      <button class="nav-item" id="nav-reports-t" onclick="navigate('reports')">📊 Reports</button>
+      <button class="nav-item" id="nav-credit-t" onclick="navigate('credit')">💳 Credit Limit</button>
+      <button class="nav-item" id="nav-score-t" onclick="navigate('score')">⭐ My Score</button>
+      <button class="nav-item" id="nav-settings-t" onclick="navigate('settings')">⚙️ Settings</button>
+    </nav>
+    <div style="padding:24px; border-top:1px solid var(--border); margin-top:auto;">
+      <div id="sidebar-name-t" style="font-weight:700; color:white; margin-bottom:12px;">My Company</div>
+      <button onclick="runAuth('logout')" class="btn-secondary" style="width:100%;">Logout</button>
+      <button onclick="window.location.href='/home'" class="btn-outline" style="width:100%; margin-top:8px; padding:6px; font-size:13px; border-color:var(--border);">🌐 View Website</button>
     </div>
   </aside>
 
   <main id="main" style="position:relative;">
-    <button onclick="window.location.href='/'" title="View Website" style="position:absolute; top:24px; right:24px; background:none; border:none; font-size:24px; cursor:pointer; opacity:0.8; transition:opacity 0.2s;" onmouseover="this.style.opacity='1'" onmouseout="this.style.opacity='0.8'">🌐</button>
+    <button onclick="window.location.href='/home'" title="View Website" style="position:absolute; top:24px; right:24px; background:none; border:none; font-size:24px; cursor:pointer; opacity:0.8; transition:opacity 0.2s;" onmouseover="this.style.opacity='1'" onmouseout="this.style.opacity='0.8'">🌐</button>
     <div class="watermark" id="watermark">PAYVLT</div>
     <div id="alert-area"></div>
 
@@ -143,13 +188,246 @@
       </div>
       <div id="projects-grid" class="projects-grid"></div>
     </div>
+
+    <!-- ── PROJECT DETAIL VIEW (4 PHASES) ── -->
+    <div id="page-project-detail" class="page-content hidden">
+      <button class="btn-secondary mb-4" onclick="navigate('projects')">&larr; Back to Projects</button>
+      <div class="flex-between mb-4">
+        <div>
+          <h2 id="pd-name">Project Name</h2>
+          <p id="pd-client" style="color:var(--text-muted);">Client Name</p>
+        </div>
+        <div style="font-size:24px; font-weight:bold; color:var(--accent-light);">₹<span id="pd-amount">0</span></div>
+      </div>
+
+      <div class="phases-container" style="display:grid; grid-template-columns:1fr; gap:16px;">
+        <!-- PHASE 1: PRE-WORK -->
+        <div class="phase-card" style="background:var(--card-bg); padding:20px; border-radius:12px; border:1px solid var(--accent); border-left:4px solid var(--success);">
+          <h3>Phase 1: Pre-Work (Agreement)</h3>
+          <p style="font-size:12px; color:var(--text-secondary); margin-bottom:12px;">Scope, timeline, and mutual benefits documented.</p>
+          <div style="color:var(--success); font-weight:600;">Agreement Signed ✅</div>
+        </div>
+
+        <!-- PHASE 2: DURING WORK -->
+        <div class="phase-card" style="background:var(--card-bg); padding:20px; border-radius:12px; border:1px solid var(--border); border-left:4px solid var(--warning);">
+          <h3>Phase 2: During Work (Site Diary)</h3>
+          <p style="font-size:12px; color:var(--text-secondary); margin-bottom:12px;">Track daily progress and materials.</p>
+          <button class="btn-outline mb-4" style="width:100%; font-size:12px;">+ Add Daily Log</button>
+          <div style="color:var(--warning); font-weight:600;">Work In Progress 🔨</div>
+          <button class="btn-primary mt-4" style="width:100%;" onclick="markProjectComplete()">Mark Work Complete</button>
+        </div>
+
+        <!-- PHASE 3: COMPLETION -->
+        <div id="phase-3" class="phase-card" style="background:rgba(255,255,255,0.02); padding:20px; border-radius:12px; border:1px solid var(--border); opacity:0.6;">
+          <h3>Phase 3: Completion</h3>
+          <p style="font-size:12px; color:var(--text-secondary); margin-bottom:12px;">Final invoice and completion summary.</p>
+          <div id="p3-content" class="hidden">
+            <div style="background:rgba(0,0,0,0.2); padding:10px; border-radius:8px; font-size:12px; margin-bottom:12px;">
+              <strong>Completion Summary:</strong><br>
+              Duration: 152 days<br>
+              Total Value: ₹<span id="pd-c-amount">0</span><br>
+              Pending: ₹<span id="pd-p-amount">0</span>
+            </div>
+            <div style="color:var(--warning); font-weight:600;">Completed — Payment Pending 💰</div>
+          </div>
+        </div>
+
+        <!-- PHASE 4: PAYMENT WINDOW -->
+        <div id="phase-4" class="phase-card" style="background:rgba(255,255,255,0.02); padding:20px; border-radius:12px; border:1px solid var(--border); opacity:0.6;">
+          <h3>Phase 4: Payment Window</h3>
+          <div id="p4-setup" class="hidden">
+            <label style="font-size:12px; color:var(--text-secondary);">How many days to give client?</label>
+            <select id="pd-days" style="width:100%; padding:8px; margin:8px 0; background:var(--primary); color:white; border:1px solid var(--border); border-radius:4px;">
+              <option value="15">15 Days</option>
+              <option value="30">30 Days</option>
+              <option value="45">45 Days</option>
+            </select>
+            <button class="btn-primary" style="width:100%;" onclick="startPaymentWindow()">Start Countdown</button>
+          </div>
+          <div id="p4-active" class="hidden">
+            <p id="p4-countdown" style="color:var(--warning); font-weight:bold; margin-bottom:12px;"></p>
+            <button class="btn-outline" style="width:100%; font-size:12px; margin-bottom:8px;">Day 7 Auto-Reminder (Scheduled)</button>
+            <button class="btn-outline" style="width:100%; font-size:12px; margin-bottom:8px;">Day 15 Firm Reminder (Scheduled)</button>
+            <button id="btn-msme-warn" class="btn-danger mt-4" style="width:100%;" onclick="openMsmeWarning()">⚠️ Activate MSME Protection</button>
+            <button id="btn-msme-file" class="btn-primary mt-4 hidden" style="width:100%; background:#2563EB;" onclick="window.open('https://samadhaan.msme.gov.in', '_blank')">⚖️ File MSEFC Complaint — 1 Click</button>
+          </div>
+        </div>
+      </div>
+    </div>
     
     <!-- ADD OTHER PAGES PLACEHOLDERS -->
+    <div id="page-agreements" class="page-content hidden"><h2>Agreements</h2><p>Agreements coming soon...</p></div>
     <div id="page-invoices" class="page-content hidden"><h2>Invoices</h2><p>Invoice management coming soon...</p></div>
     <div id="page-payments" class="page-content hidden"><h2>Payments</h2><p>Payment tracking & AI Reminders coming soon...</p></div>
     <div id="page-tally" class="page-content hidden"><h2>Tally</h2><p>Tally export coming soon...</p></div>
     <div id="page-diary" class="page-content hidden"><h2>Site Diary</h2><p>Site diary coming soon...</p></div>
-    <div id="page-settings" class="page-content hidden"><h2>Settings</h2><p>Company settings coming soon...</p></div>
+    <div id="page-buyers" class="page-content hidden"><h2>Buyers</h2><p>Buyers directory coming soon...</p></div>
+    <!-- ── TRADE: LEDGER ── -->
+    <div id="page-ledger" class="page-content hidden">
+      <div class="flex-between mb-4">
+        <h2>Running Ledger</h2>
+        <select style="padding:8px; border-radius:8px; background:var(--primary); color:white; border:1px solid var(--border);">
+          <option>Buyer: Rahul Enterprises</option>
+          <option>Buyer: Gupta Traders</option>
+        </select>
+      </div>
+      
+      <div class="stats-grid mb-4" style="grid-template-columns: 1fr 1fr 1fr;">
+        <div class="stat-card" style="padding:16px;">
+          <div class="stat-label">Total Supplied</div>
+          <div style="font-size:20px; font-weight:bold;">₹4,50,000</div>
+        </div>
+        <div class="stat-card" style="padding:16px;">
+          <div class="stat-label">Total Received</div>
+          <div style="font-size:20px; font-weight:bold; color:var(--success);">₹2,90,000</div>
+        </div>
+        <div class="stat-card" style="padding:16px; border-left:4px solid var(--danger);">
+          <div class="stat-label">Current Balance Due</div>
+          <div style="font-size:20px; font-weight:bold; color:var(--danger);">₹1,60,000</div>
+        </div>
+      </div>
+
+      <table>
+        <thead>
+          <tr><th>Date</th><th>Description</th><th>Amount</th><th>Balance</th><th>Status</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>May 1</td><td>Steel rods 100kg</td><td>₹45,000</td><td>₹45,000</td><td><span class="badge badge-red">Due</span></td></tr>
+          <tr><td>May 3</td><td>Payment received</td><td style="color:var(--success);">-₹20,000</td><td>₹25,000</td><td><span class="badge badge-yellow">Partial</span></td></tr>
+          <tr><td>May 5</td><td>MS pipes 50kg</td><td>₹18,000</td><td>₹43,000</td><td><span class="badge badge-red">Due</span></td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- ── TRADE: CREDIT LIMIT ── -->
+    <div id="page-credit" class="page-content hidden">
+      <h2>Credit Limit Management</h2>
+      <p style="color:var(--text-muted); margin-bottom:24px;">Set and track maximum outstanding limits per buyer.</p>
+      
+      <div style="display:grid; grid-template-columns:repeat(auto-fill, minmax(350px, 1fr)); gap:24px;">
+        <!-- Buyer 1 -->
+        <div class="card" style="background:var(--card-bg); padding:24px; border-radius:12px; border:1px solid var(--border);">
+          <div class="flex-between mb-4">
+            <h3 style="font-size:18px;">Rahul Enterprises</h3>
+            <span class="badge badge-yellow">Warning</span>
+          </div>
+          <div style="margin-bottom:8px; display:flex; justify-content:space-between; font-size:14px;">
+            <span>Utilized: <strong style="color:var(--warning);">₹1,60,000</strong></span>
+            <span style="color:var(--text-secondary);">Limit: ₹2,00,000</span>
+          </div>
+          <div class="progress-container" style="height:12px; margin-bottom:8px;">
+            <div class="progress-bar" style="width:80%; background:var(--warning);"></div>
+          </div>
+          <p style="font-size:12px; color:var(--text-secondary); margin-bottom:16px;">80% utilized. Warning: Buyer near credit limit.</p>
+          <div style="display:flex; gap:8px;">
+            <button class="btn-outline" style="flex:1; font-size:12px; padding:8px;">Edit Limit</button>
+            <button class="btn-primary" style="flex:1; font-size:12px; padding:8px;" onclick="showToast('Stop supply alert sent!', 'error')">Stop Supply Alert</button>
+          </div>
+        </div>
+
+        <!-- Buyer 2 -->
+        <div class="card" style="background:var(--card-bg); padding:24px; border-radius:12px; border:1px solid var(--border);">
+          <div class="flex-between mb-4">
+            <h3 style="font-size:18px;">Gupta Traders</h3>
+            <span class="badge badge-red">Limit Reached</span>
+          </div>
+          <div style="margin-bottom:8px; display:flex; justify-content:space-between; font-size:14px;">
+            <span>Utilized: <strong style="color:var(--danger);">₹3,00,000</strong></span>
+            <span style="color:var(--text-secondary);">Limit: ₹3,00,000</span>
+          </div>
+          <div class="progress-container" style="height:12px; margin-bottom:8px;">
+            <div class="progress-bar" style="width:100%; background:var(--danger);"></div>
+          </div>
+          <p style="font-size:12px; color:var(--danger); font-weight:bold; margin-bottom:16px;">100% utilized. STOP SUPPLY.</p>
+          <div style="display:flex; gap:8px;">
+            <button class="btn-outline" style="flex:1; font-size:12px; padding:8px;">Edit Limit</button>
+            <button class="btn-primary" style="flex:1; font-size:12px; padding:8px;">Request Payment</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ── TRADE: REPORTS (WEEKLY STATEMENTS) ── -->
+    <div id="page-reports" class="page-content hidden">
+      <h2>Weekly Statements</h2>
+      <p style="color:var(--text-muted); margin-bottom:24px;">Auto-generate and send ledger statements via WhatsApp.</p>
+      
+      <div class="card" style="background:var(--card-bg); padding:24px; border-radius:12px; border:1px solid var(--border); max-width:500px;">
+        <h3>Rahul Enterprises</h3>
+        <p style="font-size:12px; color:var(--text-secondary); margin-bottom:16px;">Week ending: May 5, 2026</p>
+        
+        <div style="background:rgba(0,0,0,0.2); padding:16px; border-radius:8px; font-family:monospace; font-size:14px; margin-bottom:16px; line-height:1.6;">
+          Total supplied: ₹63,000<br>
+          Received: ₹20,000<br>
+          -----------------------<br>
+          Outstanding: ₹43,000<br>
+          Oldest pending: 5 days
+        </div>
+        
+        <button class="btn-primary" style="width:100%;" onclick="showToast('Weekly statement sent via WhatsApp!', 'success')">📲 Send via WhatsApp</button>
+      </div>
+    </div>
+    <!-- ── SCORE & CREDIT SYSTEM ── -->
+    <div id="page-score" class="page-content hidden">
+      <h2>My PayVlt Score</h2>
+      <p style="color:var(--text-muted); margin-bottom:24px;">Your reputation score visible to clients and buyers.</p>
+      
+      <div style="display:grid; grid-template-columns:repeat(auto-fill, minmax(350px, 1fr)); gap:24px; margin-bottom:32px;">
+        <div class="card" style="background:linear-gradient(135deg, #028090 0%, #0D1B3E 100%); padding:32px; border-radius:12px; border:1px solid var(--accent); color:white; text-align:center;">
+          <h3 style="font-size:18px; margin-bottom:16px;">PayVlt Verified Contractor</h3>
+          <div style="font-size:48px; font-weight:900; margin-bottom:8px;">⭐ 4.8</div>
+          <p style="font-size:14px; margin-bottom:16px;">"23 projects | 0 disputes | Member since 2024"</p>
+          <div style="display:flex; justify-content:center; gap:8px;">
+            <span class="badge badge-green">+10 per project</span>
+            <span class="badge badge-green">+5 on-time</span>
+          </div>
+        </div>
+
+        <div class="card" style="background:var(--card-bg); padding:32px; border-radius:12px; border:1px solid var(--border);">
+          <h3 style="font-size:18px; margin-bottom:16px;">How Clients See You</h3>
+          <p style="font-size:14px; color:var(--text-secondary); margin-bottom:16px;">A high score gives you leverage to demand better payment terms and access credit limits.</p>
+          <div style="margin-bottom:12px;"><strong>Client Ratings Matrix:</strong></div>
+          <ul style="font-size:13px; color:var(--text-secondary); line-height:1.8; list-style:none; padding:0;">
+            <li>🟢 <strong>Excellent Payer:</strong> &lt; 30 days avg</li>
+            <li>🟡 <strong>Good Payer:</strong> 30-45 days avg</li>
+            <li>🟠 <strong>Average Payer:</strong> 45-60 days avg</li>
+            <li>🔴 <strong>Slow Payer:</strong> 60+ days avg</li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- PAYVLT CREDIT (FUTURE FEATURE) -->
+      <h3 class="mb-4" style="color:var(--accent-light);">PayVlt Credit (Coming Soon)</h3>
+      <div class="card" style="background:rgba(2,195,154,0.1); padding:24px; border-radius:12px; border:1px dashed var(--accent-light);">
+        <div class="flex-between mb-4">
+          <div>
+            <h4 style="font-size:18px; color:white;">Invoice Financing Available</h4>
+            <p style="font-size:13px; color:var(--text-secondary); margin-top:4px;">Based on your excellent 4.8 Score, you are pre-approved.</p>
+          </div>
+          <span style="font-size:32px;">💸</span>
+        </div>
+        <div style="background:rgba(0,0,0,0.2); padding:16px; border-radius:8px; margin-bottom:16px;">
+          <div style="display:flex; justify-content:space-between; margin-bottom:8px;">
+            <span style="color:var(--text-secondary);">Pending Invoices:</span>
+            <strong>₹5,00,000</strong>
+          </div>
+          <div style="display:flex; justify-content:space-between; font-size:16px;">
+            <span style="color:var(--accent-light); font-weight:bold;">PayVlt Credit Offers Now:</span>
+            <strong style="color:var(--accent-light);">₹4,00,000</strong>
+          </div>
+          <div style="font-size:11px; color:var(--text-muted); text-align:right; margin-top:4px;">(80% of invoice value upfront. Client pays us directly.)</div>
+        </div>
+        <button class="btn-primary" style="width:100%; opacity:0.5; cursor:not-allowed;">Join Waitlist</button>
+      </div>
+    </div>
+    <div id="page-settings" class="page-content hidden">
+      <h2>Settings</h2>
+      <div class="card mt-4" style="max-width:500px;">
+        <h3 class="mb-4">Business Segment</h3>
+        <p style="color:var(--text-muted); margin-bottom:16px;">You can switch your primary business interface here.</p>
+        <button class="btn-outline" onclick="document.getElementById('segment-selection').classList.remove('hidden')">Change Segment</button>
+      </div>
+    </div>
 
   </main>
 </div>
@@ -201,24 +479,69 @@
     
     <!-- Digital Agreement Section -->
     <div style="margin-top: 20px; border-top: 1px solid var(--border); padding-top: 20px;">
-      <h3 style="font-size:16px; margin-bottom:12px; color:var(--accent-light);">📝 Digital Agreement Generation</h3>
+      <h3 style="font-size:16px; margin-bottom:12px; color:var(--accent-light);">🤝 Mutual Benefit Agreement</h3>
+      <p style="font-size:12px; color:var(--text-muted); margin-bottom:16px;">This agreement protects both you and your client.</p>
+      
+      <div style="display:grid; grid-template-columns:1fr 1fr; gap:16px; margin-bottom:20px; background:rgba(0,0,0,0.2); padding:16px; border-radius:8px;">
+        <div>
+          <h4 style="font-size:13px; color:var(--accent-light); margin-bottom:8px;">CONTRACTOR GETS:</h4>
+          <ul style="font-size:12px; color:var(--text-secondary); list-style:none; padding:0; line-height:1.6;">
+            <li>✅ Advance payment secured</li>
+            <li>✅ Scope locked</li>
+            <li>✅ Legal documentation</li>
+          </ul>
+        </div>
+        <div>
+          <h4 style="font-size:13px; color:var(--accent-light); margin-bottom:8px;">CLIENT GETS:</h4>
+          <ul style="font-size:12px; color:var(--text-secondary); list-style:none; padding:0; line-height:1.6;">
+            <li>✅ Exact scope — no hidden charges</li>
+            <li>✅ Timeline commitment</li>
+            <li>✅ Tax benefits for timely payment</li>
+          </ul>
+        </div>
+      </div>
+
       <div class="checkbox-group">
         <input type="checkbox" id="p-agreement" checked />
-        <label style="margin:0;">Auto-generate Digital Agreement & Send via WhatsApp</label>
+        <label style="margin:0; font-weight:600;">Generate & Send via WhatsApp</label>
       </div>
-      <p style="font-size:12px; color:var(--text-muted); margin-bottom:12px;">Includes Scope of Work, Timeline, MSME 45-day clause, and Late Fee (1.5%/week).</p>
       
-      <div class="form-group">
-        <label>Client Tag</label>
-        <select id="p-tag">
-          <option value="New Client">🆕 New Client</option>
-          <option value="Trusted Partner">⭐ Trusted Partner</option>
-          <option value="Payment Risk">⚠️ Payment Risk</option>
-        </select>
-      </div>
+      <!-- Collapsible MSME Section -->
+      <details style="margin-top:12px; border:1px solid var(--border); border-radius:8px; padding:10px;">
+        <summary style="font-size:13px; font-weight:600; cursor:pointer; color:var(--warning);">Payment Terms & Benefits (MSMED Act)</summary>
+        <div style="margin-top:10px; font-size:12px; color:var(--text-secondary); line-height:1.5;">
+          <p style="margin-bottom:8px;"><strong>Early Payment Benefits for Client:</strong></p>
+          <ul style="margin-bottom:8px; padding-left:16px;">
+            <li>Full tax deduction this FY</li>
+            <li>No interest charges</li>
+            <li>Strong payment score</li>
+          </ul>
+          <p>Standard industry regulations (MSMED Act 2006) apply as per Government of India norms.</p>
+        </div>
+      </details>
     </div>
 
     <button class="btn-primary mt-4" onclick="saveProject()">Create Project & Send Agreement</button>
+  </div>
+</div>
+
+<!-- MSME WARNING MODAL -->
+<div id="modal-msme" class="modal-overlay hidden">
+  <div class="modal-content">
+    <div class="modal-header">
+      <h2 style="color:var(--danger);">⚠️ Final Warning Before MSME</h2>
+      <button class="modal-close" onclick="closeModal('modal-msme')">×</button>
+    </div>
+    <p style="margin-bottom:16px;">We will send ONE final message to the client explaining the consequences. After that, the MSME clock officially starts. Proceed?</p>
+    <div style="background:rgba(220,38,38,0.1); border:1px solid var(--danger); padding:12px; border-radius:8px; margin-bottom:20px; font-size:13px;">
+      <strong>Final Alert Preview:</strong><br><br>
+      Dear Client,<br>
+      This is a formal notice. Under MSMED Act 2006, you are liable for 19.5% compound interest and risk losing Section 43B(h) tax deductions. We strongly recommend payment within 48 hours.
+    </div>
+    <div style="display:flex; gap:12px;">
+      <button class="btn-danger" style="flex:1;" onclick="activateMsme()">Yes — Send Final Alert</button>
+      <button class="btn-secondary" style="flex:1;" onclick="closeModal('modal-msme')">Cancel</button>
+    </div>
   </div>
 </div>
 
@@ -273,10 +596,24 @@
 
   function navigate(page) {
     document.querySelectorAll('.page-content').forEach(p => p.classList.add('hidden'));
-    document.getElementById('page-' + page).classList.remove('hidden');
+    const pageEl = document.getElementById('page-' + page);
+    if(pageEl) pageEl.classList.remove('hidden');
+
     document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
-    document.getElementById('nav-' + page).classList.add('active');
+    const currentSegment = localStorage.getItem('payvlt_segment') || 'projects';
+    const navSuffix = currentSegment === 'projects' ? '-p' : '-t';
+    const activeNav = document.getElementById('nav-' + page + navSuffix);
+    if(activeNav) activeNav.classList.add('active');
+
     if(page === 'dashboard' || page === 'projects') loadData();
+  }
+
+  function selectSegment(segment) {
+    localStorage.setItem('payvlt_segment', segment);
+    document.getElementById('segment-selection').classList.add('hidden');
+    document.getElementById('sidebar-projects').classList.toggle('hidden', segment !== 'projects');
+    document.getElementById('sidebar-trade').classList.toggle('hidden', segment !== 'trade');
+    navigate('dashboard');
   }
 
   function openProjectModal() { document.getElementById('modal-project').classList.remove('hidden'); }
@@ -330,7 +667,7 @@
       
       // Grid Card
       grid.innerHTML += `
-        <div class="project-card">
+        <div class="project-card" onclick="openProjectDetail('${p.project_name.replace(/'/g, "\\'")}', '${p.client_name.replace(/'/g, "\\'")}', ${p.total_amount})">
           <div class="card-header">
             <div>
               <div class="client-name">${p.client_name}</div>
@@ -344,7 +681,7 @@
           </div>
           <div style="margin-top:12px; font-size:12px; display:flex; justify-content:space-between;">
             <span style="color:var(--accent-light);">Agreement Sent ⏳</span>
-            <button class="btn-danger" style="padding:4px 8px; font-size:10px;" onclick="showToast('Generate Legal Notice with MSMED Act Sec 16 and Sec 43B(h)?', 'warning')">Legal Notice</button>
+            <button class="btn-danger" style="padding:4px 8px; font-size:10px;" onclick="event.stopPropagation(); showToast('Generate Legal Notice with MSMED Act Sec 16 and Sec 43B(h)?', 'warning')">Legal Notice</button>
           </div>
         </div>
       `;
@@ -399,6 +736,52 @@
     loadData();
   }
 
+  // ── 4-PHASE PROJECT LIFECYCLE LOGIC ──
+  function openProjectDetail(name, client, amount) {
+    navigate('project-detail');
+    document.getElementById('pd-name').textContent = name;
+    document.getElementById('pd-client').textContent = client;
+    document.getElementById('pd-amount').textContent = amount.toLocaleString('en-IN');
+    document.getElementById('pd-c-amount').textContent = amount.toLocaleString('en-IN');
+    document.getElementById('pd-p-amount').textContent = amount.toLocaleString('en-IN');
+    
+    // Reset phases for demo
+    document.getElementById('phase-3').style.opacity = '0.6';
+    document.getElementById('phase-4').style.opacity = '0.6';
+    document.getElementById('p3-content').classList.add('hidden');
+    document.getElementById('p4-setup').classList.add('hidden');
+    document.getElementById('p4-active').classList.add('hidden');
+    document.getElementById('btn-msme-warn').classList.remove('hidden');
+    document.getElementById('btn-msme-file').classList.add('hidden');
+  }
+
+  function markProjectComplete() {
+    document.getElementById('phase-3').style.opacity = '1';
+    document.getElementById('p3-content').classList.remove('hidden');
+    document.getElementById('phase-4').style.opacity = '1';
+    document.getElementById('p4-setup').classList.remove('hidden');
+    showToast("Project marked as complete. Final invoice generated.", "success");
+  }
+
+  function startPaymentWindow() {
+    const days = document.getElementById('pd-days').value;
+    document.getElementById('p4-setup').classList.add('hidden');
+    document.getElementById('p4-active').classList.remove('hidden');
+    document.getElementById('p4-countdown').textContent = `Client has ${days} days to pay. Remaining: ${days} days`;
+    showToast("Payment window started. Reminders scheduled.", "success");
+  }
+
+  function openMsmeWarning() {
+    document.getElementById('modal-msme').classList.remove('hidden');
+  }
+
+  function activateMsme() {
+    closeModal('modal-msme');
+    document.getElementById('btn-msme-warn').classList.add('hidden');
+    document.getElementById('btn-msme-file').classList.remove('hidden');
+    showToast("Final alert sent to client. MSME timeline activated.", "warning");
+  }
+
   // Setup Session Watcher
   window.onload = () => {
     const client = getSB();
@@ -408,11 +791,20 @@
         document.getElementById('app').classList.remove('hidden');
         
         const cName = sess.user.user_metadata.company_name || "ACRV aircon Projects";
-        document.getElementById('sidebar-name').textContent = cName;
+        document.getElementById('sidebar-name-p').textContent = cName;
+        document.getElementById('sidebar-name-t').textContent = cName;
         document.getElementById('dash-name').textContent = cName;
         document.getElementById('watermark').textContent = cName.toUpperCase();
         
-        loadData();
+        // Handle Segment Logic
+        const currentSegment = localStorage.getItem('payvlt_segment');
+        if (!currentSegment) {
+          document.getElementById('segment-selection').classList.remove('hidden');
+        } else {
+          document.getElementById('sidebar-projects').classList.toggle('hidden', currentSegment !== 'projects');
+          document.getElementById('sidebar-trade').classList.toggle('hidden', currentSegment !== 'trade');
+          navigate('dashboard');
+        }
       }
     });
 
