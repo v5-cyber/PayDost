@@ -669,21 +669,30 @@
   function openProjectModal() { document.getElementById('modal-project').classList.remove('hidden'); }
   function closeModal(id) { document.getElementById(id).classList.add('hidden'); }
 
+  window.mockProjects = window.mockProjects || [
+    { id: 'mock-1', client_name: "Sharma Ji", project_name: "HVAC Installation", total_amount: 250000, paid_amount: 50000, status: "pending", client_phone: "9876543210" }
+  ];
+
   async function loadData() {
     const client = getSB();
     const { data: projects, error } = await client.from('projects').select('*');
     
-    if (error) {
+    let displayProjects = projects;
+    if (error || !projects) {
       console.log("Projects table might not exist yet. Using mock data.");
-      renderMockData();
-      return;
+      displayProjects = window.mockProjects;
+      document.getElementById('alert-area').innerHTML = `
+        <div class="alert-banner">
+          ⚠️ 1 project needs urgent attention. Legal Notice option available. (Offline Mode)
+        </div>
+      `;
     }
 
-    if (projects) {
-      renderDashboardStats(projects);
-      renderProjectsGrid(projects);
-      renderPaymentsTable(projects);
-      renderInvoicesGrid(projects);
+    if (displayProjects) {
+      renderDashboardStats(displayProjects);
+      renderProjectsGrid(displayProjects);
+      renderPaymentsTable(displayProjects);
+      renderInvoicesGrid(displayProjects);
     }
   }
 
@@ -817,31 +826,16 @@
     });
   }
 
-  function renderMockData() {
-    const mock = [
-      { id: 'mock-1', client_name: "Sharma Ji", project_name: "HVAC Installation", total_amount: 250000, paid_amount: 50000, status: "pending", client_phone: "9876543210" }
-    ];
-    renderDashboardStats(mock);
-    renderProjectsGrid(mock);
-    renderPaymentsTable(mock);
-    renderInvoicesGrid(mock);
-    
-    document.getElementById('alert-area').innerHTML = `
-      <div class="alert-banner">
-        ⚠️ 1 project needs urgent attention. Legal Notice option available.
-      </div>
-    `;
-  }
-
   async function saveProject() {
     const client = getSB();
     const project = {
+      id: 'mock-' + Date.now(),
       client_name: document.getElementById('p-client-name').value,
       client_phone: document.getElementById('p-client-phone').value,
       project_name: document.getElementById('p-name').value,
       client_lang: document.getElementById('p-lang').value,
       description: document.getElementById('p-desc').value,
-      total_amount: document.getElementById('p-amount').value,
+      total_amount: document.getElementById('p-amount').value || 0,
       due_date: document.getElementById('p-date').value,
       status: 'pending'
     };
@@ -849,6 +843,7 @@
     const { data, error } = await client.from('projects').insert([project]);
     if(error) {
       showToast("Note: Connecting to mock DB as table might not be ready. Creating offline...", "warning");
+      window.mockProjects.push(project);
     }
     
     showToast("Project saved! Digital Agreement link generated and sent to " + project.client_phone + " via WhatsApp.", "success");
