@@ -257,8 +257,57 @@
     
     <!-- ADD OTHER PAGES PLACEHOLDERS -->
     <div id="page-agreements" class="page-content hidden"><h2>Agreements</h2><p>Agreements coming soon...</p></div>
-    <div id="page-invoices" class="page-content hidden"><h2>Invoices</h2><p>Invoice management coming soon...</p></div>
-    <div id="page-payments" class="page-content hidden"><h2>Payments</h2><p>Payment tracking & AI Reminders coming soon...</p></div>
+    <!-- ── INVOICES PAGE ── -->
+    <div id="page-invoices" class="page-content hidden">
+      <div class="flex-between mb-4">
+        <h2>Invoices</h2>
+        <button class="btn-primary" style="width:auto; padding: 10px 20px;">+ Generate Invoice</button>
+      </div>
+      <div class="projects-grid" id="invoices-grid">
+        <div class="project-card">
+          <div class="card-header">
+            <div>
+              <div class="client-name">Sharma Ji</div>
+              <div class="project-name">INV-2026-041</div>
+            </div>
+            <span class="badge badge-yellow">Pending</span>
+          </div>
+          <div class="amounts-row">
+            <div>₹2,50,000</div>
+          </div>
+          <div style="margin-top:12px; display:flex; gap:8px;">
+            <button class="btn-primary" style="flex:1; padding:8px; font-size:12px;" onclick="handleRazorpayPayment(250000, 'INV-2026-041', 'HVAC Installation', 'Sharma Ji', '9999999999', this)">💳 Pay Now</button>
+            <button class="btn-outline" style="flex:1; padding:8px; font-size:12px;">Download PDF</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ── PAYMENTS PAGE ── -->
+    <div id="page-payments" class="page-content hidden">
+      <h2>Payments & Collections</h2>
+      <p style="color:var(--text-muted); margin-bottom:24px;">Track pending payments and send smart reminders.</p>
+      
+      <table>
+        <thead>
+          <tr><th>Client</th><th>Project</th><th>Amount Due</th><th>Status</th><th>Actions</th></tr>
+        </thead>
+        <tbody id="payments-table-body">
+          <tr>
+            <td>Gupta Traders</td>
+            <td style="font-weight:600;">Material Supply</td>
+            <td style="color:var(--danger); font-weight:bold;">₹1,12,000</td>
+            <td><span class="badge badge-yellow">Due</span></td>
+            <td>
+              <div style="display:flex; gap:8px;">
+                <button class="btn-outline" style="padding:6px 12px; font-size:11px;" onclick="showToast('Reminder sent via WhatsApp!', 'success')">📲 Send Reminder</button>
+                <button class="btn-primary" style="padding:6px 12px; font-size:11px;" onclick="handleRazorpayPayment(112000, 'PRJ-102', 'Material Supply', 'Gupta Traders', '8888888888', this)">💳 Pay Now</button>
+              </div>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
     <div id="page-tally" class="page-content hidden"><h2>Tally</h2><p>Tally export coming soon...</p></div>
     <div id="page-diary" class="page-content hidden"><h2>Site Diary</h2><p>Site diary coming soon...</p></div>
     <div id="page-buyers" class="page-content hidden"><h2>Buyers</h2><p>Buyers directory coming soon...</p></div>
@@ -545,6 +594,7 @@
   </div>
 </div>
 
+<script src="https://checkout.razorpay.com/v1/checkout.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script>
   // ── CONFIG ──
@@ -632,6 +682,8 @@
     if (projects) {
       renderDashboardStats(projects);
       renderProjectsGrid(projects);
+      renderPaymentsTable(projects);
+      renderInvoicesGrid(projects);
     }
   }
 
@@ -699,12 +751,80 @@
     });
   }
 
+  function renderPaymentsTable(projects) {
+    const tbody = document.getElementById('payments-table-body');
+    if (!tbody) return;
+    tbody.innerHTML = '';
+    
+    if (projects.length === 0) {
+      tbody.innerHTML = '<tr><td colspan="5" style="text-align:center; color:var(--text-muted);">No pending payments found.</td></tr>';
+      return;
+    }
+
+    projects.forEach(p => {
+      const remaining = p.total_amount - (p.paid_amount || 0);
+      if (remaining <= 0) return; // Only show pending
+
+      tbody.innerHTML += `
+        <tr>
+          <td>${p.client_name}</td>
+          <td style="font-weight:600;">${p.project_name}</td>
+          <td style="color:var(--danger); font-weight:bold;">₹${remaining.toLocaleString('en-IN')}</td>
+          <td><span class="badge badge-yellow">Due</span></td>
+          <td>
+            <div style="display:flex; gap:8px;">
+              <button class="btn-outline" style="padding:6px 12px; font-size:11px;" onclick="showToast('Reminder sent via WhatsApp!', 'success')">📲 Send Reminder</button>
+              <button class="btn-primary" style="padding:6px 12px; font-size:11px;" onclick="handleRazorpayPayment(${remaining}, '${p.id}', '${p.project_name.replace(/'/g, "\\'")}', '${p.client_name.replace(/'/g, "\\'")}', '${p.client_phone || '9999999999'}', this)">💳 Pay Now</button>
+            </div>
+          </td>
+        </tr>
+      `;
+    });
+  }
+
+  function renderInvoicesGrid(projects) {
+    const grid = document.getElementById('invoices-grid');
+    if (!grid) return;
+    grid.innerHTML = '';
+    
+    if (projects.length === 0) {
+      grid.innerHTML = '<p style="color:var(--text-muted);">No invoices generated yet.</p>';
+      return;
+    }
+
+    projects.forEach((p, idx) => {
+      const remaining = p.total_amount - (p.paid_amount || 0);
+      const isPaid = remaining <= 0;
+
+      grid.innerHTML += `
+        <div class="project-card">
+          <div class="card-header">
+            <div>
+              <div class="client-name">${p.client_name}</div>
+              <div class="project-name">INV-2026-00${idx + 1}</div>
+            </div>
+            <span class="badge ${isPaid ? 'badge-green' : 'badge-yellow'}">${isPaid ? 'Paid' : 'Pending'}</span>
+          </div>
+          <div class="amounts-row">
+            <div>₹${p.total_amount.toLocaleString('en-IN')}</div>
+          </div>
+          <div style="margin-top:12px; display:flex; gap:8px;">
+            ${!isPaid ? `<button class="btn-primary" style="flex:1; padding:8px; font-size:12px;" onclick="handleRazorpayPayment(${remaining}, '${p.id}', '${p.project_name.replace(/'/g, "\\'")}', '${p.client_name.replace(/'/g, "\\'")}', '${p.client_phone || '9999999999'}', this)">💳 Pay Now</button>` : `<button class="btn-primary" style="flex:1; padding:8px; font-size:12px;" disabled>✅ Paid</button>`}
+            <button class="btn-outline" style="flex:1; padding:8px; font-size:12px;">Download PDF</button>
+          </div>
+        </div>
+      `;
+    });
+  }
+
   function renderMockData() {
     const mock = [
-      { client_name: "Sharma Ji", project_name: "HVAC Installation", total_amount: 250000, paid_amount: 50000, status: "pending" }
+      { id: 'mock-1', client_name: "Sharma Ji", project_name: "HVAC Installation", total_amount: 250000, paid_amount: 50000, status: "pending", client_phone: "9876543210" }
     ];
     renderDashboardStats(mock);
     renderProjectsGrid(mock);
+    renderPaymentsTable(mock);
+    renderInvoicesGrid(mock);
     
     document.getElementById('alert-area').innerHTML = `
       <div class="alert-banner">
@@ -780,6 +900,90 @@
     document.getElementById('btn-msme-warn').classList.add('hidden');
     document.getElementById('btn-msme-file').classList.remove('hidden');
     showToast("Final alert sent to client. MSME timeline activated.", "warning");
+  }
+
+  // ── RAZORPAY INTEGRATION ──
+  async function handleRazorpayPayment(amount, projectId, projectName, clientName, clientPhone, btnElement) {
+    const originalText = btnElement.innerHTML;
+    btnElement.disabled = true;
+    btnElement.innerHTML = '<span class="spinner" style="border-width: 2px; width: 12px; height: 12px;"></span> Wait...';
+
+    try {
+      const client = getSB();
+      
+      // Mock edge function call if local dev environment doesn't have it deployed yet
+      // To strictly use edge function: 
+      const { data, error } = await client.functions.invoke('create-razorpay-order', {
+        body: { amount, project_id: projectId, client_name: clientName, description: projectName }
+      });
+
+      if (error || !data) {
+        throw new Error(error?.message || "Failed to contact payment server");
+      }
+
+      const options = {
+        key: data.key_id,
+        amount: amount * 100,
+        currency: "INR",
+        name: "PayVlt",
+        description: projectName,
+        order_id: data.order_id,
+        prefill: {
+          name: clientName,
+          contact: clientPhone
+        },
+        theme: { color: "#028090" },
+        handler: async function (response) {
+          showToast(`Payment of ₹${amount.toLocaleString('en-IN')} received successfully!`, "success");
+          
+          // Update Supabase DB if it's a real project ID
+          if (projectId && !projectId.toString().startsWith('mock-') && !projectId.toString().startsWith('PRJ-') && !projectId.toString().startsWith('INV-')) {
+            const { data: proj } = await client.from('projects').select('paid_amount').eq('id', projectId).single();
+            const currentPaid = proj ? (proj.paid_amount || 0) : 0;
+            
+            await client.from('projects').update({
+              paid_amount: currentPaid + amount,
+              status: 'partial' // or received depending on logic
+            }).eq('id', projectId);
+            
+            // Refresh dashboard
+            loadData();
+          }
+
+          // Update UI optimistically
+          const cardOrRow = btnElement.closest('tr, .project-card');
+          if (cardOrRow) {
+            cardOrRow.querySelectorAll('.badge').forEach(b => {
+              b.className = 'badge badge-green';
+              b.textContent = 'Paid';
+            });
+            cardOrRow.querySelectorAll('.btn-primary').forEach(b => {
+              b.disabled = true;
+              b.innerHTML = '✅ Paid';
+            });
+            const dueText = cardOrRow.querySelector('.amounts-row div:nth-child(2), td:nth-child(3)');
+            if (dueText) {
+              dueText.style.color = 'var(--success)';
+              dueText.textContent = '₹0 Due';
+            }
+          }
+        }
+      };
+
+      const rzp = new Razorpay(options);
+      rzp.on('payment.failed', function (response){
+        showToast("Payment failed: " + response.error.description, "error");
+      });
+      rzp.open();
+
+    } catch (e) {
+      showToast("Error: " + e.message, "error");
+    } finally {
+      if(!btnElement.innerHTML.includes('Paid')) {
+        btnElement.disabled = false;
+        btnElement.innerHTML = originalText;
+      }
+    }
   }
 
   // Setup Session Watcher
