@@ -842,7 +842,6 @@
     
     const { data, error } = await client.from('projects').insert([project]);
     if(error) {
-      showToast("Note: Connecting to mock DB as table might not be ready. Creating offline...", "warning");
       window.mockProjects.push(project);
     }
     
