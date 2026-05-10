@@ -293,18 +293,17 @@
           <tr><th>Client</th><th>Project</th><th>Amount Due</th><th>Status</th><th>Actions</th></tr>
         </thead>
         <tbody id="payments-table-body">
-          <tr>
-            <td>Gupta Traders</td>
-            <td style="font-weight:600;">Material Supply</td>
-            <td style="color:var(--danger); font-weight:bold;">₹1,12,000</td>
-            <td><span class="badge badge-yellow">Due</span></td>
-            <td>
-              <div style="display:flex; gap:8px;">
-                <button class="btn-outline" style="padding:6px 12px; font-size:11px;" onclick="showToast('Reminder sent via WhatsApp!', 'success')">📲 Send Reminder</button>
-                <button class="btn-primary" style="padding:6px 12px; font-size:11px;" onclick="handleRazorpayPayment(112000, 'PRJ-102', 'Material Supply', 'Gupta Traders', '8888888888', this)">💳 Pay Now</button>
-              </div>
-            </td>
-          </tr>
+          <!-- Dynamic Content -->
+        </tbody>
+      </table>
+      
+      <h3 style="margin-top: 40px; margin-bottom: 16px;">Payments Received</h3>
+      <table>
+        <thead>
+          <tr><th>Date</th><th>Client</th><th>Project</th><th>Amount</th><th>Status</th></tr>
+        </thead>
+        <tbody id="payments-history-body">
+          <tr><td colspan="5" style="text-align:center; color:var(--text-muted);">No payment history yet.</td></tr>
         </tbody>
       </table>
     </div>
@@ -471,6 +470,9 @@
     </div>
     <div id="page-settings" class="page-content hidden">
       <h2>Settings</h2>
+      <div style="background:rgba(255,193,7,0.1); border:1px solid #FFC107; color:#FFC107; padding:12px 16px; border-radius:8px; display:inline-block; margin-bottom:24px;">
+        ⚠️ Razorpay in Test Mode. Complete KYC to go live.
+      </div>
       <div class="card mt-4" style="max-width:500px;">
         <h3 class="mb-4">Business Segment</h3>
         <p style="color:var(--text-muted); margin-bottom:16px;">You can switch your primary business interface here.</p>
@@ -926,7 +928,7 @@
           name: clientName,
           contact: clientPhone
         },
-        theme: { color: "#028090" },
+        theme: { color: "#00C9A7" },
         handler: async function (response) {
           showToast(`Payment of ₹${amount.toLocaleString('en-IN')} received successfully!`, "success");
           
@@ -960,6 +962,24 @@
               dueText.style.color = 'var(--success)';
               dueText.textContent = '₹0 Due';
             }
+          }
+          
+          // Add to payment history Optimistically
+          const historyTable = document.getElementById('payments-history-body');
+          if (historyTable) {
+            if (historyTable.innerHTML.includes('No payment history yet.')) {
+              historyTable.innerHTML = '';
+            }
+            const dateStr = new Date().toLocaleDateString('en-IN', {day:'numeric', month:'short', year:'numeric'});
+            historyTable.innerHTML += `
+              <tr>
+                <td>${dateStr}</td>
+                <td>${clientName}</td>
+                <td style="font-weight:600;">${projectName}</td>
+                <td style="color:var(--success); font-weight:bold;">₹${amount.toLocaleString('en-IN')}</td>
+                <td><span class="badge badge-green">Success</span></td>
+              </tr>
+            `;
           }
         }
       };
@@ -1024,56 +1044,74 @@
   }
 
   // AI Chat Widget Functionality
+  let chatHistory = [];
+  
   function toggleChat() {
-    const chatWindow = document.getElementById('chat-window');
-    chatWindow.classList.toggle('hidden');
+    document.getElementById('ai-chat-window').classList.toggle('hidden');
+  }
+
+  function sendQuickReply(text) {
+    document.getElementById('quick-replies').style.display = 'none';
+    document.getElementById('chat-input').value = text;
+    sendChatMessage();
   }
 
   async function sendChatMessage() {
     const input = document.getElementById('chat-input');
-    const langSelect = document.getElementById('chat-lang');
-    const msg = input.value.trim();
-    if (!msg) return;
+    const text = input.value.trim();
+    if(!text) return;
 
-    appendChatMsg(msg, 'user');
+    document.getElementById('quick-replies').style.display = 'none';
     input.value = '';
+    
+    const body = document.getElementById('chat-body');
+    
+    // User msg
+    const userDiv = document.createElement('div');
+    userDiv.className = 'msg user';
+    userDiv.innerHTML = text + `<span class="msg-time" style="font-size:10px; color:rgba(255,255,255,0.3); display:block; text-align:right; margin-top:4px;">${new Date().toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'})}</span>`;
+    userDiv.style.cssText = 'background:rgba(0, 201, 167, 0.1); color:#00C9A7; padding:12px; border-radius:12px; border-bottom-right-radius:4px; max-width:85%; align-self:flex-end; border:1px solid rgba(0, 201, 167, 0.2);';
+    body.appendChild(userDiv);
+    
+    chatHistory.push({ role: 'user', content: text });
 
-    // Show typing indicator
-    const typingId = 'typing-' + Date.now();
-    appendChatMsg("...", 'ai', typingId);
+    // Typing indicator
+    const typingDiv = document.createElement('div');
+    typingDiv.className = 'msg ai typing';
+    typingDiv.innerHTML = '<span style="display:inline-block; width:6px; height:6px; background:#888; border-radius:50%; margin-right:4px;"></span><span style="display:inline-block; width:6px; height:6px; background:#888; border-radius:50%; margin-right:4px;"></span><span style="display:inline-block; width:6px; height:6px; background:#888; border-radius:50%;"></span>';
+    typingDiv.style.cssText = 'background:rgba(255,255,255,0.05); padding:12px; border-radius:12px; border-bottom-left-radius:4px; max-width:85%; align-self:flex-start;';
+    body.appendChild(typingDiv);
+    body.scrollTop = body.scrollHeight;
 
     try {
-      const response = await fetch('/api/chat', {
+      const res = await fetch('/api/chat', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ message: msg, language: langSelect.value })
+        body: JSON.stringify({ messages: chatHistory })
       });
-      const data = await response.json();
       
-      const typingEl = document.getElementById(typingId);
-      if (typingEl) typingEl.remove();
+      const data = await res.json();
+      body.removeChild(typingDiv);
+      
+      if (data.error) throw new Error(data.error);
 
-      if (data.reply) {
-        appendChatMsg(data.reply, 'ai');
-      } else if (data.error) {
-        appendChatMsg(`Error: ${data.details || data.error}`, 'error');
-      } else {
-        appendChatMsg("Sorry, network issue aagayi.", 'error');
-      }
-    } catch (err) {
-      const typingEl = document.getElementById(typingId);
-      if (typingEl) typingEl.remove();
-      appendChatMsg("Error: " + err.message, 'error');
+      const aiDiv = document.createElement('div');
+      aiDiv.className = 'msg ai';
+      aiDiv.innerHTML = data.reply.replace(/\n/g, '<br>') + `<span class="msg-time" style="font-size:10px; color:rgba(255,255,255,0.3); display:block; text-align:right; margin-top:4px;">${new Date().toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'})}</span>`;
+      aiDiv.style.cssText = 'background:rgba(255,255,255,0.05); padding:12px; border-radius:12px; border-bottom-left-radius:4px; max-width:85%; align-self:flex-start;';
+      body.appendChild(aiDiv);
+      
+      chatHistory.push({ role: 'assistant', content: data.reply });
+
+    } catch (e) {
+      body.removeChild(typingDiv);
+      const errDiv = document.createElement('div');
+      errDiv.className = 'msg ai';
+      errDiv.style.cssText = 'background:rgba(255,255,255,0.05); color:#EF4444; padding:12px; border-radius:12px; border-bottom-left-radius:4px; max-width:85%; align-self:flex-start;';
+      errDiv.innerText = "Advisor unavailable. Try again.";
+      body.appendChild(errDiv);
     }
-  }
-
-  function appendChatMsg(text, type, id = '') {
-    const body = document.getElementById('chat-body');
-    const div = document.createElement('div');
-    div.className = `chat-msg ${type}`;
-    if(id) div.id = id;
-    div.textContent = text;
-    body.appendChild(div);
+    
     body.scrollTop = body.scrollHeight;
   }
 </script>
@@ -1081,32 +1119,41 @@
 <!-- Toast Container -->
 <div id="toast-container" class="toast-container"></div>
 
-<!-- Chat Widget -->
-<button class="chat-widget-btn" onclick="toggleChat()">🤖</button>
-<div id="chat-window" class="chat-widget-window hidden">
-  <div class="chat-header">
-    <span>PayVlt AI (Beta)</span>
-    <div style="display:flex; gap:8px;">
-      <select id="chat-lang" style="background:var(--primary); color:white; border:1px solid var(--border); border-radius:4px; padding:2px; font-size:12px;">
-        <option value="Hinglish">Hinglish</option>
-        <option value="Hindi">Hindi</option>
-        <option value="English">English</option>
-        <option value="Marathi">Marathi</option>
-        <option value="Gujarati">Gujarati</option>
-        <option value="Tamil">Tamil</option>
-        <option value="Telugu">Telugu</option>
-        <option value="Punjabi">Punjabi</option>
-        <option value="Bengali">Bengali</option>
-      </select>
-      <button onclick="toggleChat()" style="background:none; border:none; color:white; cursor:pointer;">✖</button>
+<!-- FLOATING AI CHAT WIDGET -->
+<div class="chat-widget-btn" onclick="toggleChat()" style="position:fixed; bottom:32px; right:32px; width:60px; height:60px; background:#00C9A7; border-radius:50%; color:#000; display:flex; align-items:center; justify-content:center; font-size:24px; cursor:pointer; box-shadow:0 10px 24px rgba(0, 201, 167, 0.4); z-index:9999; transition:transform 0.3s;">
+  <div class="chat-pulse" style="position:absolute; width:100%; height:100%; border-radius:50%; border:2px solid #00C9A7; animation:chatPulse 2s infinite; pointer-events:none;"></div>
+  <style>@keyframes chatPulse { 0% { transform:scale(1); opacity:0.8; } 100% { transform:scale(1.5); opacity:0; } }</style>
+  💬
+</div>
+
+<div id="ai-chat-window" class="chat-window hidden" style="position:fixed; bottom:100px; right:32px; width:380px; height:520px; background:var(--card-bg); border-radius:16px; border:1px solid var(--border); border-top:4px solid #00C9A7; box-shadow:0 20px 40px rgba(0,0,0,0.5); display:flex; flex-direction:column; z-index:9999; overflow:hidden; transition:opacity 0.3s, transform 0.3s; transform-origin:bottom right;">
+  <div class="chat-header" style="padding:16px; border-bottom:1px solid var(--border); display:flex; justify-content:space-between; align-items:center; background:rgba(0,0,0,0.2);">
+    <div class="chat-header-info" style="display:flex; align-items:center; gap:12px;">
+      <div class="chat-avatar" style="width:40px; height:40px; border-radius:50%; background:#00C9A7; display:flex; align-items:center; justify-content:center; font-size:20px;">🤖</div>
+      <div>
+        <div style="font-weight:600; font-size:15px;">PayVlt AI Advisor</div>
+        <div style="font-size:12px; color:#00C9A7;">● Business Expert — Online</div>
+      </div>
+    </div>
+    <button onclick="toggleChat()" style="background:none; border:none; color:var(--text-muted); cursor:pointer; font-size:20px;">&times;</button>
+  </div>
+  <div class="chat-body" id="chat-body" style="flex:1; padding:16px; overflow-y:auto; display:flex; flex-direction:column; gap:16px;">
+    <div class="msg ai" style="background:rgba(255,255,255,0.05); padding:12px; border-radius:12px; border-bottom-left-radius:4px; max-width:85%; align-self:flex-start;">Namaste! 🙏 I am your PayVlt Business Advisor. I can help you with payment recovery, MSME law, GST invoices, and growing your contracting business. What would you like to know?</div>
+    
+    <!-- Quick Replies -->
+    <div class="chat-quick-replies" id="quick-replies" style="display:flex; flex-wrap:wrap; gap:8px; margin-bottom:16px;">
+      <div class="quick-chip" onclick="sendQuickReply(this.innerText)" style="padding:6px 12px; background:rgba(255,255,255,0.05); border:1px solid var(--border); border-radius:99px; font-size:12px; cursor:pointer; color:var(--text-muted); transition:all 0.2s;" onmouseover="this.style.background='rgba(0, 201, 167, 0.1)'; this.style.color='#00C9A7'; this.style.borderColor='#00C9A7'" onmouseout="this.style.background='rgba(255,255,255,0.05)'; this.style.color='var(--text-muted)'; this.style.borderColor='var(--border)'">What is PayVlt?</div>
+      <div class="quick-chip" onclick="sendQuickReply(this.innerText)" style="padding:6px 12px; background:rgba(255,255,255,0.05); border:1px solid var(--border); border-radius:99px; font-size:12px; cursor:pointer; color:var(--text-muted); transition:all 0.2s;" onmouseover="this.style.background='rgba(0, 201, 167, 0.1)'; this.style.color='#00C9A7'; this.style.borderColor='#00C9A7'" onmouseout="this.style.background='rgba(255,255,255,0.05)'; this.style.color='var(--text-muted)'; this.style.borderColor='var(--border)'">How do reminders work?</div>
+      <div class="quick-chip" onclick="sendQuickReply(this.innerText)" style="padding:6px 12px; background:rgba(255,255,255,0.05); border:1px solid var(--border); border-radius:99px; font-size:12px; cursor:pointer; color:var(--text-muted); transition:all 0.2s;" onmouseover="this.style.background='rgba(0, 201, 167, 0.1)'; this.style.color='#00C9A7'; this.style.borderColor='#00C9A7'" onmouseout="this.style.background='rgba(255,255,255,0.05)'; this.style.color='var(--text-muted)'; this.style.borderColor='var(--border)'">MSME rules explain karo</div>
+      <div class="quick-chip" onclick="sendQuickReply(this.innerText)" style="padding:6px 12px; background:rgba(255,255,255,0.05); border:1px solid var(--border); border-radius:99px; font-size:12px; cursor:pointer; color:var(--text-muted); transition:all 0.2s;" onmouseover="this.style.background='rgba(0, 201, 167, 0.1)'; this.style.color='#00C9A7'; this.style.borderColor='#00C9A7'" onmouseout="this.style.background='rgba(255,255,255,0.05)'; this.style.color='var(--text-muted)'; this.style.borderColor='var(--border)'">Client ne pay nahi kiya — help</div>
+      <div class="quick-chip" onclick="sendQuickReply(this.innerText)" style="padding:6px 12px; background:rgba(255,255,255,0.05); border:1px solid var(--border); border-radius:99px; font-size:12px; cursor:pointer; color:var(--text-muted); transition:all 0.2s;" onmouseover="this.style.background='rgba(0, 201, 167, 0.1)'; this.style.color='#00C9A7'; this.style.borderColor='#00C9A7'" onmouseout="this.style.background='rgba(255,255,255,0.05)'; this.style.color='var(--text-muted)'; this.style.borderColor='var(--border)'">How to file MSEFC complaint?</div>
     </div>
   </div>
-  <div id="chat-body" class="chat-body">
-    <div class="chat-msg ai">Namaste! Main PayDost AI hu. Aapki kaise help karu? 🛠️</div>
-  </div>
-  <div class="chat-footer">
-    <input type="text" id="chat-input" class="chat-input" placeholder="Type message in Hinglish..." onkeypress="if(event.key === 'Enter') sendChatMessage()" />
-    <button class="chat-send" onclick="sendChatMessage()">➤</button>
+  <div class="chat-input-area" style="padding:16px; border-top:1px solid var(--border); display:flex; gap:8px; background:rgba(0,0,0,0.2);">
+    <input type="text" id="chat-input" placeholder="Type your message..." onkeypress="if(event.key === 'Enter') sendChatMessage()" style="flex:1; background:rgba(255,255,255,0.05); border:1px solid var(--border); border-radius:8px; padding:10px 16px; color:white; outline:none;" onfocus="this.style.borderColor='#00C9A7'" onblur="this.style.borderColor='var(--border)'">
+    <button onclick="sendChatMessage()" style="background:#00C9A7; border:none; width:40px; height:40px; border-radius:8px; cursor:pointer; color:#000; display:flex; align-items:center; justify-content:center;">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="22" y1="2" x2="11" y2="13"></line><polygon points="22 2 15 22 11 13 2 9 22 2"></polygon></svg>
+    </button>
   </div>
 </div>
 
