@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>About Us — PayVlt</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    /* CSS VARIABLES & RESET */
+    :root {
+      --bg: #0D1B3E;
+      --bg-card: #16264f;
+      --teal: #028090;
+      --teal-glow: rgba(2, 128, 144, 0.4);
+      --text: #ffffff;
+      --text-muted: #94a3b8;
+      --border: rgba(255, 255, 255, 0.1);
+    }
+    * { margin:0; padding:0; box-sizing:border-box; font-family:'Inter', sans-serif; }
+    body { background-color: var(--bg); color: var(--text); overflow-x: hidden; scroll-behavior: smooth; }
+    a { text-decoration:none; color:inherit; }
+    ul { list-style:none; }
+
+    /* NAVBAR */
+    .navbar { padding:24px 5%; display:flex; justify-content:space-between; align-items:center; border-bottom:1px solid var(--border); background:rgba(13, 27, 62, 0.85); }
+    .logo { font-size:24px; font-weight:800; letter-spacing:-0.5px; }
+
+    /* HEADER */
+    .page-header { padding: 120px 5% 60px; text-align: center; border-bottom: 1px solid var(--border); position: relative; overflow: hidden; }
+    .page-header-glow { position:absolute; top:-50%; left:50%; transform:translateX(-50%); width:600px; height:600px; background:radial-gradient(circle, var(--teal-glow) 0%, transparent 60%); z-index:-1; filter:blur(80px); }
+    .page-header h1 { font-size: 56px; margin-bottom: 24px; color: white; font-weight:800; letter-spacing:-1.5px; }
+    .page-header p { font-size: 20px; color: var(--text-muted); max-width:600px; margin:0 auto; line-height:1.5; }
+
+    /* CONTENT */
+    .content-section { max-width: 800px; margin: 60px auto; padding: 0 5%; color: var(--text-muted); line-height: 1.8; font-size: 16px; }
+    .content-section h2 { color: white; margin: 48px 0 24px; font-size: 32px; font-weight:700; letter-spacing:-0.5px; }
+    .content-section p { margin-bottom: 24px; }
+    
+    .stats-grid { display:grid; grid-template-columns:repeat(3, 1fr); gap:24px; margin: 48px 0; }
+    .stat-card { background:var(--bg-card); border:1px solid var(--border); border-radius:16px; padding:32px; text-align:center; }
+    .stat-val { font-size:40px; font-weight:800; color:var(--teal); margin-bottom:8px; }
+    .stat-label { font-size:14px; font-weight:600; color:var(--text-muted); text-transform:uppercase; letter-spacing:1px; }
+
+    /* FOOTER */
+    .footer { padding:40px 5%; background:#071026; text-align:center; color:var(--text-muted); border-top:1px solid var(--border); font-size:14px; }
+  </style>
+</head>
+<body>
+
+  <!-- NAVBAR -->
+  <nav class="navbar">
+    <a href="/home.html" class="logo">PayVlt <span style="color:var(--teal);">💰</span></a>
+    <a href="/home.html" style="font-weight:600; color:var(--text-muted);">&larr; Back to Home</a>
+  </nav>
+
+  <!-- HEADER -->
+  <div class="page-header">
+    <div class="page-header-glow"></div>
+    <h1>Building the financial backbone for India's builders.</h1>
+    <p>PayVlt was founded with a single mission: to ensure that Indian contractors and MSMEs never have to beg for their own hard-earned money.</p>
+  </div>
+
+  <!-- CONTENT -->
+  <div class="content-section">
+    <h2>The Problem We're Solving</h2>
+    <p>In the Indian construction, HVAC, and civil engineering sectors, delayed payments are considered a "normal" part of doing business. Contractors often finish massive projects, only to wait 90, 120, or even 180 days to get paid. The lack of formal digital agreements, the reliance on informal WhatsApp chats, and the hesitation to sound "too aggressive" means contractors' working capital gets locked up, stifling their growth.</p>
+    
+    <p>We realized that contractors don't just need an invoicing tool — they need a system that enforces discipline, leverages legal frameworks like the MSMED Act, and automates follow-ups without ruining client relationships.</p>
+
+    <div class="stats-grid">
+      <div class="stat-card">
+        <div class="stat-val">₹2.4Cr+</div>
+        <div class="stat-label">Payments Recovered</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-val">120+</div>
+        <div class="stat-label">Active Contractors</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-val">5</div>
+        <div class="stat-label">Indian Languages</div>
+      </div>
+    </div>
+
+    <h2>Our Solution</h2>
+    <p>PayVlt is more than just a SaaS product; it's a Financial OS built explicitly for the Indian market. We combine automated, multi-lingual WhatsApp reminders with robust digital agreements and integrated payment gateways. By enforcing the 45-day MSME payment rules, PayVlt shifts the power dynamic back to the contractor.</p>
+
+    <h2>Our Roots in Indore</h2>
+    <p>Built proudly in Indore, Madhya Pradesh — the heart of India. We understand the pulse of the Indian MSME ecosystem because we are part of it. Our team consists of engineers, legal experts, and former contractors who experienced the pain of unpaid invoices firsthand.</p>
+    <p>We are dedicated to building world-class software that elevates the professionalism and financial security of every contractor in the country.</p>
+  </div>
+
+  <!-- FOOTER -->
+  <footer class="footer">
+    <div>© 2026 PayVlt. All rights reserved. GSTIN: 23AABCU9603R1ZX</div>
+    <div style="margin-top:8px;">Made with ❤️ in Indore 🇮🇳</div>
+  </footer>
+
+</body>
+</html>

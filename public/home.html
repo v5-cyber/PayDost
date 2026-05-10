@@ -119,6 +119,13 @@
     .bubble-sent { background:#2a3942; border-bottom-right-radius:4px; float:right; clear:both; }
     .bubble-received { background:#202c33; border-bottom-left-radius:4px; float:left; clear:both; }
 
+    /* 7.5 INTEGRATIONS */
+    .integrations-sec { padding:80px 5%; background:radial-gradient(ellipse at top, #16264f 0%, #0D1B3E 70%); text-align:center; overflow:hidden; border-top:1px solid var(--border); border-bottom:1px solid var(--border); }
+    .integrations-marquee { display:flex; gap:24px; margin-top:48px; flex-wrap:wrap; justify-content:center; max-width:900px; margin-left:auto; margin-right:auto; }
+    .int-card { background:var(--bg-card); border:1px solid var(--border); border-radius:16px; padding:16px 24px; display:flex; align-items:center; gap:16px; font-weight:600; font-size:18px; color:var(--text); transition:transform 0.3s; box-shadow:0 10px 30px rgba(0,0,0,0.2); }
+    .int-card:hover { transform:translateY(-5px); border-color:var(--teal); }
+    .int-logo { width:40px; height:40px; border-radius:10px; display:flex; align-items:center; justify-content:center; font-size:20px; }
+
     /* 8. PRICING */
     .pricing-toggle { display:flex; justify-content:center; align-items:center; gap:16px; margin-bottom:48px; }
     .switch { position:relative; display:inline-block; width:60px; height:34px; }
@@ -271,28 +278,50 @@
       <div class="bento-card bento-large fade-up">
         <h3 style="font-size:24px; font-weight:700; margin-bottom:12px;">WhatsApp Auto-Reminders</h3>
         <p style="color:var(--text-muted); line-height:1.5; font-size:15px;">Schedule smart reminders in the client's preferred language. Never sound desperate again.</p>
-        <div class="bento-ui" style="display:flex; gap:12px; margin-top:24px;">
-          <div style="flex:1; background:var(--bg); border-radius:8px; padding:12px; font-size:12px; color:var(--text-muted);">Select Language:<br><br><span style="color:#fff;">Hindi, Marathi, Gujarati...</span></div>
-          <div style="flex:2; background:#202c33; border-radius:8px; padding:12px; font-size:12px;">"Sir, payment pending hai. Kripya aaj clear karein."</div>
+        <div style="margin-top:24px; border-radius:12px; overflow:hidden; border:1px solid var(--border); height:220px; background:#000;">
+          <img src="images/whatsapp_feature.png" style="width:100%; height:100%; object-fit:cover;" alt="WhatsApp Feature">
         </div>
       </div>
       <div class="bento-card fade-up stagger-1">
         <h3 style="font-size:24px; font-weight:700; margin-bottom:12px;">GST Invoices</h3>
         <p style="color:var(--text-muted); line-height:1.5; font-size:15px;">Generate professional, compliant GST invoices in one click.</p>
-        <div class="bento-ui" style="text-align:center; font-size:24px;">🧾</div>
+        <div style="margin-top:24px; border-radius:12px; overflow:hidden; border:1px solid var(--border); height:160px; background:#000;">
+          <img src="images/gst_feature.png" style="width:100%; height:100%; object-fit:cover;" alt="GST Feature">
+        </div>
       </div>
       <div class="bento-card fade-up stagger-2">
         <h3 style="font-size:24px; font-weight:700; margin-bottom:12px;">MSME 45-Day Tracker</h3>
         <p style="color:var(--text-muted); line-height:1.5; font-size:15px;">Automatically track the 45-day legal limit and warn clients of interest penalties.</p>
-        <div class="bento-ui" style="color:var(--danger); font-weight:700; text-align:center;">Day 42 / 45</div>
+        <div style="margin-top:24px; background:rgba(0,0,0,0.3); border:1px solid var(--border); border-radius:12px; padding:20px; text-align:center;">
+          <div style="position:relative; display:inline-block; width:100px; height:100px;">
+            <svg viewBox="0 0 36 36" width="100" height="100" style="transform:rotate(-90deg);">
+              <circle cx="18" cy="18" r="15.9" fill="none" stroke="rgba(255,255,255,0.08)" stroke-width="3"/>
+              <circle cx="18" cy="18" r="15.9" fill="none" stroke="#ef4444" stroke-width="3" stroke-dasharray="93.3 100" stroke-linecap="round"/>
+            </svg>
+            <div style="position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);font-size:14px;font-weight:800;color:#ef4444;">Day<br>42/45</div>
+          </div>
+          <div style="margin-top:12px; font-size:13px; color:#ef4444; font-weight:600;">⚠️ Interest accruing — ₹975/day</div>
+        </div>
       </div>
       <div class="bento-card fade-up stagger-3">
-        <h3 style="font-size:24px; font-weight:700; margin-bottom:12px;">Risk Score</h3>
+        <h3 style="font-size:24px; font-weight:700; margin-bottom:12px;">Client Risk Score</h3>
         <p style="color:var(--text-muted); line-height:1.5; font-size:15px;">Predict which clients will default before you start the work.</p>
+        <div style="margin-top:24px; background:rgba(0,0,0,0.3); border:1px solid var(--border); border-radius:12px; padding:20px;">
+          <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:10px;"><span style="font-size:13px;color:var(--text-muted);">Rahul Constructions</span><span style="background:#22c55e22;color:#22c55e;font-size:12px;font-weight:700;padding:3px 10px;border-radius:99px;">LOW RISK</span></div>
+          <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:10px;"><span style="font-size:13px;color:var(--text-muted);">Sharma Builders</span><span style="background:#fbbf2422;color:#fbbf24;font-size:12px;font-weight:700;padding:3px 10px;border-radius:99px;">MEDIUM</span></div>
+          <div style="display:flex; justify-content:space-between; align-items:center;"><span style="font-size:13px;color:var(--text-muted);">ABC Infra Pvt Ltd</span><span style="background:#ef444422;color:#ef4444;font-size:12px;font-weight:700;padding:3px 10px;border-radius:99px;">HIGH RISK</span></div>
+        </div>
       </div>
       <div class="bento-card fade-up">
         <h3 style="font-size:24px; font-weight:700; margin-bottom:12px;">Site Diary</h3>
         <p style="color:var(--text-muted); line-height:1.5; font-size:15px;">Log daily materials and labor so the client can't dispute the final bill.</p>
+        <div style="margin-top:24px; background:rgba(0,0,0,0.3); border:1px solid var(--border); border-radius:12px; padding:16px;">
+          <div style="font-size:11px; color:var(--teal); font-weight:700; margin-bottom:10px; letter-spacing:1px;">TODAY — 10 MAY 2026</div>
+          <div style="display:flex; gap:10px; align-items:center; margin-bottom:8px; font-size:13px;"><span style="color:#22c55e;">✓</span><span>Cement bags: 40 units — ₹12,000</span></div>
+          <div style="display:flex; gap:10px; align-items:center; margin-bottom:8px; font-size:13px;"><span style="color:#22c55e;">✓</span><span>Labour: 8 workers — ₹6,400</span></div>
+          <div style="display:flex; gap:10px; align-items:center; font-size:13px;"><span style="color:#22c55e;">✓</span><span>Steel rods: 2 bundles — ₹9,500</span></div>
+          <div style="margin-top:12px; font-size:12px; color:var(--text-muted); border-top:1px solid var(--border); padding-top:10px;">Total today: <strong style="color:#fff;">₹27,900</strong> — Client-signed ✅</div>
+        </div>
       </div>
     </div>
   </section>
@@ -339,6 +368,23 @@
           <div class="chat-bubble bubble-received">Payment done sir. Receipt attached.</div>
         </div>
       </div>
+    </div>
+  </section>
+
+  <!-- 7.5 INTEGRATIONS -->
+  <section class="integrations-sec">
+    <h2 class="sec-title fade-up" style="margin-bottom:16px;">PayVlt works with tools you already use.</h2>
+    <p class="fade-up" style="color:var(--text-muted); font-size:18px; max-width:600px; margin:0 auto;">Connect your existing accounting software, bank accounts, and communication channels instantly.</p>
+    
+    <div class="integrations-marquee fade-up">
+      <div class="int-card"><div class="int-logo" style="background:#25D366; color:#fff;"><svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51a12.8 12.8 0 0 0-.57-.01c-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 0 1-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 0 1-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 0 1 2.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0 0 12.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 0 0 5.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 0 0-3.48-8.413Z"/></svg></div> WhatsApp</div>
+      <div class="int-card"><div class="int-logo" style="background:#F3A812; color:#fff; font-weight:900;">T</div> Tally ERP</div>
+      <div class="int-card"><div class="int-logo" style="background:#0F52BA; color:#fff; font-weight:900;">₹</div> GST Portal</div>
+      <div class="int-card"><div class="int-logo" style="background:#02042b; color:#028090; border:1px solid #028090;">Rz</div> Razorpay</div>
+      <div class="int-card"><div class="int-logo" style="background:#0F9D58; color:#fff;">G</div> Google Sheets</div>
+      <div class="int-card"><div class="int-logo" style="background:#E33B31; color:#fff;">Z</div> Zoho</div>
+      <div class="int-card"><div class="int-logo" style="background:#1B3B8B; color:#fff; font-size:12px;">SBI</div> SBI / HDFC</div>
+      <div class="int-card"><div class="int-logo" style="background:#fff; color:#000; font-weight:800; font-style:italic; font-size:14px;">UPI</div> UPI Apps</div>
     </div>
   </section>
 
@@ -456,27 +502,27 @@
       <div class="footer-col">
         <h4>Product</h4>
         <ul>
-          <li>Features</li>
-          <li>Pricing</li>
-          <li>MSME Rules</li>
-          <li>GST Calculator</li>
+          <li><a href="#features">Features</a></li>
+          <li><a href="#pricing">Pricing</a></li>
+          <li><a href="/msme.html">MSME Rules</a></li>
+          <li><a href="/gst.html">GST Calculator</a></li>
         </ul>
       </div>
       <div class="footer-col">
         <h4>Company</h4>
         <ul>
-          <li>About Us</li>
-          <li>Contact</li>
-          <li>Privacy Policy</li>
-          <li>Terms of Service</li>
+          <li><a href="/about.html">About Us</a></li>
+          <li><a href="/contact.html">Contact</a></li>
+          <li><a href="/privacy.html">Privacy Policy</a></li>
+          <li><a href="/terms.html">Terms of Service</a></li>
         </ul>
       </div>
       <div class="footer-col">
         <h4>Connect</h4>
         <ul>
-          <li>WhatsApp Support</li>
-          <li>LinkedIn</li>
-          <li>Twitter (X)</li>
+          <li><a href="https://wa.me/919876543210">WhatsApp Support</a></li>
+          <li><a href="https://linkedin.com">LinkedIn</a></li>
+          <li><a href="https://twitter.com">Twitter (X)</a></li>
         </ul>
       </div>
     </div>
