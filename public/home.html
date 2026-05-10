@@ -3,486 +3,580 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>PayVlt — Get Paid. Every Time.</title>
-  <link rel="stylesheet" href="landing.css?v=10">
+  <meta name="description" content="PayVlt — Recover payments automatically. B2B SaaS for Indian HVAC and construction contractors.">
+  <title>PayVlt — Recover payments automatically.</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    /* CSS VARIABLES & RESET */
+    :root {
+      --bg: #0D1B3E;
+      --bg-card: #16264f;
+      --teal: #028090;
+      --teal-light: #03a5b9;
+      --teal-glow: rgba(2, 128, 144, 0.4);
+      --text: #ffffff;
+      --text-muted: #94a3b8;
+      --border: rgba(255, 255, 255, 0.1);
+      --danger: #ef4444;
+      --danger-light: rgba(239, 68, 68, 0.1);
+    }
+    * { margin:0; padding:0; box-sizing:border-box; font-family:'Inter', sans-serif; }
+    body { background-color: var(--bg); color: var(--text); overflow-x: hidden; scroll-behavior: smooth; }
+    a { text-decoration:none; color:inherit; }
+    ul { list-style:none; }
+    
+    /* ANIMATIONS & OBSERVER CLASSES */
+    .fade-up { opacity: 0; transform: translateY(40px); transition: opacity 0.8s ease, transform 0.8s ease; }
+    .fade-up.show { opacity: 1; transform: translateY(0); }
+    .slide-left { opacity: 0; transform: translateX(-50px); transition: opacity 0.8s ease, transform 0.8s ease; }
+    .slide-left.show { opacity: 1; transform: translateX(0); }
+    .slide-right { opacity: 0; transform: translateX(50px); transition: opacity 0.8s ease, transform 0.8s ease; }
+    .slide-right.show { opacity: 1; transform: translateX(0); }
+    
+    .stagger-1 { transition-delay: 0.1s; } .stagger-2 { transition-delay: 0.2s; } .stagger-3 { transition-delay: 0.3s; }
+    
+    @keyframes float { 0% { transform: translateY(0px); } 50% { transform: translateY(-15px); } 100% { transform: translateY(0px); } }
+    @keyframes marquee { 0% { transform: translateX(0); } 100% { transform: translateX(-50%); } }
+    @keyframes slide-up-fade { 0% { opacity:0; transform:translateY(15px); } 100% { opacity:1; transform:translateY(0); } }
+    @keyframes cursor-blink { 0%, 100% { opacity: 1; } 50% { opacity: 0; } }
+
+    /* BUTTONS */
+    .btn { display:inline-flex; align-items:center; justify-content:center; padding:12px 24px; border-radius:8px; font-weight:600; cursor:pointer; transition:all 0.2s; font-size:15px; border:none; outline:none; text-decoration:none; }
+    .btn-teal { background:var(--teal); color:#fff; box-shadow:0 4px 14px var(--teal-glow); }
+    .btn-teal:hover { background:var(--teal-light); transform:translateY(-2px); box-shadow:0 6px 20px var(--teal-glow); }
+    .btn-outline { background:transparent; border:1px solid var(--border); color:#fff; }
+    .btn-outline:hover { background:rgba(255,255,255,0.05); }
+
+    /* 1. NAVBAR */
+    .navbar { position:fixed; top:0; left:0; width:100%; z-index:1000; padding:24px 5%; display:flex; justify-content:space-between; align-items:center; transition:all 0.3s ease; border-bottom:1px solid transparent; }
+    .navbar.scrolled { padding:16px 5%; background:rgba(13, 27, 62, 0.85); backdrop-filter:blur(12px); border-bottom:1px solid var(--border); }
+    .logo { font-size:24px; font-weight:800; letter-spacing:-0.5px; }
+    .nav-links { display:flex; gap:32px; }
+    .nav-links a { color:var(--text-muted); font-weight:500; transition:color 0.2s; }
+    .nav-links a:hover { color:#fff; }
+    .nav-actions { display:flex; gap:16px; align-items:center; }
+
+    /* 2. HERO */
+    .hero { min-height:100vh; display:flex; align-items:center; padding:120px 5% 60px; position:relative; overflow:hidden; }
+    .hero-glow { position:absolute; top:10%; left:20%; width:600px; height:600px; background:radial-gradient(circle, var(--teal-glow) 0%, transparent 60%); z-index:-1; filter:blur(80px); }
+    .hero-content { flex:1; max-width:600px; z-index:2; }
+    .hero-pill { display:inline-flex; align-items:center; gap:8px; padding:6px 16px; background:rgba(255,255,255,0.05); border:1px solid var(--border); border-radius:99px; font-size:14px; font-weight:500; margin-bottom:24px; }
+    .hero h1 { font-size:56px; font-weight:800; line-height:1.1; margin-bottom:24px; letter-spacing:-1.5px; min-height:130px; }
+    .typewriter { color:var(--teal); border-right:3px solid var(--teal); animation:cursor-blink 0.8s infinite; }
+    .hero .sub { font-size:20px; color:var(--text-muted); margin-bottom:40px; line-height:1.5; }
+    .hero-buttons { display:flex; gap:16px; }
+
+    /* Pure CSS Mockup */
+    .hero-visual { flex:1; display:flex; justify-content:center; align-items:center; z-index:2; padding-left:40px; }
+    .css-dashboard { width:520px; background:var(--bg-card); border-radius:16px; border:1px solid var(--border); box-shadow:0 30px 60px rgba(0,0,0,0.6); padding:24px; display:flex; flex-direction:column; gap:20px; animation:float 6s ease-in-out infinite; position:relative; }
+    .dash-header { display:flex; justify-content:space-between; align-items:center; }
+    .dash-metrics { display:flex; gap:12px; }
+    .metric-card { flex:1; background:rgba(255,255,255,0.03); border:1px solid var(--border); border-radius:8px; padding:16px; }
+    .metric-title { font-size:12px; color:var(--text-muted); margin-bottom:8px; }
+    .metric-val { font-size:22px; font-weight:700; }
+    .dash-table { background:rgba(255,255,255,0.03); border:1px solid var(--border); border-radius:8px; padding:16px; }
+    .t-row { display:flex; justify-content:space-between; padding:12px 0; border-bottom:1px solid var(--border); font-size:13px; }
+    .t-row:last-child { border-bottom:none; padding-bottom:0; }
+    .badge-t { background:var(--teal-glow); color:var(--teal-light); padding:4px 8px; border-radius:4px; font-size:11px; font-weight:600; }
+    .badge-r { background:var(--danger-light); color:var(--danger); padding:4px 8px; border-radius:4px; font-size:11px; font-weight:600; }
+    
+    .wa-popup { position:absolute; bottom:-30px; right:-30px; background:#1e293b; border:1px solid var(--border); border-radius:12px; padding:16px; width:280px; box-shadow:0 20px 40px rgba(0,0,0,0.5); display:flex; gap:12px; animation:slide-up-fade 0.5s ease 2s both; }
+    .wa-icon { width:36px; height:36px; background:#25D366; border-radius:50%; display:flex; align-items:center; justify-content:center; flex-shrink:0; font-size:20px; }
+    .wa-text { font-size:13px; line-height:1.4; color:#e2e8f0; }
+
+    /* 3. MARQUEE */
+    .marquee-container { overflow:hidden; padding:40px 0; border-top:1px solid var(--border); border-bottom:1px solid var(--border); background:rgba(0,0,0,0.2); white-space:nowrap; display:flex; }
+    .marquee-track { display:inline-flex; animation:marquee 30s linear infinite; }
+    .marquee-item { font-size:18px; font-weight:600; color:var(--text-muted); margin:0 40px; display:inline-flex; align-items:center; gap:16px; }
+
+    /* 4. PROBLEM */
+    .section-pad { padding:120px 5%; max-width:1200px; margin:0 auto; }
+    .sec-title { text-align:center; font-size:40px; font-weight:800; margin-bottom:16px; letter-spacing:-1px; }
+    .sec-sub { text-align:center; font-size:18px; color:var(--text-muted); margin-bottom:64px; }
+    .problem-grid { display:grid; grid-template-columns:repeat(auto-fit, minmax(300px, 1fr)); gap:24px; }
+    .problem-card { background:var(--bg-card); border:1px solid var(--border); border-radius:16px; padding:32px; }
+    .problem-icon { width:56px; height:56px; background:var(--danger-light); border-radius:12px; display:flex; align-items:center; justify-content:center; margin-bottom:24px; color:var(--danger); font-size:24px; }
+
+    /* 5. BENTO GRID */
+    .bento-grid { display:grid; grid-template-columns:repeat(3, 1fr); gap:24px; grid-auto-rows:minmax(260px, auto); }
+    .bento-card { background:var(--bg-card); border:1px solid var(--border); border-radius:24px; padding:32px; position:relative; overflow:hidden; transition:transform 0.3s, border-color 0.3s; display:flex; flex-direction:column; }
+    .bento-card:hover { transform:translateY(-5px); border-color:var(--teal); }
+    .bento-large { grid-column:span 2; grid-row:span 2; }
+    .bento-ui { margin-top:auto; background:rgba(0,0,0,0.3); border:1px solid var(--border); border-radius:12px; padding:16px; }
+
+    /* 6. AI DEMO */
+    .ai-demo { background:radial-gradient(circle at center, #16264f 0%, #0D1B3E 100%); border:1px solid var(--border); border-radius:24px; padding:64px; text-align:center; }
+    .demo-input-group { display:flex; max-width:500px; margin:32px auto; gap:12px; background:rgba(0,0,0,0.3); padding:8px; border-radius:12px; border:1px solid var(--border); }
+    .demo-input { flex:1; background:transparent; border:none; color:#fff; padding:12px; font-size:16px; outline:none; }
+    .demo-result { max-width:400px; margin:32px auto 0; background:#075e54; border-radius:16px; border-top-left-radius:0; padding:16px; text-align:left; font-size:15px; line-height:1.5; box-shadow:0 10px 20px rgba(0,0,0,0.3); display:none; }
+
+    /* 7. BEFORE / AFTER */
+    .split-container { display:flex; gap:32px; margin-top:40px; overflow:hidden; }
+    .split-card { flex:1; padding:40px; border-radius:24px; border:1px solid var(--border); }
+    .split-bad { background:linear-gradient(180deg, rgba(239, 68, 68, 0.05) 0%, transparent 100%); border-top-color:var(--danger); }
+    .split-good { background:linear-gradient(180deg, rgba(2, 128, 144, 0.05) 0%, transparent 100%); border-top-color:var(--teal); }
+    .chat-bubble { padding:16px; border-radius:16px; margin-bottom:16px; font-size:15px; line-height:1.5; display:inline-block; max-width:80%; }
+    .bubble-sent { background:#2a3942; border-bottom-right-radius:4px; float:right; clear:both; }
+    .bubble-received { background:#202c33; border-bottom-left-radius:4px; float:left; clear:both; }
+
+    /* 8. PRICING */
+    .pricing-toggle { display:flex; justify-content:center; align-items:center; gap:16px; margin-bottom:48px; }
+    .switch { position:relative; display:inline-block; width:60px; height:34px; }
+    .switch input { opacity:0; width:0; height:0; }
+    .slider { position:absolute; cursor:pointer; top:0; left:0; right:0; bottom:0; background-color:var(--bg-card); transition:.4s; border-radius:34px; border:1px solid var(--border); }
+    .slider:before { position:absolute; content:""; height:26px; width:26px; left:3px; bottom:3px; background-color:var(--teal); transition:.4s; border-radius:50%; }
+    input:checked + .slider:before { transform:translateX(26px); }
+    
+    .pricing-grid { display:grid; grid-template-columns:repeat(4, 1fr); gap:24px; }
+    .price-card { background:var(--bg-card); border:1px solid var(--border); border-radius:24px; padding:32px; display:flex; flex-direction:column; }
+    .price-card.popular { border:2px solid var(--teal); position:relative; transform:scale(1.05); }
+    .popular-badge { position:absolute; top:-14px; left:50%; transform:translateX(-50%); background:var(--teal); color:#fff; padding:4px 12px; border-radius:99px; font-size:12px; font-weight:700; }
+    .price-features { margin:32px 0; flex:1; list-style:none; }
+    .price-features li { margin-bottom:16px; color:var(--text-muted); font-size:14px; display:flex; gap:12px; }
+
+    /* 9. TESTIMONIALS */
+    .testi-carousel { display:flex; gap:24px; overflow-x:auto; padding:20px 0; scrollbar-width:none; }
+    .testi-carousel::-webkit-scrollbar { display:none; }
+    .testi-card { min-width:350px; background:var(--bg-card); border:1px solid var(--border); border-radius:16px; padding:32px; }
+    .stars { color:#fbbf24; margin-bottom:16px; letter-spacing:2px; }
+
+    /* 10. FINAL CTA */
+    .final-cta { background:linear-gradient(135deg, var(--teal) 0%, #014d56 100%); padding:100px 5%; text-align:center; }
+    .cta-input-group { display:flex; max-width:400px; margin:32px auto 16px; background:#fff; padding:6px; border-radius:12px; }
+    .cta-input-group input { flex:1; border:none; padding:12px; outline:none; font-size:16px; border-radius:8px; color:#000; }
+    .cta-input-group button { background:#000; color:#fff; border:none; padding:12px 24px; border-radius:8px; font-weight:600; cursor:pointer; }
+
+    /* 11. FOOTER */
+    .footer { padding:80px 5% 40px; background:#071026; }
+    .footer-grid { display:grid; grid-template-columns:2fr 1fr 1fr 1fr; gap:40px; margin-bottom:60px; }
+    .footer-col h4 { font-size:16px; margin-bottom:24px; font-weight:600; color:#fff; }
+    .footer-col ul li { margin-bottom:12px; color:var(--text-muted); font-size:14px; cursor:pointer; transition:color 0.2s; }
+    .footer-col ul li:hover { color:var(--teal); }
+
+    @media(max-width:900px) {
+      .hero { flex-direction:column; text-align:center; padding-top:140px; }
+      .bento-grid, .pricing-grid { grid-template-columns:1fr; }
+      .bento-large { grid-column:span 1; grid-row:span 1; }
+      .split-container { flex-direction:column; }
+      .price-card.popular { transform:none; }
+      .footer-grid { grid-template-columns:1fr 1fr; }
+      .nav-links, .nav-actions .btn-outline { display:none; }
+      .hero-visual { padding:40px 0 0 0; width:100%; }
+      .css-dashboard { width:100%; }
+      .hero h1 { font-size: 40px; min-height:100px; }
+    }
+  </style>
 </head>
 <body>
 
-  <!-- NAVBAR -->
-  <nav>
-    <a href="/" class="logo">
-      <span style="color:var(--accent-teal);">⚡</span> PayVlt
-    </a>
+  <!-- 1. NAVBAR -->
+  <nav class="navbar" id="navbar">
+    <a href="#" class="logo">PayVlt <span style="color:var(--teal);">💰</span></a>
     <div class="nav-links">
       <a href="#features">Features</a>
-      <a href="#how-it-works">How It Works</a>
-      <a href="#legal">Legal Shield</a>
       <a href="#pricing">Pricing</a>
+      <a href="#demo">AI Demo</a>
+      <a href="/index.html">Login</a>
     </div>
     <div class="nav-actions">
-      <a href="/login" class="btn btn-ghost" id="nav-login-btn">Log In</a>
-      <a href="/register" class="btn btn-teal" id="nav-start-btn">Start Free &rarr;</a>
+      <a href="/index.html?register=true" class="btn btn-teal">Start Free &rarr;</a>
     </div>
   </nav>
 
-  <!-- HERO SECTION -->
+  <!-- 2. HERO -->
   <section class="hero">
     <div class="hero-glow"></div>
-    <div class="animated-badge">
-      <div class="dot-pulse"></div>
-      Built for Indian Contractors
-    </div>
-    
-    <h1 class="fade-up">Get Paid.<br><span class="text-teal">Every Time.</span></h1>
-    <p class="sub fade-up" style="transition-delay: 0.1s;">Stop chasing clients for payments. PayVlt automates everything — from digital agreements to legal protection.</p>
-    
-    <div class="hero-actions fade-up" style="transition-delay: 0.2s;">
-      <a href="/register" class="btn btn-teal" style="padding: 16px 32px; font-size: 16px;">Start Free — No Card Needed &rarr;</a>
-      <a href="#how-it-works" class="btn btn-outline" style="padding: 16px 32px; font-size: 16px;">See How It Works</a>
-    </div>
-    <div class="hero-meta fade-up" style="transition-delay: 0.3s;">
-      30 days free · MSME compliant · GST ready · 4 Indian languages
-    </div>
-
-    <div class="hero-mockup fade-up" style="transition-delay: 0.4s;">
-      <div class="mockup-header">
-        <div class="m-dot"></div><div class="m-dot"></div><div class="m-dot"></div>
-        <div class="m-url">payvlt.in/dashboard</div>
+    <div class="hero-content fade-up">
+      <div class="hero-pill">
+        <span></span> 🇮🇳 Built for Indian contractors
       </div>
-      <img src="payvlt_dashboard_demo.png" alt="PayVlt Dashboard" style="width:100%; display:block;" />
-    </div>
-  </section>
-
-  <!-- STATS BAR -->
-  <div class="stats-bar fade-up">
-    <div class="stat-item">
-      <h3>50%+</h3>
-      <p>B2B Invoices Delayed</p>
-    </div>
-    <div class="stat-item">
-      <h3>34 Days</h3>
-      <p>Average Extra Wait</p>
-    </div>
-    <div class="stat-item">
-      <h3>₹3L Cr</h3>
-      <p>Stuck in Disputes</p>
-    </div>
-    <div class="stat-item">
-      <h3>5 Cr+</h3>
-      <p>Contractors in India</p>
-    </div>
-  </div>
-
-  <!-- PROBLEM SECTION -->
-  <section id="problem">
-    <span class="section-tag fade-up">The Problem</span>
-    <div class="section-title fade-up">
-      <h2>Every Contractor Knows This Pain</h2>
-      <p>You do the work. You send the invoice. Then you wait.</p>
-    </div>
-    
-    <div class="grid-2x2 fade-up">
-      <div class="problem-card">
-        <h3>⏳ Weeks of Waiting</h3>
-        <p>Projects worth lakhs complete — payment arrives 60+ days later.</p>
-      </div>
-      <div class="problem-card">
-        <h3>📞 Awkward Follow-ups</h3>
-        <p>Personal calls feel uncomfortable. Every reminder risks relationships.</p>
-      </div>
-      <div class="problem-card">
-        <h3>📉 Missed Opportunities</h3>
-        <p>While waiting for payment, you miss the next project.</p>
-      </div>
-      <div class="problem-card">
-        <h3>📋 No Legal Protection</h3>
-        <p>Without agreements, you have no leverage when clients delay.</p>
+      <h1>
+        <div id="typewriter" class="typewriter"></div>
+      </h1>
+      <p class="sub fade-up stagger-1">PayVlt helps Indian contractors get paid — without chasing clients. Digital agreements, MSME tracking, and automated reminders in 5 languages.</p>
+      <div class="hero-buttons fade-up stagger-2">
+        <a href="/index.html?register=true" class="btn btn-teal">Start Free</a>
+        <a href="#features" class="btn btn-outline">See how it works</a>
       </div>
     </div>
-  </section>
-
-  <!-- HOW IT WORKS -->
-  <section id="how-it-works">
-    <span class="section-tag fade-up">How It Works</span>
-    <div class="section-title fade-up">
-      <h2>Simple. Automated. Effective.</h2>
-    </div>
-
-    <div class="steps-row fade-up">
-      <div class="steps-line"></div>
-      <div class="step-item">
-        <div class="step-circle">01</div>
-        <h4>🤝 Digital Agreement</h4>
-        <p>Legally binding agreements. Client signs via WhatsApp link.</p>
-      </div>
-      <div class="step-item">
-        <div class="step-circle">02</div>
-        <h4>📄 GST Invoice</h4>
-        <p>Professional invoices in one click. CGST + SGST auto-calculated.</p>
-      </div>
-      <div class="step-item">
-        <div class="step-circle">03</div>
-        <h4>📲 Auto Reminders</h4>
-        <p>Day 7, 15, 30, 45 — automatic. Friendly to firm — you never call.</p>
-      </div>
-      <div class="step-item">
-        <div class="step-circle">04</div>
-        <h4>⚖️ MSME Protection</h4>
-        <p>45-day legal compliance tracked. Client's tax at risk if they delay.</p>
-      </div>
-      <div class="step-item">
-        <div class="step-circle">05</div>
-        <h4>💰 Payment Collected</h4>
-        <p>Get paid faster with zero relationship damage.</p>
-      </div>
-    </div>
-  </section>
-
-  <!-- FEATURES SECTION -->
-  <section id="features" class="features-split fade-up">
-    <div class="feature-list">
-      <div class="feature-item">
-        <h4>💸 Payment Dashboard</h4>
-        <p>Receivables, overdue, collected — risk scores per project.</p>
-      </div>
-      <div class="feature-item">
-        <h4>📊 Tally & Reconciliation</h4>
-        <p>One-click with CSV export.</p>
-      </div>
-      <div class="feature-item">
-        <h4>📓 Site Diary</h4>
-        <p>Digital daily logs — owners see site progress in real time.</p>
-      </div>
-      <div class="feature-item">
-        <h4>🌐 5 Indian Languages</h4>
-        <p>Hindi, Marathi, Gujarati, Telugu, English — client's language.</p>
-      </div>
-    </div>
-    <div style="text-align:center;">
-      <div style="display:inline-block; border: 8px solid #333; border-radius: 40px; overflow:hidden; box-shadow: 0 20px 40px rgba(0,0,0,0.5);">
-        <img src="payvlt_mobile_mockup.png" alt="PayVlt Mobile App" style="width: 300px; height: 600px; object-fit: cover; display: block;" />
-      </div>
-    </div>
-  </section>
-
-  <!-- AI SECTION -->
-  <section id="ai" class="fade-up">
-    <div class="ai-section">
-      <!-- Left: Chat Demo -->
-      <div class="ai-chat-demo">
-        <div class="msg ai">Namaste! I'm your PayVlt business advisor. How can I help? 🙏</div>
-        <div class="msg user">Client hasn't paid ₹5.8 lakh in 16 days. What should I do?</div>
-        <div class="msg ai">At Day 16, send a Firm Reminder via WhatsApp. Mention the 45-day MSME limit — client loses tax deduction if they cross Day 45.<br><br>Want me to draft the message? 📝</div>
-        <div class="msg ai typing"><span></span><span></span><span></span></div>
-      </div>
-      
-      <!-- Right: Features -->
-      <div>
-        <span class="section-tag">AI-Powered</span>
-        <h2 style="font-size:40px; margin-bottom:32px;">Your Business AI Advisor</h2>
-        <div class="feature-list" style="gap:24px;">
-          <div>
-            <h4 style="font-size:18px; color:white; margin-bottom:4px;">🤖 Trained on Indian Business</h4>
-            <p>Knows MSME Act, GST rules, MSEFC arbitration. Hindi or English.</p>
-          </div>
-          <div>
-            <h4 style="font-size:18px; color:white; margin-bottom:4px;">📈 Business Insights</h4>
-            <p>Unlock after 3 projects — collection analysis, risk predictions, forecasts.</p>
-          </div>
-          <div>
-            <h4 style="font-size:18px; color:white; margin-bottom:4px;">⚡ Instant Expert Advice</h4>
-            <p>Get specific, actionable advice on any payment situation.</p>
-          </div>
+    <div class="hero-visual fade-up stagger-3">
+      <div class="css-dashboard">
+        <div class="dash-header">
+          <div style="font-weight:700; font-size:18px;">Dashboard</div>
+          <div style="width:32px; height:32px; border-radius:50%; background:var(--border);"></div>
+        </div>
+        <div class="dash-metrics">
+          <div class="metric-card"><div class="metric-title">Total Receivable</div><div class="metric-val">₹4,50,000</div></div>
+          <div class="metric-card"><div class="metric-title">Overdue</div><div class="metric-val" style="color:var(--danger);">₹1,20,000</div></div>
+          <div class="metric-card"><div class="metric-title">Collected</div><div class="metric-val" style="color:var(--teal);">₹2,80,000</div></div>
+        </div>
+        <div class="dash-table">
+          <div class="t-row"><span style="font-weight:600;">Rahul Enterprises</span> <span class="badge-r">Overdue</span></div>
+          <div class="t-row"><span style="font-weight:600;">Gupta Traders</span> <span class="badge-t">Paid</span></div>
+          <div class="t-row"><span style="font-weight:600;">Sharma HVAC</span> <span class="badge-t">Paid</span></div>
+        </div>
+        <div class="wa-popup">
+          <div class="wa-icon">💬</div>
+          <div class="wa-text"><span>Auto-Reminder Sent</span> "Namaste Rahul ji, payment due hai..."</div>
         </div>
       </div>
     </div>
   </section>
 
-  <!-- LEGAL SHIELD -->
-  <section id="legal" class="shield-section fade-up">
-    <span class="section-tag" style="display:block; text-align:center;">Legal Protection</span>
-    <div class="section-title">
-      <h2>India's Strongest Payment Shield</h2>
+  <!-- 3. SOCIAL PROOF MARQUEE -->
+  <div class="marquee-container fade-up">
+    <div class="marquee-track">
+      <!-- Group 1 -->
+      <div class="marquee-item"><span>✦</span> 127 Contractors Active</div>
+      <div class="marquee-item"><span>✦</span> ₹2.4 Cr Recovered</div>
+      <div class="marquee-item"><span>✦</span> 5 Indian Languages</div>
+      <div class="marquee-item"><span>✦</span> MSME Compliant</div>
+      <div class="marquee-item"><span>✦</span> Used in Mumbai, Delhi, Indore, Pune</div>
+      <!-- Group 2 (Duplicate for infinite scroll) -->
+      <div class="marquee-item"><span>✦</span> 127 Contractors Active</div>
+      <div class="marquee-item"><span>✦</span> ₹2.4 Cr Recovered</div>
+      <div class="marquee-item"><span>✦</span> 5 Indian Languages</div>
+      <div class="marquee-item"><span>✦</span> MSME Compliant</div>
+      <div class="marquee-item"><span>✦</span> Used in Mumbai, Delhi, Indore, Pune</div>
     </div>
+  </div>
 
-    <div class="grid-3x2">
-      <div class="shield-card">
-        <h3>19.5%</h3>
-        <p><strong>Compound Interest</strong><br>MSMED Act Section 16 — 3× RBI rate after 45 days.</p>
+  <!-- 4. PROBLEM SECTION -->
+  <section class="section-pad">
+    <h2 class="sec-title fade-up">Itna kaam, phir bhi payment nahi?</h2>
+    <p class="sec-sub fade-up">The traditional way of chasing clients is broken.</p>
+    <div class="problem-grid">
+      <div class="problem-card fade-up stagger-1">
+        <div class="problem-icon">👻</div>
+        <h3 style="font-size:20px; font-weight:700; margin-bottom:12px;">Client ghosting</h3>
+        <p style="color:var(--text-muted); line-height:1.6;">Project is done, but the client stops picking up calls. You're left begging for your own hard-earned money.</p>
       </div>
-      <div class="shield-card">
-        <h3>75%</h3>
-        <p><strong>Pre-deposit to Challenge</strong><br>Client must deposit 75% to fight award in court.</p>
+      <div class="problem-card fade-up stagger-2">
+        <div class="problem-icon">📄</div>
+        <h3 style="font-size:20px; font-weight:700; margin-bottom:12px;">No GST invoice</h3>
+        <p style="color:var(--text-muted); line-height:1.6;">Sending rough bills on WhatsApp destroys your professional image and causes tax reconciliation nightmares.</p>
       </div>
-      <div class="shield-card">
-        <h3>90 Days</h3>
-        <p><strong>Fast Arbitration</strong><br>MSEFC — faster than any court. One click from dashboard.</p>
-      </div>
-      <div class="shield-card">
-        <h3>₹3L</h3>
-        <p><strong>Tax Deduction Lost</strong><br>Section 43B(h) — client loses deduction at 30% bracket.</p>
-      </div>
-      <div class="shield-card">
-        <h3>IT Act</h3>
-        <p><strong>Digital Agreement Valid</strong><br>Section 10A — electronic agreements enforceable in Indian courts.</p>
-      </div>
-      <div class="shield-card">
-        <h3>MCA</h3>
-        <p><strong>Director Liability</strong><br>2025 rule — directors personally liable for delayed payments.</p>
+      <div class="problem-card fade-up stagger-3">
+        <div class="problem-icon">⏳</div>
+        <h3 style="font-size:20px; font-weight:700; margin-bottom:12px;">Payment stuck for 90+ days</h3>
+        <p style="color:var(--text-muted); line-height:1.6;">Without an MSME clause or automated follow-ups, your working capital gets locked up indefinitely.</p>
       </div>
     </div>
   </section>
 
-  <!-- PRICING -->
-  <section id="pricing" class="fade-up">
-    <span class="section-tag" style="display:block; text-align:center;">Pricing</span>
-    <div class="section-title">
-      <h2>Simple. Transparent.<br>Designed for India.</h2>
-      <div style="display:inline-block; padding:8px 16px; background:rgba(239,68,68,0.1); border:1px solid rgba(239,68,68,0.3); border-radius:8px; color:#EF4444; font-weight:bold; font-size:14px; margin-top:16px;">🔥 Founder's pricing ends soon</div>
+  <!-- 5. FEATURES BENTO GRID -->
+  <section id="features" class="section-pad" style="padding-top:0;">
+    <h2 class="sec-title fade-up">Everything you need to get paid.</h2>
+    <div class="bento-grid mt-4">
+      <div class="bento-card bento-large fade-up">
+        <h3 style="font-size:24px; font-weight:700; margin-bottom:12px;">WhatsApp Auto-Reminders</h3>
+        <p style="color:var(--text-muted); line-height:1.5; font-size:15px;">Schedule smart reminders in the client's preferred language. Never sound desperate again.</p>
+        <div class="bento-ui" style="display:flex; gap:12px; margin-top:24px;">
+          <div style="flex:1; background:var(--bg); border-radius:8px; padding:12px; font-size:12px; color:var(--text-muted);">Select Language:<br><br><span style="color:#fff;">Hindi, Marathi, Gujarati...</span></div>
+          <div style="flex:2; background:#202c33; border-radius:8px; padding:12px; font-size:12px;">"Sir, payment pending hai. Kripya aaj clear karein."</div>
+        </div>
+      </div>
+      <div class="bento-card fade-up stagger-1">
+        <h3 style="font-size:24px; font-weight:700; margin-bottom:12px;">GST Invoices</h3>
+        <p style="color:var(--text-muted); line-height:1.5; font-size:15px;">Generate professional, compliant GST invoices in one click.</p>
+        <div class="bento-ui" style="text-align:center; font-size:24px;">🧾</div>
+      </div>
+      <div class="bento-card fade-up stagger-2">
+        <h3 style="font-size:24px; font-weight:700; margin-bottom:12px;">MSME 45-Day Tracker</h3>
+        <p style="color:var(--text-muted); line-height:1.5; font-size:15px;">Automatically track the 45-day legal limit and warn clients of interest penalties.</p>
+        <div class="bento-ui" style="color:var(--danger); font-weight:700; text-align:center;">Day 42 / 45</div>
+      </div>
+      <div class="bento-card fade-up stagger-3">
+        <h3 style="font-size:24px; font-weight:700; margin-bottom:12px;">Risk Score</h3>
+        <p style="color:var(--text-muted); line-height:1.5; font-size:15px;">Predict which clients will default before you start the work.</p>
+      </div>
+      <div class="bento-card fade-up">
+        <h3 style="font-size:24px; font-weight:700; margin-bottom:12px;">Site Diary</h3>
+        <p style="color:var(--text-muted); line-height:1.5; font-size:15px;">Log daily materials and labor so the client can't dispute the final bill.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 6. LIVE AI DEMO -->
+  <section id="demo" class="section-pad" style="padding-top:0;">
+    <div class="ai-demo fade-up">
+      <h2 style="font-size:32px; font-weight:700; margin-bottom:16px;">See PayVlt work in real time.</h2>
+      <p style="color:var(--text-muted);">Generate a professional reminder instantly.</p>
+      
+      <div class="demo-input-group">
+        <input type="text" id="demo-client" class="demo-input" placeholder="Client Name (e.g. Rahul)" style="border-right:1px solid var(--border); border-radius:0;">
+        <input type="number" id="demo-amount" class="demo-input" placeholder="Amount (e.g. 50000)">
+        <button class="btn btn-teal" onclick="generateDemoChat()">Generate &rarr;</button>
+      </div>
+      
+      <div id="demo-chat" class="demo-result">
+        <!-- Injected via JS -->
+      </div>
+    </div>
+  </section>
+
+  <!-- 7. BEFORE / AFTER -->
+  <section class="section-pad" style="padding-top:0;">
+    <h2 class="sec-title fade-up">The PayVlt Difference</h2>
+    <div class="split-container">
+      <div class="split-card split-bad slide-left">
+        <h3 class="split-title"><span style="color:var(--danger);">✕</span> Without PayVlt</h3>
+        <div style="margin-top:32px;">
+          <div class="chat-bubble bubble-sent">Bhai paisa kab doge? 3 mahine ho gaye.</div>
+          <div class="chat-bubble bubble-received">Dekhta hu bhai, abhi market tight hai.</div>
+          <div class="chat-bubble bubble-sent">Please bhai material ka dena hai.</div>
+        </div>
+      </div>
+      <div class="split-card split-good slide-right">
+        <h3 class="split-title"><span style="color:var(--teal);">✓</span> With PayVlt</h3>
+        <div style="margin-top:32px;">
+          <div class="chat-bubble bubble-sent" style="background:#075e54;">
+            <strong>System Auto-Reminder</strong><br>
+            Namaste Rahul Ji,<br>
+            Aapka invoice INV-041 (₹50,000) due hai. As per MSMED Act, kripya 48 hours mein payment clear karein to avoid 19.5% interest.<br>
+            <a href="#" style="color:#60a5fa; text-decoration:underline;">payvlt.in/pay/INV-041</a>
+          </div>
+          <div class="chat-bubble bubble-received">Payment done sir. Receipt attached.</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 8. PRICING -->
+  <section id="pricing" class="section-pad" style="padding-top:0;">
+    <h2 class="sec-title fade-up">Simple, transparent pricing.</h2>
+    <div class="pricing-toggle fade-up">
+      <span style="color:var(--text-muted); font-weight:500;">Monthly</span>
+      <label class="switch">
+        <input type="checkbox" id="pricing-toggle" onchange="togglePricing()">
+        <span class="slider"></span>
+      </label>
+      <span style="font-weight:600;">Yearly <span style="color:var(--teal); font-size:12px;">(Save 20%)</span></span>
     </div>
 
     <div class="pricing-grid">
-      <!-- Free -->
-      <div class="price-card">
-        <h3>Free</h3>
-        <p style="font-size:14px; color:var(--text-muted);">1 project, basic tracking</p>
-        <div class="price-amount">₹0<span>/forever</span></div>
-        <a href="/register" class="btn btn-outline" style="width:100%;">Get Started Free</a>
-      </div>
-
-      <!-- Professional -->
-      <div class="price-card featured">
-        <div class="price-badge">FOUNDER'S PRICE</div>
-        <h3 class="text-teal">Professional</h3>
-        <p style="font-size:14px; color:var(--text-muted);">Unlimited power.</p>
-        <div class="strike">₹1,999</div>
-        <div class="price-amount">₹999<span>/month</span></div>
-        <a href="/register" class="btn btn-teal" style="width:100%;">Start 30-Day Trial</a>
-        <ul>
-          <li>✅ Unlimited projects</li>
-          <li>✅ Auto reminders</li>
-          <li>✅ Digital agreements</li>
-          <li>✅ GST invoices</li>
-          <li>✅ MSME tracker</li>
-          <li>✅ AI advisor</li>
-          <li>✅ 5 languages</li>
+      <div class="price-card fade-up">
+        <div class="price-name">Free</div>
+        <div class="price-amount">₹0</div>
+        <div class="price-period">forever</div>
+        <ul class="price-features">
+          <li><span>✓</span> Up to 3 projects</li>
+          <li><span>✓</span> Basic digital agreements</li>
+          <li><span>✓</span> Manual reminders</li>
         </ul>
+        <button class="btn btn-outline" style="margin-top:auto;" onclick="window.location.href='/index.html?register=true'">Start Free</button>
       </div>
-
-      <!-- Business -->
-      <div class="price-card">
-        <h3>Business</h3>
-        <p style="font-size:14px; color:var(--text-muted);">For large agencies.</p>
-        <div class="price-amount">₹3,499<span>/month</span></div>
-        <a href="/register" class="btn btn-outline" style="width:100%;">Contact Sales</a>
-        <ul>
-          <li>✅ Everything in Pro</li>
-          <li>✅ Multi-user</li>
-          <li>✅ Custom branding</li>
-          <li>✅ Legal notices</li>
-          <li>✅ Priority support</li>
+      <div class="price-card fade-up stagger-1">
+        <div class="price-name">Starter</div>
+        <div class="price-amount" data-monthly="999" data-yearly="799">₹999</div>
+        <div class="price-period">per month</div>
+        <ul class="price-features">
+          <li><span>✓</span> 15 projects / month</li>
+          <li><span>✓</span> Auto WhatsApp reminders</li>
+          <li><span>✓</span> GST Invoices</li>
         </ul>
+        <button class="btn btn-outline" style="margin-top:auto;">Subscribe</button>
       </div>
-    </div>
-    
-    <div style="text-align:center; margin-top:32px;">
-      <p style="font-size:15px; color:var(--text-white);">🎯 <strong>Lifetime Deal: ₹4,999 one time</strong><br>All Pro features forever — 7 spots left</p>
+      <div class="price-card popular fade-up stagger-2">
+        <div class="popular-badge">MOST POPULAR</div>
+        <div class="price-name" style="color:var(--teal);">Pro</div>
+        <div class="price-amount" data-monthly="3499" data-yearly="2799">₹3,499</div>
+        <div class="price-period">per month</div>
+        <ul class="price-features">
+          <li><span>✓</span> Unlimited projects</li>
+          <li><span>✓</span> MSME Legal shield</li>
+          <li><span>✓</span> Custom branding</li>
+          <li><span>✓</span> Tally export</li>
+        </ul>
+        <button class="btn btn-teal" style="margin-top:auto;">Subscribe Pro</button>
+      </div>
+      <div class="price-card fade-up stagger-3">
+        <div class="price-name">Lifetime</div>
+        <div class="price-amount">₹14,999</div>
+        <div class="price-period">one-time payment</div>
+        <ul class="price-features">
+          <li><span>✓</span> All Pro features</li>
+          <li><span>✓</span> Lifetime updates</li>
+          <li><span>✓</span> Priority support</li>
+        </ul>
+        <button class="btn btn-outline" style="margin-top:auto;">Get Lifetime</button>
+      </div>
     </div>
   </section>
 
-  <!-- CTA SECTION -->
-  <section class="cta-section fade-up">
-    <div class="cta-glow"></div>
-    <h2 style="font-size:48px; margin-bottom:16px;">Ready to Get Paid on Time?</h2>
-    <p style="font-size:20px; color:var(--text-muted); margin-bottom:40px;">Join contractors across India who use PayVlt to protect payments.</p>
-    <div style="display:flex; justify-content:center; gap:16px;">
-      <a href="/register" class="btn btn-teal" style="padding:16px 32px; font-size:16px;">Start Free — 30 Days No Card &rarr;</a>
-      <button onclick="document.getElementById('ai-chat-window').classList.remove('hidden')" class="btn btn-outline" style="padding:16px 32px; font-size:16px;">Talk to AI Advisor</button>
+  <!-- 9. TESTIMONIALS -->
+  <section class="section-pad" style="padding-top:0; overflow:hidden;">
+    <h2 class="sec-title fade-up">Loved by contractors across India.</h2>
+    <div class="testi-carousel fade-up mt-4">
+      <div class="testi-card">
+        <div class="stars">★★★★★</div>
+        <div class="testi-quote" style="font-size:16px; line-height:1.6; font-style:italic; margin-bottom:24px;">"Pehle client payment ke time phone nahi uthate the. Ab auto-reminder se time pe payment aa jata hai. Best app for contractors."</div>
+        <div style="display:flex; align-items:center; gap:12px;">
+          <div style="width:48px; height:48px; background:var(--border); border-radius:50%; display:flex; align-items:center; justify-content:center; font-weight:700; color:var(--teal);">V</div>
+          <div><div style="font-weight:600;">Vikram Singh</div><div style="font-size:12px; color:var(--text-muted);">HVAC Contractor, Indore</div></div>
+        </div>
+      </div>
+      <div class="testi-card">
+        <div class="stars">★★★★★</div>
+        <div class="testi-quote" style="font-size:16px; line-height:1.6; font-style:italic; margin-bottom:24px;">"The MSME 45-day tracker is a game changer. Corporate clients respect the professional invoices and legal warnings."</div>
+        <div style="display:flex; align-items:center; gap:12px;">
+          <div style="width:48px; height:48px; background:var(--border); border-radius:50%; display:flex; align-items:center; justify-content:center; font-weight:700; color:var(--teal);">A</div>
+          <div><div style="font-weight:600;">Amit Patel</div><div style="font-size:12px; color:var(--text-muted);">Civil Engineer, Ahmedabad</div></div>
+        </div>
+      </div>
+      <div class="testi-card">
+        <div class="stars">★★★★★</div>
+        <div class="testi-quote" style="font-size:16px; line-height:1.6; font-style:italic; margin-bottom:24px;">"Tally export saves me 10 hours every month. My CA is very happy with PayVlt generated reports."</div>
+        <div style="display:flex; align-items:center; gap:12px;">
+          <div style="width:48px; height:48px; background:var(--border); border-radius:50%; display:flex; align-items:center; justify-content:center; font-weight:700; color:var(--teal);">S</div>
+          <div><div style="font-weight:600;">Suresh Kumar</div><div style="font-size:12px; color:var(--text-muted);">Electricals, Pune</div></div>
+        </div>
+      </div>
     </div>
-    <p style="margin-top:40px; font-size:14px;">payvlt.in · Made in Indore 🇮🇳</p>
   </section>
 
-  <!-- FOOTER -->
-  <footer>
+  <!-- 10. FINAL CTA -->
+  <section class="final-cta fade-up">
+    <h2 style="font-size:48px; font-weight:800; margin-bottom:16px; letter-spacing:-1px;">Pehla payment aaj recover karo.</h2>
+    <p style="font-size:18px; opacity:0.9; margin-bottom:16px;">Stop working for free. Join 100+ contractors securing their business.</p>
+    <div style="font-size:14px; font-weight:700; color:#fbbf24; margin-bottom:32px;">🔥 Free forever for the first 50 contractors.</div>
+    <div class="cta-input-group">
+      <input type="email" placeholder="Enter your email address">
+      <button onclick="window.location.href='/index.html?register=true'">Get Early Access</button>
+    </div>
+  </section>
+
+  <!-- 11. FOOTER -->
+  <footer class="footer">
     <div class="footer-grid">
       <div class="footer-col">
-        <h4 style="font-family:'Syne', sans-serif; font-size:24px; font-weight:800; display:flex; align-items:center; gap:8px;"><span style="color:var(--accent-teal);">⚡</span> PayVlt</h4>
-        <p style="font-size:14px; margin-bottom:16px;">The financial OS for modern Indian contractors.</p>
-        <p style="font-size:14px;">Made in Indore 🇮🇳</p>
+        <a href="#" class="logo" style="margin-bottom:24px; display:block;">PayVlt <span style="color:var(--teal);">💰</span></a>
+        <p style="color:var(--text-muted); font-size:14px; line-height:1.6;">The complete financial OS for Indian HVAC, Civil, and Electrical contractors. Built to organize and protect your business.</p>
       </div>
       <div class="footer-col">
         <h4>Product</h4>
         <ul>
-          <li><a href="#features">Features</a></li>
-          <li><a href="#how-it-works">How It Works</a></li>
-          <li><a href="#pricing">Pricing</a></li>
+          <li>Features</li>
+          <li>Pricing</li>
+          <li>MSME Rules</li>
+          <li>GST Calculator</li>
         </ul>
       </div>
       <div class="footer-col">
-        <h4>Legal</h4>
+        <h4>Company</h4>
         <ul>
-          <li><a href="/privacy">Privacy Policy</a></li>
-          <li><a href="#">Terms of Service</a></li>
+          <li>About Us</li>
+          <li>Contact</li>
+          <li>Privacy Policy</li>
+          <li>Terms of Service</li>
         </ul>
       </div>
       <div class="footer-col">
-        <h4>Support</h4>
+        <h4>Connect</h4>
         <ul>
-          <li><a href="mailto:hello@payvlt.in">hello@payvlt.in</a></li>
-          <li><a href="#">Twitter</a></li>
+          <li>WhatsApp Support</li>
+          <li>LinkedIn</li>
+          <li>Twitter (X)</li>
         </ul>
       </div>
     </div>
     <div class="footer-bottom">
-      <div>© 2026 PayVlt. All rights reserved.</div>
+      <div>&copy; 2026 PayVlt. All rights reserved. GSTIN: 23AABCU9603R1ZX</div>
+      <div>Made with ❤️ in Indore 🇮🇳</div>
     </div>
   </footer>
 
-  <!-- FLOATING AI CHAT WIDGET -->
-  <div class="chat-widget-btn" onclick="toggleChat()">
-    <div class="chat-pulse"></div>
-    💬
-  </div>
-
-  <div id="ai-chat-window" class="chat-window hidden">
-    <div class="chat-header">
-      <div class="chat-header-info">
-        <div class="chat-avatar">🤖</div>
-        <div>
-          <div style="font-weight:600; font-size:15px;">PayVlt AI Advisor</div>
-          <div style="font-size:12px; color:var(--accent-teal);">● Business Expert — Online</div>
-        </div>
-      </div>
-      <button onclick="toggleChat()" style="background:none; border:none; color:var(--text-muted); cursor:pointer; font-size:20px;">&times;</button>
-    </div>
-    <div class="chat-body" id="chat-body">
-      <div class="msg ai">Namaste! 🙏 I am your PayVlt Business Advisor. I can help you with payment recovery, MSME law, GST invoices, and growing your contracting business. What would you like to know?</div>
-      
-      <!-- Quick Replies (Removed after first use) -->
-      <div class="chat-quick-replies" id="quick-replies">
-        <div class="quick-chip" onclick="sendQuickReply(this.innerText)">What is PayVlt?</div>
-        <div class="quick-chip" onclick="sendQuickReply(this.innerText)">How do reminders work?</div>
-        <div class="quick-chip" onclick="sendQuickReply(this.innerText)">MSME rules explain karo</div>
-        <div class="quick-chip" onclick="sendQuickReply(this.innerText)">Client ne pay nahi kiya — help</div>
-        <div class="quick-chip" onclick="sendQuickReply(this.innerText)">How to file MSEFC complaint?</div>
-      </div>
-    </div>
-    <div class="chat-input-area">
-      <input type="text" id="chat-input" placeholder="Type your message..." onkeypress="if(event.key === 'Enter') sendChatMessage()">
-      <button onclick="sendChatMessage()">
-        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="22" y1="2" x2="11" y2="13"></line><polygon points="22 2 15 22 11 13 2 9 22 2"></polygon></svg>
-      </button>
-    </div>
-  </div>
-
-  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <script>
-    // Intersection Observer for scroll animations
+    // 1. Intersection Observer for Scroll Animations
     const observer = new IntersectionObserver((entries) => {
       entries.forEach(entry => {
-        if (entry.isIntersecting) {
-          entry.target.classList.add('visible');
+        if(entry.isIntersecting) {
+          entry.target.classList.add('show');
         }
       });
     }, { threshold: 0.1 });
-    
-    document.querySelectorAll('.fade-up').forEach(el => observer.observe(el));
 
-    // Supabase routing logic
-    const U = "https://jwtjnrbwwjwtaukaoeda.supabase.co";
-    const K = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imp3dGpucmJ3d2p3dGF1a2FvZWRhIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzcwMTE0ODEsImV4cCI6MjA5MjU4NzQ4MX0.diAAnRtaTCw9BvHMW3AFE2l4d_B9er2yRLN5sYLdawo";
-    const sb = window.supabase.createClient(U, K);
+    document.querySelectorAll('.fade-up, .slide-left, .slide-right').forEach(el => observer.observe(el));
 
-    sb.auth.getSession().then(({ data: { session } }) => {
-      if (session) {
-        document.getElementById('nav-login-btn').style.display = 'none';
-        const startBtn = document.getElementById('nav-start-btn');
-        startBtn.innerHTML = 'Go to Dashboard &rarr;';
-        startBtn.href = '/dashboard';
-      }
+    // 2. Sticky Navbar Blur Effect
+    window.addEventListener('scroll', () => {
+      const nav = document.getElementById('navbar');
+      if(window.scrollY > 50) nav.classList.add('scrolled');
+      else nav.classList.remove('scrolled');
     });
 
-    document.querySelectorAll('a[href="/login"], a[href="/register"], a[href="/dashboard"]').forEach(a => {
-      a.addEventListener('click', (e) => {
-        e.preventDefault();
-        const url = a.getAttribute('href');
-        if (url === '/dashboard') {
-          window.location.href = '/index.html';
-        } else if (url === '/login') {
-          window.location.href = '/index.html';
-        } else {
-          window.location.href = '/index.html?register=true';
+    // 3. Typewriter Effect
+    const texts = [
+      "Recover payments automatically.",
+      "Send reminders in Hindi, Tamil, Gujarati.",
+      "GST invoices in one click."
+    ];
+    let count = 0, index = 0, currentText = '', isDeleting = false;
+    
+    function type() {
+      const el = document.getElementById('typewriter');
+      if(!el) return;
+      
+      const fullText = texts[count % texts.length];
+      
+      if(isDeleting) {
+        currentText = fullText.substring(0, index - 1);
+        index--;
+      } else {
+        currentText = fullText.substring(0, index + 1);
+        index++;
+      }
+      
+      el.textContent = currentText;
+      
+      let typeSpeed = isDeleting ? 50 : 100;
+      
+      if(!isDeleting && index === fullText.length) {
+        typeSpeed = 2000; // Pause at end
+        isDeleting = true;
+      } else if(isDeleting && index === 0) {
+        isDeleting = false;
+        count++;
+        typeSpeed = 500; // Pause before next
+      }
+      
+      setTimeout(type, typeSpeed);
+    }
+    document.addEventListener('DOMContentLoaded', type);
+
+    // 4. Pricing Toggle Logic
+    function togglePricing() {
+      const isYearly = document.getElementById('pricing-toggle').checked;
+      document.querySelectorAll('.price-amount').forEach(el => {
+        if(el.dataset.monthly && el.dataset.yearly) {
+          el.textContent = '₹' + (isYearly ? el.dataset.yearly : el.dataset.monthly);
         }
       });
-    });
+    }
 
-    // ── AI CHAT LOGIC ──
-    let chatHistory = [];
+    // 5. Live AI Demo Logic
+    function generateDemoChat() {
+      const client = document.getElementById('demo-client').value || 'Sir';
+      const amount = document.getElementById('demo-amount').value || '50,000';
+      const resultBox = document.getElementById('demo-chat');
+      
+      resultBox.style.display = 'block';
+      resultBox.innerHTML = '<span style="color:#aaa;">Typing...</span>';
+      
+      setTimeout(() => {
+        resultBox.innerHTML = `
+          <div style="font-size:12px; color:#cfcfcf; margin-bottom:8px;">Auto-generated Hindi Reminder:</div>
+          Namaste <strong>${client}</strong> Ji, 🙏<br><br>
+          Aapka project ka <strong>₹${amount}</strong> payment due hai. Kripya aaj clear kar dein taki hum aage ka kaam shuru kar sakein.<br><br>
+          <em>Thank you!</em>
+        `;
+      }, 800);
+    }
     
-    function toggleChat() {
-      document.getElementById('ai-chat-window').classList.toggle('hidden');
-    }
-
-    function sendQuickReply(text) {
-      document.getElementById('quick-replies').style.display = 'none';
-      document.getElementById('chat-input').value = text;
-      sendChatMessage();
-    }
-
-    async function sendChatMessage() {
-      const input = document.getElementById('chat-input');
-      const text = input.value.trim();
-      if(!text) return;
-
-      document.getElementById('quick-replies').style.display = 'none';
-      input.value = '';
-      
-      const body = document.getElementById('chat-body');
-      
-      // User msg
-      const userDiv = document.createElement('div');
-      userDiv.className = 'msg user';
-      userDiv.innerHTML = text + `<span class="msg-time">${new Date().toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'})}</span>`;
-      body.appendChild(userDiv);
-      
-      chatHistory.push({ role: 'user', content: text });
-
-      // Typing indicator
-      const typingDiv = document.createElement('div');
-      typingDiv.className = 'msg ai typing';
-      typingDiv.innerHTML = '<span></span><span></span><span></span>';
-      body.appendChild(typingDiv);
-      body.scrollTop = body.scrollHeight;
-
-      try {
-        const res = await fetch('/api/chat', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ messages: chatHistory })
-        });
-        
-        const data = await res.json();
-        body.removeChild(typingDiv);
-        
-        if (data.error) throw new Error(data.error);
-
-        const aiDiv = document.createElement('div');
-        aiDiv.className = 'msg ai';
-        aiDiv.innerHTML = data.reply.replace(/\n/g, '<br>') + `<span class="msg-time">${new Date().toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'})}</span>`;
-        body.appendChild(aiDiv);
-        
-        chatHistory.push({ role: 'assistant', content: data.reply });
-
-      } catch (e) {
-        body.removeChild(typingDiv);
-        const errDiv = document.createElement('div');
-        errDiv.className = 'msg ai';
-        errDiv.style.color = '#EF4444';
-        errDiv.innerText = "Advisor unavailable. Try again.";
-        body.appendChild(errDiv);
-      }
-      
-      body.scrollTop = body.scrollHeight;
+    // Auth redirect logic port from old version
+    const p = new URLSearchParams(window.location.search);
+    if(p.get('login')==='true' || p.get('register')==='true') {
+       window.location.href = '/index.html' + window.location.search;
     }
   </script>
 </body>

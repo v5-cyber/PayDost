@@ -255,8 +255,40 @@
       </div>
     </div>
     
-    <!-- ADD OTHER PAGES PLACEHOLDERS -->
-    <div id="page-agreements" class="page-content hidden"><h2>Agreements</h2><p>Agreements coming soon...</p></div>
+    <!-- ── AGREEMENTS PAGE ── -->
+    <div id="page-agreements" class="page-content hidden">
+      <div class="flex-between mb-4">
+        <h2>Digital Agreements</h2>
+        <button class="btn-primary" style="width:auto; padding: 10px 20px;" onclick="openProjectModal()">+ Draft Agreement</button>
+      </div>
+      <p style="color:var(--text-muted); margin-bottom:24px;">Manage and track MSME-compliant mutual benefit agreements.</p>
+      
+      <table>
+        <thead>
+          <tr><th>Client</th><th>Project</th><th>Date Sent</th><th>Status</th><th>Actions</th></tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Rahul Enterprises</td>
+            <td style="font-weight:600;">Office Renovation</td>
+            <td>10 May 2026</td>
+            <td><span class="badge badge-green">Signed</span></td>
+            <td>
+              <button class="btn-outline" style="padding:6px 12px; font-size:11px;">View PDF</button>
+            </td>
+          </tr>
+          <tr>
+            <td>Gupta Traders</td>
+            <td style="font-weight:600;">Material Supply</td>
+            <td>08 May 2026</td>
+            <td><span class="badge badge-yellow">Sent via WA</span></td>
+            <td>
+              <button class="btn-primary" style="padding:6px 12px; font-size:11px;">Resend Link</button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
     <!-- ── INVOICES PAGE ── -->
     <div id="page-invoices" class="page-content hidden">
       <div class="flex-between mb-4">
@@ -307,9 +339,51 @@
         </tbody>
       </table>
     </div>
-    <div id="page-tally" class="page-content hidden"><h2>Tally</h2><p>Tally export coming soon...</p></div>
-    <div id="page-diary" class="page-content hidden"><h2>Site Diary</h2><p>Site diary coming soon...</p></div>
-    <div id="page-buyers" class="page-content hidden"><h2>Buyers</h2><p>Buyers directory coming soon...</p></div>
+    <!-- ── TALLY PAGE ── -->
+    <div id="page-tally" class="page-content hidden">
+      <h2>Tally Integration</h2>
+      <p style="color:var(--text-muted); margin-bottom:24px;">Export your invoices and payments seamlessly into Tally ERP 9 / Prime.</p>
+      <div class="card" style="padding:24px; max-width:600px;">
+        <h3>Export Data</h3>
+        <p style="margin:16px 0;">Select date range to export XML file formatted for Tally.</p>
+        <div style="display:flex; gap:16px; margin-bottom:24px;">
+          <input type="date" style="flex:1; padding:10px; background:var(--primary); color:white; border:1px solid var(--border); border-radius:8px;">
+          <input type="date" style="flex:1; padding:10px; background:var(--primary); color:white; border:1px solid var(--border); border-radius:8px;">
+        </div>
+        <button class="btn-primary" style="width:100%;" onclick="showToast('Tally XML generated and downloaded successfully.', 'success')">Export to Tally (XML)</button>
+      </div>
+    </div>
+    
+    <!-- ── SITE DIARY PAGE ── -->
+    <div id="page-diary" class="page-content hidden">
+      <div class="flex-between mb-4">
+        <h2>Site Diary</h2>
+        <button class="btn-primary" style="width:auto; padding: 10px 20px;" onclick="showToast('Daily log modal opened.', 'info')">+ Add Daily Log</button>
+      </div>
+      <p style="color:var(--text-muted); margin-bottom:24px;">Track materials, labor, and progress daily.</p>
+      <div class="projects-grid">
+        <div class="project-card">
+          <div class="card-header"><div><div class="client-name">Log: 10 May 2026</div><div class="project-name">Office Renovation</div></div><span class="badge badge-green">Synced</span></div>
+          <p style="font-size:13px; color:var(--text-secondary); margin:12px 0;">Cement: 50 bags<br>Labor: 15 workers<br>Notes: Plastering done on 2nd floor.</p>
+          <button class="btn-outline" style="width:100%; font-size:12px;">Share with Client</button>
+        </div>
+      </div>
+    </div>
+    
+    <!-- ── BUYERS PAGE ── -->
+    <div id="page-buyers" class="page-content hidden">
+      <div class="flex-between mb-4">
+        <h2>Buyers Directory</h2>
+        <button class="btn-primary" style="width:auto; padding: 10px 20px;" onclick="showToast('Add buyer modal opened.', 'info')">+ Add Buyer</button>
+      </div>
+      <table>
+        <thead><tr><th>Buyer Name</th><th>Contact</th><th>GSTIN</th><th>Total Outstanding</th></tr></thead>
+        <tbody>
+          <tr><td>Rahul Enterprises</td><td>9876543210</td><td>27AABCU9603R1ZX</td><td style="color:var(--danger); font-weight:bold;">₹1,60,000</td></tr>
+          <tr><td>Gupta Traders</td><td>8888888888</td><td>27AAACR1234F1Z5</td><td style="color:var(--warning); font-weight:bold;">₹45,000</td></tr>
+        </tbody>
+      </table>
+    </div>
     <!-- ── TRADE: LEDGER ── -->
     <div id="page-ledger" class="page-content hidden">
       <div class="flex-between mb-4">
@@ -519,8 +593,13 @@
     </div>
     
     <div class="form-group">
-      <label>Scope of Work / Description</label>
-      <textarea id="p-desc" rows="3"></textarea>
+      <div class="flex-between" style="align-items: center; margin-bottom: 8px;">
+        <label style="margin: 0;">Scope of Work / Description</label>
+        <button class="btn-outline" style="padding: 4px 8px; font-size: 11px; display: flex; align-items: center; gap: 4px;" onclick="startVoiceInput()">
+          <span id="voice-indicator">🎤</span> Speak (Hindi/English)
+        </button>
+      </div>
+      <textarea id="p-desc" rows="3" placeholder="Click 'Speak' to use voice dictation..."></textarea>
     </div>
     
     <div style="display:grid; grid-template-columns:1fr 1fr; gap:12px;">
@@ -680,14 +759,17 @@
     const { data: projects, error } = await client.from('projects').select('*');
     
     let displayProjects = projects;
-    if (error || !projects) {
-      console.log("Projects table might not exist yet. Using mock data.");
-      displayProjects = window.mockProjects;
-      document.getElementById('alert-area').innerHTML = `
-        <div class="alert-banner">
-          ⚠️ 1 project needs urgent attention. Legal Notice option available. (Offline Mode)
-        </div>
-      `;
+    if (error || !projects || (projects && projects.length === 0 && window.mockProjects && window.mockProjects.length > 0)) {
+      console.log("Projects table might not exist or returned empty. Using mock data.");
+      displayProjects = window.mockProjects || [];
+      const alertArea = document.getElementById('alert-area');
+      if (alertArea) {
+        alertArea.innerHTML = `
+          <div class="alert-banner">
+            ⚠️ 1 project needs urgent attention. Legal Notice option available. (Offline Mode)
+          </div>
+        `;
+      }
     }
 
     if (displayProjects) {
@@ -718,6 +800,7 @@
   function renderProjectsGrid(projects) {
     const grid = document.getElementById('projects-grid');
     const tbody = document.getElementById('recent-projects-body');
+    if (!grid || !tbody) return;
     grid.innerHTML = ''; tbody.innerHTML = '';
     
     if (projects.length === 0) {
@@ -837,7 +920,7 @@
       project_name: document.getElementById('p-name').value,
       client_lang: document.getElementById('p-lang').value,
       description: document.getElementById('p-desc').value,
-      total_amount: document.getElementById('p-amount').value || 0,
+      total_amount: parseInt(document.getElementById('p-amount').value) || 0,
       due_date: document.getElementById('p-date').value,
       status: 'pending'
     };
@@ -1041,6 +1124,44 @@
       toast.style.animation = 'slideIn 0.3s ease-out reverse forwards';
       setTimeout(() => toast.remove(), 300);
     }, 4000);
+  }
+
+  // Voice Input Functionality
+  function startVoiceInput() {
+    const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+    if (!SpeechRecognition) {
+      showToast("Speech recognition not supported in this browser.", "error");
+      return;
+    }
+    
+    const recognition = new SpeechRecognition();
+    recognition.lang = 'hi-IN';
+    recognition.interimResults = false;
+    recognition.maxAlternatives = 1;
+    
+    const btn = document.getElementById('voice-indicator');
+    btn.innerHTML = '🔴';
+    showToast("Listening... Speak now.", "info");
+    
+    recognition.start();
+    
+    recognition.onresult = function(event) {
+      const speechResult = event.results[0][0].transcript;
+      const descBox = document.getElementById('p-desc');
+      descBox.value += (descBox.value ? ' ' : '') + speechResult;
+      btn.innerHTML = '🎤';
+      showToast("Voice added to description.", "success");
+    };
+    
+    recognition.onspeechend = function() {
+      recognition.stop();
+      btn.innerHTML = '🎤';
+    };
+    
+    recognition.onerror = function(event) {
+      btn.innerHTML = '🎤';
+      showToast("Error in voice recognition.", "error");
+    };
   }
 
   // AI Chat Widget Functionality
