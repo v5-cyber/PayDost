@@ -167,8 +167,17 @@
     /* 9. TESTIMONIALS */
     .testi-carousel { display:flex; gap:24px; overflow-x:auto; padding:20px 0; scrollbar-width:none; }
     .testi-carousel::-webkit-scrollbar { display:none; }
-    .testi-card { min-width:350px; background:var(--bg-card); border:1px solid var(--border); border-radius:16px; padding:32px; }
-    .stars { color:#fbbf24; margin-bottom:16px; letter-spacing:2px; }
+    .testi-card { min-width:360px; background:var(--bg-card); border:1px solid var(--border); border-radius:20px; padding:32px; transition:border-color 0.3s; }
+    .testi-card:hover { border-color:rgba(2,128,144,0.4); }
+    .stars { color:#fbbf24; margin-bottom:16px; letter-spacing:2px; font-size:18px; }
+
+    /* CHARACTER FLOAT ANIMATION */
+    .char-float { display:inline-block; animation: charBobble 4s ease-in-out infinite; }
+    @keyframes charBobble {
+      0%, 100% { transform: translateY(0px) rotate(0deg); }
+      25% { transform: translateY(-10px) rotate(1deg); }
+      75% { transform: translateY(-6px) rotate(-1deg); }
+    }
 
     /* 10. FINAL CTA */
     .final-cta { background:linear-gradient(135deg, var(--teal) 0%, #014d56 100%); padding:100px 5%; text-align:center; }
@@ -194,6 +203,14 @@
       .hero-visual { padding:40px 0 0 0; width:100%; }
       .css-dashboard { width:100%; }
       .hero h1 { font-size: 40px; min-height:100px; }
+      .flow-row { flex-wrap:wrap; }
+    }
+    @media(max-width:700px) {
+      /* Benefits section stack on mobile */
+      div[style*="grid-template-columns:1fr 1fr"] { grid-template-columns:1fr !important; }
+      /* Flow diagram legible on mobile */
+      .flow-node { font-size:12px; padding:8px 12px; }
+      .flow-node.center { font-size:15px; padding:12px 20px; }
     }
   </style>
 </head>
@@ -525,32 +542,159 @@
     </div>
   </section>
 
-  <!-- 9. TESTIMONIALS -->
+  <!-- 9. WHO IS IT FOR -->
+  <section class="section-pad" style="padding-top:0;">
+    <div class="fade-up" style="text-align:center; margin-bottom:64px;">
+      <div style="display:inline-block; background:rgba(2,128,144,0.15); border:1px solid rgba(2,128,144,0.4); border-radius:99px; padding:6px 16px; font-size:12px; font-weight:700; color:var(--teal); letter-spacing:2px; margin-bottom:16px;">BUILT FOR BOTH SIDES</div>
+      <h2 style="font-size:44px; font-weight:800; letter-spacing:-1px; margin-bottom:16px;">Everyone wins when payment is professional.</h2>
+      <p style="color:var(--text-muted); font-size:18px; max-width:620px; margin:0 auto; line-height:1.6;">PayVlt doesn't chase payments — it makes contractors look so professional that clients pay on their own.</p>
+    </div>
+
+    <div style="display:grid; grid-template-columns:1fr 1fr; gap:32px; max-width:900px; margin:0 auto;">
+      <!-- Contractor Card -->
+      <div class="fade-up" style="background:rgba(2,128,144,0.07); border:1px solid rgba(2,128,144,0.25); border-radius:24px; padding:40px; position:relative; overflow:hidden;">
+        <div style="position:absolute; top:-30px; right:-20px; opacity:0.07; font-size:120px;">🔧</div>
+        <!-- CSS Robot Character (Contractor) -->
+        <div class="char-float" style="margin-bottom:28px;">
+          <svg width="80" height="90" viewBox="0 0 80 90" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <!-- Head -->
+            <rect x="20" y="5" width="40" height="32" rx="10" fill="#028090" opacity="0.9"/>
+            <!-- Eyes -->
+            <rect x="28" y="14" width="8" height="6" rx="3" fill="#0D1B3E"/>
+            <rect x="44" y="14" width="8" height="6" rx="3" fill="#0D1B3E"/>
+            <!-- Smile -->
+            <path d="M30 27 Q40 34 50 27" stroke="#0D1B3E" stroke-width="2" stroke-linecap="round" fill="none"/>
+            <!-- Antenna -->
+            <line x1="40" y1="5" x2="40" y2="0" stroke="#028090" stroke-width="2"/>
+            <circle cx="40" cy="0" r="3" fill="#02C39A"/>
+            <!-- Body -->
+            <rect x="15" y="40" width="50" height="30" rx="10" fill="#016f7c"/>
+            <!-- Screen on chest -->
+            <rect x="25" y="47" width="30" height="16" rx="4" fill="#0D1B3E"/>
+            <text x="31" y="59" font-family="monospace" font-size="8" fill="#02C39A">PAY ✓</text>
+            <!-- Left arm holding wrench -->
+            <rect x="3" y="42" width="10" height="22" rx="5" fill="#016f7c"/>
+            <rect x="0" y="60" width="14" height="4" rx="2" fill="#028090"/>
+            <rect x="4" y="56" width="4" height="12" rx="2" fill="#02C39A"/>
+            <!-- Right arm holding phone -->
+            <rect x="67" y="42" width="10" height="22" rx="5" fill="#016f7c"/>
+            <rect x="65" y="48" width="14" height="20" rx="3" fill="#0D1B3E" stroke="#028090" stroke-width="1.5"/>
+            <rect x="68" y="52" width="8" height="10" rx="1" fill="#028090" opacity="0.6"/>
+            <!-- Legs -->
+            <rect x="22" y="72" width="14" height="18" rx="6" fill="#016f7c"/>
+            <rect x="44" y="72" width="14" height="18" rx="6" fill="#016f7c"/>
+            <!-- Feet -->
+            <ellipse cx="29" cy="90" rx="10" ry="4" fill="#028090"/>
+            <ellipse cx="51" cy="90" rx="10" ry="4" fill="#028090"/>
+          </svg>
+        </div>
+        <div style="font-size:11px; font-weight:800; letter-spacing:2px; color:var(--teal); margin-bottom:8px;">FOR CONTRACTORS</div>
+        <h3 style="font-size:24px; font-weight:700; margin-bottom:24px;">For Contractors</h3>
+        <ul style="list-style:none; display:flex; flex-direction:column; gap:14px;">
+          <li style="display:flex; gap:12px; align-items:flex-start; font-size:15px; color:var(--text-muted);"><span style="color:var(--teal); font-weight:700; margin-top:1px;">✓</span> Automated WhatsApp payment reminders</li>
+          <li style="display:flex; gap:12px; align-items:flex-start; font-size:15px; color:var(--text-muted);"><span style="color:var(--teal); font-weight:700; margin-top:1px;">✓</span> GST invoice generated in one click</li>
+          <li style="display:flex; gap:12px; align-items:flex-start; font-size:15px; color:var(--text-muted);"><span style="color:var(--teal); font-weight:700; margin-top:1px;">✓</span> MSME 45-day legal protection built in</li>
+          <li style="display:flex; gap:12px; align-items:flex-start; font-size:15px; color:var(--text-muted);"><span style="color:var(--teal); font-weight:700; margin-top:1px;">✓</span> Client risk score before you sign</li>
+          <li style="display:flex; gap:12px; align-items:flex-start; font-size:15px; color:var(--text-muted);"><span style="color:var(--teal); font-weight:700; margin-top:1px;">✓</span> Digital agreement sent instantly</li>
+        </ul>
+      </div>
+
+      <!-- Client Card -->
+      <div class="fade-up stagger-1" style="background:rgba(139,92,246,0.07); border:1px solid rgba(139,92,246,0.25); border-radius:24px; padding:40px; position:relative; overflow:hidden;">
+        <div style="position:absolute; top:-30px; right:-20px; opacity:0.07; font-size:120px;">✅</div>
+        <!-- CSS Desk Character (Client) -->
+        <div class="char-float" style="margin-bottom:28px; animation-delay:0.5s;">
+          <svg width="80" height="90" viewBox="0 0 80 90" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <!-- Checkmark above head -->
+            <circle cx="40" cy="8" r="8" fill="#8b5cf6" opacity="0.9"/>
+            <path d="M35 8 L39 12 L46 5" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+            <!-- Head -->
+            <circle cx="40" cy="26" r="14" fill="#7c3aed" opacity="0.85"/>
+            <!-- Eyes -->
+            <circle cx="35" cy="24" r="3" fill="#0D1B3E"/>
+            <circle cx="45" cy="24" r="3" fill="#0D1B3E"/>
+            <!-- Smile -->
+            <path d="M34 31 Q40 37 46 31" stroke="#0D1B3E" stroke-width="2" stroke-linecap="round" fill="none"/>
+            <!-- Body -->
+            <rect x="22" y="42" width="36" height="26" rx="10" fill="#6d28d9"/>
+            <!-- Tie detail -->
+            <polygon points="40,46 37,52 40,58 43,52" fill="#8b5cf6"/>
+            <!-- Arms on desk -->
+            <rect x="8" y="52" width="14" height="8" rx="4" fill="#6d28d9"/>
+            <rect x="58" y="52" width="14" height="8" rx="4" fill="#6d28d9"/>
+            <!-- Desk surface -->
+            <rect x="5" y="68" width="70" height="6" rx="3" fill="#4c1d95" opacity="0.8"/>
+            <!-- Laptop on desk -->
+            <rect x="20" y="56" width="40" height="12" rx="3" fill="#0D1B3E" stroke="#8b5cf6" stroke-width="1"/>
+            <rect x="23" y="59" width="34" height="7" rx="1" fill="#8b5cf6" opacity="0.3"/>
+            <!-- Legs -->
+            <rect x="25" y="74" width="10" height="14" rx="4" fill="#6d28d9"/>
+            <rect x="45" y="74" width="10" height="14" rx="4" fill="#6d28d9"/>
+            <!-- Feet -->
+            <ellipse cx="30" cy="88" rx="9" ry="3.5" fill="#7c3aed"/>
+            <ellipse cx="50" cy="88" rx="9" ry="3.5" fill="#7c3aed"/>
+          </svg>
+        </div>
+        <div style="font-size:11px; font-weight:800; letter-spacing:2px; color:#a78bfa; margin-bottom:8px;">FOR CLIENTS</div>
+        <h3 style="font-size:24px; font-weight:700; margin-bottom:24px;">For Clients</h3>
+        <ul style="list-style:none; display:flex; flex-direction:column; gap:14px;">
+          <li style="display:flex; gap:12px; align-items:flex-start; font-size:15px; color:var(--text-muted);"><span style="color:#a78bfa; font-weight:700; margin-top:1px;">✓</span> Receive formal, professional reminders</li>
+          <li style="display:flex; gap:12px; align-items:flex-start; font-size:15px; color:var(--text-muted);"><span style="color:#a78bfa; font-weight:700; margin-top:1px;">✓</span> Digital agreement with clear scope of work</li>
+          <li style="display:flex; gap:12px; align-items:flex-start; font-size:15px; color:var(--text-muted);"><span style="color:#a78bfa; font-weight:700; margin-top:1px;">✓</span> GST-compliant invoice for your accounts</li>
+          <li style="display:flex; gap:12px; align-items:flex-start; font-size:15px; color:var(--text-muted);"><span style="color:#a78bfa; font-weight:700; margin-top:1px;">✓</span> Installment schedule agreed upfront</li>
+          <li style="display:flex; gap:12px; align-items:flex-start; font-size:15px; color:var(--text-muted);"><span style="color:#a78bfa; font-weight:700; margin-top:1px;">✓</span> Confidence in a professional contractor</li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- Bottom Tagline Card -->
+    <div class="fade-up" style="max-width:900px; margin:32px auto 0; background:linear-gradient(135deg, rgba(2,128,144,0.1), rgba(139,92,246,0.1)); border:1px solid rgba(2,128,144,0.2); border-radius:16px; padding:28px 40px; text-align:center;">
+      <p style="font-size:17px; font-style:italic; color:var(--text-muted); line-height:1.7;">"PayVlt doesn't force payments — it builds the professional image that makes clients <em style="color:white; font-style:normal;">want</em> to pay."</p>
+    </div>
+  </section>
+
+  <!-- TESTIMONIALS -->
   <section class="section-pad" style="padding-top:0; overflow:hidden;">
     <h2 class="sec-title fade-up">Loved by contractors across India.</h2>
     <div class="testi-carousel fade-up mt-4">
       <div class="testi-card">
         <div class="stars">★★★★★</div>
-        <div class="testi-quote" style="font-size:16px; line-height:1.6; font-style:italic; margin-bottom:24px;">"Pehle client payment ke time phone nahi uthate the. Ab auto-reminder se time pe payment aa jata hai. Best app for contractors."</div>
+        <div class="testi-quote" style="font-size:16px; line-height:1.6; font-style:italic; margin-bottom:24px;">"Pehle client payment ke liye mahine tak wait karna padta tha. PayVlt ke auto-reminders se ab payment time pe aa jata hai. Meri AC service business mein cash flow bilkul smooth ho gaya."</div>
         <div style="display:flex; align-items:center; gap:12px;">
-          <div style="width:48px; height:48px; background:var(--border); border-radius:50%; display:flex; align-items:center; justify-content:center; font-weight:700; color:var(--teal);">V</div>
-          <div><div style="font-weight:600;">Vikram Singh</div><div style="font-size:12px; color:var(--text-muted);">HVAC Contractor, Indore</div></div>
+          <div style="width:48px; height:48px; background:rgba(2,128,144,0.2); border:2px solid var(--teal); border-radius:50%; display:flex; align-items:center; justify-content:center; font-weight:800; color:var(--teal); font-size:18px;">G</div>
+          <div><div style="font-weight:700;">Gurukripa AC Services</div><div style="font-size:12px; color:var(--text-muted);">Indore, Madhya Pradesh</div></div>
         </div>
       </div>
       <div class="testi-card">
         <div class="stars">★★★★★</div>
-        <div class="testi-quote" style="font-size:16px; line-height:1.6; font-style:italic; margin-bottom:24px;">"The MSME 45-day tracker is a game changer. Corporate clients respect the professional invoices and legal warnings."</div>
+        <div class="testi-quote" style="font-size:16px; line-height:1.6; font-style:italic; margin-bottom:24px;">"GST invoice ek click mein ban jata hai — yeh feature alone itna time save karta hai. Our CA recommended we use something professional and PayVlt was the answer."</div>
         <div style="display:flex; align-items:center; gap:12px;">
-          <div style="width:48px; height:48px; background:var(--border); border-radius:50%; display:flex; align-items:center; justify-content:center; font-weight:700; color:var(--teal);">A</div>
-          <div><div style="font-weight:600;">Amit Patel</div><div style="font-size:12px; color:var(--text-muted);">Civil Engineer, Ahmedabad</div></div>
+          <div style="width:48px; height:48px; background:rgba(2,128,144,0.2); border:2px solid var(--teal); border-radius:50%; display:flex; align-items:center; justify-content:center; font-weight:800; color:var(--teal); font-size:18px;">S</div>
+          <div><div style="font-weight:700;">Shree Ram Electricals</div><div style="font-size:12px; color:var(--text-muted);">Pune, Maharashtra</div></div>
         </div>
       </div>
       <div class="testi-card">
         <div class="stars">★★★★★</div>
-        <div class="testi-quote" style="font-size:16px; line-height:1.6; font-style:italic; margin-bottom:24px;">"Tally export saves me 10 hours every month. My CA is very happy with PayVlt generated reports."</div>
+        <div class="testi-quote" style="font-size:16px; line-height:1.6; font-style:italic; margin-bottom:24px;">"The MSME 45-day tracker is exactly what we needed. Ab corporate clients ko legal notice ka darr rehta hai aur payment on time aata hai. Game-changing feature!"</div>
         <div style="display:flex; align-items:center; gap:12px;">
-          <div style="width:48px; height:48px; background:var(--border); border-radius:50%; display:flex; align-items:center; justify-content:center; font-weight:700; color:var(--teal);">S</div>
-          <div><div style="font-weight:600;">Suresh Kumar</div><div style="font-size:12px; color:var(--text-muted);">Electricals, Pune</div></div>
+          <div style="width:48px; height:48px; background:rgba(2,128,144,0.2); border:2px solid var(--teal); border-radius:50%; display:flex; align-items:center; justify-content:center; font-weight:800; color:var(--teal); font-size:18px;">J</div>
+          <div><div style="font-weight:700;">Jai Ambey Construction</div><div style="font-size:12px; color:var(--text-muted);">Surat, Gujarat</div></div>
+        </div>
+      </div>
+      <div class="testi-card">
+        <div class="stars">★★★★★</div>
+        <div class="testi-quote" style="font-size:16px; line-height:1.6; font-style:italic; margin-bottom:24px;">"Digital agreement bhejne se clients serious ho jaate hain. Pehle sab verbal tha, ab sab kuch document mein hai. PayVlt ne hamare business ko truly professional bana diya."</div>
+        <div style="display:flex; align-items:center; gap:12px;">
+          <div style="width:48px; height:48px; background:rgba(2,128,144,0.2); border:2px solid var(--teal); border-radius:50%; display:flex; align-items:center; justify-content:center; font-weight:800; color:var(--teal); font-size:18px;">M</div>
+          <div><div style="font-weight:700;">Mahalaxmi HVAC</div><div style="font-size:12px; color:var(--text-muted);">Nagpur, Maharashtra</div></div>
+        </div>
+      </div>
+      <div class="testi-card">
+        <div class="stars">★★★★★</div>
+        <div class="testi-quote" style="font-size:16px; line-height:1.6; font-style:italic; margin-bottom:24px;">"Tally export saves our CA at least 12 hours per month. Aur client risk score ne ek baar humein ek bad client se bachaya — ₹2 lakh ka loss avoid ho gaya."</div>
+        <div style="display:flex; align-items:center; gap:12px;">
+          <div style="width:48px; height:48px; background:rgba(2,128,144,0.2); border:2px solid var(--teal); border-radius:50%; display:flex; align-items:center; justify-content:center; font-weight:800; color:var(--teal); font-size:18px;">B</div>
+          <div><div style="font-weight:700;">Balaji Aircon</div><div style="font-size:12px; color:var(--text-muted);">Ahmedabad, Gujarat</div></div>
         </div>
       </div>
     </div>
