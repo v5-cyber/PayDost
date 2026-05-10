@@ -110,7 +110,30 @@
     .demo-input { flex:1; background:transparent; border:none; color:#fff; padding:12px; font-size:16px; outline:none; }
     .demo-result { max-width:400px; margin:32px auto 0; background:#075e54; border-radius:16px; border-top-left-radius:0; padding:16px; text-align:left; font-size:15px; line-height:1.5; box-shadow:0 10px 20px rgba(0,0,0,0.3); display:none; }
 
-    /* 7. BEFORE / AFTER */
+    /* 7.5 INTEGRATIONS - FLOW DIAGRAM */
+    .integrations-sec { padding:80px 5%; background:radial-gradient(ellipse at top, #16264f 0%, #0D1B3E 70%); text-align:center; overflow:hidden; border-top:1px solid var(--border); border-bottom:1px solid var(--border); }
+    .flow-diagram { position:relative; max-width:760px; margin:60px auto 0; }
+    .flow-row { display:flex; justify-content:center; gap:16px; margin-bottom:0; }
+    .flow-node { background:rgba(2,128,144,0.15); border:1px solid rgba(2,128,144,0.4); border-radius:10px; padding:10px 20px; font-size:14px; font-weight:600; color:var(--text); white-space:nowrap; position:relative; }
+    .flow-node.center { background:linear-gradient(135deg,#028090,#014d56); border-color:var(--teal); font-size:18px; font-weight:800; padding:16px 32px; border-radius:16px; box-shadow:0 0 40px rgba(2,128,144,0.4); }
+    .flow-node.output { background:rgba(255,255,255,0.05); border-color:rgba(255,255,255,0.15); font-size:13px; }
+    .flow-connector { display:flex; justify-content:center; position:relative; }
+    .flow-connector .line-v { width:2px; height:32px; background:rgba(2,128,144,0.4); margin:0 auto; }
+    .flow-connector .line-h { position:relative; display:flex; justify-content:center; align-items:flex-start; }
+    .flow-connector .branch-wrap { display:flex; gap:0; position:relative; }
+    .flow-connector .branch-wrap::before { content:''; position:absolute; top:0; left:50px; right:50px; height:2px; background:rgba(2,128,144,0.4); }
+    .flow-branch { display:flex; flex-direction:column; align-items:center; flex:1; }
+    .flow-branch .v-line { width:2px; height:28px; background:rgba(2,128,144,0.4); }
+    
+    /* Floating icon bubbles for hero */
+    .float-icons { position:absolute; top:0; left:0; width:100%; height:100%; pointer-events:none; z-index:0; }
+    .float-icon { position:absolute; display:flex; align-items:center; justify-content:center; border-radius:50%; animation: floatBobble 5s ease-in-out infinite; }
+    @keyframes floatBobble { 0%,100%{transform:translateY(0px)} 50%{transform:translateY(-14px)} }
+    .fi-whatsapp { width:52px;height:52px; background:#25D366; top:12%; right:55%; animation-delay:0s; box-shadow:0 8px 24px rgba(37,211,102,0.3); border-radius:14px; }
+    .fi-gst { width:48px;height:48px; background:#0F52BA; top:20%; right:42%; animation-delay:1.2s; box-shadow:0 8px 24px rgba(15,82,186,0.3); border-radius:12px; }
+    .fi-razorpay { width:52px;height:52px; background:#02042b; border:1px solid #028090; top:8%; right:35%; animation-delay:0.6s; border-radius:14px; }
+    .fi-tally { width:44px;height:44px; background:#F3A812; top:35%; right:48%; animation-delay:1.8s; box-shadow:0 8px 24px rgba(243,168,18,0.3); border-radius:12px; }
+    .fi-upi { width:48px;height:48px; background:#fff; top:15%; right:28%; animation-delay:2.4s; box-shadow:0 8px 24px rgba(255,255,255,0.15); border-radius:14px; }
     .split-container { display:flex; gap:32px; margin-top:40px; overflow:hidden; }
     .split-card { flex:1; padding:40px; border-radius:24px; border:1px solid var(--border); }
     .split-bad { background:linear-gradient(180deg, rgba(239, 68, 68, 0.05) 0%, transparent 100%); border-top-color:var(--danger); }
@@ -193,6 +216,14 @@
   <!-- 2. HERO -->
   <section class="hero">
     <div class="hero-glow"></div>
+    <!-- Floating app icon bubbles (Notion-style) -->
+    <div class="float-icons">
+      <div class="float-icon fi-whatsapp"><svg width="28" height="28" viewBox="0 0 24 24" fill="#fff"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51a12.8 12.8 0 0 0-.57-.01c-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 0 1-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 0 1-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 0 1 2.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0 0 12.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 0 0 5.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 0 0-3.48-8.413Z"/></svg></div>
+      <div class="float-icon fi-gst" style="color:#fff;font-weight:900;font-size:16px;">₹</div>
+      <div class="float-icon fi-razorpay" style="color:#028090;font-weight:900;font-size:14px;">Rz</div>
+      <div class="float-icon fi-tally" style="color:#fff;font-weight:900;font-size:16px;">T</div>
+      <div class="float-icon fi-upi" style="color:#000;font-weight:900;font-style:italic;font-size:13px;">UPI</div>
+    </div>
     <div class="hero-content fade-up">
       <div class="hero-pill">
         <span></span> 🇮🇳 Built for Indian contractors
@@ -371,8 +402,52 @@
     </div>
   </section>
 
-  <!-- 7.5 INTEGRATIONS -->
+  <!-- 7.5 INTEGRATIONS - STRIPE STYLE FLOW -->
   <section class="integrations-sec">
+    <h2 class="sec-title fade-up" style="margin-bottom:16px;">PayVlt connects everything.</h2>
+    <p class="fade-up" style="color:var(--text-muted); font-size:18px; max-width:600px; margin:0 auto;">One platform. All your tools. Automated payment flow from contract to collection.</p>
+    
+    <div class="flow-diagram fade-up">
+      <!-- Row 1: Inputs -->
+      <div class="flow-row">
+        <div class="flow-node">📁 Project</div>
+        <div class="flow-node">📝 Agreement</div>
+        <div class="flow-node">📊 Site Diary</div>
+        <div class="flow-node">🧾 GST Invoice</div>
+      </div>
+      <!-- Connector down to center -->
+      <div class="flow-connector" style="margin:0; position:relative; height:40px;">
+        <svg width="100%" height="40" viewBox="0 0 760 40" preserveAspectRatio="none" style="position:absolute;top:0;left:0;">
+          <line x1="95" y1="0" x2="380" y2="40" stroke="rgba(2,128,144,0.5)" stroke-width="1.5" stroke-dasharray="4 3"/>
+          <line x1="253" y1="0" x2="380" y2="40" stroke="rgba(2,128,144,0.5)" stroke-width="1.5" stroke-dasharray="4 3"/>
+          <line x1="507" y1="0" x2="380" y2="40" stroke="rgba(2,128,144,0.5)" stroke-width="1.5" stroke-dasharray="4 3"/>
+          <line x1="665" y1="0" x2="380" y2="40" stroke="rgba(2,128,144,0.5)" stroke-width="1.5" stroke-dasharray="4 3"/>
+        </svg>
+      </div>
+      <!-- Center: PayVlt -->
+      <div class="flow-row">
+        <div class="flow-node center">💰 PayVlt</div>
+      </div>
+      <!-- Connector out -->
+      <div class="flow-connector" style="position:relative; height:40px;">
+        <svg width="100%" height="40" viewBox="0 0 760 40" preserveAspectRatio="none" style="position:absolute;top:0;left:0;">
+          <line x1="380" y1="0" x2="100" y2="40" stroke="rgba(2,128,144,0.5)" stroke-width="1.5" stroke-dasharray="4 3"/>
+          <line x1="380" y1="0" x2="260" y2="40" stroke="rgba(2,128,144,0.5)" stroke-width="1.5" stroke-dasharray="4 3"/>
+          <line x1="380" y1="0" x2="380" y2="40" stroke="rgba(2,128,144,0.5)" stroke-width="1.5" stroke-dasharray="4 3"/>
+          <line x1="380" y1="0" x2="500" y2="40" stroke="rgba(2,128,144,0.5)" stroke-width="1.5" stroke-dasharray="4 3"/>
+          <line x1="380" y1="0" x2="660" y2="40" stroke="rgba(2,128,144,0.5)" stroke-width="1.5" stroke-dasharray="4 3"/>
+        </svg>
+      </div>
+      <!-- Row 3: Outputs -->
+      <div class="flow-row">
+        <div class="flow-node output">💬 WhatsApp</div>
+        <div class="flow-node output">📊 Tally ERP</div>
+        <div class="flow-node output">💳 Razorpay</div>
+        <div class="flow-node output">🏦 SBI/HDFC</div>
+        <div class="flow-node output">⚡ UPI</div>
+      </div>
+    </div>
+  </section>
     <h2 class="sec-title fade-up" style="margin-bottom:16px;">PayVlt works with tools you already use.</h2>
     <p class="fade-up" style="color:var(--text-muted); font-size:18px; max-width:600px; margin:0 auto;">Connect your existing accounting software, bank accounts, and communication channels instantly.</p>
     

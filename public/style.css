@@ -24,40 +24,74 @@ body { background: var(--primary); color: var(--text-primary); overflow-x: hidde
 /* 1. LOGIN PAGE */
 #auth-screen {
   min-height: 100vh;
-  background: linear-gradient(180deg, #0D1B3E 0%, #060E22 100%);
+  background: radial-gradient(ellipse at 20% 50%, #0a2040 0%, #060E22 60%);
   display: flex; align-items: center; justify-content: center;
+  position: relative; overflow: hidden;
+}
+
+/* Animated background orbs */
+#auth-screen::before {
+  content: '';
+  position: absolute;
+  width: 500px; height: 500px;
+  background: radial-gradient(circle, rgba(2,128,144,0.15) 0%, transparent 60%);
+  top: -100px; left: -100px;
+  border-radius: 50%; animation: orbFloat 8s ease-in-out infinite;
+}
+#auth-screen::after {
+  content: '';
+  position: absolute;
+  width: 400px; height: 400px;
+  background: radial-gradient(circle, rgba(2,195,154,0.1) 0%, transparent 60%);
+  bottom: -80px; right: -80px;
+  border-radius: 50%; animation: orbFloat 10s ease-in-out infinite reverse;
+}
+@keyframes orbFloat {
+  0%, 100% { transform: translate(0, 0) scale(1); }
+  50% { transform: translate(30px, -30px) scale(1.1); }
 }
 
 .auth-card {
-  background: var(--card-bg);
-  padding: 40px; border-radius: 16px; width: 100%; max-width: 420px;
-  border: 1px solid var(--border);
-  border-top: 3px solid var(--accent);
-  box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+  background: rgba(30, 41, 59, 0.7);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  padding: 48px 40px; border-radius: 24px; width: 100%; max-width: 440px;
+  border: 1px solid rgba(255,255,255,0.1);
+  border-top: 2px solid var(--accent);
+  box-shadow: 0 25px 60px rgba(0,0,0,0.5), 0 0 0 1px rgba(2,128,144,0.1);
+  position: relative; z-index: 1;
 }
 
-.auth-tabs { display: flex; gap: 20px; border-bottom: 1px solid var(--border); margin-bottom: 24px; }
-.auth-tab { background: none; border: none; color: var(--text-muted); padding: 10px 0; cursor: pointer; font-weight: 600; font-size: 16px; }
+.auth-tabs { display: flex; gap: 8px; border-bottom: 1px solid rgba(255,255,255,0.08); margin-bottom: 28px; }
+.auth-tab { background: none; border: none; color: var(--text-muted); padding: 12px 16px; cursor: pointer; font-weight: 600; font-size: 15px; border-radius: 8px 8px 0 0; transition: all 0.2s; }
+.auth-tab:hover { color: var(--text-primary); }
 .auth-tab.active { color: var(--text-primary); border-bottom: 2px solid var(--accent); }
 
-.form-group { margin-bottom: 16px; }
-.form-group label { display: block; font-size: 12px; color: var(--text-secondary); margin-bottom: 6px; text-transform: uppercase; font-weight: 600; }
+.form-group { margin-bottom: 20px; }
+.form-group label { display: block; font-size: 11px; color: var(--text-muted); margin-bottom: 8px; text-transform: uppercase; font-weight: 700; letter-spacing: 0.8px; }
 .form-group input, .form-group select, .form-group textarea {
-  width: 100%; padding: 12px; background: var(--primary);
-  border: 1px solid var(--border); color: var(--text-primary);
-  border-radius: 8px; outline: none; font-size: 14px;
+  width: 100%; padding: 14px 16px; background: rgba(13, 27, 62, 0.8);
+  border: 1px solid rgba(255,255,255,0.1); color: var(--text-primary);
+  border-radius: 12px; outline: none; font-size: 15px; transition: all 0.2s;
 }
-.form-group input:focus, .form-group select:focus, .form-group textarea:focus { border-color: var(--accent); }
+.form-group input:focus, .form-group select:focus, .form-group textarea:focus { 
+  border-color: var(--accent); 
+  box-shadow: 0 0 0 3px rgba(2,128,144,0.2);
+  background: rgba(2,128,144,0.05);
+}
 .checkbox-group { display: flex; align-items: center; gap: 10px; margin-bottom: 16px; }
 .checkbox-group input { width: auto; }
 
 .btn-primary {
-  width: 100%; padding: 14px;
-  background: linear-gradient(135deg, var(--accent), #1A56A0);
-  border: none; color: white; border-radius: 8px; cursor: pointer;
-  font-weight: bold; transition: all 0.2s;
+  width: 100%; padding: 16px;
+  background: linear-gradient(135deg, var(--accent) 0%, #01a8b8 100%);
+  border: none; color: white; border-radius: 12px; cursor: pointer;
+  font-weight: 700; font-size: 16px; transition: all 0.3s;
+  box-shadow: 0 4px 20px rgba(2,128,144,0.4);
+  letter-spacing: 0.3px;
 }
-.btn-primary:hover { opacity: 0.9; transform: translateY(-1px); }
+.btn-primary:hover { transform: translateY(-2px); box-shadow: 0 8px 30px rgba(2,128,144,0.5); }
+.btn-primary:active { transform: translateY(0); }
 
 .btn-danger {
   padding: 10px 16px; background: var(--danger); border: none; color: white; border-radius: 8px; cursor: pointer; font-weight: bold;
