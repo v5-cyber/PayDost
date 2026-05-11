@@ -8,6 +8,35 @@
 </head>
 <body>
 
+<!-- 3-STEP ONBOARDING -->
+<div id="onboarding" class="modal-overlay hidden" style="z-index: 20000;">
+  <div class="modal-content" style="max-width:450px; text-align:center; padding:40px; pointer-events: auto;">
+    <!-- Step 1 -->
+    <div id="ob-step-1">
+      <div style="font-size:50px; margin-bottom:20px;">🏗️</div>
+      <h2 style="font-size:24px; margin-bottom:12px;">What is your business type?</h2>
+      <div style="display:grid; gap:12px; pointer-events: auto;">
+        <button class="btn-outline" style="padding:16px; pointer-events: auto; position: relative; z-index: 20001;" onclick="obStep(2, 'contractor')">I am a Contractor (AC, Electric, etc)</button>
+        <button class="btn-outline" style="padding:16px; pointer-events: auto; position: relative; z-index: 20001;" onclick="obStep(2, 'supplier')">I am a Supplier (Material seller)</button>
+      </div>
+    </div>
+    <!-- Step 2 -->
+    <div id="ob-step-2" class="hidden">
+      <h2 style="font-size:24px; margin-bottom:12px;">Business Details</h2>
+      <div class="form-group"><label>Company Name</label><input type="text" id="ob-comp" placeholder="eg. ACRV Aircon" /></div>
+      <div class="form-group"><label>WhatsApp Number</label><input type="text" id="ob-phone" placeholder="98765 43210" /></div>
+      <button class="btn-primary" onclick="obStep(3)">Next Step →</button>
+    </div>
+    <!-- Step 3 -->
+    <div id="ob-step-3" class="hidden">
+      <div style="font-size:50px; margin-bottom:20px;">🚀</div>
+      <h2 style="font-size:24px; margin-bottom:12px;">You're ready!</h2>
+      <p style="color:var(--text-muted); margin-bottom:24px;">Start adding your projects and recovering payments.</p>
+      <button class="btn-primary" onclick="finishOb()">Go to Dashboard</button>
+    </div>
+  </div>
+</div>
+
 <!-- ══════════════ AUTH SCREEN ══════════════ -->
 <div id="auth-screen">
   <div class="auth-card">
@@ -531,33 +560,7 @@
   </main>
 </div>
 
-<!-- 3-STEP ONBOARDING -->
-<div id="onboarding" class="modal-overlay hidden">
-  <div class="modal-content" style="max-width:450px; text-align:center; padding:40px;">
-    <!-- Step 1 -->
-    <div id="ob-step-1">
-      <div style="font-size:50px; margin-bottom:20px;">🏗️</div>
-      <h2 style="font-size:24px; margin-bottom:12px;">Aapka kaam kya hai?</h2>
-      <div style="display:grid; gap:12px;">
-        <button class="btn-outline" style="padding:16px;" onclick="obStep(2, 'contractor')">I am a Contractor (AC, Electric, etc)</button>
-        <button class="btn-outline" style="padding:16px;" onclick="obStep(2, 'supplier')">I am a Supplier (Material seller)</button>
-      </div>
-    </div>
-    <!-- Step 2 -->
-    <div id="ob-step-2" class="hidden">
-      <h2 style="font-size:24px; margin-bottom:12px;">Company ki details</h2>
-      <div class="form-group"><label>Aapki Company ka naam</label><input type="text" id="ob-comp" /></div>
-      <div class="form-group"><label>Aapka Mobile (WhatsApp)</label><input type="text" id="ob-phone" /></div>
-      <button class="btn-primary" onclick="obStep(3)">Agla Step →</button>
-    </div>
-    <!-- Step 3 -->
-    <div id="ob-step-3" class="hidden">
-      <div style="font-size:50px; margin-bottom:20px;">🚀</div>
-      <h2 style="font-size:24px; margin-bottom:12px;">All set!</h2>
-      <p style="color:var(--text-muted); margin-bottom:24px;">Ab aap apna pehla project add kar sakte hain.</p>
-      <button class="btn-primary" onclick="finishOb()">Dashboard Pe Chalein</button>
-    </div>
-  </div>
+  </main>
 </div>
 <div id="modal-project" class="modal-overlay hidden">
   <div class="modal-content" style="max-width:500px; border-radius:24px;">
