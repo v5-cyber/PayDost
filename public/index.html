@@ -654,6 +654,33 @@
     if(page === 'dashboard' || page === 'projects') loadData();
   }
 
+  // Onboarding Helpers
+  async function obStep(s, type) {
+    if (type) {
+      localStorage.setItem('payvlt_segment', type === 'contractor' ? 'projects' : 'trade');
+      // Save to Supabase profile silently
+      try {
+        const client = getSB();
+        const user = (await client.auth.getUser()).data.user;
+        if (user) {
+          await client.from('profiles').upsert({ id: user.id, business_type: type, updated_at: new Date() });
+        }
+      } catch (e) { console.warn("Supabase profile update failed (Offline Mode)"); }
+    }
+    document.querySelectorAll('[id^="ob-step-"]').forEach(el => el.classList.add('hidden'));
+    document.getElementById('ob-step-' + s).classList.remove('hidden');
+  }
+
+  function finishOb() {
+    localStorage.setItem('payvlt_ob_done', 'true');
+    document.getElementById('onboarding').classList.add('hidden');
+    const segment = localStorage.getItem('payvlt_segment');
+    document.getElementById('sidebar-projects').classList.toggle('hidden', segment !== 'projects');
+    document.getElementById('sidebar-trade').classList.toggle('hidden', segment !== 'trade');
+    navigate('dashboard');
+    showToast("Setup complete! Welcome to PayVlt.", "success");
+  }
+
   function selectSegment(segment) {
     localStorage.setItem('payvlt_segment', segment);
     document.getElementById('segment-selection').classList.add('hidden');
@@ -1108,7 +1135,7 @@
     setTimeout(() => {
       toast.style.animation = 'slideIn 0.3s ease-out reverse forwards';
       setTimeout(() => toast.remove(), 300);
-    }, 4000);
+    }, 3000);
   }
 
   // Voice Input Functionality
@@ -1220,6 +1247,42 @@
     
     body.scrollTop = body.scrollHeight;
   }
+
+  // ── ONBOARDING EVENT LISTENERS ──
+  document.addEventListener('DOMContentLoaded', function() {
+    const contractorBtn = document.getElementById('contractor-btn');
+    const supplierBtn = document.getElementById('supplier-btn');
+    const nextBtn = document.getElementById('next-step-btn');
+    const finishBtn = document.getElementById('finish-btn');
+
+    if (contractorBtn) {
+      contractorBtn.addEventListener('click', function() {
+        console.log('Onboarding: Contractor Selected');
+        obStep(2, 'contractor');
+      });
+    }
+    if (supplierBtn) {
+      supplierBtn.addEventListener('click', function() {
+        console.log('Onboarding: Supplier Selected');
+        obStep(2, 'supplier');
+      });
+    }
+    if (nextBtn) {
+      nextBtn.addEventListener('click', function() {
+        console.log('Onboarding: Next Step');
+        obStep(3);
+      });
+    }
+    if (finishBtn) {
+      finishBtn.addEventListener('click', function() {
+        console.log('Onboarding: Finished');
+        const modal = document.getElementById('onboarding');
+        modal.style.transition = 'opacity 0.5s ease';
+        modal.style.opacity = '0';
+        setTimeout(() => finishOb(), 500);
+      });
+    }
+  });
 </script>
 
 <!-- Toast Container -->
@@ -1316,8 +1379,8 @@
       <div style="font-size:50px; margin-bottom:20px;">🏗️</div>
       <h2 style="font-size:24px; margin-bottom:12px; color: white;">What is your business type?</h2>
       <div style="display:grid; gap:12px; pointer-events: auto !important;">
-        <button class="btn-outline" style="padding:16px; cursor: pointer !important; pointer-events: auto !important; position: relative; z-index: 9999999 !important;" onclick="alert('Contractor Selected'); console.log('Clicked Contractor'); obStep(2, 'contractor')">I am a Contractor (AC, Electric, etc)</button>
-        <button class="btn-outline" style="padding:16px; cursor: pointer !important; pointer-events: auto !important; position: relative; z-index: 9999999 !important;" onclick="alert('Supplier Selected'); console.log('Clicked Supplier'); obStep(2, 'supplier')">I am a Supplier (Material seller)</button>
+        <button class="btn-outline" id="contractor-btn" style="padding:16px; cursor: pointer !important; pointer-events: auto !important; position: relative; z-index: 9999999 !important;">I am a Contractor (AC, Electric, etc)</button>
+        <button class="btn-outline" id="supplier-btn" style="padding:16px; cursor: pointer !important; pointer-events: auto !important; position: relative; z-index: 9999999 !important;">I am a Supplier (Material seller)</button>
       </div>
     </div>
     <!-- Step 2 -->
@@ -1325,14 +1388,14 @@
       <h2 style="font-size:24px; margin-bottom:12px; color: white;">Business Details</h2>
       <div class="form-group"><label>Company Name</label><input type="text" id="ob-comp" placeholder="eg. ACRV Aircon" /></div>
       <div class="form-group"><label>WhatsApp Number</label><input type="text" id="ob-phone" placeholder="98765 43210" /></div>
-      <button class="btn-primary" style="cursor: pointer !important;" onclick="alert('Proceeding to Step 3'); obStep(3)">Next Step →</button>
+      <button class="btn-primary" id="next-step-btn" style="cursor: pointer !important;">Next Step →</button>
     </div>
     <!-- Step 3 -->
     <div id="ob-step-3" class="hidden">
       <div style="font-size:50px; margin-bottom:20px;">🚀</div>
       <h2 style="font-size:24px; margin-bottom:12px; color: white;">You're ready!</h2>
       <p style="color:var(--text-secondary); margin-bottom:24px;">Start adding your projects and recovering payments.</p>
-      <button class="btn-primary" style="cursor: pointer !important;" onclick="alert('Finished'); finishOb()">Go to Dashboard</button>
+      <button class="btn-primary" id="finish-btn" style="cursor: pointer !important;">Go to Dashboard</button>
     </div>
   </div>
 </div>
