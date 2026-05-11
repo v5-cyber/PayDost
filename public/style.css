@@ -99,6 +99,22 @@ body { background: var(--primary); color: var(--text-primary); overflow-x: hidde
 .btn-secondary {
   padding: 10px 16px; background: transparent; border: 1px solid var(--border); color: var(--text-primary); border-radius: 8px; cursor: pointer; font-weight: bold;
 }
+.btn-outline {
+  width: 100%; padding: 16px;
+  background: rgba(255,255,255,0.05);
+  border: 1px solid var(--border);
+  color: white;
+  border-radius: 12px;
+  cursor: pointer;
+  font-weight: 600;
+  transition: all 0.2s;
+  text-align: center;
+}
+.btn-outline:hover {
+  background: rgba(2, 195, 154, 0.1);
+  border-color: var(--accent-light);
+  transform: translateY(-2px);
+}
 
 /* APP LAYOUT */
 #app { display: flex; min-height: 100vh; }
@@ -123,10 +139,7 @@ body { background: var(--primary); color: var(--text-primary); overflow-x: hidde
 
 /* SEGMENT SELECTION */
 .segment-overlay {
-  position: fixed; top: 0; left: 0; right: 0; bottom: 0;
-  background: linear-gradient(180deg, #0D1B3E 0%, #060E22 100%);
-  display: flex; align-items: center; justify-content: center; z-index: 9999;
-  padding: 20px;
+  display: none !important; /* Disabling old segment overlay in favor of new onboarding */
 }
 .segment-container { text-align: center; max-width: 800px; width: 100%; }
 .segment-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 32px; }
