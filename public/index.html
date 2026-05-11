@@ -561,9 +561,6 @@
 
   </main>
 </div>
-
-  </main>
-</div>
 <div id="modal-project" class="modal-overlay hidden">
   <div class="modal-content" style="max-width:500px; border-radius:24px;">
     <div class="modal-header">
@@ -1158,33 +1155,42 @@
   window.onload = () => {
     const client = getSB();
     client.auth.onAuthStateChange((ev, sess) => {
+      const authScreen = document.getElementById('auth-screen');
+      const app = document.getElementById('app');
+      const onboarding = document.getElementById('onboarding');
+
       if (sess) {
-        document.getElementById('auth-screen').classList.add('hidden');
-        document.getElementById('app').classList.remove('hidden');
+        authScreen.classList.add('hidden');
+        app.classList.remove('hidden');
         
         const cName = sess.user.user_metadata.company_name || "ACRV aircon Projects";
-        document.getElementById('sidebar-name-p').textContent = cName;
-        document.getElementById('sidebar-name-t').textContent = cName;
-        document.getElementById('dash-name').textContent = cName;
+        document.querySelectorAll('#sidebar-name-p, #sidebar-name-t, #dash-name').forEach(el => el.textContent = cName);
         document.getElementById('watermark').textContent = cName.toUpperCase();
         
-        // Dynamic Greeting
         const hour = new Date().getHours();
-        let greeting = "Good morning";
-        if (hour >= 12 && hour < 17) greeting = "Good afternoon";
-        else if (hour >= 17) greeting = "Good evening";
+        let greeting = hour < 12 ? "Good morning" : (hour < 17 ? "Good afternoon" : "Good evening");
         document.getElementById('greeting-text').innerHTML = `${greeting} 👋 <span id="dash-name">${cName}</span>`;
         
         const currentSegment = localStorage.getItem('payvlt_segment');
         const isObDone = localStorage.getItem('payvlt_ob_done');
         
         if (!isObDone) {
-          document.getElementById('onboarding').classList.remove('hidden');
+          onboarding.classList.remove('hidden');
+          document.querySelector('.chat-widget-btn').classList.add('hidden');
+          document.getElementById('ai-chat-window').classList.add('hidden');
         } else {
+          onboarding.classList.add('hidden');
+          document.querySelector('.chat-widget-btn').classList.remove('hidden');
           document.getElementById('sidebar-projects').classList.toggle('hidden', currentSegment !== 'projects');
           document.getElementById('sidebar-trade').classList.toggle('hidden', currentSegment !== 'trade');
           navigate('dashboard');
         }
+      } else {
+        authScreen.classList.remove('hidden');
+        app.classList.add('hidden');
+        onboarding.classList.add('hidden');
+        const chatBtn = document.querySelector('.chat-widget-btn');
+        if(chatBtn) chatBtn.classList.add('hidden');
       }
     });
 

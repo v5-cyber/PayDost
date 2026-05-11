@@ -301,3 +301,23 @@ tr:hover { background: rgba(255,255,255,0.02); }
 .chat-input { flex: 1; padding: 10px; border-radius: 20px; border: 1px solid var(--border); background: var(--primary); color: white; outline: none; }
 .chat-input:focus { border-color: var(--accent); }
 .chat-send { background: var(--accent); color: white; border: none; border-radius: 50%; width: 36px; height: 36px; display: flex; align-items: center; justify-content: center; cursor: pointer; }
+
+/* OVERLAYS */
+.modal-overlay, .segment-overlay, .segment-overlay-new {
+  position: fixed;
+  top: 0; left: 0;
+  width: 100vw; height: 100vh;
+  background: #0D1B3E !important; /* Force solid background */
+  display: flex; align-items: center; justify-content: center;
+  z-index: 9999999 !important;
+}
+.modal-content, .segment-container {
+  background: #1E293B;
+  padding: 40px; border-radius: 24px;
+  border: 1px solid rgba(255,255,255,0.1);
+  box-shadow: 0 25px 60px rgba(0,0,0,0.8);
+  max-width: 450px;
+  width: 90%;
+  position: relative;
+  z-index: 10000000 !important;
+}
