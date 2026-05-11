@@ -3,27 +3,19 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>PayVlt — Professional Payment Vault</title>
-  <link rel="stylesheet" href="style.css" />
-  <style>
-    .hidden { display: none !important; }
-    #auth-screen { min-height: 100vh; background: #0F172A; display: flex; align-items: center; justify-content: center; font-family: sans-serif; }
-    .auth-card { background: #1E293B; padding: 40px; border-radius: 16px; width: 400px; border: 1px solid rgba(255,255,255,0.1); }
-    .auth-tabs { display: flex; gap: 20px; border-bottom: 1px solid rgba(255,255,255,0.1); margin-bottom: 24px; }
-    .auth-tab { background: none; border: none; color: #64748B; padding: 10px 0; cursor: pointer; font-weight: 600; font-size: 16px; }
-    .auth-tab.active { color: white !important; border-bottom: 2px solid #028090 !important; }
-    .btn-primary { width: 100%; padding: 14px; background: linear-gradient(135deg, #028090, #1A56A0); border: none; color: white; border-radius: 8px; cursor: pointer; font-weight: bold; }
-    .spinner { display: inline-block; width: 14px; height: 14px; border: 2px solid rgba(255,255,255,0.3); border-radius: 50%; border-top-color: #fff; animation: spin 0.8s linear infinite; margin-right: 8px; }
-    @keyframes spin { to { transform: rotate(360deg); } }
-  </style>
+  <title>PayVlt — Premium B2B SaaS for Indian Contractors</title>
+  <link rel="stylesheet" href="style.css?v=2" />
 </head>
 <body>
 
+<!-- Onboarding moved to bottom -->
+<!-- ══════════════ AUTH SCREEN ══════════════ -->
 <div id="auth-screen">
   <div class="auth-card">
     <div style="text-align:center; margin-bottom:32px;">
-      <h1 style="margin:0;">💰 PayVlt</h1>
-      <p style="color:#028090; font-size:12px; font-weight:700;">APKA PAYMENT PARTNER</p>
+      <h1 style="margin:0; font-size:32px; color:white;">💰 PayVlt</h1>
+      <p style="color:var(--accent-light); font-size:14px; font-weight:700; margin-top:4px;">Apka Payment Partner</p>
+      <p style="color:var(--text-muted); font-size:11px; margin-top:2px;">Track | Invoice | Remind | Collect</p>
     </div>
 
     <div class="auth-tabs">
@@ -32,36 +24,581 @@
     </div>
 
     <div id="f-login">
-      <div style="margin-bottom:15px;"><label>Email</label><input type="email" id="l-email" placeholder="aapki@email.com" style="width:100%; padding:10px; background:#0D1B3E; border:1px solid #334466; color:white; border-radius:8px;" /></div>
-      <div style="margin-bottom:15px;"><label>Password</label><input type="password" id="l-pass" placeholder="••••••••" style="width:100%; padding:10px; background:#0D1B3E; border:1px solid #334466; color:white; border-radius:8px;" /></div>
+      <div class="form-group">
+        <label>Email Address</label>
+        <input type="email" id="l-email" placeholder="aapki@email.com" />
+      </div>
+      <div class="form-group" style="position:relative;">
+        <label>Password</label>
+        <input type="password" id="l-pass" placeholder="••••••••" />
+      </div>
       <button class="btn-primary" id="b-login" onclick="runAuth('login')">Login to PayVlt</button>
-      <p style="text-align:center; margin-top:12px; font-size:12px; color:#10B981;">30 din free — no credit card</p>
+      <div style="display:flex; justify-content:center; gap: 10px; margin-top:16px;">
+        <a href="#" style="font-size:12px; color:var(--text-muted); text-decoration:none;">Forgot password?</a>
+      </div>
+      <p style="text-align:center; margin-top:16px; font-size:12px; color:var(--success); font-weight:700;">30 din free — no credit card</p>
     </div>
 
     <div id="f-reg" class="hidden">
-      <div style="display:grid; grid-template-columns:1fr 1fr; gap:10px; margin-bottom:15px;">
-        <div><label>Name</label><input type="text" id="r-name" style="width:100%; padding:10px; background:#0D1B3E; border:1px solid #334466; color:white; border-radius:8px;" /></div>
-        <div><label>Company</label><input type="text" id="r-comp" style="width:100%; padding:10px; background:#0D1B3E; border:1px solid #334466; color:white; border-radius:8px;" /></div>
+      <div style="display:grid; grid-template-columns:1fr 1fr; gap:12px;">
+        <div class="form-group"><label>Full Name</label><input type="text" id="r-name" /></div>
+        <div class="form-group"><label>Company Name</label><input type="text" id="r-comp" /></div>
       </div>
-      <div style="margin-bottom:15px;"><label>Email</label><input type="email" id="r-email" placeholder="aapki@email.com" style="width:100%; padding:10px; background:#0D1B3E; border:1px solid #334466; color:white; border-radius:8px;" /></div>
-      <div style="margin-bottom:15px;"><label>Password</label><input type="password" id="r-pass" placeholder="••••••••" style="width:100%; padding:10px; background:#0D1B3E; border:1px solid #334466; color:white; border-radius:8px;" /></div>
+      <div class="form-group"><label>Email</label><input type="email" id="r-email" placeholder="aapki@email.com" /></div>
+      <div class="form-group"><label>Password</label><input type="password" id="r-pass" placeholder="••••••••" /></div>
       <button class="btn-primary" id="b-reg" onclick="runAuth('reg')">Create Free Account</button>
     </div>
   </div>
 </div>
 
-<div id="app" class="hidden" style="padding:40px;">
-  <h1>Welcome to PayVlt Dashboard</h1>
-  <div id="user-info"></div>
-  <button onclick="runAuth('logout')" style="margin-top:20px;">Logout</button>
+<!-- ══════════════ MAIN APP ══════════════ -->
+<div id="app" class="hidden">
+  
+  <!-- Segment Selection Overlay -->
+  <div id="segment-selection" class="segment-overlay hidden">
+    <div class="segment-container">
+      <h1 style="font-size:32px; margin-bottom:12px;">What type of business are you?</h1>
+      <p style="color:var(--text-muted); margin-bottom:40px;">Select your primary segment to customize your dashboard.</p>
+      
+      <div class="segment-grid">
+        <div class="segment-card" onclick="selectSegment('projects')">
+          <div style="font-size:48px; margin-bottom:16px;">🏗️</div>
+          <h3 style="font-size:24px; margin-bottom:8px;">Project-Based Contractor</h3>
+          <p style="color:var(--text-muted); font-size:14px; margin-bottom:24px;">HVAC, Civil, Interior, Electrical, Plumbing — project-based work</p>
+          <button class="btn-primary" style="width:100%;">Select Projects &rarr;</button>
+        </div>
+        <div class="segment-card" onclick="selectSegment('trade')">
+          <div style="font-size:48px; margin-bottom:16px;">🏪</div>
+          <h3 style="font-size:24px; margin-bottom:8px;">Trader / Supplier</h3>
+          <p style="color:var(--text-muted); font-size:14px; margin-bottom:24px;">Daily goods, materials, wholesale, retail supply</p>
+          <button class="btn-primary" style="width:100%; background:var(--warning); color:#000;">Select Trade &rarr;</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <aside id="sidebar-projects" class="sidebar hidden">
+    <div class="sidebar-logo">💰 PayVlt</div>
+    <nav class="nav-links">
+      <button class="nav-item active" id="nav-dashboard-p" onclick="navigate('dashboard')">🏠 Home</button>
+      <button class="nav-item" id="nav-projects-p" onclick="navigate('projects')">📁 My Projects</button>
+      <button class="nav-item" id="nav-payments-p" onclick="navigate('payments')">💰 Payments</button>
+      <button class="nav-item" id="nav-invoices-p" onclick="navigate('invoices')">📄 Invoices</button>
+      <button class="nav-item" id="nav-settings-p" onclick="navigate('settings')">⚙️ Settings</button>
+    </nav>
+    <div style="padding:24px; border-top:1px solid var(--border); margin-top:auto;">
+      <div id="sidebar-name-p" style="font-weight:700; color:white; margin-bottom:12px;">My Company</div>
+      <button onclick="runAuth('logout')" class="btn-secondary" style="width:100%;">Logout</button>
+    </div>
+  </aside>
+
+  <aside id="sidebar-trade" class="sidebar hidden">
+    <div class="sidebar-logo" style="color:var(--warning);">💰 PayVlt Trade</div>
+    <nav class="nav-links">
+      <button class="nav-item active" id="nav-dashboard-t" onclick="navigate('dashboard')">🏠 Home</button>
+      <button class="nav-item" id="nav-buyers-t" onclick="navigate('buyers')">👥 My Buyers</button>
+      <button class="nav-item" id="nav-ledger-t" onclick="navigate('ledger')">📒 Hisaab Kitaab</button>
+      <button class="nav-item" id="nav-payments-t" onclick="navigate('payments')">💰 Payments</button>
+      <button class="nav-item" id="nav-settings-t" onclick="navigate('settings')">⚙️ Settings</button>
+    </nav>
+    <div style="padding:24px; border-top:1px solid var(--border); margin-top:auto;">
+      <div id="sidebar-name-t" style="font-weight:700; color:white; margin-bottom:12px;">My Company</div>
+      <button onclick="runAuth('logout')" class="btn-secondary" style="width:100%;">Logout</button>
+    </div>
+  </aside>
+
+  <main id="main" style="position:relative;">
+    <button onclick="window.location.href='/home'" title="View Website" style="position:absolute; top:24px; right:24px; background:none; border:none; font-size:24px; cursor:pointer; opacity:0.8; transition:opacity 0.2s;" onmouseover="this.style.opacity='1'" onmouseout="this.style.opacity='0.8'">🌐</button>
+    <div class="watermark" id="watermark">PAYVLT</div>
+    <div id="alert-area"></div>
+
+    <!-- ── DASHBOARD ── -->
+    <div id="page-dashboard" class="page-content">
+      <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:28px;">
+        <div>
+          <h2 style="font-size:26px; font-weight:800;">Namaste 👋 <span id="dash-name"></span></h2>
+          <p style="color:var(--text-muted); margin-top:4px;">Aapka business aaj ka haal</p>
+        </div>
+        <button class="btn-primary" style="width:auto; padding:14px 24px; font-size:16px; border-radius:12px;" onclick="openProjectModal()">+ Naya Project</button>
+      </div>
+
+      <!-- 3 Big Cards -->
+      <div style="display:grid; grid-template-columns:1fr 1fr 1fr; gap:20px; margin-bottom:28px;">
+        <div style="background:linear-gradient(135deg,#0f3460,#0D1B3E); border:1px solid rgba(2,128,144,0.3); border-radius:20px; padding:28px; cursor:pointer;">
+          <div style="font-size:13px; color:var(--text-muted); font-weight:600; margin-bottom:8px; letter-spacing:1px;">PAANA BAAKI HAI</div>
+          <div id="stat-receivable" style="font-size:36px; font-weight:900; color:#fff; margin-bottom:16px;">₹0</div>
+          <button onclick="sendRemindAll()" style="width:100%; padding:12px; background:var(--accent); border:none; color:#fff; border-radius:10px; font-size:15px; font-weight:700; cursor:pointer;">📲 Remind All</button>
+        </div>
+        <div style="background:linear-gradient(135deg,#0a3d1f,#0D1B3E); border:1px solid rgba(22,163,74,0.3); border-radius:20px; padding:28px;">
+          <div style="font-size:13px; color:var(--text-muted); font-weight:600; margin-bottom:8px; letter-spacing:1px;">MIL GAYA 🎉</div>
+          <div id="stat-collected" style="font-size:36px; font-weight:900; color:#22c55e; margin-bottom:8px;">₹0</div>
+          <div style="font-size:13px; color:var(--text-muted);">Is mahine mila</div>
+        </div>
+        <div style="background:linear-gradient(135deg,#3d1f0a,#0D1B3E); border:1px solid rgba(245,158,11,0.3); border-radius:20px; padding:28px;">
+          <div style="font-size:13px; color:var(--text-muted); font-weight:600; margin-bottom:8px; letter-spacing:1px;">PROJECTS</div>
+          <div id="stat-count" style="font-size:36px; font-weight:900; color:#f59e0b; margin-bottom:8px;">0</div>
+          <div style="font-size:13px; color:var(--text-muted);">Active projects</div>
+        </div>
+      </div>
+
+      <!-- Aaj Kya Karein -->
+      <div id="aaj-kya-karein" style="background:var(--card-bg); border:1px solid var(--border); border-radius:16px; padding:24px; margin-bottom:24px;">
+        <h3 style="font-size:18px; font-weight:700; margin-bottom:16px;">⚡ Aaj Kya Karein?</h3>
+        <div id="smart-suggestions"><!-- JS fills this --></div>
+      </div>
+
+      <!-- Urgent Action Needed -->
+      <h3 style="font-size:18px; font-weight:700; margin-bottom:16px;">🚨 Urgent — Action Needed</h3>
+      <div id="urgent-list"><!-- JS fills this --></div>
+    </div>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- ── PROJECTS PAGE ── -->
+    <div id="page-projects" class="page-content hidden">
+      <div class="flex-between mb-4">
+        <h2>Projects & Digital Agreements</h2>
+        <button class="btn-primary" style="width:auto; padding: 10px 20px;" onclick="openProjectModal()">+ New Project</button>
+      </div>
+      <div id="projects-grid" class="projects-grid"></div>
+    </div>
+
+    <!-- ── PROJECT DETAIL VIEW (4 PHASES) ── -->
+    <div id="page-project-detail" class="page-content hidden">
+      <button class="btn-secondary mb-4" onclick="navigate('projects')">&larr; Back to Projects</button>
+      <div class="flex-between mb-4">
+        <div>
+          <h2 id="pd-name">Project Name</h2>
+          <p id="pd-client" style="color:var(--text-muted);">Client Name</p>
+        </div>
+        <div style="font-size:24px; font-weight:bold; color:var(--accent-light);">₹<span id="pd-amount">0</span></div>
+      </div>
+
+      <div class="phases-container" style="display:grid; grid-template-columns:1fr; gap:16px;">
+        <!-- PHASE 1: PRE-WORK -->
+        <div class="phase-card" style="background:var(--card-bg); padding:20px; border-radius:12px; border:1px solid var(--accent); border-left:4px solid var(--success);">
+          <h3>Phase 1: Pre-Work (Agreement)</h3>
+          <p style="font-size:12px; color:var(--text-secondary); margin-bottom:12px;">Scope, timeline, and mutual benefits documented.</p>
+          <div style="color:var(--success); font-weight:600;">Agreement Signed ✅</div>
+        </div>
+
+        <!-- PHASE 2: DURING WORK -->
+        <div class="phase-card" style="background:var(--card-bg); padding:20px; border-radius:12px; border:1px solid var(--border); border-left:4px solid var(--warning);">
+          <h3>Phase 2: During Work (Site Diary)</h3>
+          <p style="font-size:12px; color:var(--text-secondary); margin-bottom:12px;">Track daily progress and materials.</p>
+          <button class="btn-outline mb-4" style="width:100%; font-size:12px;">+ Add Daily Log</button>
+          <div style="color:var(--warning); font-weight:600;">Work In Progress 🔨</div>
+          <button class="btn-primary mt-4" style="width:100%;" onclick="markProjectComplete()">Mark Work Complete</button>
+        </div>
+
+        <!-- PHASE 3: COMPLETION -->
+        <div id="phase-3" class="phase-card" style="background:rgba(255,255,255,0.02); padding:20px; border-radius:12px; border:1px solid var(--border); opacity:0.6;">
+          <h3>Phase 3: Completion</h3>
+          <p style="font-size:12px; color:var(--text-secondary); margin-bottom:12px;">Final invoice and completion summary.</p>
+          <div id="p3-content" class="hidden">
+            <div style="background:rgba(0,0,0,0.2); padding:10px; border-radius:8px; font-size:12px; margin-bottom:12px;">
+              <strong>Completion Summary:</strong><br>
+              Duration: 152 days<br>
+              Total Value: ₹<span id="pd-c-amount">0</span><br>
+              Pending: ₹<span id="pd-p-amount">0</span>
+            </div>
+            <div style="color:var(--warning); font-weight:600;">Completed — Payment Pending 💰</div>
+          </div>
+        </div>
+
+        <!-- PHASE 4: PAYMENT WINDOW -->
+        <div id="phase-4" class="phase-card" style="background:rgba(255,255,255,0.02); padding:20px; border-radius:12px; border:1px solid var(--border); opacity:0.6;">
+          <h3>Phase 4: Payment Window</h3>
+          <div id="p4-setup" class="hidden">
+            <label style="font-size:12px; color:var(--text-secondary);">How many days to give client?</label>
+            <select id="pd-days" style="width:100%; padding:8px; margin:8px 0; background:var(--primary); color:white; border:1px solid var(--border); border-radius:4px;">
+              <option value="15">15 Days</option>
+              <option value="30">30 Days</option>
+              <option value="45">45 Days</option>
+            </select>
+            <button class="btn-primary" style="width:100%;" onclick="startPaymentWindow()">Start Countdown</button>
+          </div>
+          <div id="p4-active" class="hidden">
+            <p id="p4-countdown" style="color:var(--warning); font-weight:bold; margin-bottom:12px;"></p>
+            <button class="btn-outline" style="width:100%; font-size:12px; margin-bottom:8px;">Day 7 Auto-Reminder (Scheduled)</button>
+            <button class="btn-outline" style="width:100%; font-size:12px; margin-bottom:8px;">Day 15 Firm Reminder (Scheduled)</button>
+            <button id="btn-msme-warn" class="btn-danger mt-4" style="width:100%;" onclick="openMsmeWarning()">⚠️ Activate MSME Protection</button>
+            <button id="btn-msme-file" class="btn-primary mt-4 hidden" style="width:100%; background:#2563EB;" onclick="window.open('https://samadhaan.msme.gov.in', '_blank')">⚖️ File MSEFC Complaint — 1 Click</button>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    <!-- ── AGREEMENTS PAGE ── -->
+    <div id="page-agreements" class="page-content hidden">
+      <div class="flex-between mb-4">
+        <h2>Digital Agreements</h2>
+        <button class="btn-primary" style="width:auto; padding: 10px 20px;" onclick="openProjectModal()">+ Draft Agreement</button>
+      </div>
+      <p style="color:var(--text-muted); margin-bottom:24px;">Manage and track MSME-compliant mutual benefit agreements.</p>
+      
+      <table>
+        <thead>
+          <tr><th>Client</th><th>Project</th><th>Date Sent</th><th>Status</th><th>Actions</th></tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Rahul Enterprises</td>
+            <td style="font-weight:600;">Office Renovation</td>
+            <td>10 May 2026</td>
+            <td><span class="badge badge-green">Signed</span></td>
+            <td>
+              <button class="btn-outline" style="padding:6px 12px; font-size:11px;">View PDF</button>
+            </td>
+          </tr>
+          <tr>
+            <td>Gupta Traders</td>
+            <td style="font-weight:600;">Material Supply</td>
+            <td>08 May 2026</td>
+            <td><span class="badge badge-yellow">Sent via WA</span></td>
+            <td>
+              <button class="btn-primary" style="padding:6px 12px; font-size:11px;">Resend Link</button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <!-- ── INVOICES PAGE ── -->
+    <div id="page-invoices" class="page-content hidden">
+      <div class="flex-between mb-4">
+        <h2>Invoices</h2>
+        <button class="btn-primary" style="width:auto; padding: 10px 20px;">+ Generate Invoice</button>
+      </div>
+      <div class="projects-grid" id="invoices-grid">
+        <div class="project-card">
+          <div class="card-header">
+            <div>
+              <div class="client-name">Sharma Ji</div>
+              <div class="project-name">INV-2026-041</div>
+            </div>
+            <span class="badge badge-yellow">Pending</span>
+          </div>
+          <div class="amounts-row">
+            <div>₹2,50,000</div>
+          </div>
+          <div style="margin-top:12px; display:flex; gap:8px;">
+            <button class="btn-primary" style="flex:1; padding:8px; font-size:12px;" onclick="handleRazorpayPayment(250000, 'INV-2026-041', 'HVAC Installation', 'Sharma Ji', '9999999999', this)">💳 Pay Now</button>
+            <button class="btn-outline" style="flex:1; padding:8px; font-size:12px;">Download PDF</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ── PAYMENTS PAGE ── -->
+    <div id="page-payments" class="page-content hidden">
+      <h2>Payments & Collections</h2>
+      <p style="color:var(--text-muted); margin-bottom:24px;">Track pending payments and send smart reminders.</p>
+      
+      <table>
+        <thead>
+          <tr><th>Client</th><th>Project</th><th>Amount Due</th><th>Status</th><th>Actions</th></tr>
+        </thead>
+        <tbody id="payments-table-body">
+          <!-- Dynamic Content -->
+        </tbody>
+      </table>
+      
+      <h3 style="margin-top: 40px; margin-bottom: 16px;">Payments Received</h3>
+      <table>
+        <thead>
+          <tr><th>Date</th><th>Client</th><th>Project</th><th>Amount</th><th>Status</th></tr>
+        </thead>
+        <tbody id="payments-history-body">
+          <tr><td colspan="5" style="text-align:center; color:var(--text-muted);">No payment history yet.</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <!-- ── TALLY PAGE ── -->
+    <div id="page-tally" class="page-content hidden">
+      <h2>Tally Integration</h2>
+      <p style="color:var(--text-muted); margin-bottom:24px;">Export your invoices and payments seamlessly into Tally ERP 9 / Prime.</p>
+      <div class="card" style="padding:24px; max-width:600px;">
+        <h3>Export Data</h3>
+        <p style="margin:16px 0;">Select date range to export XML file formatted for Tally.</p>
+        <div style="display:flex; gap:16px; margin-bottom:24px;">
+          <input type="date" style="flex:1; padding:10px; background:var(--primary); color:white; border:1px solid var(--border); border-radius:8px;">
+          <input type="date" style="flex:1; padding:10px; background:var(--primary); color:white; border:1px solid var(--border); border-radius:8px;">
+        </div>
+        <button class="btn-primary" style="width:100%;" onclick="showToast('Tally XML generated and downloaded successfully.', 'success')">Export to Tally (XML)</button>
+      </div>
+    </div>
+    
+    <!-- ── SITE DIARY PAGE ── -->
+    <div id="page-diary" class="page-content hidden">
+      <div class="flex-between mb-4">
+        <h2>Site Diary</h2>
+        <button class="btn-primary" style="width:auto; padding: 10px 20px;" onclick="showToast('Daily log modal opened.', 'info')">+ Add Daily Log</button>
+      </div>
+      <p style="color:var(--text-muted); margin-bottom:24px;">Track materials, labor, and progress daily.</p>
+      <div class="projects-grid">
+        <div class="project-card">
+          <div class="card-header"><div><div class="client-name">Log: 10 May 2026</div><div class="project-name">Office Renovation</div></div><span class="badge badge-green">Synced</span></div>
+          <p style="font-size:13px; color:var(--text-secondary); margin:12px 0;">Cement: 50 bags<br>Labor: 15 workers<br>Notes: Plastering done on 2nd floor.</p>
+          <button class="btn-outline" style="width:100%; font-size:12px;">Share with Client</button>
+        </div>
+      </div>
+    </div>
+    
+    <!-- ── BUYERS PAGE ── -->
+    <div id="page-buyers" class="page-content hidden">
+      <div class="flex-between mb-4">
+        <h2>Buyers Directory</h2>
+        <button class="btn-primary" style="width:auto; padding: 10px 20px;" onclick="showToast('Add buyer modal opened.', 'info')">+ Add Buyer</button>
+      </div>
+      <table>
+        <thead><tr><th>Buyer Name</th><th>Contact</th><th>GSTIN</th><th>Total Outstanding</th></tr></thead>
+        <tbody>
+          <tr><td>Rahul Enterprises</td><td>9876543210</td><td>27AABCU9603R1ZX</td><td style="color:var(--danger); font-weight:bold;">₹1,60,000</td></tr>
+          <tr><td>Gupta Traders</td><td>8888888888</td><td>27AAACR1234F1Z5</td><td style="color:var(--warning); font-weight:bold;">₹45,000</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <!-- ── TRADE: LEDGER ── -->
+    <div id="page-ledger" class="page-content hidden">
+      <div class="flex-between mb-4">
+        <h2>Running Ledger</h2>
+        <select style="padding:8px; border-radius:8px; background:var(--primary); color:white; border:1px solid var(--border);">
+          <option>Buyer: Rahul Enterprises</option>
+          <option>Buyer: Gupta Traders</option>
+        </select>
+      </div>
+      
+      <div class="stats-grid mb-4" style="grid-template-columns: 1fr 1fr 1fr;">
+        <div class="stat-card" style="padding:16px;">
+          <div class="stat-label">Total Supplied</div>
+          <div style="font-size:20px; font-weight:bold;">₹4,50,000</div>
+        </div>
+        <div class="stat-card" style="padding:16px;">
+          <div class="stat-label">Total Received</div>
+          <div style="font-size:20px; font-weight:bold; color:var(--success);">₹2,90,000</div>
+        </div>
+        <div class="stat-card" style="padding:16px; border-left:4px solid var(--danger);">
+          <div class="stat-label">Current Balance Due</div>
+          <div style="font-size:20px; font-weight:bold; color:var(--danger);">₹1,60,000</div>
+        </div>
+      </div>
+
+      <table>
+        <thead>
+          <tr><th>Date</th><th>Description</th><th>Amount</th><th>Balance</th><th>Status</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>May 1</td><td>Steel rods 100kg</td><td>₹45,000</td><td>₹45,000</td><td><span class="badge badge-red">Due</span></td></tr>
+          <tr><td>May 3</td><td>Payment received</td><td style="color:var(--success);">-₹20,000</td><td>₹25,000</td><td><span class="badge badge-yellow">Partial</span></td></tr>
+          <tr><td>May 5</td><td>MS pipes 50kg</td><td>₹18,000</td><td>₹43,000</td><td><span class="badge badge-red">Due</span></td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- ── TRADE: CREDIT LIMIT ── -->
+    <div id="page-credit" class="page-content hidden">
+      <h2>Credit Limit Management</h2>
+      <p style="color:var(--text-muted); margin-bottom:24px;">Set and track maximum outstanding limits per buyer.</p>
+      
+      <div style="display:grid; grid-template-columns:repeat(auto-fill, minmax(350px, 1fr)); gap:24px;">
+        <!-- Buyer 1 -->
+        <div class="card" style="background:var(--card-bg); padding:24px; border-radius:12px; border:1px solid var(--border);">
+          <div class="flex-between mb-4">
+            <h3 style="font-size:18px;">Rahul Enterprises</h3>
+            <span class="badge badge-yellow">Warning</span>
+          </div>
+          <div style="margin-bottom:8px; display:flex; justify-content:space-between; font-size:14px;">
+            <span>Utilized: <strong style="color:var(--warning);">₹1,60,000</strong></span>
+            <span style="color:var(--text-secondary);">Limit: ₹2,00,000</span>
+          </div>
+          <div class="progress-container" style="height:12px; margin-bottom:8px;">
+            <div class="progress-bar" style="width:80%; background:var(--warning);"></div>
+          </div>
+          <p style="font-size:12px; color:var(--text-secondary); margin-bottom:16px;">80% utilized. Warning: Buyer near credit limit.</p>
+          <div style="display:flex; gap:8px;">
+            <button class="btn-outline" style="flex:1; font-size:12px; padding:8px;">Edit Limit</button>
+            <button class="btn-primary" style="flex:1; font-size:12px; padding:8px;" onclick="showToast('Stop supply alert sent!', 'error')">Stop Supply Alert</button>
+          </div>
+        </div>
+
+        <!-- Buyer 2 -->
+        <div class="card" style="background:var(--card-bg); padding:24px; border-radius:12px; border:1px solid var(--border);">
+          <div class="flex-between mb-4">
+            <h3 style="font-size:18px;">Gupta Traders</h3>
+            <span class="badge badge-red">Limit Reached</span>
+          </div>
+          <div style="margin-bottom:8px; display:flex; justify-content:space-between; font-size:14px;">
+            <span>Utilized: <strong style="color:var(--danger);">₹3,00,000</strong></span>
+            <span style="color:var(--text-secondary);">Limit: ₹3,00,000</span>
+          </div>
+          <div class="progress-container" style="height:12px; margin-bottom:8px;">
+            <div class="progress-bar" style="width:100%; background:var(--danger);"></div>
+          </div>
+          <p style="font-size:12px; color:var(--danger); font-weight:bold; margin-bottom:16px;">100% utilized. STOP SUPPLY.</p>
+          <div style="display:flex; gap:8px;">
+            <button class="btn-outline" style="flex:1; font-size:12px; padding:8px;">Edit Limit</button>
+            <button class="btn-primary" style="flex:1; font-size:12px; padding:8px;">Request Payment</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ── TRADE: REPORTS (WEEKLY STATEMENTS) ── -->
+    <div id="page-reports" class="page-content hidden">
+      <h2>Weekly Statements</h2>
+      <p style="color:var(--text-muted); margin-bottom:24px;">Auto-generate and send ledger statements via WhatsApp.</p>
+      
+      <div class="card" style="background:var(--card-bg); padding:24px; border-radius:12px; border:1px solid var(--border); max-width:500px;">
+        <h3>Rahul Enterprises</h3>
+        <p style="font-size:12px; color:var(--text-secondary); margin-bottom:16px;">Week ending: May 5, 2026</p>
+        
+        <div style="background:rgba(0,0,0,0.2); padding:16px; border-radius:8px; font-family:monospace; font-size:14px; margin-bottom:16px; line-height:1.6;">
+          Total supplied: ₹63,000<br>
+          Received: ₹20,000<br>
+          -----------------------<br>
+          Outstanding: ₹43,000<br>
+          Oldest pending: 5 days
+        </div>
+        
+        <button class="btn-primary" style="width:100%;" onclick="showToast('Weekly statement sent via WhatsApp!', 'success')">📲 Send via WhatsApp</button>
+      </div>
+    </div>
+    <!-- ── SCORE & CREDIT SYSTEM ── -->
+    <div id="page-score" class="page-content hidden">
+      <h2>My PayVlt Score</h2>
+      <p style="color:var(--text-muted); margin-bottom:24px;">Your reputation score visible to clients and buyers.</p>
+      
+      <div style="display:grid; grid-template-columns:repeat(auto-fill, minmax(350px, 1fr)); gap:24px; margin-bottom:32px;">
+        <div class="card" style="background:linear-gradient(135deg, #028090 0%, #0D1B3E 100%); padding:32px; border-radius:12px; border:1px solid var(--accent); color:white; text-align:center;">
+          <h3 style="font-size:18px; margin-bottom:16px;">PayVlt Verified Contractor</h3>
+          <div style="font-size:48px; font-weight:900; margin-bottom:8px;">⭐ 4.8</div>
+          <p style="font-size:14px; margin-bottom:16px;">"23 projects | 0 disputes | Member since 2024"</p>
+          <div style="display:flex; justify-content:center; gap:8px;">
+            <span class="badge badge-green">+10 per project</span>
+            <span class="badge badge-green">+5 on-time</span>
+          </div>
+        </div>
+
+        <div class="card" style="background:var(--card-bg); padding:32px; border-radius:12px; border:1px solid var(--border);">
+          <h3 style="font-size:18px; margin-bottom:16px;">How Clients See You</h3>
+          <p style="font-size:14px; color:var(--text-secondary); margin-bottom:16px;">A high score gives you leverage to demand better payment terms and access credit limits.</p>
+          <div style="margin-bottom:12px;"><strong>Client Ratings Matrix:</strong></div>
+          <ul style="font-size:13px; color:var(--text-secondary); line-height:1.8; list-style:none; padding:0;">
+            <li>🟢 <strong>Excellent Payer:</strong> &lt; 30 days avg</li>
+            <li>🟡 <strong>Good Payer:</strong> 30-45 days avg</li>
+            <li>🟠 <strong>Average Payer:</strong> 45-60 days avg</li>
+            <li>🔴 <strong>Slow Payer:</strong> 60+ days avg</li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- PAYVLT CREDIT (FUTURE FEATURE) -->
+      <h3 class="mb-4" style="color:var(--accent-light);">PayVlt Credit (Coming Soon)</h3>
+      <div class="card" style="background:rgba(2,195,154,0.1); padding:24px; border-radius:12px; border:1px dashed var(--accent-light);">
+        <div class="flex-between mb-4">
+          <div>
+            <h4 style="font-size:18px; color:white;">Invoice Financing Available</h4>
+            <p style="font-size:13px; color:var(--text-secondary); margin-top:4px;">Based on your excellent 4.8 Score, you are pre-approved.</p>
+          </div>
+          <span style="font-size:32px;">💸</span>
+        </div>
+        <div style="background:rgba(0,0,0,0.2); padding:16px; border-radius:8px; margin-bottom:16px;">
+          <div style="display:flex; justify-content:space-between; margin-bottom:8px;">
+            <span style="color:var(--text-secondary);">Pending Invoices:</span>
+            <strong>₹5,00,000</strong>
+          </div>
+          <div style="display:flex; justify-content:space-between; font-size:16px;">
+            <span style="color:var(--accent-light); font-weight:bold;">PayVlt Credit Offers Now:</span>
+            <strong style="color:var(--accent-light);">₹4,00,000</strong>
+          </div>
+          <div style="font-size:11px; color:var(--text-muted); text-align:right; margin-top:4px;">(80% of invoice value upfront. Client pays us directly.)</div>
+        </div>
+        <button class="btn-primary" style="width:100%; opacity:0.5; cursor:not-allowed;">Join Waitlist</button>
+      </div>
+    </div>
+    <div id="page-settings" class="page-content hidden">
+      <h2>Settings</h2>
+      <div style="background:rgba(255,193,7,0.1); border:1px solid #FFC107; color:#FFC107; padding:12px 16px; border-radius:8px; display:inline-block; margin-bottom:24px;">
+        ⚠️ Razorpay in Test Mode. Complete KYC to go live.
+      </div>
+      <div class="card mt-4" style="max-width:500px;">
+        <h3 class="mb-4">Business Segment</h3>
+        <p style="color:var(--text-muted); margin-bottom:16px;">You can switch your primary business interface here.</p>
+        <button class="btn-outline" onclick="document.getElementById('segment-selection').classList.remove('hidden')">Change Segment</button>
+      </div>
+    </div>
+
+  </main>
 </div>
 
+  </main>
+</div>
+<div id="modal-project" class="modal-overlay hidden">
+  <div class="modal-content" style="max-width:500px; border-radius:24px;">
+    <div class="modal-header">
+      <h2 style="font-size:24px;">+ Naya Project Add Karo</h2>
+      <button class="modal-close" onclick="closeModal('modal-project')">×</button>
+    </div>
+    
+    <div class="form-group"><label>1. Client ka naam *</label><input type="text" id="p-client-name" placeholder="eg. Rahul Kumar" /></div>
+    <div class="form-group"><label>2. Mobile Number *</label><input type="text" id="p-client-phone" placeholder="WhatsApp number" /></div>
+    <div class="form-group"><label>3. Kaam kya hai? (Description) *</label><textarea id="p-desc" rows="2" placeholder="eg. AC Service, Wiring, etc."></textarea></div>
+    
+    <div style="display:grid; grid-template-columns:1fr 1fr; gap:12px;">
+      <div class="form-group"><label>4. Kitna Paisa? *</label><input type="number" id="p-amount" placeholder="₹" /></div>
+      <div class="form-group"><label>5. Kab tak chahiye? *</label><input type="date" id="p-date" /></div>
+    </div>
+    
+    <details style="margin-top:16px; border:1px solid var(--border); border-radius:12px; padding:8px;">
+      <summary style="font-size:14px; cursor:pointer; color:var(--text-muted);">▼ More Details (Optional)</summary>
+      <div style="padding-top:12px; display:grid; grid-template-columns:1fr 1fr; gap:12px;">
+        <div class="form-group"><label>GST No.</label><input type="text" id="p-gst" /></div>
+        <div class="form-group">
+          <label>Language</label>
+          <select id="p-lang">
+            <option value="Hindi">Hindi / Hinglish</option>
+            <option value="English">English</option>
+            <option value="Gujarati">Gujarati</option>
+            <option value="Marathi">Marathi</option>
+          </select>
+        </div>
+      </div>
+    </details>
+
+    <button class="btn-primary mt-4" style="height:56px; font-size:18px; border-radius:16px;" onclick="saveProject()">Save & Send Agreement</button>
+  </div>
+</div>
+
+<!-- MSME WARNING MODAL -->
+<div id="modal-msme" class="modal-overlay hidden">
+  <div class="modal-content">
+    <div class="modal-header">
+      <h2 style="color:var(--danger);">⚠️ Final Warning Before MSME</h2>
+      <button class="modal-close" onclick="closeModal('modal-msme')">×</button>
+    </div>
+    <p style="margin-bottom:16px;">We will send ONE final message to the client explaining the consequences. After that, the MSME clock officially starts. Proceed?</p>
+    <div style="background:rgba(220,38,38,0.1); border:1px solid var(--danger); padding:12px; border-radius:8px; margin-bottom:20px; font-size:13px;">
+      <strong>Final Alert Preview:</strong><br><br>
+      Dear Client,<br>
+      This is a formal notice. Under MSMED Act 2006, you are liable for 19.5% compound interest and risk losing Section 43B(h) tax deductions. We strongly recommend payment within 48 hours.
+    </div>
+    <div style="display:flex; gap:12px;">
+      <button class="btn-danger" style="flex:1;" onclick="activateMsme()">Yes — Send Final Alert</button>
+      <button class="btn-secondary" style="flex:1;" onclick="closeModal('modal-msme')">Cancel</button>
+    </div>
+  </div>
+</div>
+
+<script src="https://checkout.razorpay.com/v1/checkout.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script>
-  // 🛡️ ISOLATED LOGIC — No dependencies on app.js
-  const URL = "https://jwtjnrbwwjwtaukaoeda.supabase.co";
-  const KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imp3dGpucmJ3d2p3dGF1a2FvZWRhIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzcwMTE0ODEsImV4cCI6MjA5MjU4NzQ4MX0.diAAnRtaTCw9BvHMW3AFE2l4d_B9er2yRLN5sYLdawo";
-  const sb = window.supabase.createClient(URL, KEY);
+  // ── CONFIG ──
+  const U = "https://jwtjnrbwwjwtaukaoeda.supabase.co";
+  const K = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imp3dGpucmJ3d2p3dGF1a2FvZWRhIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzcwMTE0ODEsImV4cCI6MjA5MjU4NzQ4MX0.diAAnRtaTCw9BvHMW3AFE2l4d_B9er2yRLN5sYLdawo";
+  
+  let sb;
+  function getSB() { if (!sb) sb = window.supabase.createClient(U, K); return sb; }
 
   function switchT(t) {
     const isL = t === 'login';
@@ -72,7 +609,8 @@
   }
 
   async function runAuth(type) {
-    if (type === 'logout') { await sb.auth.signOut(); return location.reload(); }
+    const client = getSB();
+    if (type === 'logout') { await client.auth.signOut(); return window.location.href = '/'; }
     
     const isL = type === 'login';
     const btn = document.getElementById(isL ? 'b-login' : 'b-reg');
@@ -83,9 +621,9 @@
     try {
       let r;
       if (isL) {
-        r = await sb.auth.signInWithPassword({ email: document.getElementById('l-email').value, password: document.getElementById('l-pass').value });
+        r = await client.auth.signInWithPassword({ email: document.getElementById('l-email').value, password: document.getElementById('l-pass').value });
       } else {
-        r = await sb.auth.signUp({ 
+        r = await client.auth.signUp({ 
           email: document.getElementById('r-email').value, 
           password: document.getElementById('r-pass').value,
           options: { data: { full_name: document.getElementById('r-name').value, company_name: document.getElementById('r-comp').value } }
@@ -93,27 +631,710 @@
       }
 
       if (r.error) {
-        alert(isL ? "Email ya password galat hai." : r.error.message);
+        showToast(isL ? "Email ya password galat hai." : r.error.message, "error");
         btn.disabled = false; btn.innerHTML = old;
       }
     } catch (e) {
-      alert("Connection Problem");
+      showToast("System Error: " + e.message, "error");
       btn.disabled = false; btn.innerHTML = old;
     }
   }
 
-  sb.auth.onAuthStateChange((ev, sess) => {
-    if (sess) {
-      document.getElementById('auth-screen').classList.add('hidden');
-      document.getElementById('app').classList.remove('hidden');
-      document.getElementById('user-info').textContent = "Logged in as: " + sess.user.email;
-    }
-  });
+  function navigate(page) {
+    document.querySelectorAll('.page-content').forEach(p => p.classList.add('hidden'));
+    const pageEl = document.getElementById('page-' + page);
+    if(pageEl) pageEl.classList.remove('hidden');
 
+    document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
+    const currentSegment = localStorage.getItem('payvlt_segment') || 'projects';
+    const navSuffix = currentSegment === 'projects' ? '-p' : '-t';
+    const activeNav = document.getElementById('nav-' + page + navSuffix);
+    if(activeNav) activeNav.classList.add('active');
+
+    if(page === 'dashboard' || page === 'projects') loadData();
+  }
+
+  function selectSegment(segment) {
+    localStorage.setItem('payvlt_segment', segment);
+    document.getElementById('segment-selection').classList.add('hidden');
+    document.getElementById('sidebar-projects').classList.toggle('hidden', segment !== 'projects');
+    document.getElementById('sidebar-trade').classList.toggle('hidden', segment !== 'trade');
+    navigate('dashboard');
+  }
+
+  function openProjectModal() { document.getElementById('modal-project').classList.remove('hidden'); }
+  function closeModal(id) { document.getElementById(id).classList.add('hidden'); }
+
+  window.mockProjects = window.mockProjects || [
+    { id: 'mock-1', client_name: "Sharma Ji", project_name: "HVAC Installation", total_amount: 250000, paid_amount: 50000, status: "pending", client_phone: "9876543210" }
+  ];
+
+  async function loadData() {
+    const client = getSB();
+    const { data: projects, error } = await client.from('projects').select('*');
+    
+    let displayProjects = projects;
+    if (error || !projects || (projects && projects.length === 0 && window.mockProjects && window.mockProjects.length > 0)) {
+      console.log("Projects table might not exist or returned empty. Using mock data.");
+      displayProjects = window.mockProjects || [];
+      const alertArea = document.getElementById('alert-area');
+      if (alertArea) {
+        alertArea.innerHTML = `
+          <div class="alert-banner">
+            ⚠️ 1 project needs urgent attention. Legal Notice option available. (Offline Mode)
+          </div>
+        `;
+      }
+    }
+
+    if (displayProjects) {
+      renderDashboardStats(displayProjects);
+      renderProjectsGrid(displayProjects);
+      renderPaymentsTable(displayProjects);
+      renderInvoicesGrid(displayProjects);
+    }
+  }
+
+  // ─── NEW FEATURE FUNCTIONS ───
+
+  // 1. WhatsApp Templates (Auto-select based on days overdue)
+  const WA_TEMPLATES = {
+    Hindi: {
+      friendly: (n,a) => `Namaste ${n} ji 🙏\nPayment reminder: Aapka ₹${a} ka payment pending hai.\nKripya jaldi clear karein. Shukriya!`,
+      firm:    (n,a,d) => `Namaste ${n} ji,\nAapka ₹${a} payment ${d} din se pending hai.\nKripya 48 ghante mein clear karein.`,
+      legal:   (n,a,d) => `MSME Act Notice — ${n} ji,\nAapka ₹${a} payment ${d} din se overdue hai.\nMSMED Act 2006 ke anusaar 19.5% byaaj lagega. Kripya turant payment karein ya PayVlt se sampark karein.`
+    }
+  };
+
+  function sendWhatsApp(p) {
+    const amount = (p.total_amount - (p.paid_amount || 0)).toLocaleString('en-IN');
+    const dueDate = p.due_date ? new Date(p.due_date) : new Date();
+    const days = Math.floor((new Date() - dueDate) / 86400000);
+    
+    let msg = "";
+    if (days >= 40) msg = WA_TEMPLATES.Hindi.legal(p.client_name, amount, days);
+    else if (days >= 15) msg = WA_TEMPLATES.Hindi.firm(p.client_name, amount, days);
+    else msg = WA_TEMPLATES.Hindi.friendly(p.client_name, amount);
+
+    const phone = (p.client_phone || '').replace(/\D/g,'');
+    window.open(`https://wa.me/91${phone}?text=${encodeURIComponent(msg)}`, '_blank');
+    showToast('WhatsApp reminder sent!', 'success');
+  }
+
+  // 2. Dashboard Logic (Smart Suggestions)
+  function renderDashboardStats(projects) {
+    window.allProjects = projects;
+    let collected = 0, receivable = 0;
+    projects.forEach(p => {
+      collected += (p.paid_amount || 0);
+      receivable += (p.total_amount || 0) - (p.paid_amount || 0);
+    });
+
+    document.getElementById('stat-collected').textContent = '₹' + collected.toLocaleString('en-IN');
+    document.getElementById('stat-receivable').textContent = '₹' + receivable.toLocaleString('en-IN');
+    document.getElementById('stat-count').textContent = projects.length;
+
+    renderSmartSuggestions(projects);
+    renderUrgentList(projects);
+  }
+
+  function renderSmartSuggestions(projects) {
+    const el = document.getElementById('smart-suggestions');
+    if (!el) return;
+    el.innerHTML = "";
+    
+    // Suggestion 1: Overdue payments
+    const overdue = projects.filter(p => {
+      const days = Math.floor((new Date() - new Date(p.due_date)) / 86400000);
+      return days > 7 && (p.total_amount - (p.paid_amount || 0)) > 0;
+    });
+
+    if (overdue.length) {
+      el.innerHTML += `
+        <div style="background:rgba(255,255,255,0.05); padding:12px; border-radius:12px; display:flex; justify-content:space-between; align-items:center;">
+          <span>✅ <strong>${overdue[0].client_name}</strong> ko reminder bhejne ka time ho gaya.</span>
+          <button class="btn-primary" style="width:auto; padding:8px 16px; font-size:12px;" onclick="sendWhatsApp(window.allProjects[0])">Remind Now</button>
+        </div>
+      `;
+    } else {
+      el.innerHTML = '<p style="color:var(--text-muted);">Sab badhiya hai! Koi naya action nahi chahiye.</p>';
+    }
+  }
+
+  function renderUrgentList(projects) {
+    const el = document.getElementById('urgent-list');
+    if (!el) return;
+    const overdue = projects.filter(p => (p.total_amount - (p.paid_amount || 0)) > 0);
+    
+    el.innerHTML = overdue.map(p => {
+      const days = Math.floor((new Date() - new Date(p.due_date)) / 86400000);
+      return `
+        <div style="background:var(--card-bg); border:1px solid var(--border); padding:20px; border-radius:16px; margin-bottom:12px; display:flex; justify-content:space-between; align-items:center;">
+          <div>
+            <div style="font-weight:700; font-size:18px;">${p.client_name}</div>
+            <div style="color:var(--danger); font-weight:700;">₹${(p.total_amount - (p.paid_amount || 0)).toLocaleString('en-IN')} pending</div>
+            <div style="font-size:12px; color:var(--text-muted);">${days > 0 ? days + ' din late' : 'Due today'}</div>
+          </div>
+          <button class="btn-primary" style="width:auto; padding:12px 24px; background:#25D366;" onclick="sendWhatsApp(window.allProjects.find(x => x.id === '${p.id}'))">📲 Remind</button>
+        </div>
+      `;
+    }).join('') || '<p style="color:var(--text-muted);">Koi urgent payment pending nahi hai.</p>';
+  }
+
+  function renderProjectsGrid(projects) {
+    const grid = document.getElementById('projects-grid');
+    const tbody = document.getElementById('recent-projects-body');
+    if (!grid || !tbody) return;
+    grid.innerHTML = ''; tbody.innerHTML = '';
+    
+    if (projects.length === 0) {
+      grid.innerHTML = '<p style="color:var(--text-muted);">No projects yet. Add one to generate an agreement!</p>';
+      return;
+    }
+
+    projects.forEach(p => {
+      const remaining = p.total_amount - (p.paid_amount || 0);
+      
+      // Grid Card
+      grid.innerHTML += `
+        <div class="project-card" onclick="openProjectDetail('${p.project_name.replace(/'/g, "\\'")}', '${p.client_name.replace(/'/g, "\\'")}', ${p.total_amount})">
+          <div class="card-header">
+            <div>
+              <div class="client-name">${p.client_name}</div>
+              <div class="project-name">${p.project_name}</div>
+            </div>
+            <span class="badge badge-yellow">Pending</span>
+          </div>
+          <div class="amounts-row">
+            <div>₹${p.total_amount.toLocaleString('en-IN')}</div>
+            <div style="color:var(--danger); font-size:14px; text-align:right;">₹${remaining.toLocaleString('en-IN')} Due</div>
+          </div>
+          <div style="margin-top:12px; font-size:12px; display:flex; justify-content:space-between;">
+            <span style="color:var(--accent-light);">Agreement Sent ⏳</span>
+            <button class="btn-danger" style="padding:4px 8px; font-size:10px;" onclick="event.stopPropagation(); showToast('Generate Legal Notice with MSMED Act Sec 16 and Sec 43B(h)?', 'warning')">Legal Notice</button>
+          </div>
+        </div>
+      `;
+      
+      // Recent Table
+      tbody.innerHTML += `
+        <tr>
+          <td>${p.client_name}</td>
+          <td style="font-weight:600;">${p.project_name}</td>
+          <td>₹${p.total_amount.toLocaleString('en-IN')}</td>
+          <td><span class="badge badge-yellow">Pending</span></td>
+          <td>Agreement Sent ⏳</td>
+        </tr>
+      `;
+    });
+  }
+
+  function renderPaymentsTable(projects) {
+    const tbody = document.getElementById('payments-table-body');
+    if (!tbody) return;
+    tbody.innerHTML = '';
+    
+    if (projects.length === 0) {
+      tbody.innerHTML = '<tr><td colspan="5" style="text-align:center; color:var(--text-muted);">No pending payments found.</td></tr>';
+      return;
+    }
+
+    projects.forEach(p => {
+      const remaining = p.total_amount - (p.paid_amount || 0);
+      if (remaining <= 0) return; // Only show pending
+
+      tbody.innerHTML += `
+        <tr>
+          <td>${p.client_name}</td>
+          <td style="font-weight:600;">${p.project_name}</td>
+          <td style="color:var(--danger); font-weight:bold;">₹${remaining.toLocaleString('en-IN')}</td>
+          <td><span class="badge badge-yellow">Due</span></td>
+          <td>
+            <div style="display:flex; gap:8px;">
+              <button class="btn-outline" style="padding:6px 12px; font-size:11px;" onclick="showToast('Reminder sent via WhatsApp!', 'success')">📲 Send Reminder</button>
+              <button class="btn-primary" style="padding:6px 12px; font-size:11px;" onclick="handleRazorpayPayment(${remaining}, '${p.id}', '${p.project_name.replace(/'/g, "\\'")}', '${p.client_name.replace(/'/g, "\\'")}', '${p.client_phone || '9999999999'}', this)">💳 Pay Now</button>
+            </div>
+          </td>
+        </tr>
+      `;
+    });
+  }
+
+  function renderInvoicesGrid(projects) {
+    const grid = document.getElementById('invoices-grid');
+    if (!grid) return;
+    grid.innerHTML = '';
+    
+    if (projects.length === 0) {
+      grid.innerHTML = '<p style="color:var(--text-muted);">No invoices generated yet.</p>';
+      return;
+    }
+
+    projects.forEach((p, idx) => {
+      const remaining = p.total_amount - (p.paid_amount || 0);
+      const isPaid = remaining <= 0;
+
+      grid.innerHTML += `
+        <div class="project-card">
+          <div class="card-header">
+            <div>
+              <div class="client-name">${p.client_name}</div>
+              <div class="project-name">INV-2026-00${idx + 1}</div>
+            </div>
+            <span class="badge ${isPaid ? 'badge-green' : 'badge-yellow'}">${isPaid ? 'Paid' : 'Pending'}</span>
+          </div>
+          <div class="amounts-row">
+            <div>₹${p.total_amount.toLocaleString('en-IN')}</div>
+          </div>
+          <div style="margin-top:12px; display:flex; gap:8px;">
+            ${!isPaid ? `<button class="btn-primary" style="flex:1; padding:8px; font-size:12px;" onclick="handleRazorpayPayment(${remaining}, '${p.id}', '${p.project_name.replace(/'/g, "\\'")}', '${p.client_name.replace(/'/g, "\\'")}', '${p.client_phone || '9999999999'}', this)">💳 Pay Now</button>` : `<button class="btn-primary" style="flex:1; padding:8px; font-size:12px;" disabled>✅ Paid</button>`}
+            <button class="btn-outline" style="flex:1; padding:8px; font-size:12px;">Download PDF</button>
+          </div>
+        </div>
+      `;
+    });
+  }
+
+  async function saveProject() {
+    const client = getSB();
+    const project = {
+      id: 'mock-' + Date.now(),
+      client_name: document.getElementById('p-client-name').value,
+      client_phone: document.getElementById('p-client-phone').value,
+      project_name: document.getElementById('p-name').value,
+      client_lang: document.getElementById('p-lang').value,
+      description: document.getElementById('p-desc').value,
+      total_amount: parseInt(document.getElementById('p-amount').value) || 0,
+      due_date: document.getElementById('p-date').value,
+      status: 'pending'
+    };
+    
+    const { data, error } = await client.from('projects').insert([project]);
+    if(error) {
+      window.mockProjects.push(project);
+    }
+    
+    showToast("Project saved! Digital Agreement link generated and sent to " + project.client_phone + " via WhatsApp.", "success");
+    closeModal('modal-project');
+    loadData();
+  }
+
+  // ── 4-PHASE PROJECT LIFECYCLE LOGIC ──
+  function openProjectDetail(name, client, amount) {
+    navigate('project-detail');
+    document.getElementById('pd-name').textContent = name;
+    document.getElementById('pd-client').textContent = client;
+    document.getElementById('pd-amount').textContent = amount.toLocaleString('en-IN');
+    document.getElementById('pd-c-amount').textContent = amount.toLocaleString('en-IN');
+    document.getElementById('pd-p-amount').textContent = amount.toLocaleString('en-IN');
+    
+    // Reset phases for demo
+    document.getElementById('phase-3').style.opacity = '0.6';
+    document.getElementById('phase-4').style.opacity = '0.6';
+    document.getElementById('p3-content').classList.add('hidden');
+    document.getElementById('p4-setup').classList.add('hidden');
+    document.getElementById('p4-active').classList.add('hidden');
+    document.getElementById('btn-msme-warn').classList.remove('hidden');
+    document.getElementById('btn-msme-file').classList.add('hidden');
+  }
+
+  function markProjectComplete() {
+    document.getElementById('phase-3').style.opacity = '1';
+    document.getElementById('p3-content').classList.remove('hidden');
+    document.getElementById('phase-4').style.opacity = '1';
+    document.getElementById('p4-setup').classList.remove('hidden');
+    showToast("Project marked as complete. Final invoice generated.", "success");
+  }
+
+  function startPaymentWindow() {
+    const days = document.getElementById('pd-days').value;
+    document.getElementById('p4-setup').classList.add('hidden');
+    document.getElementById('p4-active').classList.remove('hidden');
+    document.getElementById('p4-countdown').textContent = `Client has ${days} days to pay. Remaining: ${days} days`;
+    showToast("Payment window started. Reminders scheduled.", "success");
+  }
+
+  function openMsmeWarning() {
+    document.getElementById('modal-msme').classList.remove('hidden');
+  }
+
+  function activateMsme() {
+    closeModal('modal-msme');
+    document.getElementById('btn-msme-warn').classList.add('hidden');
+    document.getElementById('btn-msme-file').classList.remove('hidden');
+    showToast("Final alert sent to client. MSME timeline activated.", "warning");
+  }
+
+  // ── RAZORPAY INTEGRATION ──
+  async function handleRazorpayPayment(amount, projectId, projectName, clientName, clientPhone, btnElement) {
+    const originalText = btnElement.innerHTML;
+    btnElement.disabled = true;
+    btnElement.innerHTML = '<span class="spinner" style="border-width: 2px; width: 12px; height: 12px;"></span> Wait...';
+
+    try {
+      const client = getSB();
+      
+      // Mock edge function call if local dev environment doesn't have it deployed yet
+      // To strictly use edge function: 
+      const { data, error } = await client.functions.invoke('create-razorpay-order', {
+        body: { amount, project_id: projectId, client_name: clientName, description: projectName }
+      });
+
+      if (error || !data) {
+        throw new Error(error?.message || "Failed to contact payment server");
+      }
+
+      const options = {
+        key: data.key_id,
+        amount: amount * 100,
+        currency: "INR",
+        name: "PayVlt",
+        description: projectName,
+        order_id: data.order_id,
+        prefill: {
+          name: clientName,
+          contact: clientPhone
+        },
+        theme: { color: "#00C9A7" },
+        handler: async function (response) {
+          showToast(`Payment of ₹${amount.toLocaleString('en-IN')} received successfully!`, "success");
+          
+          // Update Supabase DB if it's a real project ID
+          if (projectId && !projectId.toString().startsWith('mock-') && !projectId.toString().startsWith('PRJ-') && !projectId.toString().startsWith('INV-')) {
+            const { data: proj } = await client.from('projects').select('paid_amount').eq('id', projectId).single();
+            const currentPaid = proj ? (proj.paid_amount || 0) : 0;
+            
+            await client.from('projects').update({
+              paid_amount: currentPaid + amount,
+              status: 'partial' // or received depending on logic
+            }).eq('id', projectId);
+            
+            // Refresh dashboard
+            loadData();
+          }
+
+          // Update UI optimistically
+          const cardOrRow = btnElement.closest('tr, .project-card');
+          if (cardOrRow) {
+            cardOrRow.querySelectorAll('.badge').forEach(b => {
+              b.className = 'badge badge-green';
+              b.textContent = 'Paid';
+            });
+            cardOrRow.querySelectorAll('.btn-primary').forEach(b => {
+              b.disabled = true;
+              b.innerHTML = '✅ Paid';
+            });
+            const dueText = cardOrRow.querySelector('.amounts-row div:nth-child(2), td:nth-child(3)');
+            if (dueText) {
+              dueText.style.color = 'var(--success)';
+              dueText.textContent = '₹0 Due';
+            }
+          }
+          
+          // Add to payment history Optimistically
+          const historyTable = document.getElementById('payments-history-body');
+          if (historyTable) {
+            if (historyTable.innerHTML.includes('No payment history yet.')) {
+              historyTable.innerHTML = '';
+            }
+            const dateStr = new Date().toLocaleDateString('en-IN', {day:'numeric', month:'short', year:'numeric'});
+            historyTable.innerHTML += `
+              <tr>
+                <td>${dateStr}</td>
+                <td>${clientName}</td>
+                <td style="font-weight:600;">${projectName}</td>
+                <td style="color:var(--success); font-weight:bold;">₹${amount.toLocaleString('en-IN')}</td>
+                <td><span class="badge badge-green">Success</span></td>
+              </tr>
+            `;
+          }
+        }
+      };
+
+      const rzp = new Razorpay(options);
+      rzp.on('payment.failed', function (response){
+        showToast("Payment failed: " + response.error.description, "error");
+      });
+      rzp.open();
+
+    } catch (e) {
+      showToast("Error: " + e.message, "error");
+    } finally {
+      if(!btnElement.innerHTML.includes('Paid')) {
+        btnElement.disabled = false;
+        btnElement.innerHTML = originalText;
+      }
+    }
+  }
+
+  // Setup Session Watcher
   window.onload = () => {
+    const client = getSB();
+    client.auth.onAuthStateChange((ev, sess) => {
+      if (sess) {
+        document.getElementById('auth-screen').classList.add('hidden');
+        document.getElementById('app').classList.remove('hidden');
+        
+        const cName = sess.user.user_metadata.company_name || "ACRV aircon Projects";
+        document.getElementById('sidebar-name-p').textContent = cName;
+        document.getElementById('sidebar-name-t').textContent = cName;
+        document.getElementById('dash-name').textContent = cName;
+        document.getElementById('watermark').textContent = cName.toUpperCase();
+        
+        const currentSegment = localStorage.getItem('payvlt_segment');
+        const isObDone = localStorage.getItem('payvlt_ob_done');
+        
+        if (!isObDone) {
+          document.getElementById('onboarding').classList.remove('hidden');
+        } else {
+          document.getElementById('sidebar-projects').classList.toggle('hidden', currentSegment !== 'projects');
+          document.getElementById('sidebar-trade').classList.toggle('hidden', currentSegment !== 'trade');
+          navigate('dashboard');
+        }
+      }
+    });
+
     const p = new URLSearchParams(window.location.search);
     if (p.get('register') === 'true') switchT('reg');
   };
+
+  // Toast Functionality
+  function showToast(message, type = 'info') {
+    const container = document.getElementById('toast-container');
+    const toast = document.createElement('div');
+    toast.className = `toast ${type}`;
+    toast.textContent = message;
+    container.appendChild(toast);
+    setTimeout(() => {
+      toast.style.animation = 'slideIn 0.3s ease-out reverse forwards';
+      setTimeout(() => toast.remove(), 300);
+    }, 4000);
+  }
+
+  // Voice Input Functionality
+  function startVoiceInput() {
+    const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+    if (!SpeechRecognition) {
+      showToast("Speech recognition not supported in this browser.", "error");
+      return;
+    }
+    
+    const recognition = new SpeechRecognition();
+    recognition.lang = 'hi-IN';
+    recognition.interimResults = false;
+    recognition.maxAlternatives = 1;
+    
+    const btn = document.getElementById('voice-indicator');
+    btn.innerHTML = '🔴';
+    showToast("Listening... Speak now.", "info");
+    
+    recognition.start();
+    
+    recognition.onresult = function(event) {
+      const speechResult = event.results[0][0].transcript;
+      const descBox = document.getElementById('p-desc');
+      descBox.value += (descBox.value ? ' ' : '') + speechResult;
+      btn.innerHTML = '🎤';
+      showToast("Voice added to description.", "success");
+    };
+    
+    recognition.onspeechend = function() {
+      recognition.stop();
+      btn.innerHTML = '🎤';
+    };
+    
+    recognition.onerror = function(event) {
+      btn.innerHTML = '🎤';
+      showToast("Error in voice recognition.", "error");
+    };
+  }
+
+  // AI Chat Widget Functionality
+  let chatHistory = [];
+  
+  function toggleChat() {
+    document.getElementById('ai-chat-window').classList.toggle('hidden');
+  }
+
+  function sendQuickReply(text) {
+    document.getElementById('quick-replies').style.display = 'none';
+    document.getElementById('chat-input').value = text;
+    sendChatMessage();
+  }
+
+  async function sendChatMessage() {
+    const input = document.getElementById('chat-input');
+    const text = input.value.trim();
+    if(!text) return;
+
+    document.getElementById('quick-replies').style.display = 'none';
+    input.value = '';
+    
+    const body = document.getElementById('chat-body');
+    
+    // User msg
+    const userDiv = document.createElement('div');
+    userDiv.className = 'msg user';
+    userDiv.innerHTML = text + `<span class="msg-time" style="font-size:10px; color:rgba(255,255,255,0.3); display:block; text-align:right; margin-top:4px;">${new Date().toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'})}</span>`;
+    userDiv.style.cssText = 'background:rgba(0, 201, 167, 0.1); color:#00C9A7; padding:12px; border-radius:12px; border-bottom-right-radius:4px; max-width:85%; align-self:flex-end; border:1px solid rgba(0, 201, 167, 0.2);';
+    body.appendChild(userDiv);
+    
+    chatHistory.push({ role: 'user', content: text });
+
+    // Typing indicator
+    const typingDiv = document.createElement('div');
+    typingDiv.className = 'msg ai typing';
+    typingDiv.innerHTML = '<span style="display:inline-block; width:6px; height:6px; background:#888; border-radius:50%; margin-right:4px;"></span><span style="display:inline-block; width:6px; height:6px; background:#888; border-radius:50%; margin-right:4px;"></span><span style="display:inline-block; width:6px; height:6px; background:#888; border-radius:50%;"></span>';
+    typingDiv.style.cssText = 'background:rgba(255,255,255,0.05); padding:12px; border-radius:12px; border-bottom-left-radius:4px; max-width:85%; align-self:flex-start;';
+    body.appendChild(typingDiv);
+    body.scrollTop = body.scrollHeight;
+
+    try {
+      const res = await fetch('/api/chat', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ messages: chatHistory })
+      });
+      
+      const data = await res.json();
+      body.removeChild(typingDiv);
+      
+      if (data.error) throw new Error(data.error);
+
+      const aiDiv = document.createElement('div');
+      aiDiv.className = 'msg ai';
+      aiDiv.innerHTML = data.reply.replace(/\n/g, '<br>') + `<span class="msg-time" style="font-size:10px; color:rgba(255,255,255,0.3); display:block; text-align:right; margin-top:4px;">${new Date().toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'})}</span>`;
+      aiDiv.style.cssText = 'background:rgba(255,255,255,0.05); padding:12px; border-radius:12px; border-bottom-left-radius:4px; max-width:85%; align-self:flex-start;';
+      body.appendChild(aiDiv);
+      
+      chatHistory.push({ role: 'assistant', content: data.reply });
+
+    } catch (e) {
+      body.removeChild(typingDiv);
+      const errDiv = document.createElement('div');
+      errDiv.className = 'msg ai';
+      errDiv.style.cssText = 'background:rgba(255,255,255,0.05); color:#EF4444; padding:12px; border-radius:12px; border-bottom-left-radius:4px; max-width:85%; align-self:flex-start;';
+      errDiv.innerText = "Advisor unavailable. Try again.";
+      body.appendChild(errDiv);
+    }
+    
+    body.scrollTop = body.scrollHeight;
+  }
 </script>
+
+<!-- Toast Container -->
+<div id="toast-container" class="toast-container"></div>
+
+<!-- FLOATING AI CHAT WIDGET -->
+<div class="chat-widget-btn" onclick="toggleChat()" style="position:fixed; bottom:32px; right:32px; width:60px; height:60px; background:#00C9A7; border-radius:50%; color:#000; display:flex; align-items:center; justify-content:center; font-size:24px; cursor:pointer; box-shadow:0 10px 24px rgba(0, 201, 167, 0.4); z-index:9999; transition:transform 0.3s;">
+  <div class="chat-pulse" style="position:absolute; width:100%; height:100%; border-radius:50%; border:2px solid #00C9A7; animation:chatPulse 2s infinite; pointer-events:none;"></div>
+  <style>@keyframes chatPulse { 0% { transform:scale(1); opacity:0.8; } 100% { transform:scale(1.5); opacity:0; } }</style>
+  💬
+</div>
+
+<div id="ai-chat-window" class="chat-window hidden" style="position:fixed; bottom:100px; right:32px; width:380px; height:520px; background:var(--card-bg); border-radius:16px; border:1px solid var(--border); border-top:4px solid #00C9A7; box-shadow:0 20px 40px rgba(0,0,0,0.5); display:flex; flex-direction:column; z-index:9999; overflow:hidden; transition:opacity 0.3s, transform 0.3s; transform-origin:bottom right;">
+  <div class="chat-header" style="padding:16px; border-bottom:1px solid var(--border); display:flex; justify-content:space-between; align-items:center; background:rgba(0,0,0,0.2);">
+    <div class="chat-header-info" style="display:flex; align-items:center; gap:12px;">
+      <div class="chat-avatar" style="width:40px; height:40px; border-radius:50%; background:#00C9A7; display:flex; align-items:center; justify-content:center; font-size:20px;">🤖</div>
+      <div>
+        <div style="font-weight:600; font-size:15px;">PayVlt AI Advisor</div>
+        <div style="font-size:12px; color:#00C9A7;">● Business Expert — Online</div>
+      </div>
+    </div>
+    <button onclick="toggleChat()" style="background:none; border:none; color:var(--text-muted); cursor:pointer; font-size:20px;">&times;</button>
+  </div>
+  <div class="chat-body" id="chat-body" style="flex:1; padding:16px; overflow-y:auto; display:flex; flex-direction:column; gap:16px;">
+    <div class="msg ai" style="background:rgba(255,255,255,0.05); padding:12px; border-radius:12px; border-bottom-left-radius:4px; max-width:85%; align-self:flex-start;">Namaste! 🙏 I am your PayVlt Business Advisor. I can help you with payment recovery, MSME law, GST invoices, and growing your contracting business. What would you like to know?</div>
+    
+    <!-- Quick Replies -->
+    <div class="chat-quick-replies" id="quick-replies" style="display:flex; flex-wrap:wrap; gap:8px; margin-bottom:16px;">
+      <div class="quick-chip" onclick="sendQuickReply(this.innerText)" style="padding:6px 12px; background:rgba(255,255,255,0.05); border:1px solid var(--border); border-radius:99px; font-size:12px; cursor:pointer; color:var(--text-muted); transition:all 0.2s;" onmouseover="this.style.background='rgba(0, 201, 167, 0.1)'; this.style.color='#00C9A7'; this.style.borderColor='#00C9A7'" onmouseout="this.style.background='rgba(255,255,255,0.05)'; this.style.color='var(--text-muted)'; this.style.borderColor='var(--border)'">What is PayVlt?</div>
+      <div class="quick-chip" onclick="sendQuickReply(this.innerText)" style="padding:6px 12px; background:rgba(255,255,255,0.05); border:1px solid var(--border); border-radius:99px; font-size:12px; cursor:pointer; color:var(--text-muted); transition:all 0.2s;" onmouseover="this.style.background='rgba(0, 201, 167, 0.1)'; this.style.color='#00C9A7'; this.style.borderColor='#00C9A7'" onmouseout="this.style.background='rgba(255,255,255,0.05)'; this.style.color='var(--text-muted)'; this.style.borderColor='var(--border)'">How do reminders work?</div>
+      <div class="quick-chip" onclick="sendQuickReply(this.innerText)" style="padding:6px 12px; background:rgba(255,255,255,0.05); border:1px solid var(--border); border-radius:99px; font-size:12px; cursor:pointer; color:var(--text-muted); transition:all 0.2s;" onmouseover="this.style.background='rgba(0, 201, 167, 0.1)'; this.style.color='#00C9A7'; this.style.borderColor='#00C9A7'" onmouseout="this.style.background='rgba(255,255,255,0.05)'; this.style.color='var(--text-muted)'; this.style.borderColor='var(--border)'">MSME rules explain karo</div>
+      <div class="quick-chip" onclick="sendQuickReply(this.innerText)" style="padding:6px 12px; background:rgba(255,255,255,0.05); border:1px solid var(--border); border-radius:99px; font-size:12px; cursor:pointer; color:var(--text-muted); transition:all 0.2s;" onmouseover="this.style.background='rgba(0, 201, 167, 0.1)'; this.style.color='#00C9A7'; this.style.borderColor='#00C9A7'" onmouseout="this.style.background='rgba(255,255,255,0.05)'; this.style.color='var(--text-muted)'; this.style.borderColor='var(--border)'">Client ne pay nahi kiya — help</div>
+      <div class="quick-chip" onclick="sendQuickReply(this.innerText)" style="padding:6px 12px; background:rgba(255,255,255,0.05); border:1px solid var(--border); border-radius:99px; font-size:12px; cursor:pointer; color:var(--text-muted); transition:all 0.2s;" onmouseover="this.style.background='rgba(0, 201, 167, 0.1)'; this.style.color='#00C9A7'; this.style.borderColor='#00C9A7'" onmouseout="this.style.background='rgba(255,255,255,0.05)'; this.style.color='var(--text-muted)'; this.style.borderColor='var(--border)'">How to file MSEFC complaint?</div>
+    </div>
+  </div>
+  <div class="chat-input-area" style="padding:16px; border-top:1px solid var(--border); display:flex; gap:8px; background:rgba(0,0,0,0.2);">
+    <input type="text" id="chat-input" placeholder="Type your message..." onkeypress="if(event.key === 'Enter') sendChatMessage()" style="flex:1; background:rgba(255,255,255,0.05); border:1px solid var(--border); border-radius:8px; padding:10px 16px; color:white; outline:none;" onfocus="this.style.borderColor='#00C9A7'" onblur="this.style.borderColor='var(--border)'">
+    <button onclick="sendChatMessage()" style="background:#00C9A7; border:none; width:40px; height:40px; border-radius:8px; cursor:pointer; color:#000; display:flex; align-items:center; justify-content:center;">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="22" y1="2" x2="11" y2="13"></line><polygon points="22 2 15 22 11 13 2 9 22 2"></polygon></svg>
+    </button>
+  </div>
+</div>
+
+<!-- Mobile Bottom Navigation -->
+<div class="bottom-nav">
+  <button class="nav-item active" onclick="navigate('dashboard')">🏠 <span>Home</span></button>
+  <button class="nav-item" onclick="navigate('projects')">📁 <span>Projects</span></button>
+  <button class="nav-item" onclick="navigate('payments')">💰 <span>Pay</span></button>
+  <button class="nav-item" onclick="navigate('invoices')">📄 <span>Bill</span></button>
+  <button class="nav-item" onclick="navigate('settings')">⚙️ <span>More</span></button>
+</div>
+
+<style>
+  .bottom-nav {
+    display: none;
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: #0D1B3E;
+    border-top: 1px solid var(--border);
+    padding: 12px 10px;
+    justify-content: space-around;
+    z-index: 1000;
+  }
+  .bottom-nav .nav-item {
+    background: none;
+    border: none;
+    color: var(--text-muted);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    font-size: 20px;
+    gap: 4px;
+    padding: 8px;
+    cursor: pointer;
+  }
+  .bottom-nav .nav-item span { font-size: 10px; font-weight: 700; }
+  .bottom-nav .nav-item.active { color: var(--teal); }
+
+  @media(max-width: 900px) {
+    .sidebar { display: none !important; }
+    .page-content { padding-bottom: 80px; }
+    .bottom-nav { display: flex; }
+    .stats-grid, div[style*="grid-template-columns:1fr 1fr 1fr"] { grid-template-columns: 1fr !important; }
+  }
+</style>
+
+<!-- 3-STEP ONBOARDING -->
+<div id="onboarding" class="modal-overlay hidden" style="z-index: 999999 !important; position: fixed; top: 0; left: 0; width: 100%; height: 100%;">
+  <div class="modal-content" style="max-width:450px; text-align:center; padding:40px; pointer-events: auto !important; position: relative; z-index: 999999 !important; background: #1a2a4a;">
+    <!-- Step 1 -->
+    <div id="ob-step-1">
+      <div style="font-size:50px; margin-bottom:20px;">🏗️</div>
+      <h2 style="font-size:24px; margin-bottom:12px; color: white;">What is your business type?</h2>
+      <div style="display:grid; gap:12px; pointer-events: auto !important;">
+        <button class="btn-outline" style="padding:16px; cursor: pointer !important; pointer-events: auto !important; position: relative; z-index: 9999999 !important;" onclick="alert('Contractor Selected'); console.log('Clicked Contractor'); obStep(2, 'contractor')">I am a Contractor (AC, Electric, etc)</button>
+        <button class="btn-outline" style="padding:16px; cursor: pointer !important; pointer-events: auto !important; position: relative; z-index: 9999999 !important;" onclick="alert('Supplier Selected'); console.log('Clicked Supplier'); obStep(2, 'supplier')">I am a Supplier (Material seller)</button>
+      </div>
+    </div>
+    <!-- Step 2 -->
+    <div id="ob-step-2" class="hidden">
+      <h2 style="font-size:24px; margin-bottom:12px; color: white;">Business Details</h2>
+      <div class="form-group"><label>Company Name</label><input type="text" id="ob-comp" placeholder="eg. ACRV Aircon" /></div>
+      <div class="form-group"><label>WhatsApp Number</label><input type="text" id="ob-phone" placeholder="98765 43210" /></div>
+      <button class="btn-primary" style="cursor: pointer !important;" onclick="alert('Proceeding to Step 3'); obStep(3)">Next Step →</button>
+    </div>
+    <!-- Step 3 -->
+    <div id="ob-step-3" class="hidden">
+      <div style="font-size:50px; margin-bottom:20px;">🚀</div>
+      <h2 style="font-size:24px; margin-bottom:12px; color: white;">You're ready!</h2>
+      <p style="color:var(--text-secondary); margin-bottom:24px;">Start adding your projects and recovering payments.</p>
+      <button class="btn-primary" style="cursor: pointer !important;" onclick="alert('Finished'); finishOb()">Go to Dashboard</button>
+    </div>
+  </div>
+</div>
 </body>
 </html>

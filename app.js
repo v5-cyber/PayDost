@@ -91,7 +91,7 @@ async function handleRegister() {
     }
 
     if (data.user) {
-      alert("Registration Successful! Redirecting...");
+      showToast("Registration Successful! Redirecting...", "success");
       // Redirect handled by onAuthStateChange
     }
   } catch (err) {
@@ -141,7 +141,25 @@ function setLoading(btn, isLoading, text) {
 }
 
 function showError(msg) {
-  alert(msg); // Using alert for maximum reliability during fix
+  showToast(msg, 'error');
+}
+
+function showToast(message, type = 'info') {
+  let container = document.getElementById('toast-container');
+  if (!container) {
+    container = document.createElement('div');
+    container.id = 'toast-container';
+    container.className = 'toast-container';
+    document.body.appendChild(container);
+  }
+  const toast = document.createElement('div');
+  toast.className = `toast ${type}`;
+  toast.textContent = message;
+  container.appendChild(toast);
+  setTimeout(() => {
+    toast.style.animation = 'slideIn 0.3s ease-out reverse forwards';
+    setTimeout(() => toast.remove(), 300);
+  }, 4000);
 }
 
 function setTab(t) {
