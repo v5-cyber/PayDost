@@ -323,36 +323,96 @@
 
   <!-- 4. PROBLEM SECTION -->
   <section class="section-pad">
-    <h2 class="sec-title fade-up">Itna kaam, phir bhi payment nahi?</h2>
-    <p class="sec-sub fade-up">The traditional way of chasing clients is broken.</p>
-    <div class="problem-grid">
-      <div class="problem-card fade-up stagger-1">
-        <div class="problem-icon">👻</div>
-        <h3 style="font-size:20px; font-weight:700; margin-bottom:12px;">Client ghosting</h3>
-        <p style="color:var(--text-muted); line-height:1.6;">Project is done, but the client stops picking up calls. You're left begging for your own hard-earned money.</p>
+    <div style="text-align:center; max-width:700px; margin:0 auto 72px;">
+      <h2 class="sec-title fade-up" style="font-size:52px; letter-spacing:-2px; line-height:1.1; margin-bottom:20px;">
+        Itna kaam,<br>
+        <span style="background:linear-gradient(135deg, #ef4444, #f97316); -webkit-background-clip:text; -webkit-text-fill-color:transparent; background-clip:text;">phir bhi payment nahi?</span>
+      </h2>
+      <p class="sec-sub fade-up" style="font-size:18px; color:var(--text-muted); line-height:1.7;">The traditional way of chasing payments is broken. You built something real — you deserve to get paid.</p>
+    </div>
+    <div style="max-width:860px; margin:0 auto; display:flex; flex-direction:column; gap:0;">
+      <div class="pain-row fade-up stagger-1">
+        <div class="pain-num" style="color:rgba(239,68,68,0.25);">01</div>
+        <div class="pain-body">
+          <div class="pain-icon">👻</div>
+          <div>
+            <h3 class="pain-title">Client ghosting</h3>
+            <p class="pain-desc">Project is done, but the client stops picking up calls. You're left begging for your own hard-earned money. No system, no leverage.</p>
+          </div>
+        </div>
       </div>
-      <div class="problem-card fade-up stagger-2">
-        <div class="problem-icon">📄</div>
-        <h3 style="font-size:20px; font-weight:700; margin-bottom:12px;">No GST invoice</h3>
-        <p style="color:var(--text-muted); line-height:1.6;">Sending rough bills on WhatsApp destroys your professional image and causes tax reconciliation nightmares.</p>
+      <div class="pain-divider"></div>
+      <div class="pain-row fade-up stagger-2">
+        <div class="pain-num" style="color:rgba(245,158,11,0.25);">02</div>
+        <div class="pain-body">
+          <div class="pain-icon">📄</div>
+          <div>
+            <h3 class="pain-title">No professional invoice</h3>
+            <p class="pain-desc">Sending rough WhatsApp bills destroys your credibility. Your client compares you to a Stripe-level professional and sees a hobbyist.</p>
+          </div>
+        </div>
       </div>
-      <div class="problem-card fade-up stagger-3">
-        <div class="problem-icon">⏳</div>
-        <h3 style="font-size:20px; font-weight:700; margin-bottom:12px;">Payment stuck for 90+ days</h3>
-        <p style="color:var(--text-muted); line-height:1.6;">Without an MSME clause or automated follow-ups, your working capital gets locked up indefinitely.</p>
+      <div class="pain-divider"></div>
+      <div class="pain-row fade-up stagger-3">
+        <div class="pain-num" style="color:rgba(99,102,241,0.25);">03</div>
+        <div class="pain-body">
+          <div class="pain-icon">⏳</div>
+          <div>
+            <h3 class="pain-title">₹ locked for 90+ days</h3>
+            <p class="pain-desc">Without MSME legal protection or automated pressure, your working capital vanishes into a client's pocket — indefinitely.</p>
+          </div>
+        </div>
       </div>
     </div>
   </section>
+  <style>
+    .pain-row { display:flex; align-items:center; gap:32px; padding:40px 0; }
+    .pain-num { font-size:100px; font-weight:900; line-height:1; min-width:140px; text-align:right; letter-spacing:-4px; flex-shrink:0; }
+    .pain-body { display:flex; align-items:flex-start; gap:24px; flex:1; }
+    .pain-icon { font-size:48px; flex-shrink:0; margin-top:4px; }
+    .pain-title { font-size:28px; font-weight:800; margin-bottom:10px; letter-spacing:-0.5px; }
+    .pain-desc { color:var(--text-muted); font-size:16px; line-height:1.7; max-width:520px; }
+    .pain-divider { height:1px; background:var(--border); margin:0 12px; }
+    @media(max-width:768px) {
+      .pain-num { font-size:60px; min-width:80px; }
+      .pain-row { flex-direction:column; gap:16px; }
+      .pain-num { text-align:left; }
+    }
+  </style>
+
 
   <!-- 5. FEATURES BENTO GRID -->
   <section id="features" class="section-pad" style="padding-top:0;">
     <h2 class="sec-title fade-up">Everything you need to get paid.</h2>
     <div class="bento-grid mt-4">
       <div class="bento-card bento-large fade-up">
-        <h3 style="font-size:24px; font-weight:700; margin-bottom:12px;">WhatsApp Auto-Reminders</h3>
-        <p style="color:var(--text-muted); line-height:1.5; font-size:15px;">Schedule smart reminders in the client's preferred language. Never sound desperate again.</p>
-        <div style="margin-top:24px; border-radius:12px; overflow:hidden; border:1px solid var(--border); height:220px; background:#000;">
-          <img src="images/whatsapp_feature.png" style="width:100%; height:100%; object-fit:cover;" alt="WhatsApp Feature">
+        <h3 style="font-size:22px; font-weight:700; margin-bottom:8px;">WhatsApp Auto-Reminders</h3>
+        <p style="color:var(--text-muted); line-height:1.5; font-size:14px; margin-bottom:20px;">Smart reminders in your client's language. Professional. Automated. Never desperate.</p>
+        <!-- Coded WhatsApp UI Mockup -->
+        <div style="background:#0b141a; border-radius:14px; overflow:hidden; border:1px solid rgba(255,255,255,0.08); font-family:system-ui,sans-serif;">
+          <!-- WA Header -->
+          <div style="background:#202c33; padding:10px 16px; display:flex; align-items:center; gap:10px;">
+            <div style="width:36px;height:36px;border-radius:50%;background:#028090;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:14px;flex-shrink:0;">S</div>
+            <div><div style="font-size:14px;font-weight:600;color:#e9edef;">Sharma Ji</div><div style="font-size:11px;color:#8696a0;">last seen today at 10:04 AM</div></div>
+          </div>
+          <!-- WA Messages -->
+          <div style="padding:12px 14px;display:flex;flex-direction:column;gap:6px;">
+            <div style="background:#005c4b;color:#e9edef;padding:8px 12px;border-radius:10px 10px 2px 10px;font-size:12px;max-width:86%;align-self:flex-end;line-height:1.5;">
+              <div style="font-size:10px;color:#8696a0;margin-bottom:4px;">PayVlt Auto-Reminder · Stage 1</div>
+              Namaste Sharma Ji 🙏<br>Invoice #INV-041 of <strong>₹2,50,000</strong> is due. Please process at your earliest convenience.
+              <div style="font-size:10px;color:#8696a0;text-align:right;margin-top:4px;">10:04 AM ✓✓</div>
+            </div>
+            <div style="background:#202c33;color:#e9edef;padding:8px 12px;border-radius:10px 10px 10px 2px;font-size:12px;max-width:75%;line-height:1.5;">
+              Haan bhai, kal tak kar deta hu<div style="font-size:10px;color:#8696a0;text-align:right;margin-top:4px;">10:41 AM</div>
+            </div>
+            <div style="background:#005c4b;color:#e9edef;padding:8px 12px;border-radius:10px 10px 2px 10px;font-size:12px;max-width:86%;align-self:flex-end;line-height:1.5;">
+              <div style="font-size:10px;color:#8696a0;margin-bottom:4px;">PayVlt Auto-Reminder · Stage 2 (Day 15)</div>
+              Sharma Ji, 15 din ho gaye. ₹2,50,000 pending. MSME Act ke under interest accruing ho raha hai.<div style="font-size:10px;color:#8696a0;text-align:right;margin-top:4px;">Day 15 · ✓✓</div>
+            </div>
+            <div style="background:#202c33;color:#e9edef;padding:8px 12px;border-radius:10px 10px 10px 2px;font-size:12px;max-width:75%;line-height:1.5;">
+              Payment done sir. UPI ref: 12839021<div style="font-size:10px;color:#8696a0;text-align:right;margin-top:4px;">Day 16 ✓</div>
+            </div>
+          </div>
         </div>
       </div>
       <div class="bento-card fade-up stagger-1">
@@ -363,17 +423,24 @@
         </div>
       </div>
       <div class="bento-card fade-up stagger-2">
-        <h3 style="font-size:24px; font-weight:700; margin-bottom:12px;">MSME 45-Day Tracker</h3>
-        <p style="color:var(--text-muted); line-height:1.5; font-size:15px;">Automatically track the 45-day legal limit and warn clients of interest penalties.</p>
-        <div style="margin-top:24px; background:rgba(0,0,0,0.3); border:1px solid var(--border); border-radius:12px; padding:20px; text-align:center;">
-          <div style="position:relative; display:inline-block; width:100px; height:100px;">
-            <svg viewBox="0 0 36 36" width="100" height="100" style="transform:rotate(-90deg);">
-              <circle cx="18" cy="18" r="15.9" fill="none" stroke="rgba(255,255,255,0.08)" stroke-width="3"/>
-              <circle cx="18" cy="18" r="15.9" fill="none" stroke="#ef4444" stroke-width="3" stroke-dasharray="93.3 100" stroke-linecap="round"/>
+        <h3 style="font-size:22px; font-weight:700; margin-bottom:8px;">MSME 45-Day Tracker</h3>
+        <p style="color:var(--text-muted); line-height:1.5; font-size:14px;">Legal deadline auto-tracked. 19.5% interest accumulates if client misses day 45.</p>
+        <div style="margin-top:20px; display:flex; flex-direction:column; align-items:center; gap:12px;">
+          <div style="position:relative; width:200px; height:200px;">
+            <svg viewBox="0 0 100 100" width="200" height="200" style="transform:rotate(-90deg);">
+              <circle cx="50" cy="50" r="42" fill="none" stroke="rgba(255,255,255,0.06)" stroke-width="7"/>
+              <circle cx="50" cy="50" r="42" fill="none" stroke="#ef4444" stroke-width="7" stroke-dasharray="246.6 263.9" stroke-linecap="round"
+                style="transition:stroke-dasharray 1.5s ease; filter:drop-shadow(0 0 6px rgba(239,68,68,0.7));"/>
             </svg>
-            <div style="position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);font-size:14px;font-weight:800;color:#ef4444;">Day<br>42/45</div>
+            <div style="position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);text-align:center;">
+              <div style="font-size:42px;font-weight:900;color:#ef4444;line-height:1;">42</div>
+              <div style="font-size:12px;color:rgba(255,255,255,0.5);font-weight:600;">of 45 days</div>
+            </div>
           </div>
-          <div style="margin-top:12px; font-size:13px; color:#ef4444; font-weight:600;">⚠️ Interest accruing — ₹975/day</div>
+          <div style="text-align:center;">
+            <div style="font-size:13px; color:#ef4444; font-weight:700; margin-bottom:4px;">⚠️ 3 days remaining</div>
+            <div style="font-size:12px; color:var(--text-muted);">₹975 / day interest accumulating</div>
+          </div>
         </div>
       </div>
       <div class="bento-card fade-up stagger-3">
@@ -444,68 +511,63 @@
     </div>
   </section>
 
-  <!-- 7.5 INTEGRATIONS - STRIPE STYLE FLOW -->
-  <section class="integrations-sec">
-    <h2 class="sec-title fade-up" style="margin-bottom:16px;">PayVlt connects everything.</h2>
-    <p class="fade-up" style="color:var(--text-muted); font-size:18px; max-width:600px; margin:0 auto;">One platform. All your tools. Automated payment flow from contract to collection.</p>
-    
-    <div class="flow-diagram fade-up">
-      <!-- Row 1: Inputs -->
-      <div class="flow-row">
-        <div class="flow-node">📁 Project</div>
-        <div class="flow-node">📝 Agreement</div>
-        <div class="flow-node">📊 Site Diary</div>
-        <div class="flow-node">🧾 GST Invoice</div>
+  <!-- 7.5 INTEGRATIONS - CLEAN STRIPE STYLE -->
+  <section class="integrations-sec" style="padding:100px 5%; text-align:center;">
+    <div style="display:inline-block; background:rgba(2,128,144,0.12); border:1px solid rgba(2,128,144,0.3); border-radius:99px; padding:6px 18px; font-size:12px; font-weight:700; color:var(--teal); letter-spacing:2px; margin-bottom:24px;">INTEGRATIONS</div>
+    <h2 class="sec-title fade-up" style="font-size:48px; letter-spacing:-2px; margin-bottom:16px;">
+      PayVlt <span style="background:linear-gradient(135deg,#028090,#02C39A); -webkit-background-clip:text; -webkit-text-fill-color:transparent; background-clip:text;">connects</span> everything.
+    </h2>
+    <p class="fade-up" style="color:var(--text-muted); font-size:18px; max-width:560px; margin:0 auto 56px; line-height:1.7;">One platform. Your existing tools. Automated payment flow from project start to cash in hand.</p>
+
+    <!-- Hub diagram: clean and centered -->
+    <div class="fade-up" style="position:relative; max-width:680px; margin:0 auto;">
+      <!-- Inputs row -->
+      <div style="display:flex; justify-content:center; gap:12px; margin-bottom:24px; flex-wrap:wrap;">
+        <div class="conn-pill input-pill">📁 Project</div>
+        <div class="conn-pill input-pill">📝 Agreement</div>
+        <div class="conn-pill input-pill">📊 Site Diary</div>
+        <div class="conn-pill input-pill">🧾 GST Invoice</div>
       </div>
-      <!-- Connector down to center -->
-      <div class="flow-connector" style="margin:0; position:relative; height:40px;">
-        <svg width="100%" height="40" viewBox="0 0 760 40" preserveAspectRatio="none" style="position:absolute;top:0;left:0;">
-          <line x1="95" y1="0" x2="380" y2="40" stroke="rgba(2,128,144,0.5)" stroke-width="1.5" stroke-dasharray="4 3"/>
-          <line x1="253" y1="0" x2="380" y2="40" stroke="rgba(2,128,144,0.5)" stroke-width="1.5" stroke-dasharray="4 3"/>
-          <line x1="507" y1="0" x2="380" y2="40" stroke="rgba(2,128,144,0.5)" stroke-width="1.5" stroke-dasharray="4 3"/>
-          <line x1="665" y1="0" x2="380" y2="40" stroke="rgba(2,128,144,0.5)" stroke-width="1.5" stroke-dasharray="4 3"/>
+      <!-- Arrow lines down -->
+      <div style="display:flex; justify-content:center; margin-bottom:0;">
+        <svg width="320" height="36" viewBox="0 0 320 36">
+          <line x1="40" y1="0" x2="160" y2="36" stroke="rgba(2,195,154,0.4)" stroke-width="1.5" stroke-dasharray="5 4"/>
+          <line x1="107" y1="0" x2="160" y2="36" stroke="rgba(2,195,154,0.4)" stroke-width="1.5" stroke-dasharray="5 4"/>
+          <line x1="214" y1="0" x2="160" y2="36" stroke="rgba(2,195,154,0.4)" stroke-width="1.5" stroke-dasharray="5 4"/>
+          <line x1="280" y1="0" x2="160" y2="36" stroke="rgba(2,195,154,0.4)" stroke-width="1.5" stroke-dasharray="5 4"/>
         </svg>
       </div>
-      <!-- Center: PayVlt -->
-      <div class="flow-row">
-        <div class="flow-node center">💰 PayVlt</div>
+      <!-- Center hub -->
+      <div style="display:flex; justify-content:center; margin:-2px 0;">
+        <div style="background:linear-gradient(135deg,#028090,#01687a); color:white; font-weight:800; font-size:18px; padding:16px 40px; border-radius:14px; box-shadow:0 0 40px rgba(2,128,144,0.4), 0 0 0 1px rgba(2,195,154,0.3); letter-spacing:-0.5px;">💰 PayVlt</div>
       </div>
-      <!-- Connector out -->
-      <div class="flow-connector" style="position:relative; height:40px;">
-        <svg width="100%" height="40" viewBox="0 0 760 40" preserveAspectRatio="none" style="position:absolute;top:0;left:0;">
-          <line x1="380" y1="0" x2="100" y2="40" stroke="rgba(2,128,144,0.5)" stroke-width="1.5" stroke-dasharray="4 3"/>
-          <line x1="380" y1="0" x2="260" y2="40" stroke="rgba(2,128,144,0.5)" stroke-width="1.5" stroke-dasharray="4 3"/>
-          <line x1="380" y1="0" x2="380" y2="40" stroke="rgba(2,128,144,0.5)" stroke-width="1.5" stroke-dasharray="4 3"/>
-          <line x1="380" y1="0" x2="500" y2="40" stroke="rgba(2,128,144,0.5)" stroke-width="1.5" stroke-dasharray="4 3"/>
-          <line x1="380" y1="0" x2="660" y2="40" stroke="rgba(2,128,144,0.5)" stroke-width="1.5" stroke-dasharray="4 3"/>
+      <!-- Arrow lines out -->
+      <div style="display:flex; justify-content:center; margin-bottom:0;">
+        <svg width="400" height="36" viewBox="0 0 400 36">
+          <line x1="200" y1="0" x2="40" y2="36" stroke="rgba(2,195,154,0.4)" stroke-width="1.5" stroke-dasharray="5 4"/>
+          <line x1="200" y1="0" x2="120" y2="36" stroke="rgba(2,195,154,0.4)" stroke-width="1.5" stroke-dasharray="5 4"/>
+          <line x1="200" y1="0" x2="200" y2="36" stroke="rgba(2,195,154,0.4)" stroke-width="1.5" stroke-dasharray="5 4"/>
+          <line x1="200" y1="0" x2="280" y2="36" stroke="rgba(2,195,154,0.4)" stroke-width="1.5" stroke-dasharray="5 4"/>
+          <line x1="200" y1="0" x2="360" y2="36" stroke="rgba(2,195,154,0.4)" stroke-width="1.5" stroke-dasharray="5 4"/>
         </svg>
       </div>
-      <!-- Row 3: Outputs -->
-      <div class="flow-row">
-        <div class="flow-node output">💬 WhatsApp</div>
-        <div class="flow-node output">📊 Tally ERP</div>
-        <div class="flow-node output">💳 Razorpay</div>
-        <div class="flow-node output">🏦 SBI/HDFC</div>
-        <div class="flow-node output">⚡ UPI</div>
+      <!-- Outputs row -->
+      <div style="display:flex; justify-content:center; gap:10px; margin-top:24px; flex-wrap:wrap;">
+        <div class="conn-pill output-pill" style="background:rgba(37,211,102,0.12); border-color:rgba(37,211,102,0.3); color:#25D366;">💬 WhatsApp</div>
+        <div class="conn-pill output-pill" style="background:rgba(243,168,18,0.12); border-color:rgba(243,168,18,0.3); color:#F3A812;">📊 Tally ERP</div>
+        <div class="conn-pill output-pill" style="background:rgba(2,128,144,0.12); border-color:rgba(2,128,144,0.3); color:#028090;">💳 Razorpay</div>
+        <div class="conn-pill output-pill" style="background:rgba(27,59,139,0.2); border-color:rgba(27,59,139,0.4); color:#60a5fa;">🏦 SBI/HDFC</div>
+        <div class="conn-pill output-pill" style="background:rgba(99,102,241,0.12); border-color:rgba(99,102,241,0.3); color:#a78bfa;">⚡ UPI</div>
       </div>
     </div>
   </section>
-    <h2 class="sec-title fade-up" style="margin-bottom:16px;">PayVlt works with tools you already use.</h2>
-    <p class="fade-up" style="color:var(--text-muted); font-size:18px; max-width:600px; margin:0 auto;">Connect your existing accounting software, bank accounts, and communication channels instantly.</p>
-    
-    <div class="integrations-marquee fade-up">
-      <div class="int-card"><div class="int-logo" style="background:#25D366; color:#fff;"><svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51a12.8 12.8 0 0 0-.57-.01c-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 0 1-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 0 1-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 0 1 2.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0 0 12.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 0 0 5.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 0 0-3.48-8.413Z"/></svg></div> WhatsApp</div>
-      <div class="int-card"><div class="int-logo" style="background:#F3A812; color:#fff; font-weight:900;">T</div> Tally ERP</div>
-      <div class="int-card"><div class="int-logo" style="background:#0F52BA; color:#fff; font-weight:900;">₹</div> GST Portal</div>
-      <div class="int-card"><div class="int-logo" style="background:#02042b; color:#028090; border:1px solid #028090;">Rz</div> Razorpay</div>
-      <div class="int-card"><div class="int-logo" style="background:#0F9D58; color:#fff;">G</div> Google Sheets</div>
-      <div class="int-card"><div class="int-logo" style="background:#E33B31; color:#fff;">Z</div> Zoho</div>
-      <div class="int-card"><div class="int-logo" style="background:#1B3B8B; color:#fff; font-size:12px;">SBI</div> SBI / HDFC</div>
-      <div class="int-card"><div class="int-logo" style="background:#fff; color:#000; font-weight:800; font-style:italic; font-size:14px;">UPI</div> UPI Apps</div>
-    </div>
-  </section>
+  <style>
+    .conn-pill { padding:9px 18px; border-radius:99px; border:1px solid var(--border); font-size:13px; font-weight:600; background:rgba(255,255,255,0.04); color:var(--text-muted); transition:all 0.2s; }
+    .conn-pill:hover { transform:translateY(-2px); }
+    .input-pill:hover { border-color:rgba(2,195,154,0.5); color:#02C39A; background:rgba(2,195,154,0.08); }
 
   <!-- 8. PRICING -->
+
   <section id="pricing" class="section-pad" style="padding-top:0;">
     <h2 class="sec-title fade-up">Simple, transparent pricing.</h2>
     <div class="pricing-toggle fade-up">

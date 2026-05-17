@@ -1,125 +1,236 @@
 // ==========================================
-// RUMIK: PayVlt AI Voice Assistant
+// RUMIK — PayVlt AI Voice & Chat Advisor
 // ==========================================
 
-let recognition;
+const RUMIK_VERSION = '2.0';
+let recognition = null;
 let isListening = false;
 const synth = window.speechSynthesis;
+let voicesLoaded = false;
 
-// Initialize Speech Recognition
-function initRumik() {
-  const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
-  
-  if (!SpeechRecognition) {
-    console.error("Speech Recognition API is not supported in this browser.");
-    return;
+// ─── Knowledge Base ───────────────────────────────────────────
+const KNOWLEDGE_BASE = [
+  {
+    keywords: ['hello', 'hi', 'namaste', 'hey', 'start', 'help'],
+    response: "Namaste! 🙏 I'm Rumik, your PayVlt Business Advisor. I can help you with payment recovery, MSME law, GST invoices, site diary, and growing your contracting business. What would you like to know?",
+    action: null
+  },
+  {
+    keywords: ['reminder', 'remind', 'payment', 'paisa', 'bhejo', 'send'],
+    response: "I can draft a professional payment reminder right now. Based on your overdue projects, Stage 2 (Firm Reminder — 15 days) is recommended. Should I prepare it for WhatsApp?",
+    action: () => navigate('payments')
+  },
+  {
+    keywords: ['msme', 'legal', 'notice', 'law', 'arbitration', 'msefc', 'court'],
+    response: "Under Section 15 of the MSMED Act 2006, clients must pay within 45 days. Your client is now liable for 19.5% compound interest. I've opened the MSME Legal module for you.",
+    action: () => navigate('msme')
+  },
+  {
+    keywords: ['invoice', 'bill', 'gst', 'receipt', 'tax'],
+    response: "I'll take you to the GST Invoice generator. I can auto-calculate CGST 9% + SGST 9% and generate a professional PDF ready for WhatsApp sharing.",
+    action: () => navigate('invoices')
+  },
+  {
+    keywords: ['diary', 'site', 'log', 'worker', 'material', 'progress'],
+    response: "Opening the Site Diary. You can log today's workers, materials used, and site progress. Your client can view this remotely.",
+    action: () => navigate('diary')
+  },
+  {
+    keywords: ['tally', 'export', 'csv', 'erp', 'reconcil'],
+    response: "Opening the Tally Reconciliation module. Your project ledgers can be exported as a Tally-compatible CSV file instantly.",
+    action: () => navigate('tally')
+  },
+  {
+    keywords: ['project', 'add', 'new', 'create', 'naya'],
+    response: "Let's create a new project! I'm opening the project form for you. Make sure to add the client details, scope of work, and milestone payment schedule.",
+    action: () => typeof openProjectModal === 'function' ? openProjectModal() : navigate('projects')
+  },
+  {
+    keywords: ['dashboard', 'home', 'ghar', 'back', 'main'],
+    response: "Taking you back to the dashboard. Your current outstanding amount and project status are updated in real-time.",
+    action: () => navigate('dashboard')
+  },
+  {
+    keywords: ['advance', 'upfront', 'deposit', 'kitna'],
+    response: "Best practice: Always take 30% advance before starting work. This covers your material cost and creates a legal commitment from the client. Milestone payments for the rest.",
+    action: null
+  },
+  {
+    keywords: ['interest', 'percent', 'calculate', '19.5', 'late'],
+    response: "If payment is delayed beyond 45 days, MSME Act entitles you to 19.5% compound interest per year. On ₹10 lakhs, that's approximately ₹1,625 per month in interest — automatically accumulating!",
+    action: null
+  },
+  {
+    keywords: ['score', 'rating', 'client score', 'payvlt score'],
+    response: "The PayVlt Score system rates your clients from Excellent to Poor based on their payment history. Good payers get better credit terms. I can show you the Score module now.",
+    action: () => navigate('score')
   }
+];
 
-  recognition = new SpeechRecognition();
-  recognition.continuous = false;
-  recognition.lang = 'en-IN'; // Indian English default, can switch to hi-IN
-  recognition.interimResults = false;
-  recognition.maxAlternatives = 1;
-
-  recognition.onstart = function() {
-    isListening = true;
-    updateRumikUI();
-  };
-
-  recognition.onresult = function(event) {
-    const transcript = event.results[0][0].transcript.toLowerCase();
-    console.log("Rumik heard: ", transcript);
-    handleRumikCommand(transcript);
-  };
-
-  recognition.onerror = function(event) {
-    console.error("Rumik Speech Error: ", event.error);
-    isListening = false;
-    updateRumikUI();
-  };
-
-  recognition.onend = function() {
-    isListening = false;
-    updateRumikUI();
+// ─── Match Command to Knowledge Base ──────────────────────────
+function matchCommand(text) {
+  const lower = text.toLowerCase();
+  for (const item of KNOWLEDGE_BASE) {
+    if (item.keywords.some(k => lower.includes(k))) {
+      return item;
+    }
+  }
+  return {
+    response: `I heard you say: "${text}". I'm not sure about that yet. Try asking about payments, MSME law, invoices, site diary, or adding a new project!`,
+    action: null
   };
 }
 
-function toggleRumikVoice() {
-  if (!recognition) {
-    initRumik();
+// ─── Speech Recognition Init ──────────────────────────────────
+function initRumik() {
+  const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+  if (!SpeechRecognition) {
+    console.warn('Rumik: Speech Recognition not supported in this browser.');
+    return;
   }
+  recognition = new SpeechRecognition();
+  recognition.continuous = false;
+  recognition.lang = 'en-IN';
+  recognition.interimResults = false;
+  recognition.maxAlternatives = 1;
 
+  recognition.onstart = () => { isListening = true; updateRumikUI(); };
+  recognition.onend = () => { isListening = false; updateRumikUI(); };
+  recognition.onerror = (e) => {
+    isListening = false;
+    updateRumikUI();
+    console.warn('Rumik error:', e.error);
+  };
+  recognition.onresult = (event) => {
+    const transcript = event.results[0][0].transcript;
+    handleRumikInput(transcript);
+  };
+}
+
+// ─── Toggle Listening ─────────────────────────────────────────
+function toggleRumikVoice() {
+  if (!recognition) initRumik();
+  if (!recognition) {
+    showToast('Voice not supported in this browser. Please use Chrome.', 'warning');
+    return;
+  }
   if (isListening) {
     recognition.stop();
   } else {
-    // Play a friendly wake sound or speech
-    speak("I am listening.");
-    setTimeout(() => {
+    try {
       recognition.start();
-    }, 1000);
+      showRumikBubble("I'm listening... speak now 🎙️", false);
+    } catch (e) {
+      showToast('Could not start microphone. Please allow access.', 'error');
+    }
+  }
+}
+
+// ─── Handle Input (voice or text) ─────────────────────────────
+function handleRumikInput(text) {
+  if (!text || !text.trim()) return;
+  const matched = matchCommand(text);
+  
+  // Show user message
+  appendChatMessage(text, 'user');
+  
+  // Show AI response with slight delay
+  setTimeout(() => {
+    appendChatMessage(matched.response, 'ai');
+    speak(matched.response);
+    if (matched.action) {
+      setTimeout(matched.action, 800);
+    }
+  }, 400);
+
+  // Clear chat input
+  const inp = document.getElementById('rumik-chat-input');
+  if (inp) inp.value = '';
+
+  // Open chat window if closed
+  const win = document.getElementById('rumik-chat-window');
+  if (win && win.classList.contains('hidden')) {
+    win.classList.remove('hidden');
+  }
+}
+
+function showRumikBubble(text, isUser) {
+  const win = document.getElementById('rumik-chat-window');
+  if (win && win.classList.contains('hidden')) win.classList.remove('hidden');
+  appendChatMessage(text, isUser ? 'user' : 'ai');
+}
+
+function appendChatMessage(text, sender) {
+  const body = document.getElementById('rumik-chat-body');
+  if (!body) return;
+  const msg = document.createElement('div');
+  msg.className = `rumik-msg ${sender}`;
+  msg.innerHTML = text;
+  body.appendChild(msg);
+  body.scrollTop = body.scrollHeight;
+}
+
+function sendRumikTextMessage() {
+  const inp = document.getElementById('rumik-chat-input');
+  if (!inp || !inp.value.trim()) return;
+  const text = inp.value.trim();
+  handleRumikInput(text);
+}
+
+// ─── Text to Speech ───────────────────────────────────────────
+function speak(text) {
+  if (!synth) return;
+  synth.cancel();
+  const utter = new SpeechSynthesisUtterance(text);
+  utter.lang = 'en-IN';
+  utter.rate = 1.05;
+  utter.pitch = 1;
+  if (voicesLoaded) {
+    const voices = synth.getVoices();
+    const preferred = voices.find(v => v.lang.includes('en-IN') || v.lang.includes('en-GB'));
+    if (preferred) utter.voice = preferred;
+  }
+  synth.speak(utter);
+}
+
+// ─── UI Controls ──────────────────────────────────────────────
+function toggleRumikChat() {
+  const win = document.getElementById('rumik-chat-window');
+  if (!win) return;
+  const isHidden = win.classList.contains('hidden');
+  win.classList.toggle('hidden');
+  if (isHidden) {
+    // First open — greet
+    const body = document.getElementById('rumik-chat-body');
+    if (body && body.children.length === 0) {
+      setTimeout(() => {
+        appendChatMessage("Namaste! 🙏 I'm Rumik, your PayVlt Business Advisor. Ask me anything — payment recovery, MSME law, or how to use PayVlt.", 'ai');
+      }, 200);
+    }
   }
 }
 
 function updateRumikUI() {
-  const btn = document.getElementById('rumik-voice-btn');
-  const pulse = document.getElementById('rumik-pulse');
-  
+  const btn = document.getElementById('rumik-mic-btn');
+  const ring = document.getElementById('rumik-ring');
+  if (!btn) return;
   if (isListening) {
-    btn.style.background = '#EF4444'; // Red when recording
-    pulse.style.display = 'block';
+    btn.style.background = '#EF4444';
+    btn.title = 'Listening... click to stop';
+    if (ring) ring.style.display = 'block';
   } else {
-    btn.style.background = '#028090'; // Teal default
-    pulse.style.display = 'none';
+    btn.style.background = 'linear-gradient(135deg, #028090, #02C39A)';
+    btn.title = 'Click to speak to Rumik';
+    if (ring) ring.style.display = 'none';
   }
 }
 
-function handleRumikCommand(text) {
-  // Simple Keyword Matching AI for demo purposes
-  let response = "I didn't quite catch that. How can I help with your projects?";
-
-  if (text.includes("reminder") || text.includes("payment")) {
-    response = "I have drafted a firm payment reminder. Should I send it via WhatsApp to the client?";
-  } else if (text.includes("msme") || text.includes("legal")) {
-    response = "Under the MSME Act, your client must pay within 45 days. They are currently liable for 19.5% interest. Should I initiate the MSEFC filing?";
-  } else if (text.includes("invoice") || text.includes("bill")) {
-    response = "Generating the final GST invoice for the project. The PDF will be ready to download in a moment.";
-  } else if (text.includes("diary") || text.includes("site")) {
-    response = "Opening today's site diary. How many workers were present today?";
-  } else if (text.includes("tally") || text.includes("export")) {
-    response = "Your tally reconciliation report is ready. 3 projects are fully paid, 1 is pending.";
-  } else if (text.includes("hello") || text.includes("namaste")) {
-    response = "Namaste! I am Rumik, your PayVlt Business Advisor. How can I assist you today?";
-  }
-
-  // Speak the response
-  speak(response);
-  
-  // Show in toast/UI
-  showToast("🎙️ Rumik: " + response);
-}
-
-function speak(text) {
-  if (synth.speaking) {
-    synth.cancel(); // stop current speech
-  }
-  const utterThis = new SpeechSynthesisUtterance(text);
-  
-  // Try to find an Indian English voice, or fallback to default
-  const voices = synth.getVoices();
-  const indianVoice = voices.find(v => v.lang === 'en-IN');
-  if (indianVoice) {
-    utterThis.voice = indianVoice;
-  }
-  
-  utterThis.pitch = 1;
-  utterThis.rate = 1;
-  synth.speak(utterThis);
-}
-
-// Make sure voices are loaded
+// ─── Voices preload ───────────────────────────────────────────
 if (speechSynthesis.onvoiceschanged !== undefined) {
-  speechSynthesis.onvoiceschanged = () => synth.getVoices();
+  speechSynthesis.onvoiceschanged = () => { voicesLoaded = true; };
 }
 
-// Ensure init on load
-document.addEventListener('DOMContentLoaded', initRumik);
+// ─── Init on load ─────────────────────────────────────────────
+document.addEventListener('DOMContentLoaded', () => {
+  initRumik();
+});
