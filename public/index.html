@@ -93,8 +93,11 @@
     <nav class="nav-links">
       <button class="nav-item active" id="nav-dashboard-p" onclick="navigate('dashboard')" data-i18n="home">🏠 Home</button>
       <button class="nav-item" id="nav-projects-p" onclick="navigate('projects')" data-i18n="projects">📁 My Projects</button>
-      <button class="nav-item" id="nav-payments-p" onclick="navigate('payments')" data-i18n="payments">💰 Payments</button>
+      <button class="nav-item" id="nav-diary-p" onclick="navigate('diary')">📝 Site Diary</button>
+      <button class="nav-item" id="nav-payments-p" onclick="navigate('payments')" data-i18n="payments">💰 Pay & Remind</button>
       <button class="nav-item" id="nav-invoices-p" onclick="navigate('invoices')" data-i18n="invoices">📄 Invoices</button>
+      <button class="nav-item" id="nav-msme-p" onclick="navigate('msme')">⚖️ MSME Legal</button>
+      <button class="nav-item" id="nav-tally-p" onclick="navigate('tally')">📊 Tally Export</button>
       <button class="nav-item" id="nav-settings-p" onclick="navigate('settings')" data-i18n="settings">⚙️ Settings</button>
     </nav>
     <div style="padding:24px; border-top:1px solid var(--border); margin-top:auto;">
@@ -579,6 +582,36 @@
         <button class="btn-primary" style="width:100%; opacity:0.5; cursor:not-allowed;">Join Waitlist</button>
       </div>
     </div>
+    
+    <!-- ── SITE DIARY ── -->
+    <div id="page-diary" class="page-content hidden">
+      <h2 style="font-size:32px; margin-bottom:24px;">📝 Site Diary</h2>
+      <div style="background:var(--card-bg); padding:24px; border-radius:16px; border:1px solid var(--border);">
+        <p style="color:var(--text-muted); margin-bottom:20px;">Maintain daily logs of workers, materials, and progress for your projects.</p>
+        <button class="btn-primary" onclick="showToast('Feature coming soon')">+ Add Daily Log</button>
+      </div>
+    </div>
+
+    <!-- ── MSME LEGAL ── -->
+    <div id="page-msme" class="page-content hidden">
+      <h2 style="font-size:32px; margin-bottom:24px; color:#EF4444;">⚖️ MSME Protection</h2>
+      <div style="background:linear-gradient(135deg, rgba(239,68,68,0.1) 0%, rgba(0,0,0,0) 100%); padding:24px; border-radius:16px; border:1px solid #EF4444;">
+        <h3 style="margin-bottom:12px;">Activate Section 15 of MSMED Act, 2006</h3>
+        <p style="color:var(--text-muted); margin-bottom:20px;">Send formal legal notices for payments delayed beyond 45 days. Accumulate 19.5% compound interest automatically.</p>
+        <button class="btn-primary" style="background:#EF4444; color:white; border:none;" onclick="showToast('Drafting Legal Notice...')">Draft Legal Notice</button>
+        <button class="btn-outline mt-4" style="border-color:#EF4444; color:#EF4444; width:100%;" onclick="window.open('https://samadhaan.msme.gov.in', '_blank')">File MSEFC Complaint (Gov Portal)</button>
+      </div>
+    </div>
+
+    <!-- ── TALLY EXPORT ── -->
+    <div id="page-tally" class="page-content hidden">
+      <h2 style="font-size:32px; margin-bottom:24px;">📊 Tally Reconciliation</h2>
+      <div style="background:var(--card-bg); padding:24px; border-radius:16px; border:1px solid var(--border);">
+        <p style="color:var(--text-muted); margin-bottom:20px;">Export your project ledgers, invoices, and payments directly to Tally ERP 9 or Tally Prime.</p>
+        <button class="btn-primary" onclick="showToast('Exporting to Tally CSV format...')">Download Tally CSV</button>
+      </div>
+    </div>
+
     <div id="page-settings" class="page-content hidden">
       <h2>Settings</h2>
       <div style="background:rgba(255,193,7,0.1); border:1px solid #FFC107; color:#FFC107; padding:12px 16px; border-radius:8px; display:inline-block; margin-bottom:24px;">
@@ -1594,3 +1627,10 @@
 </div>
 </body>
 </html>
+<script src="rumik.js"></script>
+
+<!-- RUMIK AI VOICE BUTTON -->
+<div id="rumik-voice-btn" onclick="toggleRumikVoice()" style="position:fixed; bottom:110px; right:32px; width:60px; height:60px; background:#028090; border-radius:50%; color:white; display:flex; align-items:center; justify-content:center; font-size:28px; cursor:pointer; box-shadow:0 10px 24px rgba(2, 128, 144, 0.4); z-index:9999; transition:all 0.3s;" title="Talk to Rumik AI">
+  <div id="rumik-pulse" style="display:none; position:absolute; width:100%; height:100%; border-radius:50%; border:2px solid #EF4444; animation:chatPulse 1s infinite; pointer-events:none;"></div>
+  🎙️
+</div>
