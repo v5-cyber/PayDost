@@ -3,7 +3,15 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>PayVlt — Premium B2B SaaS for Indian Contractors</title>
+  <title>PayVlt Dashboard | Manage Your Contracting Business</title>
+  <meta name="description" content="Log in to PayVlt to manage your projects, invoices, and automated payment reminders.">
+  
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="PayVlt Dashboard | Manage Your Contracting Business">
+  <meta property="og:description" content="Log in to PayVlt to manage your projects, invoices, and automated payment reminders.">
+  <meta property="og:image" content="https://payvlt.in/og-image-app.png">
+  <meta property="og:url" content="https://payvlt.in/index.html">
+  <meta name="twitter:card" content="summary_large_image">
   <link rel="stylesheet" href="style.css?v=2" />
   <script src="languages.js" defer></script>
 </head>
@@ -112,50 +120,52 @@
 
   <main id="main" style="position:relative;">
     <!-- Top Navbar -->
-    <div class="top-navbar" style="display:flex; justify-content:flex-end; align-items:center; padding:16px 40px; gap:20px; border-bottom:1px solid var(--border); background:rgba(0,0,0,0.1);">
-      <div style="display:flex; align-items:center; gap:8px;">
-        <span>🌐</span>
-        <select id="lang-selector" onchange="updateLanguage(this.value)" style="background:var(--primary); color:white; border:1px solid var(--border); border-radius:8px; padding:6px 12px; font-size:14px; outline:none;">
-          <option value="en">🇺🇸 English</option>
-          <option value="hi">🇮🇳 Hindi</option>
-          <option value="mr">🇮🇳 Marathi</option>
-          <option value="gu">🇮🇳 Gujarati</option>
-          <option value="ta">🇮🇳 Tamil</option>
-          <option value="te">🇮🇳 Telugu</option>
-          <option value="pa">🇮🇳 Punjabi</option>
-          <option value="bn">🇮🇳 Bengali</option>
-        </select>
+    <div class="top-navbar" style="display:flex; justify-content:space-between; align-items:center; padding:16px 40px; border-bottom:1px solid var(--border); background:rgba(0,0,0,0.1);">
+      
+      <!-- Segment Switcher -->
+      <div class="segment-switcher" style="display:flex; background:rgba(0,0,0,0.3); padding:4px; border-radius:12px; border:1px solid var(--border);">
+        <button onclick="switchSegment('projects')" id="btn-seg-projects" style="padding:8px 16px; border-radius:8px; border:none; background:var(--teal); color:white; font-weight:600; cursor:pointer; transition:all 0.2s;">🏗️ PayVlt Projects</button>
+        <button onclick="switchSegment('trade')" id="btn-seg-trade" style="padding:8px 16px; border-radius:8px; border:none; background:transparent; color:var(--text-muted); font-weight:600; cursor:pointer; transition:all 0.2s;">📦 PayVlt Trade</button>
       </div>
-      <button onclick="toggleTheme()" style="background:none; border:1px solid var(--border); border-radius:8px; width:40px; height:40px; cursor:pointer; display:flex; align-items:center; justify-content:center; font-size:20px;">
-        <span id="theme-icon">🌙</span>
-      </button>
-      <button onclick="window.location.href='/home'" title="View Website" style="background:none; border:none; font-size:24px; cursor:pointer; opacity:0.8;">🌐</button>
-    </div>
 
-    <div class="watermark" id="watermark">PAYVLT</div>
+      <!-- Right Nav Icons -->
+      <div style="display:flex; align-items:center; gap:20px;">
+        <div style="display:flex; align-items:center; gap:8px;">
+          <span>🌐</span>
+          <select id="lang-selector" onchange="updateLanguage(this.value)" style="background:var(--primary); color:white; border:1px solid var(--border); border-radius:8px; padding:6px 12px; font-size:14px; outline:none;">
+            <option value="en">🇺🇸 English</option>
+            <option value="hi">🇮🇳 Hindi</option>
+            <option value="mr">🇮🇳 Marathi</option>
+            <option value="gu">🇮🇳 Gujarati</option>
+            <option value="ta">🇮🇳 Tamil</option>
+            <option value="te">🇮🇳 Telugu</option>
+            <option value="pa">🇮🇳 Punjabi</option>
+            <option value="bn">🇮🇳 Bengali</option>
+          </select>
+        </div>
+        <button onclick="toggleTheme()" style="background:none; border:1px solid var(--border); border-radius:8px; width:40px; height:40px; cursor:pointer; display:flex; align-items:center; justify-content:center; font-size:20px;">
+          <span id="theme-icon">🌙</span>
+        </button>
+        <button onclick="window.location.href='/home'" title="View Website" style="background:none; border:none; font-size:24px; cursor:pointer; opacity:0.8;">🌐</button>
+      </div>
+    </div>
     <div id="alert-area" style="padding:0 40px;"></div>
 
     <!-- ── DASHBOARD ── -->
     <div id="page-dashboard" class="page-content">
-      <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:28px;">
+      <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:32px;">
         <div>
-          <h2 style="font-size:32px; font-weight:800;" id="greeting-text">Namaste 👋 <span id="dash-name"></span></h2>
+          <h2 style="font-size:32px; font-weight:800;" id="greeting-text">Good evening 👋 <span id="dash-name"></span></h2>
           <p style="color:var(--text-secondary); margin-top:4px;" data-i18n="aaj_kya_karein">Aapka business aaj ka haal</p>
         </div>
-        <button class="btn-primary" style="width:auto; padding:14px 24px; font-size:16px; border-radius:12px;" onclick="openProjectModal()">+ Naya Project</button>
-      </div>
-
-      <!-- Quick Actions -->
-      <div style="display:flex; gap:16px; margin-bottom:32px;">
-        <button class="btn-primary" style="width:auto; padding:12px 24px; border-radius:12px; display:flex; align-items:center; gap:8px;" onclick="openProjectModal()">
-          <span>➕</span> Add Project
-        </button>
-        <button class="btn-outline" style="width:auto; padding:12px 24px; border-radius:12px; display:flex; align-items:center; gap:8px;" onclick="navigate('invoices')">
-          <span>📄</span> Generate Invoice
-        </button>
-        <button class="btn-outline" style="width:auto; padding:12px 24px; border-radius:12px; display:flex; align-items:center; gap:8px;" onclick="navigate('payments')">
-          <span>📲</span> Send Reminder
-        </button>
+        <div style="display:flex; gap:12px;">
+          <button class="btn-outline" style="width:auto; padding:12px 24px; border-radius:12px; display:flex; align-items:center; gap:8px;" onclick="navigate('payments')">
+            <span>📲</span> Send Reminder
+          </button>
+          <button class="btn-primary" style="width:auto; padding:12px 24px; font-size:16px; border-radius:12px; display:flex; align-items:center; gap:8px;" onclick="openProjectModal()">
+            <span>➕</span> New Project
+          </button>
+        </div>
       </div>
 
       <!-- 4 Professional Teal Cards -->
@@ -1387,6 +1397,31 @@
     }
     
     body.scrollTop = body.scrollHeight;
+  }
+
+  function switchSegment(segment) {
+    localStorage.setItem('payvlt_segment', segment);
+    
+    // Update active button styles
+    const btnProjects = document.getElementById('btn-seg-projects');
+    const btnTrade = document.getElementById('btn-seg-trade');
+    
+    if (segment === 'projects') {
+      btnProjects.style.background = 'var(--teal)';
+      btnProjects.style.color = 'white';
+      btnTrade.style.background = 'transparent';
+      btnTrade.style.color = 'var(--text-muted)';
+      document.getElementById('sidebar-projects').classList.remove('hidden');
+      document.getElementById('sidebar-trade').classList.add('hidden');
+    } else {
+      btnTrade.style.background = 'var(--teal)';
+      btnTrade.style.color = 'white';
+      btnProjects.style.background = 'transparent';
+      btnProjects.style.color = 'var(--text-muted)';
+      document.getElementById('sidebar-projects').classList.add('hidden');
+      document.getElementById('sidebar-trade').classList.remove('hidden');
+    }
+    navigate('dashboard');
   }
 
   function toggleTheme() {
