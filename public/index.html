@@ -218,7 +218,7 @@
           </table>
         </div>
       </div>
-
+    </div>
 
     <!-- ── PROJECTS PAGE ── -->
     <div id="page-projects" class="page-content hidden">
@@ -387,10 +387,10 @@
         <h3>Export Data</h3>
         <p style="margin:16px 0;">Select date range to export XML file formatted for Tally.</p>
         <div style="display:flex; gap:16px; margin-bottom:24px;">
-          <input type="date" style="flex:1; padding:10px; background:var(--primary); color:white; border:1px solid var(--border); border-radius:8px;">
-          <input type="date" style="flex:1; padding:10px; background:var(--primary); color:white; border:1px solid var(--border); border-radius:8px;">
+          <input type="date" id="t-start-date" style="flex:1; padding:10px; background:var(--primary); color:white; border:1px solid var(--border); border-radius:8px;">
+          <input type="date" id="t-end-date" style="flex:1; padding:10px; background:var(--primary); color:white; border:1px solid var(--border); border-radius:8px;">
         </div>
-        <button class="btn-primary" style="width:100%;" onclick="showToast('Tally XML generated and downloaded successfully.', 'success')">Export to Tally (XML)</button>
+        <button class="btn-primary" style="width:100%;" onclick="exportToTallyXML()">Export to Tally (XML)</button>
       </div>
     </div>
     
@@ -398,15 +398,11 @@
     <div id="page-diary" class="page-content hidden">
       <div class="flex-between mb-4">
         <h2>Site Diary</h2>
-        <button class="btn-primary" style="width:auto; padding: 10px 20px;" onclick="showToast('Daily log modal opened.', 'info')">+ Add Daily Log</button>
+        <button class="btn-primary" style="width:auto; padding: 10px 20px;" onclick="openDiaryLogModal()">+ Add Daily Log</button>
       </div>
       <p style="color:var(--text-muted); margin-bottom:24px;">Track materials, labor, and progress daily.</p>
-      <div class="projects-grid">
-        <div class="project-card">
-          <div class="card-header"><div><div class="client-name">Log: 10 May 2026</div><div class="project-name">Office Renovation</div></div><span class="badge badge-green">Synced</span></div>
-          <p style="font-size:13px; color:var(--text-secondary); margin:12px 0;">Cement: 50 bags<br>Labor: 15 workers<br>Notes: Plastering done on 2nd floor.</p>
-          <button class="btn-outline" style="width:100%; font-size:12px;">Share with Client</button>
-        </div>
+      <div id="diary-logs-grid" class="projects-grid">
+        <!-- Will be filled dynamically by renderDiaryLogs() -->
       </div>
     </div>
     
@@ -678,6 +674,44 @@
       <button class="btn-secondary" style="flex:1;" onclick="closeModal('modal-msme')">Cancel</button>
     </div>
   </div>
+<!-- SITE DIARY LOG MODAL -->
+<div id="modal-diary" class="modal-overlay hidden">
+  <div class="modal-content" style="max-width:500px; border-radius:24px;">
+    <div class="modal-header">
+      <h2 style="font-size:22px;">📝 Add Daily Site Log</h2>
+      <button class="modal-close" onclick="closeModal('modal-diary')">×</button>
+    </div>
+    
+    <div class="form-group">
+      <label>1. Select Project *</label>
+      <select id="d-project-select" style="width:100%; padding:10px; background:var(--primary); color:white; border:1px solid var(--border); border-radius:8px;">
+        <!-- Filled dynamically -->
+      </select>
+    </div>
+    
+    <div class="form-group">
+      <label>2. Date *</label>
+      <input type="date" id="d-date" style="width:100%; padding:10px; background:var(--primary); color:white; border:1px solid var(--border); border-radius:8px;" />
+    </div>
+
+    <div style="display:grid; grid-template-columns:1fr 1fr; gap:12px;">
+      <div class="form-group">
+        <label>3. Cement (Bags)</label>
+        <input type="number" id="d-cement" placeholder="0" style="width:100%; padding:10px; background:var(--primary); color:white; border:1px solid var(--border); border-radius:8px;" />
+      </div>
+      <div class="form-group">
+        <label>4. Labor Count</label>
+        <input type="number" id="d-labor" placeholder="0" style="width:100%; padding:10px; background:var(--primary); color:white; border:1px solid var(--border); border-radius:8px;" />
+      </div>
+    </div>
+    
+    <div class="form-group">
+      <label>5. Work Done & Notes *</label>
+      <textarea id="d-notes" rows="3" placeholder="eg. Plastering completed on the first floor." style="width:100%; padding:10px; background:var(--primary); color:white; border:1px solid var(--border); border-radius:8px;"></textarea>
+    </div>
+
+    <button class="btn-primary mt-4" style="height:50px; font-size:16px; border-radius:12px;" onclick="saveDiaryLog()">Save Daily Log</button>
+  </div>
 </div>
 
 <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
@@ -759,6 +793,7 @@
     if(activeNav) activeNav.classList.add('active');
 
     if(page === 'dashboard' || page === 'projects') loadData();
+    if(page === 'diary') renderDiaryLogs();
     
     // Ensure scroll to top
     const main = document.getElementById('main');
@@ -802,6 +837,146 @@
 
   function openProjectModal() { document.getElementById('modal-project').classList.remove('hidden'); }
   function closeModal(id) { document.getElementById(id).classList.add('hidden'); }
+
+  // ── SITE DIARY FUNCTIONS ──
+  function renderDiaryLogs() {
+    let logs = JSON.parse(localStorage.getItem('payvlt_diary_logs'));
+    if (!logs || logs.length === 0) {
+      logs = [
+        { id: 'diary-1', date: '2026-05-10', project_name: 'HVAC Installation', cement: 50, labor: 15, notes: 'Plastering done on 2nd floor.', synced: true }
+      ];
+      localStorage.setItem('payvlt_diary_logs', JSON.stringify(logs));
+    }
+    const grid = document.getElementById('diary-logs-grid');
+    if (!grid) return;
+    grid.innerHTML = '';
+    
+    logs.forEach(l => {
+      grid.innerHTML += `
+        <div class="project-card">
+          <div class="card-header">
+            <div>
+              <div class="client-name">Log: ${l.date}</div>
+              <div class="project-name">${l.project_name}</div>
+            </div>
+            <span class="badge ${l.synced ? 'badge-green' : 'badge-yellow'}">${l.synced ? 'Synced' : 'Draft'}</span>
+          </div>
+          <p style="font-size:13px; color:var(--text-secondary); margin:12px 0;">
+            ${l.cement ? `Cement: ${l.cement} bags<br>` : ''}
+            ${l.labor ? `Labor: ${l.labor} workers<br>` : ''}
+            Notes: ${l.notes}
+          </p>
+          <button class="btn-outline" style="width:100%; font-size:12px;" onclick="shareDiaryLog('${l.id}')">Share with Client</button>
+        </div>
+      `;
+    });
+  }
+
+  function openDiaryLogModal() {
+    const today = new Date().toISOString().split('T')[0];
+    document.getElementById('d-date').value = today;
+    
+    // Populate select
+    const select = document.getElementById('d-project-select');
+    if (select) {
+      select.innerHTML = '';
+      const localProjs = JSON.parse(localStorage.getItem('payvlt_projects') || '[]');
+      const displayProjects = localProjs.length > 0 ? localProjs : (window.mockProjects || []);
+      displayProjects.forEach(p => {
+        select.innerHTML += `<option value="${p.project_name.replace(/"/g, '&quot;')}">${p.project_name}</option>`;
+      });
+      if (displayProjects.length === 0) {
+        select.innerHTML = '<option value="">No Active Projects</option>';
+      }
+    }
+    
+    document.getElementById('modal-diary').classList.remove('hidden');
+  }
+
+  function saveDiaryLog() {
+    const projectName = document.getElementById('d-project-select').value;
+    const date = document.getElementById('d-date').value;
+    const cement = document.getElementById('d-cement').value;
+    const labor = document.getElementById('d-labor').value;
+    const notes = document.getElementById('d-notes').value;
+    
+    if (!projectName || !date || !notes) {
+      showToast("Please fill all required fields.", "error");
+      return;
+    }
+    
+    let logs = JSON.parse(localStorage.getItem('payvlt_diary_logs') || '[]');
+    const newLog = {
+      id: 'diary-' + Date.now(),
+      date,
+      project_name: projectName,
+      cement: cement ? parseInt(cement) : 0,
+      labor: labor ? parseInt(labor) : 0,
+      notes,
+      synced: false
+    };
+    
+    logs.unshift(newLog);
+    localStorage.setItem('payvlt_diary_logs', JSON.stringify(logs));
+    
+    closeModal('modal-diary');
+    renderDiaryLogs();
+    showToast("Daily log saved successfully!", "success");
+    
+    // Reset fields
+    document.getElementById('d-cement').value = '';
+    document.getElementById('d-labor').value = '';
+    document.getElementById('d-notes').value = '';
+  }
+
+  function shareDiaryLog(logId) {
+    const logs = JSON.parse(localStorage.getItem('payvlt_diary_logs') || '[]');
+    const l = logs.find(item => item.id === logId);
+    if (!l) return;
+    
+    let msg = `Namaste! Here is the Site Diary Log for *${l.project_name}* on *${l.date}*:\n`;
+    if (l.cement) msg += `- Cement: ${l.cement} bags\n`;
+    if (l.labor) msg += `- Labor: ${l.labor} workers\n`;
+    msg += `- Progress Details: ${l.notes}\n\nLogged securely via PayVlt.`;
+    
+    window.open(`https://wa.me/?text=${encodeURIComponent(msg)}`, '_blank');
+    showToast("Opening WhatsApp to share log...", "info");
+  }
+
+  // ── TALLY INTEGRATION FUNCTIONS ──
+  function exportToTallyXML() {
+    const start = document.getElementById('t-start-date').value;
+    const end = document.getElementById('t-end-date').value;
+    
+    if (!start || !end) {
+      showToast("Please select both start and end dates.", "error");
+      return;
+    }
+    
+    const localProjs = JSON.parse(localStorage.getItem('payvlt_projects') || '[]');
+    const projects = localProjs.length > 0 ? localProjs : (window.mockProjects || []);
+    
+    // Generate valid Tally XML
+    let xml = `<?xml version="1.0" encoding="UTF-8"?>\n<ENVELOPE>\n  <HEADER>\n    <TALLYREQUEST>Import Data</TALLYREQUEST>\n  </HEADER>\n  <BODY>\n    <IMPORTDATA>\n      <REQUESTDESC>\n        <REPORTNAME>Vouchers</REPORTNAME>\n        <STATICVARIABLES>\n          <SVCURRENTCOMPANY>PayVlt Construction Services</SVCURRENTCOMPANY>\n        </STATICVARIABLES>\n      </REQUESTDESC>\n      <REQUESTDATA>\n`;
+    
+    projects.forEach((p, idx) => {
+      const remaining = p.total_amount - (p.paid_amount || 0);
+      const voucherDate = (p.due_date || new Date().toISOString()).split('T')[0].replace(/-/g, '');
+      xml += `        <TALLYMESSAGE xmlns:UDF="TallyUDF">\n          <VOUCHER VCHTYPE="Sales" ACTION="Create" OBJVIEW="Accounting Voucher View">\n            <DATE>${voucherDate}</DATE>\n            <VOUCHERNUMBER>PV-${20260000 + idx}</VOUCHERNUMBER>\n            <PARTYLEDGERNAME>${p.client_name}</PARTYLEDGERNAME>\n            <EFFECTIVEDATE>${voucherDate}</EFFECTIVEDATE>\n            <ALLLEDGERENTRIES.LIST>\n              <LEDGERNAME>${p.client_name}</LEDGERNAME>\n              <ISDEEMEDPOSITIVE>Yes</ISDEEMEDPOSITIVE>\n              <AMOUNT>-${p.total_amount}</AMOUNT>\n            </ALLLEDGERENTRIES.LIST>\n            <ALLLEDGERENTRIES.LIST>\n              <LEDGERNAME>Sales Accounts</LEDGERNAME>\n              <ISDEEMEDPOSITIVE>No</ISDEEMEDPOSITIVE>\n              <AMOUNT>${p.total_amount}</AMOUNT>\n            </ALLLEDGERENTRIES.LIST>\n          </VOUCHER>\n        </TALLYMESSAGE>\n`;
+    });
+    
+    xml += `      </REQUESTDATA>\n    </IMPORTDATA>\n  </BODY>\n</ENVELOPE>`;
+    
+    const blob = new Blob([xml], { type: 'text/xml' });
+    const link = document.createElement('a');
+    link.href = URL.createObjectURL(blob);
+    link.download = `tally_export_${start}_to_${end}.xml`;
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+    
+    showToast("Tally XML generated and downloaded successfully.", "success");
+  }
 
   window.mockProjects = window.mockProjects || [
     { id: 'mock-1', client_name: "Sharma Ji", project_name: "HVAC Installation", total_amount: 250000, paid_amount: 50000, status: "pending", client_phone: "9876543210" }
