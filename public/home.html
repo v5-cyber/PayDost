@@ -517,20 +517,58 @@
     </div>
   </section>
 
-  <!-- 6. LIVE AI DEMO -->
+  <!-- 6. EMAA AI VOICE ASSISTANT -->
   <section id="demo" class="section-pad" style="padding-top:0;">
-    <div class="ai-demo fade-up">
-      <h2 style="font-size:32px; font-weight:700; margin-bottom:16px;">See PayVlt work in real time.</h2>
-      <p style="color:var(--text-muted);">Generate a professional reminder instantly.</p>
-      
-      <div class="demo-input-group">
-        <input type="text" id="demo-client" class="demo-input" placeholder="Client Name (e.g. Rahul)" style="border-right:1px solid var(--border); border-radius:0;">
-        <input type="number" id="demo-amount" class="demo-input" placeholder="Amount (e.g. 50000)">
-        <button class="btn btn-teal" onclick="generateDemoChat()">Generate &rarr;</button>
+    <div class="ai-demo fade-up" style="background:radial-gradient(circle at right, #16264f 0%, #0D1B3E 100%); text-align:left; padding:64px; display:flex; gap:48px; align-items:center; flex-wrap:wrap;">
+      <div style="flex:1; min-width:300px;">
+        <div style="display:inline-block; padding:6px 12px; background:rgba(2,128,144,0.15); border:1px solid rgba(2,128,144,0.4); border-radius:99px; color:var(--teal-light); font-size:12px; font-weight:700; margin-bottom:16px;">MEET EMAA</div>
+        <h2 style="font-size:40px; font-weight:800; line-height:1.2; margin-bottom:24px;">EMAA knows your business, not just the internet.</h2>
+        <p style="color:var(--text-muted); font-size:18px; line-height:1.6; margin-bottom:24px;">
+          Talk to EMAA like you'd talk to your smartest team member. Built for business. Fluent in your workflows. She is powered by voice — she listens, responds, and acts. No typing needed.
+        </p>
+        <ul style="margin-bottom:32px; display:flex; flex-direction:column; gap:12px; color:var(--text-muted);">
+          <li style="display:flex; align-items:flex-start; gap:10px;"><span style="color:var(--teal);">✓</span> <span>Deeply integrated with PayVlt (WhatsApp Reminders, MSME 45-day tracking, GST Invoices, Site Diary, Client Risk Scores)</span></li>
+          <li style="display:flex; align-items:flex-start; gap:10px;"><span style="color:var(--teal);">✓</span> <span>Understands your business mindset and cash flow</span></li>
+          <li style="display:flex; align-items:flex-start; gap:10px;"><span style="color:var(--teal);">✓</span> <span>Not a generic chatbot — a voice-first business intelligence layer</span></li>
+        </ul>
+        <button class="btn btn-teal" style="gap:8px; border-radius:99px; padding:16px 32px; font-size:16px;" onclick="document.getElementById('emaa-demo-ui').classList.toggle('active')">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2a3 3 0 0 0-3 3v7a3 3 0 0 0 6 0V5a3 3 0 0 0-3-3Z"/><path d="M19 10v2a7 7 0 0 1-14 0v-2"/><line x1="12" y1="19" x2="12" y2="22"/></svg>
+          Talk to EMAA
+        </button>
+        <div style="margin-top:24px; font-size:13px; color:var(--text-muted); font-style:italic;">
+          "The way business owners talk to their business — finally, a voice that listens back."
+        </div>
       </div>
-      
-      <div id="demo-chat" class="demo-result">
-        <!-- Injected via JS -->
+      <div style="flex:1; min-width:300px;" class="fade-up stagger-1">
+        <style>
+          .emaa-wave-ring { position:absolute; border-radius:50%; border:2px solid var(--teal); }
+          .emaa-demo-ui.active .emaa-wave-ring { animation: pulse 2s infinite; }
+          .emaa-demo-ui.active .emaa-wave-ring.delay { animation: pulse 2s infinite 0.5s; }
+          .emaa-chat-demo { opacity:0; transform:translateY(20px); transition:all 0.5s; }
+          .emaa-demo-ui.active .emaa-chat-demo { opacity:1; transform:translateY(0); transition-delay:1s; }
+        </style>
+        <!-- Visual Demo Box -->
+        <div id="emaa-demo-ui" class="emaa-demo-ui" style="background:var(--bg-card); border:1px solid var(--border); border-radius:24px; overflow:hidden; position:relative; box-shadow:0 20px 40px rgba(0,0,0,0.5);">
+          <div style="height:220px; display:flex; align-items:center; justify-content:center; background:linear-gradient(180deg, rgba(2,128,144,0.1) 0%, transparent 100%);">
+            <div style="width:100px; height:100px; border-radius:50%; background:url('/emaa-avatar.png') center/cover; position:relative; box-shadow: 0 0 30px rgba(2,128,144,0.4); z-index:2;">
+              <div class="emaa-wave-ring" style="inset:-10px; opacity:0.5;"></div>
+              <div class="emaa-wave-ring delay" style="inset:-20px; border-width:1px; opacity:0.2;"></div>
+            </div>
+          </div>
+          <div style="padding:24px; background:rgba(0,0,0,0.4); border-top:1px solid var(--border); min-height:160px; display:flex; align-items:center;">
+            <div class="emaa-chat-demo" style="display:flex; flex-direction:column; gap:16px; width:100%;">
+              <div style="align-self:flex-end; background:#2a3942; padding:12px 16px; border-radius:16px; border-bottom-right-radius:4px; font-size:14px; box-shadow:0 4px 10px rgba(0,0,0,0.2);">
+                "Hey EMAA, what are my sales today and do I have any overdue payments?"
+              </div>
+              <div style="align-self:flex-start; display:flex; gap:12px; align-items:flex-start; max-width:90%;">
+                <div style="width:28px; height:28px; border-radius:50%; background:url('/emaa-avatar.png') center/cover; flex-shrink:0; margin-top:4px;"></div>
+                <div style="background:rgba(2,128,144,0.1); padding:12px 16px; border-radius:16px; border-bottom-left-radius:4px; font-size:14px; border:1px solid rgba(2,128,144,0.3); color:#fff; box-shadow:0 4px 10px rgba(0,0,0,0.2);">
+                  "Sure, you've collected ₹2,80,000 today. You have 3 overdue invoices totaling ₹1,20,000. Want me to send them WhatsApp reminders now?"
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   </section>

@@ -1,0 +1,51 @@
+{
+  "name": "PayVlt — Apka Payment Partner",
+  "short_name": "PayVlt",
+  "description": "Track, Invoice, Remind & Collect — Manage your contracting business payments with ease.",
+  "theme_color": "#00C9A7",
+  "background_color": "#050D1F",
+  "display": "standalone",
+  "start_url": "/",
+  "scope": "/",
+  "orientation": "portrait",
+  "categories": ["finance", "business"],
+  "lang": "en-IN",
+  "icons": [
+    {
+      "src": "/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ],
+  "screenshots": [
+    {
+      "src": "/payvlt_dashboard_demo.webp",
+      "sizes": "1280x720",
+      "type": "image/webp",
+      "label": "PayVlt Dashboard"
+    }
+  ],
+  "shortcuts": [
+    {
+      "name": "Add Project",
+      "short_name": "New Project",
+      "description": "Quickly add a new project",
+      "url": "/?action=new-project",
+      "icons": [{ "src": "/icon-192.png", "sizes": "192x192" }]
+    },
+    {
+      "name": "Send Reminder",
+      "short_name": "Remind",
+      "description": "Send payment reminder",
+      "url": "/?action=reminder",
+      "icons": [{ "src": "/icon-192.png", "sizes": "192x192" }]
+    }
+  ]
+}
