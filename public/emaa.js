@@ -96,8 +96,10 @@ function toggleEmaaPanel() {
     }, 10);
     
     if (emaaState.sessionContext.length === 0) {
+      // Try to get user name from local storage or use default
+      let userName = localStorage.getItem('payvlt_user_name') || 'there';
       // First open greeting
-      speak("Hi, I'm EMAA. What can I help you with today?");
+      speak(`Hi ${userName}, how can I help your business today?`);
     }
   } else {
     panel.style.transform = 'scale(0.9)';
