@@ -1853,7 +1853,7 @@
   <div id="emaa-panel" style="display:none; width:340px; background:#0b141a; border:1px solid rgba(2,128,144,0.4); border-radius:24px; margin-bottom:16px; box-shadow:0 20px 40px rgba(0,0,0,0.6); overflow:hidden; flex-direction:column; transform-origin:bottom right; transition:all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275); transform:scale(0.9); opacity:0;">
     <div style="padding:24px 20px; display:flex; flex-direction:column; align-items:center; position:relative; background:radial-gradient(circle at top, rgba(2,128,144,0.15) 0%, transparent 80%);">
       <button onclick="toggleEmaaPanel()" style="position:absolute; top:16px; right:16px; background:transparent; border:none; color:var(--text-muted); cursor:pointer; font-size:20px; padding:4px;">✕</button>
-      <div id="emaa-avatar-active" style="width:90px; height:90px; border-radius:50%; background:url('/emaa-avatar.png') center/cover; position:relative; margin-bottom:16px; box-shadow: 0 0 20px rgba(2,128,144,0.3); z-index:2;">
+      <div id="emaa-avatar-active" style="width:90px; height:90px; border-radius:50%; background:url('emaa-avatar.png') center/cover; position:relative; margin-bottom:16px; box-shadow: 0 0 20px rgba(2,128,144,0.3); z-index:2;">
          <!-- Waveforms will be animated via JS -->
          <div class="emaa-ring" id="emaa-ring-1" style="position:absolute; inset:-12px; border-radius:50%; border:2px solid var(--teal); opacity:0; transition:all 0.2s;"></div>
          <div class="emaa-ring" id="emaa-ring-2" style="position:absolute; inset:-24px; border-radius:50%; border:1px solid var(--teal); opacity:0; transition:all 0.2s;"></div>
@@ -1875,11 +1875,11 @@
     </div>
   </div>
   
-  <button id="emaa-fab" onclick="toggleEmaaPanel()" style="width:64px; height:64px; border-radius:50%; background:url('/emaa-avatar.png') center/cover; border:2px solid var(--teal); cursor:pointer; box-shadow:0 10px 30px rgba(0,0,0,0.5); position:relative; margin-left:auto; display:block; transition:transform 0.2s;">
+  <button id="emaa-fab" onclick="toggleEmaaPanel()" style="width:64px; height:64px; border-radius:50%; background:url('emaa-avatar.png') center/cover; border:2px solid var(--teal); cursor:pointer; box-shadow:0 10px 30px rgba(0,0,0,0.5); position:relative; margin-left:auto; display:block; transition:transform 0.2s;">
     <div style="position:absolute; bottom:2px; right:2px; width:14px; height:14px; background:#22c55e; border-radius:50%; border:2px solid #050D1F; box-shadow:0 0 8px rgba(34,197,94,0.5);"></div>
   </button>
 </div>
-<script src="/emaa.js"></script>
+<script src="emaa.js"></script>
 
 </body>
 </html>

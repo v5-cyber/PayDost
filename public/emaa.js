@@ -211,6 +211,14 @@ function speak(text) {
     if (window.payvltAnalytics && typeof window.payvltAnalytics.aiAdvisorUsed === 'function') {
         window.payvltAnalytics.aiAdvisorUsed({ question_length: text.length });
     }
+    // Automatically start listening after speaking (for seamless voice UX)
+    if (!emaaState.isListening && emaaState.isOpen) {
+      setTimeout(() => {
+        if (!emaaState.isSpeaking && emaaState.isOpen) {
+          toggleEmaaListening();
+        }
+      }, 300);
+    }
   };
   
   utterance.onerror = function(e) {
