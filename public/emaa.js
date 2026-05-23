@@ -24,9 +24,12 @@ loadVoices();
 
 // Select a professional female voice
 function getFemaleVoice() {
+  if (!emaaState.voices || emaaState.voices.length === 0) {
+    if (emaaState.synth) emaaState.voices = emaaState.synth.getVoices();
+  }
   // Priority order for high quality professional female voices
   const preferred = emaaState.voices.find(v => v.name.includes('Google UK English Female') || v.name.includes('Samantha') || v.name.includes('Victoria') || (v.name.includes('Female') && v.lang.includes('en')));
-  return preferred || emaaState.voices[0];
+  return preferred || (emaaState.voices.length > 0 ? emaaState.voices[0] : null);
 }
 
 // Initialize Speech Recognition
@@ -84,7 +87,12 @@ if (SpeechRecognition) {
 }
 
 function toggleEmaaPanel() {
+  console.log("toggleEmaaPanel triggered");
   const panel = document.getElementById('emaa-panel');
+  if (!panel) {
+    console.error("EMAA panel element not found!");
+    return;
+  }
   emaaState.isOpen = !emaaState.isOpen;
   
   if (emaaState.isOpen) {
@@ -271,12 +279,20 @@ function processUserVoiceInput(text) {
 }
 
 // CSS Animations injected dynamically
-const emaaStyle = document.createElement('style');
-emaaStyle.textContent = \`
-  @keyframes pulse {
-    0% { transform: scale(0.9); opacity: 0.8; }
-    100% { transform: scale(1.5); opacity: 0; }
-  }
-  #emaa-fab:hover { transform: scale(1.05); }
-\`;
-document.head.appendChild(emaaStyle);
+try {
+  const emaaStyle = document.createElement('style');
+  emaaStyle.textContent = `
+    @keyframes pulse {
+      0% { transform: scale(0.9); opacity: 0.8; }
+      100% { transform: scale(1.5); opacity: 0; }
+    }
+    #emaa-fab:hover { transform: scale(1.05); }
+  `;
+  document.head.appendChild(emaaStyle);
+} catch (e) {
+  console.error("Failed to inject CSS:", e);
+}
+
+// Ensure functions are globally accessible (fixes issues with module scoping or strict mode closures)
+window.toggleEmaaPanel = toggleEmaaPanel;
+window.toggleEmaaListening = toggleEmaaListening;
