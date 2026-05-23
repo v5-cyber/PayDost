@@ -123,12 +123,17 @@ function toggleEmaaListening() {
   
   if (emaaState.isListening) {
     emaaState.recognition.stop();
+    updateEmaaUI('Ready', 'idle');
   } else {
     if (emaaState.recognition) {
       try {
         emaaState.recognition.start();
+        updateEmaaUI('Starting...', 'active');
       } catch(e) {
         console.error("Recognition start error:", e);
+        updateEmaaUI('Ready', 'idle');
+        emaaState.isListening = false;
+        alert("Failed to start voice recognition. Please ensure microphone access is allowed and you are using Chrome/Edge.");
       }
     } else {
       alert("Voice recognition not supported in your browser. Please use Chrome or Edge.");
