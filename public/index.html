@@ -141,7 +141,7 @@
       <button class="nav-item" id="nav-diary-p" onclick="navigate('diary')">📝 Site Diary</button>
       <button class="nav-item" id="nav-payments-p" onclick="navigate('payments')" data-i18n="payments">💰 Pay & Remind</button>
       <button class="nav-item" id="nav-invoices-p" onclick="navigate('invoices')" data-i18n="invoices">📄 Invoices</button>
-      <button class="nav-item" id="nav-msme-p" onclick="navigate('msme')">⚖️ MSME Legal</button>
+      <button class="nav-item" id="nav-msme-p" onclick="navigate('msme')">⚖️ Recovery Mode</button>
       <button class="nav-item" id="nav-tally-p" onclick="navigate('tally')">📊 Tally Export</button>
       <button class="nav-item" id="nav-settings-p" onclick="navigate('settings')" data-i18n="settings">⚙️ Settings</button>
     </nav>
@@ -201,10 +201,10 @@
 
     <!-- ── DASHBOARD ── -->
     <div id="page-dashboard" class="page-content">
-      <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:32px;">
+      <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:24px;">
         <div>
           <h2 style="font-size:32px; font-weight:800;" id="greeting-text">Good evening 👋 <span id="dash-name"></span></h2>
-          <p style="color:var(--text-secondary); margin-top:4px;" data-i18n="aaj_kya_karein">Aapka business aaj ka haal</p>
+          <p style="color:var(--text-secondary); margin-top:4px;">Here is your business overview for today.</p>
         </div>
         <div style="display:flex; gap:12px;">
           <button class="btn-outline" style="width:auto; padding:12px 24px; border-radius:12px; display:flex; align-items:center; gap:8px;" onclick="navigate('payments')">
@@ -216,51 +216,123 @@
         </div>
       </div>
 
-      <!-- 4 Professional Teal Cards -->
-      <div style="display:grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap:24px; margin-bottom:32px;">
-        <div class="stat-card" style="background: linear-gradient(135deg, #028090 0%, #0D1B3E 100%); border-left: 4px solid var(--accent-light);">
-          <div class="stat-label" style="color:rgba(255,255,255,0.7);">Total Receivable</div>
-          <div id="stat-receivable" class="stat-value" style="color:white; font-size:32px;">₹0</div>
-          <div style="font-size:11px; color:rgba(255,255,255,0.5); margin-top:8px;">Pending from all projects</div>
-        </div>
-        <div class="stat-card" style="background: linear-gradient(135deg, #028090 0%, #0D1B3E 100%); border-left: 4px solid #EF4444;">
-          <div class="stat-label" style="color:rgba(255,255,255,0.7);">Overdue</div>
-          <div id="stat-overdue" class="stat-value" style="color:#FCA5A5; font-size:32px;">₹0</div>
-          <div style="font-size:11px; color:rgba(255,255,255,0.5); margin-top:8px;">Immediate action needed</div>
-        </div>
-        <div class="stat-card" style="background: linear-gradient(135deg, #028090 0%, #0D1B3E 100%); border-left: 4px solid var(--accent-light);">
-          <div class="stat-label" style="color:rgba(255,255,255,0.7);">Collected</div>
-          <div id="stat-collected" class="stat-value" style="color:white; font-size:32px;">₹0</div>
-          <div style="font-size:11px; color:rgba(255,255,255,0.5); margin-top:8px;">Total this month</div>
-        </div>
-        <div class="stat-card" style="background: linear-gradient(135deg, #028090 0%, #0D1B3E 100%); border-left: 4px solid #FCD34D;">
-          <div class="stat-label" style="color:rgba(255,255,255,0.7);">Total Projects</div>
-          <div id="stat-count" class="stat-value" style="color:white; font-size:32px;">0</div>
-          <div style="font-size:11px; color:rgba(255,255,255,0.5); margin-top:8px;">Active & Completed</div>
+      <!-- EMAA'S DAILY SUMMARY -->
+      <div style="background: linear-gradient(135deg, rgba(2,128,144,0.15) 0%, rgba(13,27,62,0.5) 100%); border: 1px solid var(--teal); border-radius: 16px; padding: 24px; margin-bottom: 32px; display:flex; gap:20px; align-items:flex-start;">
+        <div style="width:60px; height:60px; border-radius:50%; background:url('emaa-avatar.png') center/cover; border:2px solid var(--teal); flex-shrink:0;"></div>
+        <div>
+          <h3 style="font-size:18px; font-weight:700; margin-bottom:8px; display:flex; align-items:center; gap:8px;">Emaa's Daily Summary <span class="badge badge-green">Live</span></h3>
+          <p style="color:var(--text-muted); line-height:1.6; font-size:15px; margin-bottom:16px;">
+            "You have <strong>₹4,50,000</strong> in pending receivables. <span style="color:#FCA5A5;">Gupta Traders missed their promise yesterday.</span> I've scheduled a polite follow-up for 11:00 AM."
+          </p>
+          <div style="display:flex; gap:12px;">
+            <button class="btn-primary" style="padding:6px 16px; font-size:13px; border-radius:8px;">Approve Follow-ups</button>
+            <button class="btn-outline" style="padding:6px 16px; font-size:13px; border-radius:8px;" onclick="toggleEmaaPanel()">Talk to Emaa</button>
+          </div>
         </div>
       </div>
 
-      <!-- Recent Projects Table -->
-      <div style="background:var(--card-bg); border:1px solid var(--border); border-radius:16px; padding:24px; margin-bottom:24px;">
-        <div class="flex-between" style="margin-bottom:20px;">
-          <h3 style="font-size:18px; font-weight:700;">Recent Projects</h3>
-          <button class="btn-secondary" style="font-size:12px; padding:6px 12px;" onclick="navigate('projects')">View All</button>
+      <!-- COLLECTIONS OVERVIEW & AGING -->
+      <div style="display:grid; grid-template-columns: 2fr 1fr; gap:24px; margin-bottom:32px;">
+        <div style="background:var(--card-bg); border:1px solid var(--border); border-radius:16px; padding:24px;">
+          <h3 style="font-size:16px; font-weight:700; margin-bottom:20px; color:var(--text-muted);">Collections Overview</h3>
+          <div style="display:flex; gap:24px; margin-bottom:24px;">
+            <div style="flex:1;">
+              <div style="font-size:13px; color:var(--text-muted); margin-bottom:4px;">Total Receivable</div>
+              <div id="stat-receivable" style="font-size:32px; font-weight:800; color:white;">₹0</div>
+            </div>
+            <div style="flex:1;">
+              <div style="font-size:13px; color:var(--text-muted); margin-bottom:4px;">Collected (30 days)</div>
+              <div id="stat-collected" style="font-size:32px; font-weight:800; color:var(--success);">₹0</div>
+            </div>
+          </div>
+          
+          <h4 style="font-size:13px; color:var(--text-muted); margin-bottom:12px;">Aging Buckets</h4>
+          <div style="display:flex; border-radius:8px; overflow:hidden; height:24px; margin-bottom:12px;">
+            <div style="width:40%; background:var(--success); display:flex; align-items:center; justify-content:center; font-size:11px; font-weight:bold;">Current</div>
+            <div style="width:30%; background:var(--warning); display:flex; align-items:center; justify-content:center; font-size:11px; font-weight:bold;">1-30 Days</div>
+            <div style="width:20%; background:#F97316; display:flex; align-items:center; justify-content:center; font-size:11px; font-weight:bold;">31-60 Days</div>
+            <div style="width:10%; background:var(--danger); display:flex; align-items:center; justify-content:center; font-size:11px; font-weight:bold;">60+</div>
+          </div>
+          <div style="display:flex; justify-content:space-between; font-size:12px; color:var(--text-muted);">
+            <span>₹0 Current</span>
+            <span>₹0 Overdue</span>
+          </div>
         </div>
-        <div style="overflow-x:auto;">
-          <table style="margin-top:0; border:none; background:transparent;">
-            <thead>
-              <tr>
-                <th style="padding-left:0;">Client</th>
-                <th>Project</th>
-                <th>Amount</th>
-                <th>Status</th>
-                <th style="text-align:right;">Actions</th>
-              </tr>
-            </thead>
-            <tbody id="recent-projects-body">
-              <!-- JS fills this -->
-            </tbody>
-          </table>
+        
+        <!-- CLIENT RISK BOARD -->
+        <div style="background:var(--card-bg); border:1px solid var(--border); border-radius:16px; padding:24px;">
+          <h3 style="font-size:16px; font-weight:700; margin-bottom:20px; color:var(--text-muted);">Client Risk Board</h3>
+          <div style="display:flex; flex-direction:column; gap:16px;">
+            <div style="display:flex; justify-content:space-between; align-items:center; padding-bottom:12px; border-bottom:1px solid var(--border);">
+              <div>
+                <div style="font-weight:600; font-size:14px;">Rahul Enterprises</div>
+                <div style="font-size:12px; color:var(--text-muted);">Always on time</div>
+              </div>
+              <span class="badge badge-green">Low Risk</span>
+            </div>
+            <div style="display:flex; justify-content:space-between; align-items:center; padding-bottom:12px; border-bottom:1px solid var(--border);">
+              <div>
+                <div style="font-weight:600; font-size:14px;">Gupta Traders</div>
+                <div style="font-size:12px; color:var(--text-muted);">Avg. delay: 14 days</div>
+              </div>
+              <span class="badge badge-yellow">Med Risk</span>
+            </div>
+            <div style="display:flex; justify-content:space-between; align-items:center;">
+              <div>
+                <div style="font-weight:600; font-size:14px;">Sharma Ji</div>
+                <div style="font-size:12px; color:var(--text-muted);">2 broken promises</div>
+              </div>
+              <span style="background:rgba(239,68,68,0.1); color:#EF4444; border:1px solid rgba(239,68,68,0.2);" class="badge">High Risk</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- PROMISE TRACKER & RECENT PROJECTS -->
+      <div style="display:grid; grid-template-columns: 1fr 2fr; gap:24px;">
+        <!-- PROMISE TRACKER -->
+        <div style="background:var(--card-bg); border:1px solid var(--border); border-radius:16px; padding:24px;">
+          <h3 style="font-size:16px; font-weight:700; margin-bottom:20px; color:var(--text-muted);">Payment Promises</h3>
+          <div style="display:flex; flex-direction:column; gap:12px;">
+            <div style="background:rgba(2,128,144,0.1); border:1px solid rgba(2,128,144,0.3); padding:16px; border-radius:12px;">
+              <div style="display:flex; justify-content:space-between; margin-bottom:8px;">
+                <span style="font-weight:700; font-size:14px;">Today</span>
+                <span style="font-weight:600; color:var(--teal-light);">₹50,000</span>
+              </div>
+              <div style="font-size:12px; color:var(--text-muted);">Sharma Ji — INV-041</div>
+            </div>
+            <div style="background:rgba(255,255,255,0.02); border:1px solid var(--border); padding:16px; border-radius:12px;">
+              <div style="display:flex; justify-content:space-between; margin-bottom:8px;">
+                <span style="font-weight:600; font-size:14px; color:var(--text-muted);">Thursday (Missed)</span>
+                <span style="font-weight:600; color:#FCA5A5;">₹1,20,000</span>
+              </div>
+              <div style="font-size:12px; color:var(--text-muted);">Gupta Traders</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- RECENT PROJECTS / ACTIVITY -->
+        <div style="background:var(--card-bg); border:1px solid var(--border); border-radius:16px; padding:24px;">
+          <div class="flex-between" style="margin-bottom:20px;">
+            <h3 style="font-size:16px; font-weight:700; color:var(--text-muted);">Recent Projects</h3>
+            <button class="btn-secondary" style="font-size:12px; padding:6px 12px;" onclick="navigate('projects')">View All</button>
+          </div>
+          <div style="overflow-x:auto;">
+            <table style="margin-top:0; border:none; background:transparent;">
+              <thead>
+                <tr>
+                  <th style="padding-left:0;">Client</th>
+                  <th>Project</th>
+                  <th>Amount</th>
+                  <th>Status</th>
+                  <th style="text-align:right;">Actions</th>
+                </tr>
+              </thead>
+              <tbody id="recent-projects-body">
+                <!-- JS fills this -->
+              </tbody>
+            </table>
+          </div>
         </div>
       </div>
     </div>
@@ -286,20 +358,35 @@
       </div>
 
       <div class="phases-container" style="display:grid; grid-template-columns:1fr; gap:16px;">
-        <!-- PHASE 1: PRE-WORK -->
+        <!-- PHASE 1: PRE-WORK (AGREEMENT & MILESTONES) -->
         <div class="phase-card" style="background:var(--card-bg); padding:20px; border-radius:12px; border:1px solid var(--accent); border-left:4px solid var(--success);">
-          <h3>Phase 1: Pre-Work (Agreement)</h3>
-          <p style="font-size:12px; color:var(--text-secondary); margin-bottom:12px;">Scope, timeline, and mutual benefits documented.</p>
-          <div style="color:var(--success); font-weight:600;">Agreement Signed ✅</div>
+          <h3>Phase 1: Project Terms & Agreement</h3>
+          <p style="font-size:12px; color:var(--text-secondary); margin-bottom:12px;">Scope, milestones, and mutual benefits documented.</p>
+          <div style="background:rgba(0,0,0,0.2); padding:12px; border-radius:8px; margin-bottom:12px;">
+            <div style="font-size:12px; font-weight:600; margin-bottom:8px;">Milestones:</div>
+            <div style="display:flex; justify-content:space-between; font-size:12px; margin-bottom:4px; color:var(--text-muted);">
+              <span>1. Advance Payment</span>
+              <span>40% (₹1,00,000)</span>
+            </div>
+            <div style="display:flex; justify-content:space-between; font-size:12px; margin-bottom:4px; color:var(--text-muted);">
+              <span>2. Mid-Project Delivery</span>
+              <span>40% (₹1,00,000)</span>
+            </div>
+            <div style="display:flex; justify-content:space-between; font-size:12px; color:var(--text-muted);">
+              <span>3. Final Handover</span>
+              <span>20% (₹50,000)</span>
+            </div>
+          </div>
+          <div style="color:var(--success); font-weight:600;">Project Work Agreement Signed ✅</div>
         </div>
 
         <!-- PHASE 2: DURING WORK -->
         <div class="phase-card" style="background:var(--card-bg); padding:20px; border-radius:12px; border:1px solid var(--border); border-left:4px solid var(--warning);">
-          <h3>Phase 2: During Work (Site Diary)</h3>
-          <p style="font-size:12px; color:var(--text-secondary); margin-bottom:12px;">Track daily progress and materials.</p>
-          <button class="btn-outline mb-4" style="width:100%; font-size:12px;">+ Add Daily Log</button>
+          <h3>Phase 2: Workflow & Progress</h3>
+          <p style="font-size:12px; color:var(--text-secondary); margin-bottom:12px;">Track daily progress and request milestone payments.</p>
+          <button class="btn-outline mb-4" style="width:100%; font-size:12px;">+ Add Daily Log / Progress Update</button>
           <div style="color:var(--warning); font-weight:600;">Work In Progress 🔨</div>
-          <button class="btn-primary mt-4" style="width:100%;" onclick="markProjectComplete()">Mark Work Complete</button>
+          <button class="btn-primary mt-4" style="width:100%;" onclick="markProjectComplete()">Mark Milestone/Work Complete</button>
         </div>
 
         <!-- PHASE 3: COMPLETION -->
@@ -319,22 +406,27 @@
 
         <!-- PHASE 4: PAYMENT WINDOW -->
         <div id="phase-4" class="phase-card" style="background:rgba(255,255,255,0.02); padding:20px; border-radius:12px; border:1px solid var(--border); opacity:0.6;">
-          <h3>Phase 4: Payment Window</h3>
+          <h3>Phase 4: Smart Follow-ups</h3>
           <div id="p4-setup" class="hidden">
-            <label style="font-size:12px; color:var(--text-secondary);">How many days to give client?</label>
+            <label style="font-size:12px; color:var(--text-secondary);">Agreed payment terms</label>
             <select id="pd-days" style="width:100%; padding:8px; margin:8px 0; background:var(--primary); color:white; border:1px solid var(--border); border-radius:4px;">
+              <option value="7">7 Days</option>
               <option value="15">15 Days</option>
               <option value="30">30 Days</option>
               <option value="45">45 Days</option>
             </select>
-            <button class="btn-primary" style="width:100%;" onclick="startPaymentWindow()">Start Countdown</button>
+            <button class="btn-primary" style="width:100%;" onclick="startPaymentWindow()">Start Workflow</button>
           </div>
           <div id="p4-active" class="hidden">
             <p id="p4-countdown" style="color:var(--warning); font-weight:bold; margin-bottom:12px;"></p>
-            <button class="btn-outline" style="width:100%; font-size:12px; margin-bottom:8px;">Day 7 Auto-Reminder (Scheduled)</button>
+            <button class="btn-outline" style="width:100%; font-size:12px; margin-bottom:8px;">Day 7 Polite Reminder (Scheduled)</button>
             <button class="btn-outline" style="width:100%; font-size:12px; margin-bottom:8px;">Day 15 Firm Reminder (Scheduled)</button>
-            <button id="btn-msme-warn" class="btn-danger mt-4" style="width:100%;" onclick="openMsmeWarning()">⚠️ Activate MSME Protection</button>
-            <button id="btn-msme-file" class="btn-primary mt-4 hidden" style="width:100%; background:#2563EB;" onclick="window.open('https://samadhaan.msme.gov.in', '_blank')">⚖️ File MSEFC Complaint — 1 Click</button>
+            
+            <div style="margin-top:24px; padding-top:16px; border-top:1px dashed var(--border);">
+              <div style="font-size:12px; color:var(--text-muted); margin-bottom:8px;">Client unresponsive?</div>
+              <button id="btn-msme-warn" class="btn-outline" style="width:100%; color:#EF4444; border-color:rgba(239,68,68,0.3);" onclick="openMsmeWarning()">⚠️ Escalate to Recovery Mode</button>
+              <button id="btn-msme-file" class="btn-primary mt-4 hidden" style="width:100%; background:#2563EB;" onclick="window.open('https://samadhaan.msme.gov.in', '_blank')">⚖️ File MSEFC Complaint — 1 Click</button>
+            </div>
           </div>
         </div>
       </div>
@@ -343,10 +435,10 @@
     <!-- ── AGREEMENTS PAGE ── -->
     <div id="page-agreements" class="page-content hidden">
       <div class="flex-between mb-4">
-        <h2>Digital Agreements</h2>
+        <h2>Project Work Agreements</h2>
         <button class="btn-primary" style="width:auto; padding: 10px 20px;" onclick="openProjectModal()">+ Draft Agreement</button>
       </div>
-      <p style="color:var(--text-muted); margin-bottom:24px;">Manage and track MSME-compliant mutual benefit agreements.</p>
+      <p style="color:var(--text-muted); margin-bottom:24px;">Manage and track professional scope-of-work agreements.</p>
       
       <table>
         <thead>
@@ -624,29 +716,28 @@
       </div>
     </div>
 
-    <!-- ── MSME LEGAL ── (proper location) -->
+    <!-- ── RECOVERY MODE ── (proper location) -->
     <div id="page-msme" class="page-content hidden">
-      <h2 style="font-size:32px; margin-bottom:24px; color:#EF4444;">⚖️ MSME Legal Protection</h2>
+      <h2 style="font-size:32px; margin-bottom:24px; color:#EF4444;">⚖️ Recovery Mode</h2>
       <div style="background:linear-gradient(135deg, rgba(239,68,68,0.1) 0%, rgba(13,27,62,0.5) 100%); padding:32px; border-radius:16px; border:1px solid #EF4444; margin-bottom:24px;">
-        <h3 style="margin-bottom:12px; font-size:20px;">Section 15, MSMED Act, 2006</h3>
-        <p style="color:var(--text-secondary); margin-bottom:24px; line-height:1.8;">Your client <strong style="color:white;">must pay within 45 days</strong>. If they fail, you are entitled to <strong style="color:#EF4444;">19.5% compound interest</strong> per year, and can initiate free arbitration via MSEFC.</p>
+        <h3 style="margin-bottom:12px; font-size:20px;">Payment Escalation Protocol</h3>
+        <p style="color:var(--text-secondary); margin-bottom:24px; line-height:1.8;">When clients ignore reminders and break payment promises, use Recovery Mode. This disables automated polite follow-ups and switches to <strong style="color:white;">formal escalation notices</strong>.</p>
         <div style="display:grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap:16px; margin-bottom:24px;">
           <div style="background:rgba(0,0,0,0.3); padding:16px; border-radius:12px; text-align:center;">
-            <div style="font-size:32px; font-weight:800; color:#EF4444;">45</div>
-            <div style="font-size:12px; color:var(--text-muted);">Days — Mandatory Payment Window</div>
+            <div style="font-size:32px; font-weight:800; color:#EF4444;">Stop</div>
+            <div style="font-size:12px; color:var(--text-muted);">Polite Follow-ups</div>
           </div>
           <div style="background:rgba(0,0,0,0.3); padding:16px; border-radius:12px; text-align:center;">
-            <div style="font-size:32px; font-weight:800; color:#F59E0B;">19.5%</div>
-            <div style="font-size:12px; color:var(--text-muted);">Compound Interest Per Year</div>
+            <div style="font-size:32px; font-weight:800; color:#F59E0B;">Formal</div>
+            <div style="font-size:12px; color:var(--text-muted);">Escalation Notice</div>
           </div>
           <div style="background:rgba(0,0,0,0.3); padding:16px; border-radius:12px; text-align:center;">
-            <div style="font-size:32px; font-weight:800; color:#02C39A;">FREE</div>
-            <div style="font-size:12px; color:var(--text-muted);">MSEFC Arbitration Cost</div>
+            <div style="font-size:32px; font-weight:800; color:#02C39A;">Legal</div>
+            <div style="font-size:12px; color:var(--text-muted);">Mediation Handover</div>
           </div>
         </div>
         <div style="display:flex; gap:16px; flex-wrap:wrap;">
-          <button class="btn-primary" style="background:#EF4444; width:auto; padding:14px 28px;" onclick="showToast('Legal notice drafted and ready to send!', 'success')">Draft Legal Notice</button>
-          <button class="btn-outline" style="width:auto; padding:14px 28px;" onclick="window.open('https://samadhaan.msme.gov.in', '_blank')">File MSEFC Complaint ↗</button>
+          <button class="btn-primary" style="background:#EF4444; width:auto; padding:14px 28px;" onclick="showToast('Escalation notice drafted and ready to send!', 'success')">Draft Escalation Notice</button>
         </div>
       </div>
     </div>
@@ -702,21 +793,21 @@
   </div>
 </div>
 
-<!-- MSME WARNING MODAL -->
+<!-- RECOVERY WARNING MODAL -->
 <div id="modal-msme" class="modal-overlay hidden">
   <div class="modal-content">
     <div class="modal-header">
-      <h2 style="color:var(--danger);">⚠️ Final Warning Before MSME</h2>
+      <h2 style="color:var(--danger);">⚠️ Final Escalation Warning</h2>
       <button class="modal-close" onclick="closeModal('modal-msme')">×</button>
     </div>
-    <p style="margin-bottom:16px;">We will send ONE final message to the client explaining the consequences. After that, the MSME clock officially starts. Proceed?</p>
+    <p style="margin-bottom:16px;">We will send ONE final firm message to the client explaining the consequences. After that, Recovery Mode officially starts. Proceed?</p>
     <div style="background:rgba(220,38,38,0.1); border:1px solid var(--danger); padding:12px; border-radius:8px; margin-bottom:20px; font-size:13px;">
       <strong>Final Alert Preview:</strong><br><br>
       Dear Client,<br>
-      This is a formal notice. Under MSMED Act 2006, you are liable for 19.5% compound interest and risk losing Section 43B(h) tax deductions. We strongly recommend payment within 48 hours.
+      This is a formal notice. Despite multiple reminders, your payment is overdue. We strongly request you clear the dues within 48 hours to avoid formal escalation procedures.
     </div>
     <div style="display:flex; gap:12px;">
-      <button class="btn-danger" style="flex:1;" onclick="activateMsme()">Yes — Send Final Alert</button>
+      <button class="btn-danger" style="flex:1;" onclick="activateMsme()">Yes — Escalate Now</button>
       <button class="btn-secondary" style="flex:1;" onclick="closeModal('modal-msme')">Cancel</button>
     </div>
   </div>
@@ -849,8 +940,9 @@
   }
 
   // Onboarding Helpers
-  async function obStep(s, type) {
-    if (type) {
+  async function obSelectStep(currentStep, value) {
+    if (currentStep === 1) {
+      const type = value;
       localStorage.setItem('payvlt_segment', type === 'contractor' ? 'projects' : 'trade');
       // Save to Supabase profile silently
       try {
@@ -860,19 +952,35 @@
           await client.from('profiles').upsert({ id: user.id, business_type: type, updated_at: new Date() });
         }
       } catch (e) { console.warn("Supabase profile update failed (Offline Mode)"); }
+    } else if (currentStep === 2) {
+      localStorage.setItem('payvlt_ob_size', value);
+    } else if (currentStep === 3) {
+      localStorage.setItem('payvlt_ob_challenge', value);
     }
+
+    const nextStep = currentStep + 1;
     document.querySelectorAll('[id^="ob-step-"]').forEach(el => el.classList.add('hidden'));
-    document.getElementById('ob-step-' + s).classList.remove('hidden');
+    const nextEl = document.getElementById('ob-step-' + nextStep);
+    if (nextEl) {
+      nextEl.classList.remove('hidden');
+    }
   }
 
-  function finishOb() {
+  function finishOnboarding() {
     localStorage.setItem('payvlt_ob_done', 'true');
-    document.getElementById('onboarding').classList.add('hidden');
-    const segment = localStorage.getItem('payvlt_segment');
-    document.getElementById('sidebar-projects').classList.toggle('hidden', segment !== 'projects');
-    document.getElementById('sidebar-trade').classList.toggle('hidden', segment !== 'trade');
-    navigate('dashboard');
-    showToast("Setup complete! Welcome to PayVlt.", "success");
+    const modal = document.getElementById('onboarding');
+    modal.style.transition = 'opacity 0.5s ease';
+    modal.style.opacity = '0';
+    setTimeout(() => {
+      modal.classList.add('hidden');
+      modal.style.opacity = '1';
+      const segment = localStorage.getItem('payvlt_segment') || 'projects';
+      document.getElementById('sidebar-projects').classList.toggle('hidden', segment !== 'projects');
+      document.getElementById('sidebar-trade').classList.toggle('hidden', segment !== 'trade');
+      navigate('dashboard');
+      showToast("Workspace ready! Let's get started.", "success");
+    }, 500);
+  }
   }
 
   function selectSegment(segment) {
@@ -1063,7 +1171,7 @@
     Hindi: {
       friendly: (n,a) => `Namaste ${n} ji 🙏\nPayment reminder: Aapka ₹${a} ka payment pending hai.\nKripya jaldi clear karein. Shukriya!`,
       firm:    (n,a,d) => `Namaste ${n} ji,\nAapka ₹${a} payment ${d} din se pending hai.\nKripya 48 ghante mein clear karein.`,
-      legal:   (n,a,d) => `MSME Act Notice — ${n} ji,\nAapka ₹${a} payment ${d} din se overdue hai.\nMSMED Act 2006 ke anusaar 19.5% byaaj lagega. Kripya turant payment karein ya PayVlt se sampark karein.`
+      legal:   (n,a,d) => `Formal Notice — ${n} ji,\nAapka ₹${a} payment ${d} din se overdue hai.\nKripya turant payment karein to avoid formal escalation. Contact PayVlt for support.`
     }
   };
 
@@ -1227,7 +1335,7 @@
           </div>
           <div style="margin-top:12px; font-size:12px; display:flex; justify-content:space-between;">
             <span style="color:var(--accent-light);">Agreement Sent ⏳</span>
-            <button class="btn-danger" style="padding:4px 8px; font-size:10px;" onclick="event.stopPropagation(); showToast('Generate Legal Notice with MSMED Act Sec 16 and Sec 43B(h)?', 'warning')">Legal Notice</button>
+            <button class="btn-danger" style="padding:4px 8px; font-size:10px;" onclick="event.stopPropagation(); showToast('Escalation Notice generated and sent.', 'warning')">Escalation Notice</button>
           </div>
         </div>
       `;
@@ -1696,40 +1804,7 @@
   });
 
   // ── ONBOARDING EVENT LISTENERS ──
-  document.addEventListener('DOMContentLoaded', function() {
-    const contractorBtn = document.getElementById('contractor-btn');
-    const supplierBtn = document.getElementById('supplier-btn');
-    const nextBtn = document.getElementById('next-step-btn');
-    const finishBtn = document.getElementById('finish-btn');
-
-    if (contractorBtn) {
-      contractorBtn.addEventListener('click', function() {
-        console.log('Onboarding: Contractor Selected');
-        obStep(2, 'contractor');
-      });
-    }
-    if (supplierBtn) {
-      supplierBtn.addEventListener('click', function() {
-        console.log('Onboarding: Supplier Selected');
-        obStep(2, 'supplier');
-      });
-    }
-    if (nextBtn) {
-      nextBtn.addEventListener('click', function() {
-        console.log('Onboarding: Next Step');
-        obStep(3);
-      });
-    }
-    if (finishBtn) {
-      finishBtn.addEventListener('click', function() {
-        console.log('Onboarding: Finished');
-        const modal = document.getElementById('onboarding');
-        modal.style.transition = 'opacity 0.5s ease';
-        modal.style.opacity = '0';
-        setTimeout(() => finishOb(), 500);
-      });
-    }
-  });
+  // Replaced by inline onclick handlers in HTML
 </script>
 
 <!-- Toast Container -->
@@ -1754,15 +1829,13 @@
     <button onclick="toggleChat()" style="background:none; border:none; color:var(--text-muted); cursor:pointer; font-size:20px;">&times;</button>
   </div>
   <div class="chat-body" id="chat-body" style="flex:1; padding:16px; overflow-y:auto; display:flex; flex-direction:column; gap:16px;">
-    <div class="msg ai" style="background:rgba(255,255,255,0.05); padding:12px; border-radius:12px; border-bottom-left-radius:4px; max-width:85%; align-self:flex-start;">Namaste! 🙏 I am your PayVlt Business Advisor. I can help you with payment recovery, MSME law, GST invoices, and growing your contracting business. What would you like to know?</div>
+    <div class="msg ai" style="background:rgba(255,255,255,0.05); padding:12px; border-radius:12px; border-bottom-left-radius:4px; max-width:85%; align-self:flex-start;">Namaste! 🙏 I am your PayVlt Collections Manager. I can help you with payment recovery, professional workflows, GST invoices, and managing your cash flow. What would you like to do?</div>
     
     <!-- Quick Replies -->
     <div class="chat-quick-replies" id="quick-replies" style="display:flex; flex-wrap:wrap; gap:8px; margin-bottom:16px;">
-      <div class="quick-chip" onclick="sendQuickReply(this.innerText)" style="padding:6px 12px; background:rgba(255,255,255,0.05); border:1px solid var(--border); border-radius:99px; font-size:12px; cursor:pointer; color:var(--text-muted); transition:all 0.2s;" onmouseover="this.style.background='rgba(0, 201, 167, 0.1)'; this.style.color='#00C9A7'; this.style.borderColor='#00C9A7'" onmouseout="this.style.background='rgba(255,255,255,0.05)'; this.style.color='var(--text-muted)'; this.style.borderColor='var(--border)'">What is PayVlt?</div>
-      <div class="quick-chip" onclick="sendQuickReply(this.innerText)" style="padding:6px 12px; background:rgba(255,255,255,0.05); border:1px solid var(--border); border-radius:99px; font-size:12px; cursor:pointer; color:var(--text-muted); transition:all 0.2s;" onmouseover="this.style.background='rgba(0, 201, 167, 0.1)'; this.style.color='#00C9A7'; this.style.borderColor='#00C9A7'" onmouseout="this.style.background='rgba(255,255,255,0.05)'; this.style.color='var(--text-muted)'; this.style.borderColor='var(--border)'">How do reminders work?</div>
-      <div class="quick-chip" onclick="sendQuickReply(this.innerText)" style="padding:6px 12px; background:rgba(255,255,255,0.05); border:1px solid var(--border); border-radius:99px; font-size:12px; cursor:pointer; color:var(--text-muted); transition:all 0.2s;" onmouseover="this.style.background='rgba(0, 201, 167, 0.1)'; this.style.color='#00C9A7'; this.style.borderColor='#00C9A7'" onmouseout="this.style.background='rgba(255,255,255,0.05)'; this.style.color='var(--text-muted)'; this.style.borderColor='var(--border)'">MSME rules explain karo</div>
+      <div class="quick-chip" onclick="sendQuickReply(this.innerText)" style="padding:6px 12px; background:rgba(255,255,255,0.05); border:1px solid var(--border); border-radius:99px; font-size:12px; cursor:pointer; color:var(--text-muted); transition:all 0.2s;" onmouseover="this.style.background='rgba(0, 201, 167, 0.1)'; this.style.color='#00C9A7'; this.style.borderColor='#00C9A7'" onmouseout="this.style.background='rgba(255,255,255,0.05)'; this.style.color='var(--text-muted)'; this.style.borderColor='var(--border)'">Pending payments dikhao</div>
+      <div class="quick-chip" onclick="sendQuickReply(this.innerText)" style="padding:6px 12px; background:rgba(255,255,255,0.05); border:1px solid var(--border); border-radius:99px; font-size:12px; cursor:pointer; color:var(--text-muted); transition:all 0.2s;" onmouseover="this.style.background='rgba(0, 201, 167, 0.1)'; this.style.color='#00C9A7'; this.style.borderColor='#00C9A7'" onmouseout="this.style.background='rgba(255,255,255,0.05)'; this.style.color='var(--text-muted)'; this.style.borderColor='var(--border)'">Recovery mode explain karo</div>
       <div class="quick-chip" onclick="sendQuickReply(this.innerText)" style="padding:6px 12px; background:rgba(255,255,255,0.05); border:1px solid var(--border); border-radius:99px; font-size:12px; cursor:pointer; color:var(--text-muted); transition:all 0.2s;" onmouseover="this.style.background='rgba(0, 201, 167, 0.1)'; this.style.color='#00C9A7'; this.style.borderColor='#00C9A7'" onmouseout="this.style.background='rgba(255,255,255,0.05)'; this.style.color='var(--text-muted)'; this.style.borderColor='var(--border)'">Client ne pay nahi kiya — help</div>
-      <div class="quick-chip" onclick="sendQuickReply(this.innerText)" style="padding:6px 12px; background:rgba(255,255,255,0.05); border:1px solid var(--border); border-radius:99px; font-size:12px; cursor:pointer; color:var(--text-muted); transition:all 0.2s;" onmouseover="this.style.background='rgba(0, 201, 167, 0.1)'; this.style.color='#00C9A7'; this.style.borderColor='#00C9A7'" onmouseout="this.style.background='rgba(255,255,255,0.05)'; this.style.color='var(--text-muted)'; this.style.borderColor='var(--border)'">How to file MSEFC complaint?</div>
     </div>
   </div>
   <div class="chat-input-area" style="padding:16px; border-top:1px solid var(--border); display:flex; gap:8px; background:rgba(0,0,0,0.2);">
@@ -1818,32 +1891,55 @@
   }
 </style>
 
-<!-- 3-STEP ONBOARDING -->
+<!-- 4-STEP ONBOARDING -->
 <div id="onboarding" class="modal-overlay hidden" style="z-index: 999999 !important; position: fixed; top: 0; left: 0; width: 100%; height: 100%;">
-  <div class="modal-content" style="max-width:450px; text-align:center; padding:40px; pointer-events: auto !important; position: relative; z-index: 999999 !important; background: #1a2a4a;">
+  <div class="modal-content" style="max-width:500px; text-align:center; padding:40px; pointer-events: auto !important; position: relative; z-index: 999999 !important; background: #0b141a; border: 1px solid var(--teal); border-radius: 24px;">
+    <!-- Greeting from Emaa -->
+    <div style="display:flex; justify-content:center; margin-bottom:20px;">
+      <div style="width:80px; height:80px; border-radius:50%; background:url('emaa-avatar.png') center/cover; border:2px solid var(--teal); box-shadow: 0 0 20px rgba(2,128,144,0.3);"></div>
+    </div>
+    
     <!-- Step 1 -->
     <div id="ob-step-1">
-      <div style="font-size:50px; margin-bottom:20px;">🏗️</div>
-      <h2 style="font-size:24px; margin-bottom:12px; color: white;">What is your business type?</h2>
-      <div style="display:grid; gap:12px; pointer-events: auto !important;">
-        <button class="btn-outline" id="contractor-btn" style="padding:16px; cursor: pointer !important; pointer-events: auto !important; position: relative; z-index: 9999999 !important;">I am a Contractor (AC, Electric, etc)</button>
-        <button class="btn-outline" id="supplier-btn" style="padding:16px; cursor: pointer !important; pointer-events: auto !important; position: relative; z-index: 9999999 !important;">I am a Supplier (Material seller)</button>
+      <p style="font-size:16px; color:var(--text-muted); margin-bottom:8px; font-style:italic;">"Hi! I'm Emaa — your AI payment manager. Let me set up your PayVlt workspace."</p>
+      <h2 style="font-size:24px; margin-bottom:24px; color: white;">What type of business do you run?</h2>
+      <div style="display:grid; grid-template-columns: 1fr 1fr; gap:12px; pointer-events: auto !important;">
+        <button class="btn-outline ob-select-btn" onclick="obSelectStep(1, 'contractor')" style="padding:16px; font-size:13px;">🏗️ Contractor / HVAC / Interior</button>
+        <button class="btn-outline ob-select-btn" onclick="obSelectStep(1, 'manufacturer')" style="padding:16px; font-size:13px;">🏭 Manufacturer / Fabricator</button>
+        <button class="btn-outline ob-select-btn" onclick="obSelectStep(1, 'wholesaler')" style="padding:16px; font-size:13px;">🏪 Wholesaler / Distributor</button>
+        <button class="btn-outline ob-select-btn" onclick="obSelectStep(1, 'supplier')" style="padding:16px; font-size:13px;">🔌 Supplier / Trader</button>
       </div>
     </div>
+
     <!-- Step 2 -->
     <div id="ob-step-2" class="hidden">
-      <h2 style="font-size:24px; margin-bottom:12px; color: white;">Business Details</h2>
-      <div class="form-group"><label>Company Name</label><input type="text" id="ob-comp" placeholder="eg. ACRV Aircon" /></div>
-      <div class="form-group"><label>WhatsApp Number</label><input type="text" id="ob-phone" placeholder="98765 43210" /></div>
-      <button class="btn-primary" id="next-step-btn" style="cursor: pointer !important;">Next Step →</button>
+      <h2 style="font-size:24px; margin-bottom:24px; color: white;">How many active projects/clients do you manage monthly?</h2>
+      <div style="display:grid; grid-template-columns: 1fr 1fr; gap:12px; pointer-events: auto !important;">
+        <button class="btn-outline ob-select-btn" onclick="obSelectStep(2, 'small')" style="padding:16px;">1 - 5</button>
+        <button class="btn-outline ob-select-btn" onclick="obSelectStep(2, 'medium')" style="padding:16px;">5 - 20</button>
+        <button class="btn-outline ob-select-btn" onclick="obSelectStep(2, 'large')" style="padding:16px;">20 - 50</button>
+        <button class="btn-outline ob-select-btn" onclick="obSelectStep(2, 'xlarge')" style="padding:16px;">50+</button>
+      </div>
     </div>
+
     <!-- Step 3 -->
     <div id="ob-step-3" class="hidden">
-      <div style="font-size:50px; margin-bottom:20px;">🚀</div>
-      <h2 style="font-size:24px; margin-bottom:12px; color: white;">You're ready!</h2>
-      <p style="color:var(--text-secondary); margin-bottom:24px;">Start adding your projects and recovering payments.</p>
-      <button class="btn-primary" id="finish-btn" style="cursor: pointer !important;">Go to Dashboard</button>
+      <h2 style="font-size:24px; margin-bottom:24px; color: white;">What's your biggest payment challenge?</h2>
+      <div style="display:grid; grid-template-columns: 1fr; gap:12px; pointer-events: auto !important;">
+        <button class="btn-outline ob-select-btn" onclick="obSelectStep(3, 'delay')" style="padding:16px; text-align:left;">⚠️ Clients delay payment</button>
+        <button class="btn-outline ob-select-btn" onclick="obSelectStep(3, 'track')" style="padding:16px; text-align:left;">📊 Hard to track who owes what</button>
+        <button class="btn-outline ob-select-btn" onclick="obSelectStep(3, 'awkward')" style="padding:16px; text-align:left;">😅 Awkward to follow up personally</button>
+        <button class="btn-outline ob-select-btn" onclick="obSelectStep(3, 'invoice')" style="padding:16px; text-align:left;">📄 No proper invoicing system</button>
+      </div>
     </div>
+
+    <!-- Step 4 -->
+    <div id="ob-step-4" class="hidden">
+      <p style="font-size:16px; color:var(--text-muted); margin-bottom:16px; font-style:italic;">"Perfect! I've set up your workspace."</p>
+      <h2 style="font-size:24px; margin-bottom:24px; color: white;">Let's add your first project/client.</h2>
+      <button class="btn-primary" id="finish-btn" style="width:100%; padding:16px; font-size:16px;" onclick="finishOnboarding()">Go to Dashboard</button>
+    </div>
+    
   </div>
 </div>
 <!-- ═══════════════════════════════════════════════════════ -->
@@ -1880,6 +1976,7 @@
   </button>
 </div>
 <script src="emaa.js"></script>
+<script src="production-features.js"></script>
 
 </body>
 </html>
