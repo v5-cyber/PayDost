@@ -262,30 +262,12 @@
         <!-- CLIENT RISK BOARD -->
         <div style="background:var(--card-bg); border:1px solid var(--border); border-radius:16px; padding:24px;">
           <h3 style="font-size:16px; font-weight:700; margin-bottom:20px; color:var(--text-muted);">Client Risk Board</h3>
-          <div style="display:flex; flex-direction:column; gap:16px;">
-            <div style="display:flex; justify-content:space-between; align-items:center; padding-bottom:12px; border-bottom:1px solid var(--border);">
-              <div>
-                <div style="font-weight:600; font-size:14px;">Rahul Enterprises</div>
-                <div style="font-size:12px; color:var(--text-muted);">Always on time</div>
-              </div>
-              <span class="badge badge-green">Low Risk</span>
-            </div>
-            <div style="display:flex; justify-content:space-between; align-items:center; padding-bottom:12px; border-bottom:1px solid var(--border);">
-              <div>
-                <div style="font-weight:600; font-size:14px;">Gupta Traders</div>
-                <div style="font-size:12px; color:var(--text-muted);">Avg. delay: 14 days</div>
-              </div>
-              <span class="badge badge-yellow">Med Risk</span>
-            </div>
-            <div style="display:flex; justify-content:space-between; align-items:center;">
-              <div>
-                <div style="font-weight:600; font-size:14px;">Sharma Ji</div>
-                <div style="font-size:12px; color:var(--text-muted);">2 broken promises</div>
-              </div>
-              <span style="background:rgba(239,68,68,0.1); color:#EF4444; border:1px solid rgba(239,68,68,0.2);" class="badge">High Risk</span>
-            </div>
+          <div id="client-risk-board" style="display:flex; flex-direction:column; gap:16px;">
+            <!-- Placeholder until JS populates with real risk data -->
+            <div style="color:var(--text-muted); font-size:13px; text-align:center; padding:20px 0;">Loading risk data...</div>
           </div>
         </div>
+
       </div>
 
       <!-- PROMISE TRACKER & RECENT PROJECTS -->
@@ -1191,28 +1173,105 @@
   }
 
   function renderDashboardStats(projects) {
-  // 2. Dashboard Logic (Smart Suggestions)
+  // Dashboard Logic + Silent Risk Scoring
     window.allProjects = projects;
-    let collected = 0, receivable = 0, overdue = 0;
+    let collected = 0, receivable = 0, overdue = 0, overdueCount = 0;
     const now = new Date();
+
+    // ── Client risk accumulator (keyed by client_name) ──
+    const clientStats = {};
 
     projects.forEach(p => {
       const remaining = (p.total_amount || 0) - (p.paid_amount || 0);
       collected += (p.paid_amount || 0);
       receivable += remaining;
-      
+
       if (remaining > 0 && p.due_date && new Date(p.due_date) < now) {
         overdue += remaining;
+        overdueCount++;
+      }
+
+      // Build per-client risk data
+      const cn = p.client_name || 'Unknown';
+      if (!clientStats[cn]) clientStats[cn] = { total: 0, paid: 0, overdueAmount: 0, overdueProjects: 0 };
+      clientStats[cn].total += p.total_amount || 0;
+      clientStats[cn].paid  += p.paid_amount  || 0;
+      if (remaining > 0 && p.due_date && new Date(p.due_date) < now) {
+        clientStats[cn].overdueAmount   += remaining;
+        clientStats[cn].overdueProjects += 1;
       }
     });
 
+    // ── Silent Risk Score: 0–100 (100 = highest risk) ──
+    // Formula: (overdueRatio * 60) + (overdueProjectRatio * 40)
+    const clientRisks = Object.entries(clientStats).map(([name, s]) => {
+      const overdueRatio       = s.total > 0 ? (s.overdueAmount / s.total) : 0;
+      const overdueProjectCount = s.overdueProjects;
+      const riskScore = Math.min(100, Math.round(overdueRatio * 60 + overdueProjectCount * 20));
+      const riskLevel = riskScore >= 60 ? 'high' : riskScore >= 30 ? 'medium' : 'low';
+      return { name, riskScore, riskLevel, overdueAmount: s.overdueAmount };
+    }).sort((a, b) => b.riskScore - a.riskScore);
+
+    // Store for other functions
+    window.clientRisks = clientRisks;
+
+    // ── Update stat cards ──
     document.getElementById('stat-collected').textContent = '₹' + collected.toLocaleString('en-IN');
     document.getElementById('stat-receivable').textContent = '₹' + receivable.toLocaleString('en-IN');
-    document.getElementById('stat-overdue').textContent = '₹' + overdue.toLocaleString('en-IN');
-    document.getElementById('stat-count').textContent = projects.length;
+
+    // stat-overdue & stat-count may not exist in new layout — guard
+    const overdueEl = document.getElementById('stat-overdue');
+    if (overdueEl) overdueEl.textContent = '₹' + overdue.toLocaleString('en-IN');
+    const countEl = document.getElementById('stat-count');
+    if (countEl) countEl.textContent = projects.length;
+
+    // ── Inject context into Emaa ──
+    const collectionRate = (collected + receivable) > 0
+      ? Math.round((collected / (collected + receivable)) * 100)
+      : 0;
+
+    const userData = JSON.parse(localStorage.getItem('payvlt_user') || '{}');
+    window.emaaState.userContext = {
+      companyName:     userData.company || userData.name || 'Aapka Business',
+      totalReceivable: receivable,
+      overdueCount:    overdueCount,
+      collectionRate:  collectionRate,
+      topRiskClient:   clientRisks[0] || null,
+    };
 
     renderRecentProjectsTable(projects);
+    renderClientRiskBoard(clientRisks);
   }
+
+  // ── Render live Client Risk Board (replaces placeholder) ──
+  function renderClientRiskBoard(clientRisks) {
+    const board = document.getElementById('client-risk-board');
+    if (!board || clientRisks.length === 0) return;
+
+    const labelMap = { high: 'High Risk', medium: 'Med Risk', low: 'Low Risk' };
+    const badgeMap = {
+      high:   'background:rgba(239,68,68,0.1); color:#EF4444; border:1px solid rgba(239,68,68,0.2);',
+      medium: 'background:rgba(251,191,36,0.1); color:#FBBF24; border:1px solid rgba(251,191,36,0.2);',
+      low:    'background:rgba(34,197,94,0.1);  color:#22C55E; border:1px solid rgba(34,197,94,0.2);',
+    };
+    const descMap = {
+      high:   c => `₹${c.overdueAmount.toLocaleString('en-IN')} overdue`,
+      medium: c => 'Some delay history',
+      low:    () => 'Always on time',
+    };
+
+    board.innerHTML = clientRisks.slice(0, 3).map((c, i) => `
+      <div style="display:flex; justify-content:space-between; align-items:center; ${i < 2 ? 'padding-bottom:12px; border-bottom:1px solid var(--border);' : ''}">
+        <div>
+          <div style="font-weight:600; font-size:14px;">${c.name}</div>
+          <div style="font-size:12px; color:var(--text-muted);">${descMap[c.riskLevel](c)}</div>
+        </div>
+        <span style="${badgeMap[c.riskLevel]} padding:4px 10px; border-radius:99px; font-size:12px; font-weight:600;">${labelMap[c.riskLevel]}</span>
+      </div>
+    `).join('');
+  }
+
+
 
   function renderRecentProjectsTable(projects) {
     const tbody = document.getElementById('recent-projects-body');

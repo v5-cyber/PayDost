@@ -49,75 +49,145 @@ router.post('/', auth, async (req, res) => {
   try {
     const {
       name, client_name, client_phone, client_email, client_lang,
-      amount, start_date, due_date, late_fee_pct, late_fee_type, grace_period, notes
+      amount, start_date, due_date, late_fee_pct, late_fee_type, grace_period, notes,
+      client_address, client_contact, project_type, milestones, agreement_status,
+      agreement_signed_at, agreement_id, audit_trail_id
     } = req.body;
 
     if (!name || !client_name || !amount)
       return res.status(400).json({ error: 'Name, client name, and amount are required.' });
 
-    // Assuming Supabase schema matches the frontend expectatons: project_name, total_amount, etc.
-    // If not, we map them here. We'll include both formats to be safe.
-    const projectData = {
-      user_id: req.user.id,
-      name: name,
-      project_name: name, // for frontend compatibility
-      client_name: client_name,
-      client_phone: client_phone || '',
-      client_email: client_email || '',
-      client_lang: client_lang || 'en',
-      amount: amount,
-      total_amount: amount, // for frontend compatibility
-      start_date: start_date || null,
-      due_date: due_date || null,
-      late_fee_pct: late_fee_pct || 1.5,
-      late_fee_type: late_fee_type || 'week',
-      grace_period: grace_period || 5,
-      notes: notes || '',
-      description: notes || '', // for frontend compatibility
-      status: 'pending'
-    };
+    // Save to SQLite
+    const milestonesStr = typeof milestones === 'string' ? milestones : JSON.stringify(milestones || []);
+    const result = db.prepare(`
+      INSERT INTO projects (
+        user_id, name, client_name, client_phone, client_email, client_lang,
+        amount, start_date, due_date, late_fee_pct, late_fee_type, grace_period, notes,
+        client_address, client_contact, project_type, milestones, agreement_status,
+        agreement_signed_at, agreement_id, audit_trail_id, status
+      ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 'pending')
+    `).run(
+      req.user.id, name, client_name, client_phone || '', client_email || '', client_lang || 'en',
+      amount, start_date || null, due_date || null, late_fee_pct || 1.5, late_fee_type || 'week',
+      grace_period || 5, notes || '', client_address || '', client_contact || '',
+      project_type || 'Fixed Project', milestonesStr, agreement_status || 'pending',
+      agreement_signed_at || '', agreement_id || '', audit_trail_id || ''
+    );
 
-    if (!supabase) {
-      return res.status(500).json({ error: 'Database configuration missing (SUPABASE_URL or KEY not set in environment).' });
+    const newProjectId = result.lastInsertRowid;
+    const project = db.prepare('SELECT * FROM projects WHERE id = ?').get(newProjectId);
+
+    // Save to Supabase if configured (non-blocking fallback)
+    if (supabase) {
+      try {
+        const projectData = {
+          user_id: req.user.id,
+          name: name,
+          project_name: name,
+          client_name: client_name,
+          client_phone: client_phone || '',
+          client_email: client_email || '',
+          client_lang: client_lang || 'en',
+          amount: amount,
+          total_amount: amount,
+          start_date: start_date || null,
+          due_date: due_date || null,
+          late_fee_pct: late_fee_pct || 1.5,
+          late_fee_type: late_fee_type || 'week',
+          grace_period: grace_period || 5,
+          notes: notes || '',
+          description: notes || '',
+          client_address: client_address || '',
+          client_contact: client_contact || '',
+          project_type: project_type || 'Fixed Project',
+          milestones: milestonesStr,
+          agreement_status: agreement_status || 'pending',
+          agreement_signed_at: agreement_signed_at || '',
+          agreement_id: agreement_id || '',
+          audit_trail_id: audit_trail_id || '',
+          status: 'pending'
+        };
+        await supabase.from('projects').insert([projectData]);
+      } catch (e) {
+        console.warn("Supabase Sync Failed:", e.message);
+      }
     }
 
-    const { data, error } = await supabase.from('projects').insert([projectData]).select();
-
-    if (error) {
-      throw new Error(`Supabase Error: ${error.message}`);
-    }
-
-    res.status(201).json({ project: enrichProject(data[0]) });
+    res.status(201).json({ project: enrichProject(project) });
   } catch (err) {
     res.status(500).json({ error: err.message });
   }
 });
 
 // PUT /api/projects/:id
-router.put('/:id', auth, (req, res) => {
+router.put('/:id', auth, async (req, res) => {
   try {
     const existing = db.prepare('SELECT id FROM projects WHERE id = ? AND user_id = ?').get(req.params.id, req.user.id);
     if (!existing) return res.status(404).json({ error: 'Project not found.' });
 
     const {
       name, client_name, client_phone, client_email, client_lang,
-      amount, start_date, due_date, status, late_fee_pct, late_fee_type, grace_period, notes
+      amount, start_date, due_date, status, late_fee_pct, late_fee_type, grace_period, notes,
+      client_address, client_contact, project_type, milestones, agreement_status,
+      agreement_signed_at, agreement_id, audit_trail_id
     } = req.body;
+
+    const milestonesStr = typeof milestones === 'string' ? milestones : JSON.stringify(milestones || []);
 
     db.prepare(`
       UPDATE projects SET
         name = ?, client_name = ?, client_phone = ?, client_email = ?,
         client_lang = ?, amount = ?, start_date = ?, due_date = ?,
-        status = ?, late_fee_pct = ?, late_fee_type = ?, grace_period = ?, notes = ?
+        status = ?, late_fee_pct = ?, late_fee_type = ?, grace_period = ?, notes = ?,
+        client_address = ?, client_contact = ?, project_type = ?, milestones = ?, 
+        agreement_status = ?, agreement_signed_at = ?, agreement_id = ?, audit_trail_id = ?
       WHERE id = ? AND user_id = ?
     `).run(
       name, client_name, client_phone || '', client_email || '',
       client_lang || 'en', amount, start_date || null, due_date || null,
-      status || 'active', late_fee_pct || 1.5, late_fee_type || 'week',
-      grace_period || 5, notes || '', req.params.id, req.user.id
+      status || 'pending', late_fee_pct || 1.5, late_fee_type || 'week',
+      grace_period || 5, notes || '', client_address || '', client_contact || '',
+      project_type || 'Fixed Project', milestonesStr, agreement_status || 'pending',
+      agreement_signed_at || '', agreement_id || '', audit_trail_id || '',
+      req.params.id, req.user.id
     );
 
     const project = db.prepare('SELECT * FROM projects WHERE id = ?').get(req.params.id);
+
+    // Sync update to Supabase if configured (non-blocking fallback)
+    if (supabase) {
+      try {
+        await supabase.from('projects').update({
+          name: name,
+          project_name: name,
+          client_name: client_name,
+          client_phone: client_phone || '',
+          client_email: client_email || '',
+          client_lang: client_lang || 'en',
+          amount: amount,
+          total_amount: amount,
+          start_date: start_date || null,
+          due_date: due_date || null,
+          status: status || 'pending',
+          late_fee_pct: late_fee_pct || 1.5,
+          late_fee_type: late_fee_type || 'week',
+          grace_period: grace_period || 5,
+          notes: notes || '',
+          description: notes || '',
+          client_address: client_address || '',
+          client_contact: client_contact || '',
+          project_type: project_type || 'Fixed Project',
+          milestones: milestonesStr,
+          agreement_status: agreement_status || 'pending',
+          agreement_signed_at: agreement_signed_at || '',
+          agreement_id: agreement_id || '',
+          audit_trail_id: audit_trail_id || ''
+        }).eq('id', req.params.id);
+      } catch (e) {
+        console.warn("Supabase Update Sync Failed:", e.message);
+      }
+    }
+
     res.json({ project: enrichProject(project) });
   } catch (err) {
     res.status(500).json({ error: err.message });

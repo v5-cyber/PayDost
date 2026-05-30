@@ -137,6 +137,17 @@ db.exec(`
 try { db.exec("ALTER TABLE users ADD COLUMN gst_number TEXT DEFAULT ''"); } catch (e) {}
 try { db.exec("ALTER TABLE users ADD COLUMN language TEXT DEFAULT 'en'"); } catch (e) {}
 
+// Add columns to projects table for legal agreements
+try { db.exec("ALTER TABLE projects ADD COLUMN client_email TEXT DEFAULT ''"); } catch (e) {}
+try { db.exec("ALTER TABLE projects ADD COLUMN client_address TEXT DEFAULT ''"); } catch (e) {}
+try { db.exec("ALTER TABLE projects ADD COLUMN client_contact TEXT DEFAULT ''"); } catch (e) {}
+try { db.exec("ALTER TABLE projects ADD COLUMN project_type TEXT DEFAULT 'Fixed Project'"); } catch (e) {}
+try { db.exec("ALTER TABLE projects ADD COLUMN milestones TEXT DEFAULT '[]'"); } catch (e) {}
+try { db.exec("ALTER TABLE projects ADD COLUMN agreement_status TEXT DEFAULT 'pending'"); } catch (e) {}
+try { db.exec("ALTER TABLE projects ADD COLUMN agreement_signed_at TEXT DEFAULT ''"); } catch (e) {}
+try { db.exec("ALTER TABLE projects ADD COLUMN agreement_id TEXT DEFAULT ''"); } catch (e) {}
+try { db.exec("ALTER TABLE projects ADD COLUMN audit_trail_id TEXT DEFAULT ''"); } catch (e) {}
+
 console.log('✅ Database initialized (node:sqlite built-in)');
 
 module.exports = db;

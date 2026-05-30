@@ -1,65 +1,54 @@
-const http = require('http');
-const fs = require('fs');
+const express = require('express');
+const cors = require('cors');
 const path = require('path');
+const fs = require('fs');
+require('dotenv').config();
 
-const port = 8080;
+const app = express();
+const port = process.env.PORT || 8080;
 const publicDir = path.join(__dirname, 'public');
 
-const mimeTypes = {
-    '.html': 'text/html',
-    '.js': 'text/javascript',
-    '.css': 'text/css',
-    '.json': 'application/json',
-    '.webmanifest': 'application/manifest+json',
-    '.png': 'image/png',
-    '.jpg': 'image/jpg',
-    '.gif': 'image/gif',
-    '.svg': 'image/svg+xml',
-    '.wav': 'audio/wav',
-    '.mp4': 'video/mp4',
-    '.woff': 'application/font-woff',
-    '.woff2': 'font/woff2',
-    '.ttf': 'application/font-ttf',
-    '.eot': 'application/vnd.ms-fontobject',
-    '.otf': 'application/font-otf',
-    '.wasm': 'application/wasm',
-    '.webp': 'image/webp',
-    '.ico': 'image/x-icon',
-};
+app.use(cors());
+app.use(express.json());
 
-const server = http.createServer((req, res) => {
-    let cleanUrl = req.url.split('?')[0];
-    if (cleanUrl !== '/' && !path.extname(cleanUrl)) {
-        cleanUrl += '.html';
-    }
-    let filePath = path.join(publicDir, cleanUrl === '/' ? 'home.html' : cleanUrl);
-    const extname = String(path.extname(filePath)).toLowerCase();
-    const contentType = mimeTypes[extname] || 'application/octet-stream';
-
-    // Service Worker must be served with no-cache headers and from root scope
-    const headers = { 'Content-Type': contentType };
-    if (cleanUrl === '/sw.js') {
-        headers['Cache-Control'] = 'no-cache, no-store, must-revalidate';
-        headers['Service-Worker-Allowed'] = '/';
-    }
-
-    fs.readFile(filePath, (error, content) => {
-        if (error) {
-            if (error.code == 'ENOENT') {
-                res.writeHead(404);
-                res.end('File not found');
-            } else {
-                res.writeHead(500);
-                res.end('Sorry, check with the site admin for error: ' + error.code + ' ..\n');
-            }
-        } else {
-            res.writeHead(200, headers);
-            res.end(content, 'utf-8');
-        }
-    });
+// Service Worker must be served with no-cache headers and from root scope
+app.get('/sw.js', (req, res) => {
+    res.setHeader('Cache-Control', 'no-cache, no-store, must-revalidate');
+    res.setHeader('Service-Worker-Allowed', '/');
+    res.sendFile(path.join(publicDir, 'sw.js'));
 });
 
-server.listen(port, () => {
+// Mount API routes
+app.use('/api/auth', require('./routes/auth'));
+app.use('/api/chat', require('./routes/chat'));
+app.use('/api/diary', require('./routes/diary'));
+app.use('/api/email', require('./routes/email'));
+app.use('/api/installments', require('./routes/installments'));
+app.use('/api/invoices', require('./routes/invoices'));
+app.use('/api/payments', require('./routes/payments'));
+app.use('/api/projects', require('./routes/projects'));
+app.use('/api/reminders', require('./routes/reminders'));
+app.use('/api/tally', require('./routes/tally'));
+
+// Serve static assets
+app.use(express.static(publicDir));
+
+// Catch-all route to serve home.html or path-based HTML files
+app.get('*', (req, res) => {
+    let cleanUrl = req.path;
+    if (cleanUrl === '/') {
+        return res.sendFile(path.join(publicDir, 'home.html'));
+    }
+    if (!path.extname(cleanUrl)) {
+        const htmlPath = path.join(publicDir, cleanUrl + '.html');
+        if (fs.existsSync(htmlPath)) {
+            return res.sendFile(htmlPath);
+        }
+    }
+    res.status(404).send('File not found');
+});
+
+app.listen(port, () => {
     console.log(`Server running at http://localhost:${port}/`);
     console.log(`[PayVlt] Production features: Sentry, Offline, PostHog, AutoSave ✅`);
 });
