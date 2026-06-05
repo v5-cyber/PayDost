@@ -932,11 +932,14 @@
       entries.forEach(entry => {
         if(entry.isIntersecting) {
           entry.target.classList.add('show');
+          if (entry.target.classList.contains('emaa-demo-ui')) {
+            entry.target.classList.add('active');
+          }
         }
       });
     }, { threshold: 0.1 });
 
-    document.querySelectorAll('.fade-up, .slide-left, .slide-right').forEach(el => observer.observe(el));
+    document.querySelectorAll('.fade-up, .slide-left, .slide-right, .emaa-demo-ui').forEach(el => observer.observe(el));
 
     // 2. Sticky Navbar Blur Effect
     window.addEventListener('scroll', () => {
