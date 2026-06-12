@@ -1012,31 +1012,243 @@
     if(main) main.scrollTop = 0;
   }
 
-  // Onboarding Helpers
-  async function obSelectStep(currentStep, value) {
-    if (currentStep === 1) {
-      const type = value;
-      localStorage.setItem('payvlt_segment', type === 'contractor' ? 'projects' : 'trade');
-      // Save to Supabase profile silently
+  // Language & Onboarding Helpers
+  async function selectLanguage(lang) {
+    localStorage.setItem('payvlt_lang', lang);
+    
+    // Sync language selectors
+    const langSel = document.getElementById('lang-selector');
+    if (langSel) langSel.value = lang;
+    if (window.App && window.App.i18n) window.App.i18n.setLanguage(lang);
+
+    // Save preference to Supabase profile
+    try {
+      const client = getSB();
+      const user = (await client.auth.getUser()).data.user;
+      if (user) {
+        await client.from('profiles').upsert({ id: user.id, preferred_lang: lang, updated_at: new Date() });
+      }
+    } catch (e) { console.warn("Supabase language profile update failed"); }
+
+    // Speak welcome in selected bhasha
+    let greetingText = "";
+    if (lang === 'hi') {
+      greetingText = "नमस्ते! मैं ईमा हूँ, आपकी एआई पेमेंट मैनेजर। चलिए आपका वर्कस्पेस सेटअप करते हैं।";
+    } else if (lang === 'hinglish') {
+      greetingText = "Hi! Main Emaa hoon, aapki AI collections manager. Chaliye aapka workspace setup karte hain.";
+    } else if (lang === 'mr') {
+      greetingText = "नमस्कार! मी ईमा आहे, तुमची एआय पेमेंट मॅनेजर. चला तुमचे वर्कस्पेस सेटअप करूया.";
+    } else if (lang === 'gu') {
+      greetingText = "નમસ્તે! હું ઈમા છું, તમારી એઆઈ પેમેન્ટ મેનેજર. ચાલો તમારું વર્કસ્પેસ સેટઅપ કરીએ.";
+    } else if (lang === 'te') {
+      greetingText = "నమస్తే! నేను ఈమా, మీ AI పేమెంట్ మేనేజర్. మీ వర్క్‌స్పేస్‌ను సెటప్ చేద్దాం.";
+    } else {
+      greetingText = "Hi! I'm Emaa, your AI collections manager. Let's set up your workspace.";
+    }
+    
+    if (typeof emaaSpeak === 'function') {
+      emaaSpeak(greetingText);
+    }
+
+    // Switch screen
+    document.getElementById('language-screen').classList.add('hidden');
+    document.getElementById('onboarding').classList.remove('hidden');
+    document.getElementById('ob-step-1').classList.remove('hidden');
+    document.getElementById('ob-step-2').classList.add('hidden');
+    document.getElementById('ob-step-3').classList.add('hidden');
+  }
+
+  async function selectObBusinessType(type) {
+    localStorage.setItem('payvlt_segment', type === 'contractor' ? 'projects' : 'trade');
+    try {
+      const client = getSB();
+      const user = (await client.auth.getUser()).data.user;
+      if (user) {
+        await client.from('profiles').upsert({ id: user.id, business_type: type, updated_at: new Date() });
+      }
+    } catch (e) { console.warn("Supabase profile update failed"); }
+
+    document.getElementById('ob-step-1').classList.add('hidden');
+    document.getElementById('ob-step-2').classList.remove('hidden');
+
+    // Speak Step 2 prompt
+    const lang = localStorage.getItem('payvlt_lang') || 'en';
+    let promptText = "";
+    if (lang === 'hi') promptText = "क्या आप एमएसएमई रजिस्टर्ड हैं? क्या आपके पास उद्यम रजिस्ट्रेशन नंबर है?";
+    else if (lang === 'hinglish') promptText = "Kya aap MSME registered hain? Kya aapke paas Udyam registration number hai?";
+    else if (lang === 'mr') promptText = "तुम्ही एमएसएमई नोंदणीकृत आहात का? तुमच्याकडे उद्यम नोंदणी आहे का?";
+    else if (lang === 'gu') promptText = "શું તમે એમએસએમઈ રજિસ્ટર્ડ છો? શું તમારી પાસે ઉદ્યમ રજીસ્ટ્રેશન છે?";
+    else if (lang === 'te') promptText = "మీరు MSME లో రిజిస్టర్ అయ్యారా? మీకు ఉద్యం రిజిస్ట్రేషన్ ఉందా?";
+    else promptText = "Are you MSME registered? Do you have an Udyam registration number?";
+    
+    if (typeof emaaSpeak === 'function') emaaSpeak(promptText);
+  }
+
+  function selectObMSME(isRegistered) {
+    localStorage.setItem('payvlt_msme_registered', isRegistered ? 'true' : 'false');
+    const yesBtn = document.getElementById('msme-yes-btn');
+    const noBtn = document.getElementById('msme-no-btn');
+    const container = document.getElementById('udyam-input-container');
+
+    if (isRegistered) {
+      yesBtn.style.borderColor = 'var(--teal)';
+      yesBtn.style.background = 'rgba(2, 128, 144, 0.15)';
+      noBtn.style.borderColor = 'var(--border)';
+      noBtn.style.background = 'rgba(255,255,255,0.03)';
+      container.classList.remove('hidden');
+
+      const lang = localStorage.getItem('payvlt_lang') || 'en';
+      let text = "";
+      if (lang === 'hi') text = "बहुत बढ़िया! कृपया अपना उद्यम नंबर यहां दर्ज करें।";
+      else if (lang === 'hinglish') text = "Great! Please apna Udyam number enter karein.";
+      else if (lang === 'mr') text = "उत्कृष्ट! कृपया तुमचा उद्यम क्रमांक येथे प्रविष्ट करा.";
+      else if (lang === 'gu') text = "સરસ! કૃપા કરીને તમારો ઉદ્યમ નંબર અહીં દાખલ કરો.";
+      else if (lang === 'te') text = "చాలా మంచిది! దయచేసి మీ ఉద్యం నంబరును ఇక్కడ నమోదు చేయండి.";
+      else text = "Excellent! Please enter your Udyam registration number below.";
+      if (typeof emaaSpeak === 'function') emaaSpeak(text);
+    } else {
+      noBtn.style.borderColor = 'var(--teal)';
+      noBtn.style.background = 'rgba(2, 128, 144, 0.15)';
+      yesBtn.style.borderColor = 'var(--border)';
+      yesBtn.style.background = 'rgba(255,255,255,0.03)';
+      container.classList.add('hidden');
+      document.getElementById('ob-udyam-num').value = '';
+
+      const lang = localStorage.getItem('payvlt_lang') || 'en';
+      let text = "";
+      if (lang === 'hi') text = "कोई बात नहीं! आप एमएसएमई एक्ट के बिना भी भुगतान सुरक्षा का उपयोग कर सकते हैं।";
+      else if (lang === 'hinglish') text = "No problem! Aap MSME registration ke bina bhi payment protection use kar sakte hain.";
+      else if (lang === 'mr') text = "काही हरकत नाही! तुम्ही एमएसएमई शिवाय देखील पेमेंट संरक्षण वापरू शकता.";
+      else if (lang === 'gu') text = "કોઈ વાંધો નહીં! તમે એમએસએમઈ વિના પણ પેમેન્ટ પ્રોટેક્શનનો ઉપયોગ કરી શકો છો.";
+      else if (lang === 'te') text = "పర్వాలేదు! MSME లేకపోయినా మీరు పేమెంట్ ప్రొటెక్షన్ ఉపయోగించవచ్చు.";
+      else text = "No problem! You can still use PayVlt to secure payments without MSME registration.";
+      if (typeof emaaSpeak === 'function') emaaSpeak(text);
+    }
+  }
+
+  async function submitObMSME() {
+    const isRegistered = localStorage.getItem('payvlt_msme_registered');
+    if (isRegistered === null) {
+      const lang = localStorage.getItem('payvlt_lang') || 'en';
+      let text = (lang === 'hi') ? "कृपया एक विकल्प चुनें।" : ((lang === 'hinglish') ? "Please ek option select karein." : "Please select an option to continue.");
+      if (typeof emaaSpeak === 'function') emaaSpeak(text);
+      showToast(text, 'warning');
+      return;
+    }
+
+    const udyamVal = document.getElementById('ob-udyam-num').value.trim();
+    if (isRegistered === 'true' && udyamVal) {
+      localStorage.setItem('payvlt_udyam_number', udyamVal);
       try {
         const client = getSB();
         const user = (await client.auth.getUser()).data.user;
         if (user) {
-          await client.from('profiles').upsert({ id: user.id, business_type: type, updated_at: new Date() });
+          await client.from('profiles').upsert({ id: user.id, is_msme: true, udyam_number: udyamVal, updated_at: new Date() });
         }
-      } catch (e) { console.warn("Supabase profile update failed (Offline Mode)"); }
-    } else if (currentStep === 2) {
-      localStorage.setItem('payvlt_ob_size', value);
-    } else if (currentStep === 3) {
-      localStorage.setItem('payvlt_ob_challenge', value);
+      } catch (e) { console.warn("Supabase MSME update failed"); }
     }
 
-    const nextStep = currentStep + 1;
-    document.querySelectorAll('[id^="ob-step-"]').forEach(el => el.classList.add('hidden'));
-    const nextEl = document.getElementById('ob-step-' + nextStep);
-    if (nextEl) {
-      nextEl.classList.remove('hidden');
+    document.getElementById('ob-step-2').classList.add('hidden');
+    document.getElementById('ob-step-3').classList.remove('hidden');
+
+    const lang = localStorage.getItem('payvlt_lang') || 'en';
+    let promptText = "";
+    if (lang === 'hi') promptText = "अब अपनी कंपनी का नाम, जीएसटी और मोबाइल नंबर दर्ज करें। आप नाम बोलने के लिए माइक का उपयोग कर सकते हैं।";
+    else if (lang === 'hinglish') promptText = "Ab apni company name, GST aur phone number enter karein. Name speak karne ke liye mic use kar sakte hain.";
+    else if (lang === 'mr') promptText = "आता तुमच्या कंपनीचे नाव, जीएसटी आणि फोन नंबर प्रविष्ट करा. नाव बोलण्यासाठी तुम्ही माइक वापरू शकता.";
+    else if (lang === 'gu') promptText = "હવે તમારી કંપનીનું નામ, જીએસટી અને ફોન નંબર દાખલ કરો. નામ બોલવા માટે માઇકનો ઉપયોગ કરી શકો છો.";
+    else if (lang === 'te') promptText = "ఇప్పుడు మీ కంపెనీ పేరు, జీఎస్టీ మరియు ఫోన్ నంబర్ నమోదు చేయండి. పేరు మాట్లాడటానికి మైక్ ఉపయోగించవచ్చు.";
+    else promptText = "Now, enter your company name, GST, and phone number. You can use the mic button to speak your company name.";
+    if (typeof emaaSpeak === 'function') emaaSpeak(promptText);
+
+    try {
+      const client = getSB();
+      const user = (await client.auth.getUser()).data.user;
+      if (user) {
+        document.getElementById('ob-company-phone').value = user.phone || user.user_metadata.phone || '';
+        document.getElementById('ob-company-name').value = user.user_metadata.company_name || user.user_metadata.full_name || '';
+      }
+    } catch(e) {}
+  }
+
+  function startObVoiceInput(inputId) {
+    if (!window.SpeechRecognition && !window.webkitSpeechRecognition) {
+      showToast('Speech recognition not supported in this browser.', 'error');
+      return;
     }
+    const SpeechRec = window.SpeechRecognition || window.webkitSpeechRecognition;
+    const recognition = new SpeechRec();
+    recognition.continuous = false;
+    recognition.interimResults = false;
+    recognition.lang = localStorage.getItem('payvlt_lang') === 'hi' ? 'hi-IN' : (localStorage.getItem('payvlt_lang') === 'hinglish' ? 'hi-IN' : 'en-IN');
+    
+    const input = document.getElementById(inputId);
+    if (input) {
+      input.placeholder = '🎤 Listening...';
+      input.style.borderColor = 'var(--teal)';
+    }
+
+    recognition.onstart = () => {
+      if (window.speechSynthesis) speechSynthesis.cancel();
+    };
+
+    recognition.onresult = (event) => {
+      const transcript = event.results[0][0].transcript;
+      if (input) {
+        input.value = transcript;
+        showToast(`Recognized: "${transcript}"`, 'success');
+      }
+    };
+
+    recognition.onerror = (e) => {
+      showToast('Voice input error: ' + e.error, 'error');
+    };
+
+    recognition.onend = () => {
+      if (input) {
+        input.placeholder = 'Enter company or owner name';
+        input.style.borderColor = 'var(--border)';
+      }
+    };
+
+    recognition.start();
+  }
+
+  async function submitObProfile() {
+    const name = document.getElementById('ob-company-name').value.trim();
+    const gst = document.getElementById('ob-company-gst').value.trim();
+    const phone = document.getElementById('ob-company-phone').value.trim();
+
+    if (!name || !phone) {
+      const lang = localStorage.getItem('payvlt_lang') || 'en';
+      let text = (lang === 'hi') ? "कृपया कंपनी का नाम और फ़ोन नंबर दर्ज करें।" : ((lang === 'hinglish') ? "Please company name aur phone number fill karein." : "Please enter company name and phone number.");
+      if (typeof emaaSpeak === 'function') emaaSpeak(text);
+      showToast(text, 'warning');
+      return;
+    }
+
+    localStorage.setItem('payvlt_company_name', name);
+    localStorage.setItem('payvlt_company_gst', gst);
+    localStorage.setItem('payvlt_company_phone', phone);
+
+    try {
+      const client = getSB();
+      const user = (await client.auth.getUser()).data.user;
+      if (user) {
+        await client.from('profiles').upsert({
+          id: user.id,
+          company: name,
+          gst: gst || null,
+          phone: phone,
+          updated_at: new Date()
+        });
+        await client.auth.updateUser({
+          data: { company_name: name, phone: phone }
+        });
+      }
+    } catch(e) { console.warn("Supabase profile update failed"); }
+
+    finishOnboarding();
   }
 
   function finishOnboarding() {
@@ -1044,15 +1256,39 @@
     const modal = document.getElementById('onboarding');
     modal.style.transition = 'opacity 0.5s ease';
     modal.style.opacity = '0';
-    setTimeout(() => {
+    setTimeout(async () => {
       modal.classList.add('hidden');
       modal.style.opacity = '1';
+      
+      const lang = localStorage.getItem('payvlt_lang') || 'en';
+      let congrats = "";
+      if (lang === 'hi') congrats = "बधाई हो! आपका सेटअप पूरा हो गया है। आपका पे-वॉल्ट डैशबोर्ड तैयार है।";
+      else if (lang === 'hinglish') congrats = "Congratulations! Aapka setup complete ho gaya hai. Aapka PayVlt dashboard ready hai.";
+      else if (lang === 'mr') congrats = "अभिनंदन! तुमची मांडणी पूर्ण झाली आहे. तुमचे पे-वॉल्ट डॅशबोर्ड तयार आहे.";
+      else if (lang === 'te') congrats = "అభినందనలు! మీ సెటప్ పూర్తయింది. మీ పే-వాల్ట్ డాష్‌బోర్డ్ సిద్ధంగా ఉంది.";
+      else congrats = "Congratulations! Your setup is complete. Your PayVlt dashboard is ready.";
+
+      if (typeof emaaSpeak === 'function') emaaSpeak(congrats);
+      showToast(congrats, 'success');
+
       const segment = localStorage.getItem('payvlt_segment') || 'projects';
       document.getElementById('sidebar-projects').classList.toggle('hidden', segment !== 'projects');
       document.getElementById('sidebar-trade').classList.toggle('hidden', segment !== 'trade');
-      navigate('dashboard');
-      showToast("Workspace ready! Let's get started.", "success");
+      document.querySelector('.chat-widget-btn').classList.remove('hidden');
+
+      if (typeof navigate === 'function') navigate('dashboard');
+
+      setTimeout(() => {
+        if (typeof toggleEmaaPanel === 'function') {
+          const panel = document.getElementById('emaa-panel');
+          if (panel && panel.style.display === 'none') {
+            toggleEmaaPanel();
+          }
+        }
+      }, 1500);
+
     }, 500);
+  }
   }
 
   function selectSegment(segment) {
@@ -2120,7 +2356,81 @@
   }
 </style>
 
-<!-- 4-STEP ONBOARDING -->
+<!-- LANGUAGE FIRST SCREEN -->
+<div id="language-screen" class="modal-overlay hidden" style="z-index: 999999 !important; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: #050D1F; display: flex; align-items: center; justify-content: center;">
+  <div class="modal-content" style="max-width: 500px; text-align: center; padding: 40px; background: #0b141a; border: 1px solid var(--teal); border-radius: 24px; box-shadow: 0 20px 40px rgba(0,0,0,0.8);">
+    
+    <!-- Pulse Avatar -->
+    <div style="display:flex; justify-content:center; margin-bottom:24px;">
+      <div class="pulsing-avatar" style="width:100px; height:100px; border-radius:50%; background:url('emaa-avatar.png') center/cover; border:3px solid var(--teal); position:relative; box-shadow: 0 0 30px rgba(2,128,144,0.4);">
+        <div class="avatar-pulse-ring"></div>
+      </div>
+    </div>
+
+    <h2 style="font-size:28px; font-weight:700; margin-bottom:8px; color:white; font-family:'Inter', sans-serif;">Welcome to PayVlt 👋</h2>
+    <p style="font-size:16px; color:var(--teal); font-weight:600; margin-bottom:4px; font-family:'Inter', sans-serif;">Apni bhasha chuniye</p>
+    <p style="font-size:14px; color:var(--text-muted); margin-bottom:28px; font-family:'Inter', sans-serif;">Choose your language</p>
+
+    <!-- 6 large buttons in a grid -->
+    <div style="display:grid; grid-template-columns: 1fr 1fr; gap:16px; margin-bottom:12px;">
+      <button class="lang-card-btn" onclick="selectLanguage('en')">
+        <span style="font-size:24px; margin-bottom:8px;">🇬🇧</span>
+        <strong style="color:white; font-size:15px;">English</strong>
+      </button>
+      <button class="lang-card-btn" onclick="selectLanguage('hi')">
+        <span style="font-size:24px; margin-bottom:8px;">🇮🇳</span>
+        <strong style="color:white; font-size:15px;">हिंदी — Hindi</strong>
+      </button>
+      <button class="lang-card-btn" onclick="selectLanguage('hinglish')">
+        <span style="font-size:24px; margin-bottom:8px;">🗣️</span>
+        <strong style="color:white; font-size:15px;">Hinglish</strong>
+      </button>
+      <button class="lang-card-btn" onclick="selectLanguage('mr')">
+        <span style="font-size:24px; margin-bottom:8px;">🚩</span>
+        <strong style="color:white; font-size:15px;">मराठी — Marathi</strong>
+      </button>
+      <button class="lang-card-btn" onclick="selectLanguage('gu')">
+        <span style="font-size:24px; margin-bottom:8px;">✍️</span>
+        <strong style="color:white; font-size:15px;">ગુજરાતી — Gujarati</strong>
+      </button>
+      <button class="lang-card-btn" onclick="selectLanguage('te')">
+        <span style="font-size:24px; margin-bottom:8px;">📜</span>
+        <strong style="color:white; font-size:15px;">తెలుగు — Telugu</strong>
+      </button>
+    </div>
+  </div>
+</div>
+
+<style>
+  @keyframes avatarPulse {
+    0% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(2, 128, 144, 0.7); }
+    70% { transform: scale(1); box-shadow: 0 0 0 15px rgba(2, 128, 144, 0); }
+    100% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(2, 128, 144, 0); }
+  }
+  .pulsing-avatar {
+    animation: avatarPulse 2s infinite;
+  }
+  .lang-card-btn {
+    background: rgba(255,255,255,0.03);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 20px 12px;
+    cursor: pointer;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+  .lang-card-btn:hover {
+    background: rgba(2, 128, 144, 0.1);
+    border-color: var(--teal);
+    transform: translateY(-3px);
+    box-shadow: 0 8px 16px rgba(2, 128, 144, 0.2);
+  }
+</style>
+
+<!-- 3-STEP VOICE-FIRST ONBOARDING -->
 <div id="onboarding" class="modal-overlay hidden" style="z-index: 999999 !important; position: fixed; top: 0; left: 0; width: 100%; height: 100%;">
   <div class="modal-content" style="max-width:500px; text-align:center; padding:40px; pointer-events: auto !important; position: relative; z-index: 999999 !important; background: #0b141a; border: 1px solid var(--teal); border-radius: 24px;">
     <!-- Greeting from Emaa -->
@@ -2128,49 +2438,70 @@
       <div style="width:80px; height:80px; border-radius:50%; background:url('emaa-avatar.png') center/cover; border:2px solid var(--teal); box-shadow: 0 0 20px rgba(2,128,144,0.3);"></div>
     </div>
     
-    <!-- Step 1 -->
+    <!-- Step 1: Business Type -->
     <div id="ob-step-1">
-      <p style="font-size:16px; color:var(--text-muted); margin-bottom:8px; font-style:italic;">"Hi! I'm Emaa — your AI payment manager. Let me set up your PayVlt workspace."</p>
+      <p style="font-size:15px; color:var(--teal); margin-bottom:8px; font-weight:600; font-family:'Inter',sans-serif;">Step 1 of 3: Business Type</p>
       <h2 style="font-size:24px; margin-bottom:24px; color: white;">What type of business do you run?</h2>
       <div style="display:grid; grid-template-columns: 1fr 1fr; gap:12px; pointer-events: auto !important;">
-        <button class="btn-outline ob-select-btn" onclick="obSelectStep(1, 'contractor')" style="padding:16px; font-size:13px;">🏗️ Contractor / HVAC / Interior</button>
-        <button class="btn-outline ob-select-btn" onclick="obSelectStep(1, 'manufacturer')" style="padding:16px; font-size:13px;">🏭 Manufacturer / Fabricator</button>
-        <button class="btn-outline ob-select-btn" onclick="obSelectStep(1, 'wholesaler')" style="padding:16px; font-size:13px;">🏪 Wholesaler / Distributor</button>
-        <button class="btn-outline ob-select-btn" onclick="obSelectStep(1, 'supplier')" style="padding:16px; font-size:13px;">🔌 Supplier / Trader</button>
+        <button class="btn-outline ob-select-btn" onclick="selectObBusinessType('contractor')" style="padding:16px; font-size:13px;">🏗️ Contractor / HVAC / Interior</button>
+        <button class="btn-outline ob-select-btn" onclick="selectObBusinessType('manufacturer')" style="padding:16px; font-size:13px;">🏭 Manufacturer / Fabricator</button>
+        <button class="btn-outline ob-select-btn" onclick="selectObBusinessType('wholesaler')" style="padding:16px; font-size:13px;">🏪 Wholesaler / Distributor</button>
+        <button class="btn-outline ob-select-btn" onclick="selectObBusinessType('supplier')" style="padding:16px; font-size:13px;">🔌 Supplier / Trader</button>
       </div>
     </div>
 
-    <!-- Step 2 -->
+    <!-- Step 2: MSME Check -->
     <div id="ob-step-2" class="hidden">
-      <h2 style="font-size:24px; margin-bottom:24px; color: white;">How many active projects/clients do you manage monthly?</h2>
-      <div style="display:grid; grid-template-columns: 1fr 1fr; gap:12px; pointer-events: auto !important;">
-        <button class="btn-outline ob-select-btn" onclick="obSelectStep(2, 'small')" style="padding:16px;">1 - 5</button>
-        <button class="btn-outline ob-select-btn" onclick="obSelectStep(2, 'medium')" style="padding:16px;">5 - 20</button>
-        <button class="btn-outline ob-select-btn" onclick="obSelectStep(2, 'large')" style="padding:16px;">20 - 50</button>
-        <button class="btn-outline ob-select-btn" onclick="obSelectStep(2, 'xlarge')" style="padding:16px;">50+</button>
+      <p style="font-size:15px; color:var(--teal); margin-bottom:8px; font-weight:600; font-family:'Inter',sans-serif;">Step 2 of 3: MSME Registration</p>
+      <h2 style="font-size:22px; margin-bottom:6px; color: white;" id="msme-title-label">Kya aap MSME registered hain?</h2>
+      <p style="font-size:14px; color:var(--text-muted); margin-bottom:24px;" id="msme-sub-label">Udyam Registration hai?</p>
+      
+      <div style="display:grid; grid-template-columns: 1fr 1fr; gap:16px; margin-bottom:20px; pointer-events: auto !important;">
+        <button class="btn-outline ob-select-btn" id="msme-yes-btn" onclick="selectObMSME(true)" style="padding:20px; font-size:16px; font-weight:600; border-radius:12px;">✅ Haan / Yes</button>
+        <button class="btn-outline ob-select-btn" id="msme-no-btn" onclick="selectObMSME(false)" style="padding:20px; font-size:16px; font-weight:600; border-radius:12px;">❌ Nahi / No</button>
       </div>
+
+      <!-- Udyam Input (collapsible) -->
+      <div id="udyam-input-container" class="hidden" style="margin-bottom:20px; text-align:left;">
+        <label style="display:block; font-size:12px; color:var(--text-muted); margin-bottom:6px;">Udyam Registration Number (UDYAM-XX-00-0000000)</label>
+        <input type="text" id="ob-udyam-num" placeholder="UDYAM-XX-00-0000000" style="width:100%; background:rgba(255,255,255,0.05); border:1px solid var(--border); border-radius:8px; padding:12px; color:white; outline:none; font-family:'Inter',sans-serif;" />
+      </div>
+
+      <button class="btn-primary" onclick="submitObMSME()" style="width:100%; padding:14px; font-size:15px; font-weight:600;">Continue →</button>
     </div>
 
-    <!-- Step 3 -->
+    <!-- Step 3: GST + Company Setup -->
     <div id="ob-step-3" class="hidden">
-      <h2 style="font-size:24px; margin-bottom:24px; color: white;">What's your biggest payment challenge?</h2>
-      <div style="display:grid; grid-template-columns: 1fr; gap:12px; pointer-events: auto !important;">
-        <button class="btn-outline ob-select-btn" onclick="obSelectStep(3, 'delay')" style="padding:16px; text-align:left;">⚠️ Clients delay payment</button>
-        <button class="btn-outline ob-select-btn" onclick="obSelectStep(3, 'track')" style="padding:16px; text-align:left;">📊 Hard to track who owes what</button>
-        <button class="btn-outline ob-select-btn" onclick="obSelectStep(3, 'awkward')" style="padding:16px; text-align:left;">😅 Awkward to follow up personally</button>
-        <button class="btn-outline ob-select-btn" onclick="obSelectStep(3, 'invoice')" style="padding:16px; text-align:left;">📄 No proper invoicing system</button>
+      <p style="font-size:15px; color:var(--teal); margin-bottom:8px; font-weight:600; font-family:'Inter',sans-serif;">Step 3 of 3: Company Profile</p>
+      <h2 style="font-size:22px; margin-bottom:20px; color: white;">Company Details Setup</h2>
+      
+      <div style="text-align:left; display:flex; flex-direction:column; gap:16px; margin-bottom:24px;">
+        <div>
+          <label style="display:flex; justify-content:space-between; align-items:center; font-size:12px; color:var(--text-muted); margin-bottom:6px;">
+            <span>Company Name *</span>
+            <button onclick="startObVoiceInput('ob-company-name')" style="background:rgba(2,128,144,0.15); border:1px solid var(--teal); border-radius:4px; padding:2px 8px; color:var(--teal); cursor:pointer; font-size:11px; display:flex; align-items:center; gap:4px;">
+              🎤 Speak Name
+            </button>
+          </label>
+          <input type="text" id="ob-company-name" placeholder="Enter company or owner name" style="width:100%; background:rgba(255,255,255,0.05); border:1px solid var(--border); border-radius:8px; padding:12px; color:white; outline:none;" required />
+        </div>
+
+        <div>
+          <label style="display:block; font-size:12px; color:var(--text-muted); margin-bottom:6px;">GSTIN (Optional)</label>
+          <input type="text" id="ob-company-gst" placeholder="22AAAAA0000A1Z5" style="width:100%; background:rgba(255,255,255,0.05); border:1px solid var(--border); border-radius:8px; padding:12px; color:white; outline:none;" />
+        </div>
+
+        <div>
+          <label style="display:block; font-size:12px; color:var(--text-muted); margin-bottom:6px;">Contact Phone *</label>
+          <input type="text" id="ob-company-phone" placeholder="Enter 10-digit mobile number" style="width:100%; background:rgba(255,255,255,0.05); border:1px solid var(--border); border-radius:8px; padding:12px; color:white; outline:none;" required />
+        </div>
+      </div>
+
+      <div style="display:grid; grid-template-columns: 1fr 2fr; gap:12px;">
+        <button class="btn-outline" onclick="finishOnboarding()" style="padding:14px; font-size:14px;">Skip Setup</button>
+        <button class="btn-primary" onclick="submitObProfile()" style="padding:14px; font-size:14px; font-weight:600;">Finish & Go to Dashboard 🎉</button>
       </div>
     </div>
-
-    <!-- Step 4 -->
-    <div id="ob-step-4" class="hidden">
-      <p style="font-size:16px; color:var(--text-muted); margin-bottom:16px; font-style:italic;">"Perfect! I've set up your workspace."</p>
-      <h2 style="font-size:24px; margin-bottom:24px; color: white;">Let's add your first project/client.</h2>
-      <button class="btn-primary" id="finish-btn" style="width:100%; padding:16px; font-size:16px;" onclick="finishOnboarding()">Go to Dashboard</button>
-    </div>
-    
-  </div>
-</div>
 <!-- ═══════════════════════════════════════════════════════ -->
 <!-- FEATURE: EMAA AI VOICE ASSISTANT WIDGET                 -->
 <!-- ═══════════════════════════════════════════════════════ -->

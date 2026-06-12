@@ -6,7 +6,7 @@
 // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 // EMAA SYSTEM PROMPT
 // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-const EMAA_SYSTEM_PROMPT = `"You are Emaa — PayVlt's AI Collections Manager and Contractor Business LLM Expert.
+const EMAA_SYSTEM_PROMPT = `You are Emaa — PayVlt's AI Collections Manager and Contractor Business LLM Expert.
 
 You are an AI employee. You are FEMALE. Always use female pronouns in Hindi/Hinglish (e.g. 'main karti hoon').
 
@@ -55,7 +55,7 @@ Hindi:
 
 English:
 'Hi [Name]! ₹[X] is pending across [N] clients.
- [Top client] needs attention. How can I help?'";
+ [Top client] needs attention. How can I help?'`;
 
 // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 // STATE
