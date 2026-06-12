@@ -95,9 +95,9 @@ router.post('/schedule', auth, (req, res) => {
     db.prepare("DELETE FROM reminders WHERE project_id = ? AND status = 'scheduled'").run(project_id);
 
     const schedule = [
-      { day_offset: 25, channel: 'whatsapp,email', tone: 'friendly' },
+      { day_offset: 15, channel: 'whatsapp,email', tone: 'friendly' },
       { day_offset: 30, channel: 'whatsapp,sms', tone: 'firm' },
-      { day_offset: 35, channel: 'whatsapp,email,sms', tone: 'overdue' },
+      { day_offset: 44, channel: 'whatsapp,email,sms', tone: 'overdue' },
       { day_offset: 45, channel: 'email', tone: 'legal' }
     ];
 
@@ -177,10 +177,10 @@ router.get('/timeline', auth, (req, res) => {
       return {
         project: p,
         schedule: [
-          { day: 25, tone: 'friendly', channel: 'WhatsApp + Email', date: getDate(25), label: 'Friendly Reminder' },
-          { day: 30, tone: 'firm', channel: 'WhatsApp + SMS', date: getDate(30), label: 'Firm Reminder — Due Today' },
-          { day: 35, tone: 'overdue', channel: 'All Channels', date: getDate(35), label: 'Overdue Notice' },
-          { day: 45, tone: 'legal', channel: 'Email + PDF', date: getDate(45), label: 'Legal Notice' }
+          { day: 15, tone: 'friendly', channel: 'WhatsApp + Email', date: getDate(15), label: 'Stage 1: Friendly Reminder' },
+          { day: 30, tone: 'firm', channel: 'WhatsApp + SMS', date: getDate(30), label: 'Stage 2: Firm Reminder — Payment Overdue' },
+          { day: 44, tone: 'overdue', channel: 'All Channels', date: getDate(44), label: 'Stage 3: Legal — Late Fee Accruing' },
+          { day: 45, tone: 'legal', channel: 'Email + PDF', date: getDate(45), label: 'Stage 4: Recovery Process / Legal Notice' }
         ]
       };
     });
