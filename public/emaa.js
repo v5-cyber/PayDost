@@ -122,7 +122,10 @@ if (SpeechRecognitionAPI) {
   emaaState.recognition = new SpeechRecognitionAPI();
   emaaState.recognition.continuous = false;
   emaaState.recognition.interimResults = true;
-  emaaState.recognition.lang = 'hi-IN';
+  // Dynamically set language from user preference
+  const _storedLang = localStorage.getItem('payvlt_lang') || 'en';
+  const _langMap = { 'hi': 'hi-IN', 'hinglish': 'hi-IN', 'mr': 'mr-IN', 'gu': 'gu-IN', 'te': 'te-IN', 'en': 'en-IN' };
+  emaaState.recognition.lang = _langMap[_storedLang] || 'en-IN';
 
   emaaState.recognition.onstart = function () {
     emaaState.isListening = true;
@@ -795,6 +798,33 @@ window.emaaClose         = emaaClose;
 window.emaaChipClick     = emaaChipClick;
 window.emaaStartListening = emaaStartListening;
 window.emaaInitTooltip   = emaaInitTooltip;
+window.emaaSpeak         = emaaSpeak;  // Export so index.html can call it
+
+// ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+// DASHBOARD AUTO-GREETING
+// ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+window.emaaGreetDashboard = function(companyName) {
+  if (emaaState.greetingDone) return;
+  emaaState.greetingDone = true;
+  const lang = localStorage.getItem('payvlt_lang') || 'en';
+  const hour = new Date().getHours();
+  const timeGreet = hour < 12 ? 'Good morning' : (hour < 17 ? 'Good afternoon' : 'Good evening');
+  const name = companyName || 'there';
+  const greetMap = {
+    'hi': `नमस्ते! मैं Emaa हूँ — आपकी AI Collections Manager। ${name}, आपका PayVlt डैशबोर्ड तैयार है। कोई भुगतान समस्या हो तो बताइए!`,
+    'hinglish': `Hello ${name}! Main Emaa hoon — aapki AI Collections Manager. Dashboard ready hai. Koi bhi payment issue ho, mujhse poochho!`,
+    'mr': `नमस्ते ${name}! मी Emaa आहे — तुमची AI Collections Manager. तुमचा डॅशबोर्ड तयार आहे. कोणताही पेमेंट प्रश्न असल्यास विचारा!`,
+    'gu': `નમસ્તે ${name}! હું Emaa છું — તમારી AI Collections Manager. ડૅશબોર્ડ તૈયાર છે. ચુકવણીના કોઈ પ્રશ્ન હોય તો પૂછો!`,
+    'te': `నమస్కారం ${name}! నేను Emaa ని — మీ AI Collections Manager. డాష్‌బోర్డ్ సిద్ధంగా ఉంది. పేమెంట్ సమస్య ఏదైనా అడగండి!`,
+    'en': `${timeGreet}, ${name}! I'm Emaa, your AI Collections Manager. Your PayVlt dashboard is ready. Let me know if you need help with any payments or receivables!`
+  };
+  const greeting = greetMap[lang] || greetMap['en'];
+  // Add greeting message to chat
+  setTimeout(() => {
+    emaaAddMessage('assistant', greeting);
+    emaaSpeak(greeting);
+  }, 1200);
+};
 
 // Init tooltip on page load if element exists
 document.addEventListener('DOMContentLoaded', () => {

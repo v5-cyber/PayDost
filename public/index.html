@@ -925,6 +925,11 @@
     if (window.App && window.App.i18n) {
       window.App.i18n.setLanguage(lang);
     }
+    // Sync Emaa speech recognition language in real-time
+    if (window.emaaState && window.emaaState.recognition) {
+      const langMap = { 'hi': 'hi-IN', 'hinglish': 'hi-IN', 'mr': 'mr-IN', 'gu': 'gu-IN', 'te': 'te-IN', 'en': 'en-IN' };
+      window.emaaState.recognition.lang = langMap[lang] || 'en-IN';
+    }
     // Persist to Supabase profile if logged in
     try {
       const client = getSB();
@@ -1288,7 +1293,6 @@
       }, 1500);
 
     }, 500);
-  }
   }
 
   function selectSegment(segment) {
@@ -1926,7 +1930,7 @@
       const { data: { session } } = await client.auth.getSession();
       const token = session ? session.access_token : '';
 
-      const res = await fetch('http://localhost:8080/api/payments/razorpay/order', {
+      const res = await fetch('/api/payments/razorpay/order', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + token },
         body: JSON.stringify({ amount, payment_id: projectId, client_name: clientName, description: projectName })
@@ -1956,7 +1960,7 @@
             const { data: { session } } = await client.auth.getSession();
             const token = session ? session.access_token : '';
             
-            await fetch('http://localhost:8080/api/payments/razorpay/verify', {
+            await fetch('/api/payments/razorpay/verify', {
               method: 'POST',
               headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + token },
               body: JSON.stringify({
@@ -2043,9 +2047,11 @@
         authScreen.classList.add('hidden');
         app.classList.remove('hidden');
         
-        const cName = sess.user.user_metadata.company_name || "ACRV aircon Projects";
+        const uMeta = (sess.user && sess.user.user_metadata) || {};
+        const cName = uMeta.company_name || "ACRV aircon Projects";
         document.querySelectorAll('#sidebar-name-p, #sidebar-name-t, #dash-name').forEach(el => el.textContent = cName);
-        document.getElementById('watermark').textContent = cName.toUpperCase();
+        const wm = document.getElementById('watermark');
+        if (wm) wm.textContent = cName.toUpperCase();
         
         const hour = new Date().getHours();
         let greeting = hour < 12 ? "Good morning" : (hour < 17 ? "Good afternoon" : "Good evening");
@@ -2053,12 +2059,22 @@
         
         const currentSegment = localStorage.getItem('payvlt_segment');
         const isObDone = localStorage.getItem('payvlt_ob_done');
+        const hasLang = localStorage.getItem('payvlt_lang');
         
         if (!isObDone) {
-          onboarding.classList.remove('hidden');
+          // Language screen first if not selected yet
+          if (!hasLang) {
+            document.getElementById('language-screen').classList.remove('hidden');
+            document.getElementById('language-screen').style.display = 'flex';
+            document.getElementById('onboarding').classList.add('hidden');
+          } else {
+            document.getElementById('language-screen').classList.add('hidden');
+            document.getElementById('onboarding').classList.remove('hidden');
+          }
           document.querySelector('.chat-widget-btn').classList.add('hidden');
           document.getElementById('ai-chat-window').classList.add('hidden');
         } else {
+          document.getElementById('language-screen').classList.add('hidden');
           onboarding.classList.add('hidden');
           document.querySelector('.chat-widget-btn').classList.remove('hidden');
           document.getElementById('sidebar-projects').classList.toggle('hidden', currentSegment !== 'projects');
@@ -2081,8 +2097,9 @@
             });
             const collectionRate = totalReceivable + totalPaid > 0 ? Math.round((totalPaid / (totalReceivable + totalPaid)) * 100) : 0;
             window.emaaState = window.emaaState || {};
+            const uMetaEmaa = (sess.user && sess.user.user_metadata) || {};
             window.emaaState.userContext = {
-              companyName: sess.user.user_metadata.company_name || sess.user.user_metadata.full_name || 'your business',
+              companyName: uMetaEmaa.company_name || uMetaEmaa.full_name || 'your business',
               totalReceivable,
               overdueCount,
               collectionRate
