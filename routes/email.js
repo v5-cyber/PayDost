@@ -30,14 +30,14 @@ router.post('/send', auth, (req, res) => {
       const htmlBody = `
         <div style="font-family:Arial,sans-serif;max-width:600px;margin:0 auto;">
           <div style="background:#6366f1;padding:20px;border-radius:8px 8px 0 0;">
-            <h2 style="color:#fff;margin:0;">PayDost</h2>
+            <h2 style="color:#fff;margin:0;">BucksBuddy</h2>
           </div>
           <div style="padding:30px;background:#f9fafb;">
             <p style="white-space:pre-line;">${body}</p>
             <div style="text-align:center;margin:30px 0;">
               <a href="${clickUrl}" style="background:#6366f1;color:#fff;padding:14px 32px;border-radius:8px;text-decoration:none;font-weight:bold;font-size:16px;">Pay Now ₹${new Intl.NumberFormat('en-IN').format(payment.total_due)}</a>
             </div>
-            <p style="font-size:12px;color:#888;">Powered by PayDost — Apka Payment Partner</p>
+            <p style="font-size:12px;color:#888;">Powered by BucksBuddy — Apka Payment Partner</p>
           </div>
           <img src="${trackingPixel}" width="1" height="1" style="display:none;" alt="" />
         </div>`;

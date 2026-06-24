@@ -1,5 +1,5 @@
 /* ══════════════════════════════════════
-   PayDost — app2.js (Supabase Edition)
+   BucksBuddy — app2.js (Supabase Edition)
    Payments · Invoices · Installments
 ══════════════════════════════════════ */
 
@@ -71,7 +71,7 @@ App.payments = {
     doc.setFont("helvetica", "bold");
     doc.text("FROM:", 20, 65);
     doc.setFont("helvetica", "normal");
-    doc.text(prof.company_name || prof.name || 'PayDost User', 20, 70);
+    doc.text(prof.company_name || prof.name || 'BucksBuddy User', 20, 70);
     doc.text(prof.address || '', 20, 75);
 
     doc.setFont("helvetica", "bold");
@@ -92,7 +92,7 @@ App.payments = {
         ['SGST (9%)', (gst/2).toFixed(2)],
         ['Total Amount', p.total_due.toFixed(2)]
       ],
-      headStyles: { fillColor: [2, 128, 144] }
+      headStyles: { fillColor: [141, 115, 246] }
     });
 
     doc.text("Authorized Signatory", 150, 150);

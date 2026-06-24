@@ -1,5 +1,5 @@
 /* ══════════════════════════════════════
-   PayDost — app4.js (Supabase Edition)
+   BucksBuddy — app4.js (Supabase Edition)
    Tally · Site Diary · Reminders
 ══════════════════════════════════════ */
 
@@ -45,7 +45,7 @@ App.tally = {
     let csv = "data:text/csv;charset=utf-8," + rows.map(e => e.join(",")).join("\n");
     const link = document.createElement("a");
     link.setAttribute("href", encodeURI(csv));
-    link.setAttribute("download", "paydost_tally.csv");
+    link.setAttribute("download", "bucksbuddy_tally.csv");
     document.body.appendChild(link);
     link.click();
   }
@@ -136,7 +136,7 @@ App.reminders = {
 
   updatePreview(amt, proj) {
     const type = document.getElementById('rem-temp').value;
-    const comps = App.state.profile?.company_name || 'PayDost User';
+    const comps = App.state.profile?.company_name || 'BucksBuddy User';
     const fmtAmt = App.ui.fmt(amt);
     const templates = {
       A: `Bhai sahab namaskar! 🙏\n${proj} ka kaam complete ho gaya...\nBas ${fmtAmt} ka hisaab baaki hai! 😄\nConvenient ho toh process kar dijiye.\n— ${comps}`,

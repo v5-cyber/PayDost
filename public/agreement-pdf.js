@@ -1,5 +1,5 @@
 /**
- * PayVlt Agreement PDF Generator
+ * BucksBuddy Agreement PDF Generator
  * Uses jsPDF (loaded via CDN in index.html)
  */
 
@@ -16,8 +16,8 @@ function generateAgreementPDF(project, contractorProfile) {
   const { jsPDF } = window.jspdf || window;
   const doc = new jsPDF({ orientation: 'portrait', unit: 'mm', format: 'a4' });
   const W = 210, pad = 18;
-  const teal = [2, 128, 144];
-  const dark = [13, 27, 62];
+  const teal = [141, 115, 246];
+  const dark = [17, 17, 17];
   const grey = [100, 116, 139];
   const light = [241, 245, 249];
 
@@ -41,7 +41,7 @@ function generateAgreementPDF(project, contractorProfile) {
   doc.setTextColor(255, 255, 255);
   doc.setFont('helvetica', 'bold');
   doc.setFontSize(18);
-  doc.text('💰 PayVlt', pad, 12);
+  doc.text('💰 BucksBuddy', pad, 12);
   doc.setFontSize(8);
   doc.setFont('helvetica', 'normal');
   doc.setTextColor(...teal);
@@ -138,7 +138,7 @@ function generateAgreementPDF(project, contractorProfile) {
     "2. The Client agrees to pay the Total Project Value as per the agreed schedule.",
     `3. Payments delayed beyond the grace period of ${project.grace_period || 5} days will attract a late fee of ${project.late_fee_pct}% per ${project.late_fee_type}.`,
     "4. All disputes are subject to the jurisdiction of the Contractor's registered city.",
-    "5. This agreement is digitally generated and logged via PayVlt, and constitutes valid electronic evidence under the IT Act, 2000."
+    "5. This agreement is digitally generated and logged via BucksBuddy, and constitutes valid electronic evidence under the IT Act, 2000."
   ];
 
   terms.forEach(t => {
@@ -162,7 +162,7 @@ function generateAgreementPDF(project, contractorProfile) {
   doc.setFontSize(7);
   doc.text(`Generated On: ${dateStr} ${timeStr}`, pad + 4, y + 12);
   doc.text(`System ID: ${trailId}`, pad + 4, y + 16);
-  doc.text(`IP Reference: Logged securely in PayVlt Vault`, pad + 4, y + 20);
+  doc.text(`IP Reference: Logged securely in BucksBuddy Vault`, pad + 4, y + 20);
 
   doc.setTextColor(150, 160, 170);
   doc.setFont('helvetica', 'italic');
@@ -170,6 +170,6 @@ function generateAgreementPDF(project, contractorProfile) {
   doc.text('This is a system generated document. Physical signature is not required.', W / 2, y + 36, { align: 'center' });
 
   // Download
-  doc.save(`PayVlt_Agreement_${project.client_name.replace(/\s+/g, '_')}.pdf`);
+  doc.save(`BucksBuddy_Agreement_${project.client_name.replace(/\s+/g, '_')}.pdf`);
 }
 window.generateAgreementPDF = generateAgreementPDF;

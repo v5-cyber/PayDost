@@ -1,4 +1,4 @@
-# PayVlt
+# BucksBuddy
 
 Smart payment management for Indian contractors.
 

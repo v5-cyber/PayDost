@@ -1,5 +1,5 @@
 /**
- * PayVlt Production Features
+ * BucksBuddy Production Features
  * ============================================================
  * Feature 1: Sentry Error Monitoring (via CDN)
  * Feature 2: Offline Support (Network Detection, Cache, Queue)
@@ -14,16 +14,16 @@
 
 (function initSentry() {
   // Sentry DSN is injected from the server-side config or window.__env__
-  // Set PAYVLT_SENTRY_DSN in your environment and expose via a meta tag or window.__env__
+  // Set bucksbuddy_SENTRY_DSN in your environment and expose via a meta tag or window.__env__
   const dsn = (window.__env__ && window.__env__.SENTRY_DSN) || '';
 
   if (!dsn) {
-    console.info('[PayVlt] Sentry DSN not configured. Skipping error monitoring init.');
+    console.info('[BucksBuddy] Sentry DSN not configured. Skipping error monitoring init.');
     return;
   }
 
   if (typeof Sentry === 'undefined') {
-    console.warn('[PayVlt] Sentry SDK not loaded yet.');
+    console.warn('[BucksBuddy] Sentry SDK not loaded yet.');
     return;
   }
 
@@ -39,7 +39,7 @@
     environment: window.__env__?.MODE || 'production',
   });
 
-  console.info('[PayVlt] ✅ Sentry initialized.');
+  console.info('[BucksBuddy] ✅ Sentry initialized.');
 })();
 
 // Global error boundary — shows a fallback UI on crash
@@ -49,7 +49,7 @@ window.addEventListener('error', function (event) {
   }
   // Show fallback only for truly fatal errors (uncaught)
   if (event.error && event.error.stack) {
-    window.__payvlt_last_error__ = event.error;
+    window.__bucksbuddy_last_error__ = event.error;
   }
 });
 
@@ -60,14 +60,14 @@ window.addEventListener('unhandledrejection', function (event) {
 });
 
 // Helper: Manually capture any error from anywhere in the app
-window.payvltCapture = function (error, context) {
+window.bucksbuddyCapture = function (error, context) {
   if (typeof Sentry !== 'undefined' && Sentry.captureException) {
     Sentry.withScope(function (scope) {
       if (context) scope.setContext('extra', context);
       Sentry.captureException(error instanceof Error ? error : new Error(String(error)));
     });
   }
-  console.error('[PayVlt Error]', error, context || '');
+  console.error('[BucksBuddy Error]', error, context || '');
 };
 
 
@@ -76,15 +76,15 @@ window.payvltCapture = function (error, context) {
 // ══════════════════════════════════════════════════════════════
 
 // 2A — Network Status Detection
-var PayVltOffline = (function () {
+var BucksBuddyOffline = (function () {
   var isOnline = navigator.onLine;
   var bannerEl = null;
   var bannerTimeout = null;
 
   function createBanner() {
-    if (document.getElementById('payvlt-offline-banner')) return;
+    if (document.getElementById('bucksbuddy-offline-banner')) return;
     var el = document.createElement('div');
-    el.id = 'payvlt-offline-banner';
+    el.id = 'bucksbuddy-offline-banner';
     el.style.cssText = [
       'position:fixed',
       'top:0',
@@ -140,10 +140,10 @@ var PayVltOffline = (function () {
 
   // 2B — Cached data badge
   function showCachedDataBadge() {
-    var existing = document.getElementById('payvlt-cached-badge');
+    var existing = document.getElementById('bucksbuddy-cached-badge');
     if (existing) return;
     var badge = document.createElement('div');
-    badge.id = 'payvlt-cached-badge';
+    badge.id = 'bucksbuddy-cached-badge';
     badge.style.cssText = [
       'position:fixed',
       'top:44px',
@@ -165,22 +165,22 @@ var PayVltOffline = (function () {
   }
 
   function removeCachedBadge() {
-    var badge = document.getElementById('payvlt-cached-badge');
+    var badge = document.getElementById('bucksbuddy-cached-badge');
     if (badge) badge.remove();
   }
 
   // 2C — Cache dashboard stats and projects to localStorage
   function cacheData(key, data) {
     try {
-      localStorage.setItem('payvlt_cache_' + key, JSON.stringify({ ts: Date.now(), data: data }));
+      localStorage.setItem('bucksbuddy_cache_' + key, JSON.stringify({ ts: Date.now(), data: data }));
     } catch (e) {
-      console.warn('[PayVlt Cache] Could not save:', key, e);
+      console.warn('[BucksBuddy Cache] Could not save:', key, e);
     }
   }
 
   function getCachedData(key, maxAgeMs) {
     try {
-      var raw = localStorage.getItem('payvlt_cache_' + key);
+      var raw = localStorage.getItem('bucksbuddy_cache_' + key);
       if (!raw) return null;
       var parsed = JSON.parse(raw);
       if (maxAgeMs && Date.now() - parsed.ts > maxAgeMs) return null;
@@ -193,14 +193,14 @@ var PayVltOffline = (function () {
   // 2D — Offline Queue for actions
   function getOfflineQueue() {
     try {
-      return JSON.parse(localStorage.getItem('payvlt_offline_queue') || '[]');
+      return JSON.parse(localStorage.getItem('bucksbuddy_offline_queue') || '[]');
     } catch (e) {
       return [];
     }
   }
 
   function saveOfflineQueue(queue) {
-    localStorage.setItem('payvlt_offline_queue', JSON.stringify(queue));
+    localStorage.setItem('bucksbuddy_offline_queue', JSON.stringify(queue));
   }
 
   function addToOfflineQueue(action) {
@@ -209,14 +209,14 @@ var PayVltOffline = (function () {
     action.timestamp = new Date().toISOString();
     queue.push(action);
     saveOfflineQueue(queue);
-    console.info('[PayVlt Offline] Queued action:', action.type);
+    console.info('[BucksBuddy Offline] Queued action:', action.type);
   }
 
   function syncOfflineQueue() {
     var queue = getOfflineQueue();
     if (queue.length === 0) return;
 
-    console.info('[PayVlt Offline] Syncing', queue.length, 'queued actions...');
+    console.info('[BucksBuddy Offline] Syncing', queue.length, 'queued actions...');
 
     // We need Supabase to be ready. Wait a tick.
     setTimeout(function () {
@@ -228,7 +228,7 @@ var PayVltOffline = (function () {
       }
 
       if (!client) {
-        console.warn('[PayVlt Offline] Supabase client not available for sync.');
+        console.warn('[BucksBuddy Offline] Supabase client not available for sync.');
         return;
       }
 
@@ -254,11 +254,11 @@ var PayVltOffline = (function () {
           client.from('projects').insert([action.payload])
             .then(function (res) {
               if (res.error) {
-                console.warn('[PayVlt Offline] Sync failed for action:', action.id, res.error);
+                console.warn('[BucksBuddy Offline] Sync failed for action:', action.id, res.error);
                 remaining.push(action);
               } else {
                 synced++;
-                console.info('[PayVlt Offline] Synced action:', action.id);
+                console.info('[BucksBuddy Offline] Synced action:', action.id);
               }
               processNext(idx + 1);
             });
@@ -305,17 +305,17 @@ var PayVltOffline = (function () {
 })();
 
 // Initialize offline support
-PayVltOffline.init();
+BucksBuddyOffline.init();
 
 // Register Service Worker (2E — PWA)
 if ('serviceWorker' in navigator) {
   window.addEventListener('load', function () {
     navigator.serviceWorker.register('/sw.js')
       .then(function (reg) {
-        console.info('[PayVlt PWA] Service Worker registered:', reg.scope);
+        console.info('[BucksBuddy PWA] Service Worker registered:', reg.scope);
       })
       .catch(function (err) {
-        console.warn('[PayVlt PWA] Service Worker registration failed:', err);
+        console.warn('[BucksBuddy PWA] Service Worker registration failed:', err);
       });
   });
 }
@@ -329,12 +329,12 @@ if ('serviceWorker' in navigator) {
   var key = (window.__env__ && window.__env__.POSTHOG_KEY) || '';
 
   if (!key) {
-    console.info('[PayVlt] PostHog key not configured. Skipping analytics init.');
+    console.info('[BucksBuddy] PostHog key not configured. Skipping analytics init.');
     return;
   }
 
   if (typeof posthog === 'undefined') {
-    console.warn('[PayVlt] PostHog SDK not loaded yet.');
+    console.warn('[BucksBuddy] PostHog SDK not loaded yet.');
     return;
   }
 
@@ -348,18 +348,18 @@ if ('serviceWorker' in navigator) {
     },
   });
 
-  console.info('[PayVlt] ✅ PostHog initialized.');
+  console.info('[BucksBuddy] ✅ PostHog initialized.');
 })();
 
 // Analytics helper — use this everywhere in the app
-var payvltAnalytics = {
+var bucksbuddyAnalytics = {
   track: function (event, properties) {
     try {
       if (typeof posthog !== 'undefined' && posthog.capture) {
         posthog.capture(event, properties || {});
       }
     } catch (e) {
-      console.warn('[PayVlt Analytics] Track failed:', e);
+      console.warn('[BucksBuddy Analytics] Track failed:', e);
     }
   },
 
@@ -369,7 +369,7 @@ var payvltAnalytics = {
       has_gst: !!(project && project.gst),
       amount: project && project.total_amount,
       amount_range: getAmountRange(project && project.total_amount),
-      segment: localStorage.getItem('payvlt_segment') || 'projects',
+      segment: localStorage.getItem('bucksbuddy_segment') || 'projects',
     });
   },
 
@@ -377,7 +377,7 @@ var payvltAnalytics = {
     this.track('reminder_sent', {
       template: opts && opts.template || 'manual',
       channel: opts && opts.channel || 'whatsapp',
-      language: opts && opts.language || localStorage.getItem('payvlt_lang') || 'hindi',
+      language: opts && opts.language || localStorage.getItem('bucksbuddy_lang') || 'hindi',
     });
   },
 
@@ -397,14 +397,14 @@ var payvltAnalytics = {
   aiAdvisorUsed: function (messageLength, language) {
     this.track('ai_advisor_used', {
       question_length: messageLength || 0,
-      language: language || localStorage.getItem('payvlt_lang') || 'hindi',
+      language: language || localStorage.getItem('bucksbuddy_lang') || 'hindi',
     });
   },
 
   pageViewed: function (pageName) {
     this.track('page_viewed', {
       page: pageName,
-      segment: localStorage.getItem('payvlt_segment') || 'projects',
+      segment: localStorage.getItem('bucksbuddy_segment') || 'projects',
     });
   },
 };
@@ -435,7 +435,7 @@ function getAmountRange(amount) {
     var orig = window.navigate;
     if (typeof orig !== 'function') return;
     window.navigate = function (page) {
-      payvltAnalytics.pageViewed(page);
+      bucksbuddyAnalytics.pageViewed(page);
       return orig.apply(this, arguments);
     };
   }
@@ -449,14 +449,14 @@ function getAmountRange(amount) {
     window.sendChatMessage = function () {
       var input = document.getElementById('chat-input');
       var len = input ? input.value.trim().length : 0;
-      payvltAnalytics.aiAdvisorUsed(len);
+      bucksbuddyAnalytics.aiAdvisorUsed(len);
       return orig.apply(this, arguments);
     };
 
     var origRumik = window.handleRumikInput;
     if (typeof origRumik !== 'function') return;
     window.handleRumikInput = function (text) {
-      payvltAnalytics.aiAdvisorUsed((text || '').length);
+      bucksbuddyAnalytics.aiAdvisorUsed((text || '').length);
       return origRumik.apply(this, arguments);
     };
   });
@@ -468,7 +468,7 @@ function getAmountRange(amount) {
     var orig = window.sendWhatsApp;
     if (typeof orig !== 'function') return;
     window.sendWhatsApp = function (project) {
-      payvltAnalytics.reminderSent({ channel: 'whatsapp', language: 'hindi' });
+      bucksbuddyAnalytics.reminderSent({ channel: 'whatsapp', language: 'hindi' });
       return orig.apply(this, arguments);
     };
   });
@@ -479,7 +479,7 @@ function getAmountRange(amount) {
 // FEATURE 4 — AUTO-SAVE FORMS
 // ══════════════════════════════════════════════════════════════
 
-var PayVltAutoSave = (function () {
+var BucksBuddyAutoSave = (function () {
   var timers = {};
   var indicatorEls = {};
 
@@ -529,13 +529,13 @@ var PayVltAutoSave = (function () {
     timers[formKey] = setTimeout(function () {
       try {
         var data = getData();
-        localStorage.setItem('payvlt_draft_' + formKey, JSON.stringify(data));
+        localStorage.setItem('bucksbuddy_draft_' + formKey, JSON.stringify(data));
         setIndicator(formKey, '💾 Draft saved', '#10B981');
 
         // Fade out after 3s
         setTimeout(function () { hideIndicator(formKey); }, 3000);
       } catch (e) {
-        console.warn('[PayVlt AutoSave] Save failed for', formKey, e);
+        console.warn('[BucksBuddy AutoSave] Save failed for', formKey, e);
       }
     }, 2000);
   }
@@ -543,20 +543,20 @@ var PayVltAutoSave = (function () {
   // Restore draft for a form
   function restoreDraft(formKey, applyData) {
     try {
-      var raw = localStorage.getItem('payvlt_draft_' + formKey);
+      var raw = localStorage.getItem('bucksbuddy_draft_' + formKey);
       if (!raw) return false;
       var parsed = JSON.parse(raw);
       applyData(parsed);
       return true;
     } catch (e) {
-      console.warn('[PayVlt AutoSave] Restore failed for', formKey, e);
+      console.warn('[BucksBuddy AutoSave] Restore failed for', formKey, e);
       return false;
     }
   }
 
   // Clear draft after successful submit
   function clearDraft(formKey) {
-    localStorage.removeItem('payvlt_draft_' + formKey);
+    localStorage.removeItem('bucksbuddy_draft_' + formKey);
   }
 
   // Watch input events on specific fields
@@ -622,7 +622,7 @@ var PayVltAutoSave = (function () {
 
           var restored = restoreDraft(FORM_KEY, applyData);
           if (restored) {
-            setIndicator(FORM_KEY, '📋 Draft restored from last session', '#00C9A7');
+            setIndicator(FORM_KEY, '📋 Draft restored from last session', '#C7F36B');
             // Show toast with clear action
             if (typeof showToast === 'function') {
               showToast('📋 Draft restored. Click "Save" to continue or clear the form.', 'info');
@@ -729,7 +729,7 @@ var PayVltAutoSave = (function () {
         initProjectForm();
         initSettingsForm();
         initDiaryForm();
-        console.info('[PayVlt] ✅ Auto-Save initialized for all forms.');
+        console.info('[BucksBuddy] ✅ Auto-Save initialized for all forms.');
       }, 300);
     });
   }
@@ -738,7 +738,7 @@ var PayVltAutoSave = (function () {
 })();
 
 // Initialize Auto-Save
-PayVltAutoSave.init();
+BucksBuddyAutoSave.init();
 
 
 // ══════════════════════════════════════════════════════════════
@@ -752,7 +752,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
     window.saveProject = function () {
       // If offline, save to queue instead
-      if (!PayVltOffline.isOnline()) {
+      if (!BucksBuddyOffline.isOnline()) {
         var project = {
           id: 'offline_' + Date.now(),
           client_name: (document.getElementById('p-client-name') || {}).value || '',
@@ -767,15 +767,15 @@ document.addEventListener('DOMContentLoaded', function () {
         };
 
         // Add to offline queue
-        PayVltOffline.addToOfflineQueue({ type: 'insert_project', payload: project });
+        BucksBuddyOffline.addToOfflineQueue({ type: 'insert_project', payload: project });
 
         // Add to local mock projects so it shows on dashboard
         if (window.mockProjects) {
           window.mockProjects.unshift(project);
         }
-        var localProjs = JSON.parse(localStorage.getItem('payvlt_projects') || '[]');
+        var localProjs = JSON.parse(localStorage.getItem('bucksbuddy_projects') || '[]');
         localProjs.unshift(project);
-        localStorage.setItem('payvlt_projects', JSON.stringify(localProjs));
+        localStorage.setItem('bucksbuddy_projects', JSON.stringify(localProjs));
 
         // Close modal and refresh
         if (typeof closeModal === 'function') closeModal('modal-project');
@@ -786,7 +786,7 @@ document.addEventListener('DOMContentLoaded', function () {
         }
 
         // Analytics
-        payvltAnalytics.projectAdded(project);
+        bucksbuddyAnalytics.projectAdded(project);
         return;
       }
 
@@ -795,13 +795,13 @@ document.addEventListener('DOMContentLoaded', function () {
         total_amount: parseInt((document.getElementById('p-amount') || {}).value) || 0,
         gst: (document.getElementById('p-gst') || {}).value || '',
       };
-      payvltAnalytics.projectAdded(project);
+      bucksbuddyAnalytics.projectAdded(project);
 
       // Proceed with original save
       return origSaveProject.apply(this, arguments);
     };
 
-    console.info('[PayVlt] ✅ saveProject patched for offline queue + analytics.');
+    console.info('[BucksBuddy] ✅ saveProject patched for offline queue + analytics.');
   }, 400);
 });
 
@@ -817,14 +817,14 @@ document.addEventListener('DOMContentLoaded', function () {
 
     window.loadData = function () {
       // If offline, use cache
-      if (!PayVltOffline.isOnline()) {
-        var cached = PayVltOffline.getCachedData('projects');
+      if (!BucksBuddyOffline.isOnline()) {
+        var cached = BucksBuddyOffline.getCachedData('projects');
         if (cached && cached.length > 0) {
           if (typeof renderDashboardStats === 'function') renderDashboardStats(cached);
           if (typeof renderProjectsGrid === 'function') renderProjectsGrid(cached);
           if (typeof renderPaymentsTable === 'function') renderPaymentsTable(cached);
           if (typeof renderInvoicesGrid === 'function') renderInvoicesGrid(cached);
-          console.info('[PayVlt Cache] Loaded', cached.length, 'projects from cache (offline).');
+          console.info('[BucksBuddy Cache] Loaded', cached.length, 'projects from cache (offline).');
           return;
         }
         // Fall through to original (will use mockProjects)
@@ -840,14 +840,14 @@ document.addEventListener('DOMContentLoaded', function () {
       window.renderDashboardStats = function (projects) {
         if (projects && projects.length > 0) {
           // Cache up to 20 projects
-          PayVltOffline.cacheData('projects', projects.slice(0, 20));
+          BucksBuddyOffline.cacheData('projects', projects.slice(0, 20));
         }
         return origRender.apply(this, arguments);
       };
     }
 
-    console.info('[PayVlt] ✅ loadData patched for offline caching.');
+    console.info('[BucksBuddy] ✅ loadData patched for offline caching.');
   }, 500);
 });
 
-console.info('[PayVlt Production Features] All modules loaded ✅');
+console.info('[BucksBuddy Production Features] All modules loaded ✅');

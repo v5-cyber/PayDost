@@ -1,9 +1,9 @@
 {
-  "name": "PayVlt — Apka Payment Partner",
-  "short_name": "PayVlt",
+  "name": "BucksBuddy — Apka Payment Partner",
+  "short_name": "BucksBuddy",
   "description": "Track, Invoice, Remind & Collect — Manage your contracting business payments with ease.",
-  "theme_color": "#00C9A7",
-  "background_color": "#050D1F",
+  "theme_color": "#C7F36B",
+  "background_color": "#111111",
   "display": "standalone",
   "start_url": "/",
   "scope": "/",
@@ -26,10 +26,10 @@
   ],
   "screenshots": [
     {
-      "src": "/payvlt_dashboard_demo.webp",
+      "src": "/bucksbuddy_dashboard_demo.webp",
       "sizes": "1280x720",
       "type": "image/webp",
-      "label": "PayVlt Dashboard"
+      "label": "BucksBuddy Dashboard"
     }
   ],
   "shortcuts": [

@@ -7,11 +7,11 @@ const anthropic = new Anthropic({
 });
 
 const SYSTEM_PROMPT = `# ── EMAA SYSTEM PROMPT v1.0 ──────────────────────────────────
-# PayVlt's AI Payment Operations Manager
+# BucksBuddy's AI Payment Operations Manager
 # ─────────────────────────────────────────────────────────────
 
 IDENTITY
-You are Emaa, PayVlt's AI payment operations manager.
+You are Emaa, BucksBuddy's AI payment operations manager.
 You are a highly advanced Contractor Business LLM Expert with deep knowledge of all contractor, business, MSME, and legal questions.
 You are a dedicated collections and workflow employee for Indian contractors and MSMEs.
 You are FEMALE. When speaking in Hindi or Hinglish, ALWAYS use female pronouns (e.g., "Main karti hoon", "Main samjhati hoon").
@@ -78,7 +78,7 @@ Create site diary entry automatically
 Update project timeline
 
 Contractor NEVER needs to open the app for this.
-WhatsApp ↔ Emaa ↔ PayVlt Database
+WhatsApp ↔ Emaa ↔ BucksBuddy Database
 
 ── Stage 3: Payment Reminders — 4-Stage Escalation ─────────
 
@@ -194,9 +194,9 @@ Emaa converts voice → text (if needed)
     ↓
 Emaa extracts: work done / materials / changes / photos
     ↓
-PayVlt DB auto-creates site diary entry
+BucksBuddy DB auto-creates site diary entry
     ↓
-PayVlt DB updates project timeline
+BucksBuddy DB updates project timeline
     ↓
 Emaa confirms: "✓ Aaj ka update save ho gaya!"
 
@@ -217,14 +217,14 @@ router.post('/', async (req, res) => {
       const lastMsg = messages[messages.length - 1].content.toLowerCase();
       let fallbackReply = "Main ek offline advisor hu (API key missing). Kripya apna sawal puchein!";
       
-      if (lastMsg.includes('payvlt')) {
-        fallbackReply = "PayVlt Indian contractors ke liye ek smart platform hai jo digital agreements, auto WhatsApp reminders aur MSME protection manage karta hai.";
+      if (lastMsg.includes('bucksbuddy')) {
+        fallbackReply = "BucksBuddy Indian contractors ke liye ek smart platform hai jo digital agreements, auto WhatsApp reminders aur MSME protection manage karta hai.";
       } else if (lastMsg.includes('msme') || lastMsg.includes('45')) {
-        fallbackReply = "MSMED Act Section 15 & 16 ke anusar, 45 din baad 19.5% compound interest lagta hai. Aap PayVlt se legal notice aur MSEFC complaint track kar sakte hain.";
+        fallbackReply = "MSMED Act Section 15 & 16 ke anusar, 45 din baad 19.5% compound interest lagta hai. Aap BucksBuddy se legal notice aur MSEFC complaint track kar sakte hain.";
       } else if (lastMsg.includes('remind') || lastMsg.includes('nahi kiya')) {
-        fallbackReply = "Aap PayVlt Dashboard se Day 7, 15, aur 30 ke liye auto-reminders set kar sakte hain. Agar 45 din cross ho gaye hain, toh Firm Reminder bhejein.";
+        fallbackReply = "Aap BucksBuddy Dashboard se Day 7, 15, aur 30 ke liye auto-reminders set kar sakte hain. Agar 45 din cross ho gaye hain, toh Firm Reminder bhejein.";
       } else if (lastMsg.includes('msefc')) {
-        fallbackReply = "MSEFC (Micro and Small Enterprises Facilitation Council) mein online Samadhaan portal se complain file ki ja sakti hai. Iski detail aapko PayVlt 'Legal Notice' section me mil jayegi.";
+        fallbackReply = "MSEFC (Micro and Small Enterprises Facilitation Council) mein online Samadhaan portal se complain file ki ja sakti hai. Iski detail aapko BucksBuddy 'Legal Notice' section me mil jayegi.";
       }
 
       return res.json({ reply: fallbackReply });

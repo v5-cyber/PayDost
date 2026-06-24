@@ -1,10 +1,10 @@
 /**
- * PayVlt Service Worker — PWA + Offline Caching
+ * BucksBuddy Service Worker — PWA + Offline Caching
  * Handles: App Shell, Static Assets, Supabase API responses
  */
 
-var CACHE_NAME = 'payvlt-v1';
-var SUPABASE_CACHE_NAME = 'payvlt-supabase-v1';
+var CACHE_NAME = 'bucksbuddy-v1';
+var SUPABASE_CACHE_NAME = 'bucksbuddy-supabase-v1';
 
 // App Shell — files that make the app work offline
 var APP_SHELL = [
@@ -23,7 +23,7 @@ var APP_SHELL = [
 
 // ── Install Event ──────────────────────────────────────────
 self.addEventListener('install', function (event) {
-  console.log('[SW] Installing PayVlt Service Worker...');
+  console.log('[SW] Installing BucksBuddy Service Worker...');
   event.waitUntil(
     caches.open(CACHE_NAME).then(function (cache) {
       console.log('[SW] Caching app shell');
@@ -181,7 +181,7 @@ function staleWhileRevalidate(request) {
 // ── Push Notifications (future use) ───────────────────────
 self.addEventListener('push', function (event) {
   var data = event.data ? event.data.json() : {};
-  var title = data.title || 'PayVlt';
+  var title = data.title || 'BucksBuddy';
   var options = {
     body: data.body || 'You have a new notification.',
     icon: '/icon-192.png',
@@ -198,4 +198,4 @@ self.addEventListener('notificationclick', function (event) {
   event.waitUntil(clients.openWindow(url));
 });
 
-console.log('[SW] PayVlt Service Worker loaded ✅');
+console.log('[SW] BucksBuddy Service Worker loaded ✅');

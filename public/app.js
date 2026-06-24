@@ -1,5 +1,5 @@
 /* ══════════════════════════════════════════
-   PayVlt — app.js (CRITICAL AUTH FIX)
+   BucksBuddy — app.js (CRITICAL AUTH FIX)
 ══════════════════════════════════════════ */
 
 // STEP 1 — Supabase Initialization
@@ -119,7 +119,7 @@ async function handleLogin() {
     if (error) {
       // STEP 5 — Wrong password error
       showError("Email ya password galat hai.");
-      setLoading(btn, false, "Login to PayDost");
+      setLoading(btn, false, "Login to BucksBuddy");
       return;
     }
 
@@ -128,7 +128,7 @@ async function handleLogin() {
     }
   } catch (err) {
     showError("Connection problem. Please try again.");
-    setLoading(btn, false, "Login to PayDost");
+    setLoading(btn, false, "Login to BucksBuddy");
   }
 }
 

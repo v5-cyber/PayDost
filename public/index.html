@@ -3,23 +3,23 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>PayVlt Dashboard | Manage Your Contracting Business</title>
-  <meta name="description" content="Log in to PayVlt to manage your projects, invoices, and automated payment reminders.">
+  <title>BucksBuddy Dashboard | Manage Your Contracting Business</title>
+  <meta name="description" content="Log in to BucksBuddy to manage your projects, invoices, and automated payment reminders.">
   
   <meta property="og:type" content="website">
-  <meta property="og:title" content="PayVlt Dashboard | Manage Your Contracting Business">
-  <meta property="og:description" content="Log in to PayVlt to manage your projects, invoices, and automated payment reminders.">
-  <meta property="og:image" content="https://payvlt.in/og-image-app.png">
-  <meta property="og:url" content="https://payvlt.in/index.html">
+  <meta property="og:title" content="BucksBuddy Dashboard | Manage Your Contracting Business">
+  <meta property="og:description" content="Log in to BucksBuddy to manage your projects, invoices, and automated payment reminders.">
+  <meta property="og:image" content="https://bucksbuddy.in/og-image-app.png">
+  <meta property="og:url" content="https://bucksbuddy.in/index.html">
   <meta name="twitter:card" content="summary_large_image">
 
   <!-- ═══ PWA Meta Tags ═══ -->
   <link rel="manifest" href="/manifest.json" />
-  <meta name="theme-color" content="#00C9A7" />
+  <meta name="theme-color" content="#C7F36B" />
   <meta name="mobile-web-app-capable" content="yes" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
-  <meta name="apple-mobile-web-app-title" content="PayVlt" />
+  <meta name="apple-mobile-web-app-title" content="BucksBuddy" />
   <link rel="apple-touch-icon" href="/icon-192.png" />
   <link rel="icon" type="image/png" sizes="192x192" href="/icon-192.png" />
 
@@ -67,7 +67,7 @@
 <div id="auth-screen">
   <div class="auth-card">
     <div style="text-align:center; margin-bottom:32px;">
-      <h1 style="margin:0; font-size:32px; color:white;">💰 PayVlt</h1>
+      <h1 style="margin:0; font-size:32px; color:white;">💰 BucksBuddy</h1>
       <p style="color:var(--accent-light); font-size:14px; font-weight:700; margin-top:4px;">Apka Payment Partner</p>
       <p style="color:var(--text-muted); font-size:11px; margin-top:2px;">Track | Invoice | Remind | Collect</p>
     </div>
@@ -86,7 +86,7 @@
         <label>Password</label>
         <input type="password" id="l-pass" placeholder="••••••••" />
       </div>
-      <button class="btn-primary" id="b-login" onclick="runAuth('login')">Login to PayVlt</button>
+      <button class="btn-primary" id="b-login" onclick="runAuth('login')">Login to BucksBuddy</button>
       <div id="login-error" class="hidden" style="color: #EF4444; background: rgba(239, 68, 68, 0.1); padding: 12px; border-radius: 8px; font-size: 13px; margin-top: 12px; border: 1px solid rgba(239, 68, 68, 0.2);"></div>
       <div style="display:flex; justify-content:center; gap: 10px; margin-top:16px;">
         <a href="#" style="font-size:12px; color:var(--text-muted); text-decoration:none;">Forgot password?</a>
@@ -134,7 +134,7 @@
   </div>
 
   <aside id="sidebar-projects" class="sidebar hidden">
-    <div class="sidebar-logo">💰 PayVlt</div>
+    <div class="sidebar-logo"><img src="/images/bucksbuddy_logo.svg" alt="BucksBuddy" style="height:40px; display:block; margin:auto;"></div>
     <nav class="nav-links">
       <button class="nav-item active" id="nav-dashboard-p" onclick="navigate('dashboard')" data-i18n="home">🏠 Home</button>
       <button class="nav-item" id="nav-projects-p" onclick="navigate('projects')" data-i18n="projects">📁 My Projects</button>
@@ -152,7 +152,7 @@
   </aside>
 
   <aside id="sidebar-trade" class="sidebar hidden">
-    <div class="sidebar-logo" style="color:var(--warning);">💰 PayVlt Trade</div>
+    <div class="sidebar-logo" style="color:var(--warning);"><img src="/images/bucksbuddy_logo.svg" alt="BucksBuddy" style="height:40px; display:block; margin:auto;"></div>
     <nav class="nav-links">
       <button class="nav-item active" id="nav-dashboard-t" onclick="navigate('dashboard')">🏠 Home</button>
       <button class="nav-item" id="nav-buyers-t" onclick="navigate('buyers')">👥 My Buyers</button>
@@ -172,8 +172,8 @@
       
       <!-- Segment Switcher -->
       <div class="segment-switcher" style="display:flex; background:rgba(0,0,0,0.3); padding:4px; border-radius:12px; border:1px solid var(--border);">
-        <button onclick="switchSegment('projects')" id="btn-seg-projects" style="padding:8px 16px; border-radius:8px; border:none; background:var(--teal); color:white; font-weight:600; cursor:pointer; transition:all 0.2s;">🏗️ PayVlt Projects</button>
-        <button onclick="switchSegment('trade')" id="btn-seg-trade" style="padding:8px 16px; border-radius:8px; border:none; background:transparent; color:var(--text-muted); font-weight:600; cursor:pointer; transition:all 0.2s;">📦 PayVlt Trade</button>
+        <button onclick="switchSegment('projects')" id="btn-seg-projects" style="padding:8px 16px; border-radius:8px; border:none; background:var(--teal); color:white; font-weight:600; cursor:pointer; transition:all 0.2s;">🏗️ BucksBuddy Projects</button>
+        <button onclick="switchSegment('trade')" id="btn-seg-trade" style="padding:8px 16px; border-radius:8px; border:none; background:transparent; color:var(--text-muted); font-weight:600; cursor:pointer; transition:all 0.2s;">📦 BucksBuddy Trade</button>
       </div>
 
       <!-- Right Nav Icons -->
@@ -217,7 +217,7 @@
       </div>
 
       <!-- EMAA'S DAILY SUMMARY -->
-      <div style="background: linear-gradient(135deg, rgba(2,128,144,0.15) 0%, rgba(13,27,62,0.5) 100%); border: 1px solid var(--teal); border-radius: 16px; padding: 24px; margin-bottom: 32px; display:flex; gap:20px; align-items:flex-start;">
+      <div style="background: linear-gradient(135deg, rgba(141, 115, 246,0.15) 0%, rgba(17, 17, 17,0.5) 100%); border: 1px solid var(--teal); border-radius: 16px; padding: 24px; margin-bottom: 32px; display:flex; gap:20px; align-items:flex-start;">
         <div style="width:60px; height:60px; border-radius:50%; background:url('emaa-avatar.png') center/cover; border:2px solid var(--teal); flex-shrink:0;"></div>
         <div>
           <h3 style="font-size:18px; font-weight:700; margin-bottom:8px; display:flex; align-items:center; gap:8px;">Emaa's Daily Summary <span class="badge badge-green">Live</span></h3>
@@ -276,7 +276,7 @@
         <div style="background:var(--card-bg); border:1px solid var(--border); border-radius:16px; padding:24px;">
           <h3 style="font-size:16px; font-weight:700; margin-bottom:20px; color:var(--text-muted);">Payment Promises</h3>
           <div style="display:flex; flex-direction:column; gap:12px;">
-            <div style="background:rgba(2,128,144,0.1); border:1px solid rgba(2,128,144,0.3); padding:16px; border-radius:12px;">
+            <div style="background:rgba(141, 115, 246,0.1); border:1px solid rgba(141, 115, 246,0.3); padding:16px; border-radius:12px;">
               <div style="display:flex; justify-content:space-between; margin-bottom:8px;">
                 <span style="font-weight:700; font-size:14px;">Today</span>
                 <span style="font-weight:600; color:var(--teal-light);">₹50,000</span>
@@ -504,7 +504,7 @@
           </div>
           <div style="margin-top:12px; display:flex; gap:8px;">
             <button class="btn-primary" style="flex:1; padding:8px; font-size:12px;" onclick="handleRazorpayPayment(250000, 'INV-2026-041', 'HVAC Installation', 'Sharma Ji', '9999999999', this)">💳 Pay Now</button>
-            <button class="btn-outline" style="flex:1; padding:8px; font-size:12px;" onclick="generateAgreementPDF(window.mockProjects[0], JSON.parse(localStorage.getItem('payvlt_user')||'{}'))">Download PDF</button>
+            <button class="btn-outline" style="flex:1; padding:8px; font-size:12px;" onclick="generateAgreementPDF(window.mockProjects[0], JSON.parse(localStorage.getItem('bucksbuddy_user')||'{}'))">Download PDF</button>
           </div>
         </div>
       </div>
@@ -682,12 +682,12 @@
     </div>
     <!-- ── SCORE & CREDIT SYSTEM ── -->
     <div id="page-score" class="page-content hidden">
-      <h2>My PayVlt Score</h2>
+      <h2>My BucksBuddy Score</h2>
       <p style="color:var(--text-muted); margin-bottom:24px;">Your reputation score visible to clients and buyers.</p>
       
       <div style="display:grid; grid-template-columns:repeat(auto-fill, minmax(350px, 1fr)); gap:24px; margin-bottom:32px;">
-        <div class="card" style="background:linear-gradient(135deg, #028090 0%, #0D1B3E 100%); padding:32px; border-radius:12px; border:1px solid var(--accent); color:white; text-align:center;">
-          <h3 style="font-size:18px; margin-bottom:16px;">PayVlt Verified Contractor</h3>
+        <div class="card" style="background:linear-gradient(135deg, #8D73F6 0%, #111111 100%); padding:32px; border-radius:12px; border:1px solid var(--accent); color:white; text-align:center;">
+          <h3 style="font-size:18px; margin-bottom:16px;">BucksBuddy Verified Contractor</h3>
           <div style="font-size:48px; font-weight:900; margin-bottom:8px;">⭐ 4.8</div>
           <p style="font-size:14px; margin-bottom:16px;">"23 projects | 0 disputes | Member since 2024"</p>
           <div style="display:flex; justify-content:center; gap:8px;">
@@ -709,9 +709,9 @@
         </div>
       </div>
 
-      <!-- PAYVLT CREDIT (FUTURE FEATURE) -->
-      <h3 class="mb-4" style="color:var(--accent-light);">PayVlt Credit (Coming Soon)</h3>
-      <div class="card" style="background:rgba(2,195,154,0.1); padding:24px; border-radius:12px; border:1px dashed var(--accent-light);">
+      <!-- bucksbuddy CREDIT (FUTURE FEATURE) -->
+      <h3 class="mb-4" style="color:var(--accent-light);">BucksBuddy Credit (Coming Soon)</h3>
+      <div class="card" style="background:rgba(199, 243, 107,0.1); padding:24px; border-radius:12px; border:1px dashed var(--accent-light);">
         <div class="flex-between mb-4">
           <div>
             <h4 style="font-size:18px; color:white;">Invoice Financing Available</h4>
@@ -725,7 +725,7 @@
             <strong>₹5,00,000</strong>
           </div>
           <div style="display:flex; justify-content:space-between; font-size:16px;">
-            <span style="color:var(--accent-light); font-weight:bold;">PayVlt Credit Offers Now:</span>
+            <span style="color:var(--accent-light); font-weight:bold;">BucksBuddy Credit Offers Now:</span>
             <strong style="color:var(--accent-light);">₹4,00,000</strong>
           </div>
           <div style="font-size:11px; color:var(--text-muted); text-align:right; margin-top:4px;">(80% of invoice value upfront. Client pays us directly.)</div>
@@ -737,7 +737,7 @@
     <!-- ── RECOVERY MODE ── (proper location) -->
     <div id="page-msme" class="page-content hidden">
       <h2 style="font-size:32px; margin-bottom:24px; color:#EF4444;">⚖️ Recovery Mode</h2>
-      <div style="background:linear-gradient(135deg, rgba(239,68,68,0.1) 0%, rgba(13,27,62,0.5) 100%); padding:32px; border-radius:16px; border:1px solid #EF4444; margin-bottom:24px;">
+      <div style="background:linear-gradient(135deg, rgba(239,68,68,0.1) 0%, rgba(17, 17, 17,0.5) 100%); padding:32px; border-radius:16px; border:1px solid #EF4444; margin-bottom:24px;">
         <h3 style="margin-bottom:12px; font-size:20px;">Payment Escalation Protocol</h3>
         <p style="color:var(--text-secondary); margin-bottom:24px; line-height:1.8;">When clients ignore reminders and break payment promises, use Recovery Mode. This disables automated polite follow-ups and switches to <strong style="color:white;">formal escalation notices</strong>.</p>
         <div style="display:grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap:16px; margin-bottom:24px;">
@@ -750,7 +750,7 @@
             <div style="font-size:12px; color:var(--text-muted);">Escalation Notice</div>
           </div>
           <div style="background:rgba(0,0,0,0.3); padding:16px; border-radius:12px; text-align:center;">
-            <div style="font-size:32px; font-weight:800; color:#02C39A;">Legal</div>
+            <div style="font-size:32px; font-weight:800; color:#C7F36B;">Legal</div>
             <div style="font-size:12px; color:var(--text-muted);">Mediation Handover</div>
           </div>
         </div>
@@ -843,7 +843,7 @@
       </label>
       <label class="checkbox-group" style="align-items:flex-start; margin:0;">
         <input type="checkbox" class="recovery-check" style="margin-top:4px;">
-        <span style="font-size:14px;"><strong>6. Final Intent:</strong> I authorize PayVlt to send a formal escalation notice to the client.</span>
+        <span style="font-size:14px;"><strong>6. Final Intent:</strong> I authorize BucksBuddy to send a formal escalation notice to the client.</span>
       </label>
     </div>
 
@@ -918,7 +918,7 @@
   function getSB() { if (!sb) sb = window.supabase.createClient(U, K); return sb; }
 
   function updateLanguage(lang) {
-    localStorage.setItem('payvlt_lang', lang);
+    localStorage.setItem('bucksbuddy_lang', lang);
     // Sync all language selectors
     document.querySelectorAll('#lang-selector, #sidebar-lang').forEach(el => { if(el) el.value = lang; });
     // Use i18n if available
@@ -1004,7 +1004,7 @@
     if(pageEl) pageEl.classList.remove('hidden');
 
     document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
-    const currentSegment = localStorage.getItem('payvlt_segment') || 'projects';
+    const currentSegment = localStorage.getItem('bucksbuddy_segment') || 'projects';
     const navSuffix = currentSegment === 'projects' ? '-p' : '-t';
     const activeNav = document.getElementById('nav-' + page + navSuffix);
     if(activeNav) activeNav.classList.add('active');
@@ -1019,7 +1019,7 @@
 
   // Language & Onboarding Helpers
   async function selectLanguage(lang) {
-    localStorage.setItem('payvlt_lang', lang);
+    localStorage.setItem('bucksbuddy_lang', lang);
     
     // Sync language selectors
     const langSel = document.getElementById('lang-selector');
@@ -1064,7 +1064,7 @@
   }
 
   async function selectObBusinessType(type) {
-    localStorage.setItem('payvlt_segment', type === 'contractor' ? 'projects' : 'trade');
+    localStorage.setItem('bucksbuddy_segment', type === 'contractor' ? 'projects' : 'trade');
     try {
       const client = getSB();
       const user = (await client.auth.getUser()).data.user;
@@ -1077,7 +1077,7 @@
     document.getElementById('ob-step-2').classList.remove('hidden');
 
     // Speak Step 2 prompt
-    const lang = localStorage.getItem('payvlt_lang') || 'en';
+    const lang = localStorage.getItem('bucksbuddy_lang') || 'en';
     let promptText = "";
     if (lang === 'hi') promptText = "क्या आप एमएसएमई रजिस्टर्ड हैं? क्या आपके पास उद्यम रजिस्ट्रेशन नंबर है?";
     else if (lang === 'hinglish') promptText = "Kya aap MSME registered hain? Kya aapke paas Udyam registration number hai?";
@@ -1090,19 +1090,19 @@
   }
 
   function selectObMSME(isRegistered) {
-    localStorage.setItem('payvlt_msme_registered', isRegistered ? 'true' : 'false');
+    localStorage.setItem('bucksbuddy_msme_registered', isRegistered ? 'true' : 'false');
     const yesBtn = document.getElementById('msme-yes-btn');
     const noBtn = document.getElementById('msme-no-btn');
     const container = document.getElementById('udyam-input-container');
 
     if (isRegistered) {
       yesBtn.style.borderColor = 'var(--teal)';
-      yesBtn.style.background = 'rgba(2, 128, 144, 0.15)';
+      yesBtn.style.background = 'rgba(141, 115, 246, 0.15)';
       noBtn.style.borderColor = 'var(--border)';
       noBtn.style.background = 'rgba(255,255,255,0.03)';
       container.classList.remove('hidden');
 
-      const lang = localStorage.getItem('payvlt_lang') || 'en';
+      const lang = localStorage.getItem('bucksbuddy_lang') || 'en';
       let text = "";
       if (lang === 'hi') text = "बहुत बढ़िया! कृपया अपना उद्यम नंबर यहां दर्ज करें।";
       else if (lang === 'hinglish') text = "Great! Please apna Udyam number enter karein.";
@@ -1113,28 +1113,28 @@
       if (typeof emaaSpeak === 'function') emaaSpeak(text);
     } else {
       noBtn.style.borderColor = 'var(--teal)';
-      noBtn.style.background = 'rgba(2, 128, 144, 0.15)';
+      noBtn.style.background = 'rgba(141, 115, 246, 0.15)';
       yesBtn.style.borderColor = 'var(--border)';
       yesBtn.style.background = 'rgba(255,255,255,0.03)';
       container.classList.add('hidden');
       document.getElementById('ob-udyam-num').value = '';
 
-      const lang = localStorage.getItem('payvlt_lang') || 'en';
+      const lang = localStorage.getItem('bucksbuddy_lang') || 'en';
       let text = "";
       if (lang === 'hi') text = "कोई बात नहीं! आप एमएसएमई एक्ट के बिना भी भुगतान सुरक्षा का उपयोग कर सकते हैं।";
       else if (lang === 'hinglish') text = "No problem! Aap MSME registration ke bina bhi payment protection use kar sakte hain.";
       else if (lang === 'mr') text = "काही हरकत नाही! तुम्ही एमएसएमई शिवाय देखील पेमेंट संरक्षण वापरू शकता.";
       else if (lang === 'gu') text = "કોઈ વાંધો નહીં! તમે એમએસએમઈ વિના પણ પેમેન્ટ પ્રોટેક્શનનો ઉપયોગ કરી શકો છો.";
       else if (lang === 'te') text = "పర్వాలేదు! MSME లేకపోయినా మీరు పేమెంట్ ప్రొటెక్షన్ ఉపయోగించవచ్చు.";
-      else text = "No problem! You can still use PayVlt to secure payments without MSME registration.";
+      else text = "No problem! You can still use BucksBuddy to secure payments without MSME registration.";
       if (typeof emaaSpeak === 'function') emaaSpeak(text);
     }
   }
 
   async function submitObMSME() {
-    const isRegistered = localStorage.getItem('payvlt_msme_registered');
+    const isRegistered = localStorage.getItem('bucksbuddy_msme_registered');
     if (isRegistered === null) {
-      const lang = localStorage.getItem('payvlt_lang') || 'en';
+      const lang = localStorage.getItem('bucksbuddy_lang') || 'en';
       let text = (lang === 'hi') ? "कृपया एक विकल्प चुनें।" : ((lang === 'hinglish') ? "Please ek option select karein." : "Please select an option to continue.");
       if (typeof emaaSpeak === 'function') emaaSpeak(text);
       showToast(text, 'warning');
@@ -1143,7 +1143,7 @@
 
     const udyamVal = document.getElementById('ob-udyam-num').value.trim();
     if (isRegistered === 'true' && udyamVal) {
-      localStorage.setItem('payvlt_udyam_number', udyamVal);
+      localStorage.setItem('bucksbuddy_udyam_number', udyamVal);
       try {
         const client = getSB();
         const user = (await client.auth.getUser()).data.user;
@@ -1156,7 +1156,7 @@
     document.getElementById('ob-step-2').classList.add('hidden');
     document.getElementById('ob-step-3').classList.remove('hidden');
 
-    const lang = localStorage.getItem('payvlt_lang') || 'en';
+    const lang = localStorage.getItem('bucksbuddy_lang') || 'en';
     let promptText = "";
     if (lang === 'hi') promptText = "अब अपनी कंपनी का नाम, जीएसटी और मोबाइल नंबर दर्ज करें। आप नाम बोलने के लिए माइक का उपयोग कर सकते हैं।";
     else if (lang === 'hinglish') promptText = "Ab apni company name, GST aur phone number enter karein. Name speak karne ke liye mic use kar sakte hain.";
@@ -1185,7 +1185,7 @@
     const recognition = new SpeechRec();
     recognition.continuous = false;
     recognition.interimResults = false;
-    recognition.lang = localStorage.getItem('payvlt_lang') === 'hi' ? 'hi-IN' : (localStorage.getItem('payvlt_lang') === 'hinglish' ? 'hi-IN' : 'en-IN');
+    recognition.lang = localStorage.getItem('bucksbuddy_lang') === 'hi' ? 'hi-IN' : (localStorage.getItem('bucksbuddy_lang') === 'hinglish' ? 'hi-IN' : 'en-IN');
     
     const input = document.getElementById(inputId);
     if (input) {
@@ -1225,16 +1225,16 @@
     const phone = document.getElementById('ob-company-phone').value.trim();
 
     if (!name || !phone) {
-      const lang = localStorage.getItem('payvlt_lang') || 'en';
+      const lang = localStorage.getItem('bucksbuddy_lang') || 'en';
       let text = (lang === 'hi') ? "कृपया कंपनी का नाम और फ़ोन नंबर दर्ज करें।" : ((lang === 'hinglish') ? "Please company name aur phone number fill karein." : "Please enter company name and phone number.");
       if (typeof emaaSpeak === 'function') emaaSpeak(text);
       showToast(text, 'warning');
       return;
     }
 
-    localStorage.setItem('payvlt_company_name', name);
-    localStorage.setItem('payvlt_company_gst', gst);
-    localStorage.setItem('payvlt_company_phone', phone);
+    localStorage.setItem('bucksbuddy_company_name', name);
+    localStorage.setItem('bucksbuddy_company_gst', gst);
+    localStorage.setItem('bucksbuddy_company_phone', phone);
 
     try {
       const client = getSB();
@@ -1257,7 +1257,7 @@
   }
 
   function finishOnboarding() {
-    localStorage.setItem('payvlt_ob_done', 'true');
+    localStorage.setItem('bucksbuddy_ob_done', 'true');
     const modal = document.getElementById('onboarding');
     modal.style.transition = 'opacity 0.5s ease';
     modal.style.opacity = '0';
@@ -1265,18 +1265,18 @@
       modal.classList.add('hidden');
       modal.style.opacity = '1';
       
-      const lang = localStorage.getItem('payvlt_lang') || 'en';
+      const lang = localStorage.getItem('bucksbuddy_lang') || 'en';
       let congrats = "";
       if (lang === 'hi') congrats = "बधाई हो! आपका सेटअप पूरा हो गया है। आपका पे-वॉल्ट डैशबोर्ड तैयार है।";
-      else if (lang === 'hinglish') congrats = "Congratulations! Aapka setup complete ho gaya hai. Aapka PayVlt dashboard ready hai.";
+      else if (lang === 'hinglish') congrats = "Congratulations! Aapka setup complete ho gaya hai. Aapka BucksBuddy dashboard ready hai.";
       else if (lang === 'mr') congrats = "अभिनंदन! तुमची मांडणी पूर्ण झाली आहे. तुमचे पे-वॉल्ट डॅशबोर्ड तयार आहे.";
       else if (lang === 'te') congrats = "అభినందనలు! మీ సెటప్ పూర్తయింది. మీ పే-వాల్ట్ డాష్‌బోర్డ్ సిద్ధంగా ఉంది.";
-      else congrats = "Congratulations! Your setup is complete. Your PayVlt dashboard is ready.";
+      else congrats = "Congratulations! Your setup is complete. Your BucksBuddy dashboard is ready.";
 
       if (typeof emaaSpeak === 'function') emaaSpeak(congrats);
       showToast(congrats, 'success');
 
-      const segment = localStorage.getItem('payvlt_segment') || 'projects';
+      const segment = localStorage.getItem('bucksbuddy_segment') || 'projects';
       document.getElementById('sidebar-projects').classList.toggle('hidden', segment !== 'projects');
       document.getElementById('sidebar-trade').classList.toggle('hidden', segment !== 'trade');
       document.querySelector('.chat-widget-btn').classList.remove('hidden');
@@ -1296,7 +1296,7 @@
   }
 
   function selectSegment(segment) {
-    localStorage.setItem('payvlt_segment', segment);
+    localStorage.setItem('bucksbuddy_segment', segment);
     document.getElementById('segment-selection').classList.add('hidden');
     document.getElementById('sidebar-projects').classList.toggle('hidden', segment !== 'projects');
     document.getElementById('sidebar-trade').classList.toggle('hidden', segment !== 'trade');
@@ -1308,12 +1308,12 @@
 
   // ── SITE DIARY FUNCTIONS ──
   function renderDiaryLogs() {
-    let logs = JSON.parse(localStorage.getItem('payvlt_diary_logs'));
+    let logs = JSON.parse(localStorage.getItem('bucksbuddy_diary_logs'));
     if (!logs || logs.length === 0) {
       logs = [
         { id: 'diary-1', date: '2026-05-10', project_name: 'HVAC Installation', cement: 50, labor: 15, notes: 'Plastering done on 2nd floor.', synced: true }
       ];
-      localStorage.setItem('payvlt_diary_logs', JSON.stringify(logs));
+      localStorage.setItem('bucksbuddy_diary_logs', JSON.stringify(logs));
     }
     const grid = document.getElementById('diary-logs-grid');
     if (!grid) return;
@@ -1348,7 +1348,7 @@
     const select = document.getElementById('d-project-select');
     if (select) {
       select.innerHTML = '';
-      const localProjs = JSON.parse(localStorage.getItem('payvlt_projects') || '[]');
+      const localProjs = JSON.parse(localStorage.getItem('bucksbuddy_projects') || '[]');
       const displayProjects = localProjs.length > 0 ? localProjs : (window.mockProjects || []);
       displayProjects.forEach(p => {
         select.innerHTML += `<option value="${p.project_name.replace(/"/g, '&quot;')}">${p.project_name}</option>`;
@@ -1373,7 +1373,7 @@
       return;
     }
     
-    let logs = JSON.parse(localStorage.getItem('payvlt_diary_logs') || '[]');
+    let logs = JSON.parse(localStorage.getItem('bucksbuddy_diary_logs') || '[]');
     const newLog = {
       id: 'diary-' + Date.now(),
       date,
@@ -1385,7 +1385,7 @@
     };
     
     logs.unshift(newLog);
-    localStorage.setItem('payvlt_diary_logs', JSON.stringify(logs));
+    localStorage.setItem('bucksbuddy_diary_logs', JSON.stringify(logs));
     
     closeModal('modal-diary');
     renderDiaryLogs();
@@ -1398,14 +1398,14 @@
   }
 
   function shareDiaryLog(logId) {
-    const logs = JSON.parse(localStorage.getItem('payvlt_diary_logs') || '[]');
+    const logs = JSON.parse(localStorage.getItem('bucksbuddy_diary_logs') || '[]');
     const l = logs.find(item => item.id === logId);
     if (!l) return;
     
     let msg = `Namaste! Here is the Site Diary Log for *${l.project_name}* on *${l.date}*:\n`;
     if (l.cement) msg += `- Cement: ${l.cement} bags\n`;
     if (l.labor) msg += `- Labor: ${l.labor} workers\n`;
-    msg += `- Progress Details: ${l.notes}\n\nLogged securely via PayVlt.`;
+    msg += `- Progress Details: ${l.notes}\n\nLogged securely via BucksBuddy.`;
     
     window.open(`https://wa.me/?text=${encodeURIComponent(msg)}`, '_blank');
     showToast("Opening WhatsApp to share log...", "info");
@@ -1421,11 +1421,11 @@
       return;
     }
     
-    const localProjs = JSON.parse(localStorage.getItem('payvlt_projects') || '[]');
+    const localProjs = JSON.parse(localStorage.getItem('bucksbuddy_projects') || '[]');
     const projects = localProjs.length > 0 ? localProjs : (window.mockProjects || []);
     
     // Generate valid Tally XML
-    let xml = `<?xml version="1.0" encoding="UTF-8"?>\n<ENVELOPE>\n  <HEADER>\n    <TALLYREQUEST>Import Data</TALLYREQUEST>\n  </HEADER>\n  <BODY>\n    <IMPORTDATA>\n      <REQUESTDESC>\n        <REPORTNAME>Vouchers</REPORTNAME>\n        <STATICVARIABLES>\n          <SVCURRENTCOMPANY>PayVlt Construction Services</SVCURRENTCOMPANY>\n        </STATICVARIABLES>\n      </REQUESTDESC>\n      <REQUESTDATA>\n`;
+    let xml = `<?xml version="1.0" encoding="UTF-8"?>\n<ENVELOPE>\n  <HEADER>\n    <TALLYREQUEST>Import Data</TALLYREQUEST>\n  </HEADER>\n  <BODY>\n    <IMPORTDATA>\n      <REQUESTDESC>\n        <REPORTNAME>Vouchers</REPORTNAME>\n        <STATICVARIABLES>\n          <SVCURRENTCOMPANY>BucksBuddy Construction Services</SVCURRENTCOMPANY>\n        </STATICVARIABLES>\n      </REQUESTDESC>\n      <REQUESTDATA>\n`;
     
     projects.forEach((p, idx) => {
       const remaining = p.total_amount - (p.paid_amount || 0);
@@ -1483,7 +1483,7 @@
     Hindi: {
       friendly: (n,a) => `Namaste ${n} ji 🙏\nPayment reminder: Aapka ₹${a} ka payment pending hai.\nKripya jaldi clear karein. Shukriya!`,
       firm:    (n,a,d) => `Namaste ${n} ji,\nAapka ₹${a} payment ${d} din se pending hai.\nKripya 48 ghante mein clear karein.`,
-      legal:   (n,a,d) => `Formal Notice — ${n} ji,\nAapka ₹${a} payment ${d} din se overdue hai.\nKripya turant payment karein to avoid formal escalation. Contact PayVlt for support.`
+      legal:   (n,a,d) => `Formal Notice — ${n} ji,\nAapka ₹${a} payment ${d} din se overdue hai.\nKripya turant payment karein to avoid formal escalation. Contact BucksBuddy for support.`
     }
   };
 
@@ -1560,7 +1560,7 @@
       ? Math.round((collected / (collected + receivable)) * 100)
       : 0;
 
-    const userData = JSON.parse(localStorage.getItem('payvlt_user') || '{}');
+    const userData = JSON.parse(localStorage.getItem('bucksbuddy_user') || '{}');
     window.emaaState.userContext = {
       companyName:     userData.company || userData.name || 'Aapka Business',
       totalReceivable: receivable,
@@ -1597,7 +1597,7 @@
       let title = diffDays === 0 ? 'Today' : (diffDays < 0 ? `${Math.abs(diffDays)} days ago (Missed)` : `In ${diffDays} days`);
       let titleColor = diffDays < 0 ? 'color:var(--text-muted);' : '';
       let amountColor = diffDays < 0 ? 'color:#FCA5A5;' : 'color:var(--teal-light);';
-      let bgStyle = diffDays < 0 ? 'background:rgba(255,255,255,0.02); border:1px solid var(--border);' : 'background:rgba(2,128,144,0.1); border:1px solid rgba(2,128,144,0.3);';
+      let bgStyle = diffDays < 0 ? 'background:rgba(255,255,255,0.02); border:1px solid var(--border);' : 'background:rgba(141, 115, 246,0.1); border:1px solid rgba(141, 115, 246,0.3);';
 
       return `
         <div style="${bgStyle} padding:16px; border-radius:12px;">
@@ -1839,7 +1839,7 @@
           </div>
           <div style="margin-top:12px; display:flex; gap:8px;">
             ${!isPaid ? `<button class="btn-primary" style="flex:1; padding:8px; font-size:12px;" onclick="handleRazorpayPayment(${remaining}, '${p.id}', '${p.project_name.replace(/'/g, "\\'")}', '${p.client_name.replace(/'/g, "\\'")}', '${p.client_phone || '9999999999'}', this)">💳 Pay Now</button>` : `<button class="btn-primary" style="flex:1; padding:8px; font-size:12px;" disabled>✅ Paid</button>`}
-            <button class="btn-outline" style="flex:1; padding:8px; font-size:12px;" onclick='generateAgreementPDF(${JSON.stringify(p).replace(/'/g, "&apos;")}, JSON.parse(localStorage.getItem("payvlt_user")||"{}"))'>Download PDF</button>
+            <button class="btn-outline" style="flex:1; padding:8px; font-size:12px;" onclick='generateAgreementPDF(${JSON.stringify(p).replace(/'/g, "&apos;")}, JSON.parse(localStorage.getItem("bucksbuddy_user")||"{}"))'>Download PDF</button>
           </div>
         </div>
       `;
@@ -1947,14 +1947,14 @@
         key: data.key_id,
         amount: amount * 100,
         currency: "INR",
-        name: "PayVlt",
+        name: "BucksBuddy",
         description: projectName,
         order_id: data.order_id,
         prefill: {
           name: clientName,
           contact: clientPhone
         },
-        theme: { color: "#00C9A7" },
+        theme: { color: "#C7F36B" },
         handler: async function (response) {
           try {
             const { data: { session } } = await client.auth.getSession();
@@ -2032,7 +2032,7 @@
   // Setup Session Watcher
   window.onload = () => {
     // Restore saved language
-    const savedLang = localStorage.getItem('payvlt_lang') || 'en';
+    const savedLang = localStorage.getItem('bucksbuddy_lang') || 'en';
     const langSel = document.getElementById('lang-selector');
     if (langSel) langSel.value = savedLang;
     if (window.App && window.App.i18n) window.App.i18n.setLanguage(savedLang);
@@ -2057,9 +2057,9 @@
         let greeting = hour < 12 ? "Good morning" : (hour < 17 ? "Good afternoon" : "Good evening");
         document.getElementById('greeting-text').innerHTML = `${greeting} 👋 <span id="dash-name">${cName}</span>`;
         
-        const currentSegment = localStorage.getItem('payvlt_segment');
-        const isObDone = localStorage.getItem('payvlt_ob_done');
-        const hasLang = localStorage.getItem('payvlt_lang');
+        const currentSegment = localStorage.getItem('bucksbuddy_segment');
+        const isObDone = localStorage.getItem('bucksbuddy_ob_done');
+        const hasLang = localStorage.getItem('bucksbuddy_lang');
         
         if (!isObDone) {
           // Language screen first if not selected yet
@@ -2198,7 +2198,7 @@
     const userDiv = document.createElement('div');
     userDiv.className = 'msg user';
     userDiv.innerHTML = text + `<span class="msg-time" style="font-size:10px; color:rgba(255,255,255,0.3); display:block; text-align:right; margin-top:4px;">${new Date().toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'})}</span>`;
-    userDiv.style.cssText = 'background:rgba(0, 201, 167, 0.1); color:#00C9A7; padding:12px; border-radius:12px; border-bottom-right-radius:4px; max-width:85%; align-self:flex-end; border:1px solid rgba(0, 201, 167, 0.2);';
+    userDiv.style.cssText = 'background:rgba(0, 201, 167, 0.1); color:#C7F36B; padding:12px; border-radius:12px; border-bottom-right-radius:4px; max-width:85%; align-self:flex-end; border:1px solid rgba(0, 201, 167, 0.2);';
     body.appendChild(userDiv);
     
     chatHistory.push({ role: 'user', content: text });
@@ -2244,7 +2244,7 @@
   }
 
   function switchSegment(segment) {
-    localStorage.setItem('payvlt_segment', segment);
+    localStorage.setItem('bucksbuddy_segment', segment);
     
     // Update active button styles
     const btnProjects = document.getElementById('btn-seg-projects');
@@ -2273,13 +2273,13 @@
     const currentTheme = body.getAttribute('data-theme');
     const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
     body.setAttribute('data-theme', newTheme);
-    localStorage.setItem('payvlt_theme', newTheme);
+    localStorage.setItem('bucksbuddy_theme', newTheme);
     document.getElementById('theme-icon').textContent = newTheme === 'dark' ? '🌙' : '☀️';
   }
 
   // Init Theme
   document.addEventListener('DOMContentLoaded', () => {
-    const savedTheme = localStorage.getItem('payvlt_theme') || 'dark';
+    const savedTheme = localStorage.getItem('bucksbuddy_theme') || 'dark';
     document.body.setAttribute('data-theme', savedTheme);
     const icon = document.getElementById('theme-icon');
     if(icon) icon.textContent = savedTheme === 'dark' ? '🌙' : '☀️';
@@ -2293,36 +2293,36 @@
 <div id="toast-container" class="toast-container"></div>
 
 <!-- FLOATING AI CHAT WIDGET -->
-<div class="chat-widget-btn" onclick="toggleChat()" style="position:fixed; bottom:32px; right:32px; width:60px; height:60px; background:#00C9A7; border-radius:50%; color:#000; display:flex; align-items:center; justify-content:center; font-size:24px; cursor:pointer; box-shadow:0 10px 24px rgba(0, 201, 167, 0.4); z-index:9999; transition:transform 0.3s;">
-  <div class="chat-pulse" style="position:absolute; width:100%; height:100%; border-radius:50%; border:2px solid #00C9A7; animation:chatPulse 2s infinite; pointer-events:none;"></div>
+<div class="chat-widget-btn" onclick="toggleChat()" style="position:fixed; bottom:32px; right:32px; width:60px; height:60px; background:#C7F36B; border-radius:50%; color:#000; display:flex; align-items:center; justify-content:center; font-size:24px; cursor:pointer; box-shadow:0 10px 24px rgba(0, 201, 167, 0.4); z-index:9999; transition:transform 0.3s;">
+  <div class="chat-pulse" style="position:absolute; width:100%; height:100%; border-radius:50%; border:2px solid #C7F36B; animation:chatPulse 2s infinite; pointer-events:none;"></div>
   <style>@keyframes chatPulse { 0% { transform:scale(1); opacity:0.8; } 100% { transform:scale(1.5); opacity:0; } }</style>
   💬
 </div>
 
-<div id="ai-chat-window" class="chat-window hidden" style="position:fixed; bottom:100px; right:32px; width:380px; height:520px; background:var(--card-bg); border-radius:16px; border:1px solid var(--border); border-top:4px solid #00C9A7; box-shadow:0 20px 40px rgba(0,0,0,0.5); display:flex; flex-direction:column; z-index:9999; overflow:hidden; transition:opacity 0.3s, transform 0.3s; transform-origin:bottom right;">
+<div id="ai-chat-window" class="chat-window hidden" style="position:fixed; bottom:100px; right:32px; width:380px; height:520px; background:var(--card-bg); border-radius:16px; border:1px solid var(--border); border-top:4px solid #C7F36B; box-shadow:0 20px 40px rgba(0,0,0,0.5); display:flex; flex-direction:column; z-index:9999; overflow:hidden; transition:opacity 0.3s, transform 0.3s; transform-origin:bottom right;">
   <div class="chat-header" style="padding:16px; border-bottom:1px solid var(--border); display:flex; justify-content:space-between; align-items:center; background:rgba(0,0,0,0.2);">
     <div class="chat-header-info" style="display:flex; align-items:center; gap:12px;">
-      <div class="chat-avatar" style="width:40px; height:40px; border-radius:50%; background:#00C9A7; display:flex; align-items:center; justify-content:center; font-size:20px;">🤖</div>
+      <div class="chat-avatar" style="width:40px; height:40px; border-radius:50%; background:#C7F36B; display:flex; align-items:center; justify-content:center; font-size:20px;">🤖</div>
       <div>
-        <div style="font-weight:600; font-size:15px;">PayVlt AI Advisor</div>
-        <div style="font-size:12px; color:#00C9A7;">● Business Expert — Online</div>
+        <div style="font-weight:600; font-size:15px;">BucksBuddy AI Advisor</div>
+        <div style="font-size:12px; color:#C7F36B;">● Business Expert — Online</div>
       </div>
     </div>
     <button onclick="toggleChat()" style="background:none; border:none; color:var(--text-muted); cursor:pointer; font-size:20px;">&times;</button>
   </div>
   <div class="chat-body" id="chat-body" style="flex:1; padding:16px; overflow-y:auto; display:flex; flex-direction:column; gap:16px;">
-    <div class="msg ai" style="background:rgba(255,255,255,0.05); padding:12px; border-radius:12px; border-bottom-left-radius:4px; max-width:85%; align-self:flex-start;">Namaste! 🙏 I am your PayVlt Collections Manager. I can help you with payment recovery, professional workflows, GST invoices, and managing your cash flow. What would you like to do?</div>
+    <div class="msg ai" style="background:rgba(255,255,255,0.05); padding:12px; border-radius:12px; border-bottom-left-radius:4px; max-width:85%; align-self:flex-start;">Namaste! 🙏 I am your BucksBuddy Collections Manager. I can help you with payment recovery, professional workflows, GST invoices, and managing your cash flow. What would you like to do?</div>
     
     <!-- Quick Replies -->
     <div class="chat-quick-replies" id="quick-replies" style="display:flex; flex-wrap:wrap; gap:8px; margin-bottom:16px;">
-      <div class="quick-chip" onclick="sendQuickReply(this.innerText)" style="padding:6px 12px; background:rgba(255,255,255,0.05); border:1px solid var(--border); border-radius:99px; font-size:12px; cursor:pointer; color:var(--text-muted); transition:all 0.2s;" onmouseover="this.style.background='rgba(0, 201, 167, 0.1)'; this.style.color='#00C9A7'; this.style.borderColor='#00C9A7'" onmouseout="this.style.background='rgba(255,255,255,0.05)'; this.style.color='var(--text-muted)'; this.style.borderColor='var(--border)'">Pending payments dikhao</div>
-      <div class="quick-chip" onclick="sendQuickReply(this.innerText)" style="padding:6px 12px; background:rgba(255,255,255,0.05); border:1px solid var(--border); border-radius:99px; font-size:12px; cursor:pointer; color:var(--text-muted); transition:all 0.2s;" onmouseover="this.style.background='rgba(0, 201, 167, 0.1)'; this.style.color='#00C9A7'; this.style.borderColor='#00C9A7'" onmouseout="this.style.background='rgba(255,255,255,0.05)'; this.style.color='var(--text-muted)'; this.style.borderColor='var(--border)'">Recovery mode explain karo</div>
-      <div class="quick-chip" onclick="sendQuickReply(this.innerText)" style="padding:6px 12px; background:rgba(255,255,255,0.05); border:1px solid var(--border); border-radius:99px; font-size:12px; cursor:pointer; color:var(--text-muted); transition:all 0.2s;" onmouseover="this.style.background='rgba(0, 201, 167, 0.1)'; this.style.color='#00C9A7'; this.style.borderColor='#00C9A7'" onmouseout="this.style.background='rgba(255,255,255,0.05)'; this.style.color='var(--text-muted)'; this.style.borderColor='var(--border)'">Client ne pay nahi kiya — help</div>
+      <div class="quick-chip" onclick="sendQuickReply(this.innerText)" style="padding:6px 12px; background:rgba(255,255,255,0.05); border:1px solid var(--border); border-radius:99px; font-size:12px; cursor:pointer; color:var(--text-muted); transition:all 0.2s;" onmouseover="this.style.background='rgba(0, 201, 167, 0.1)'; this.style.color='#C7F36B'; this.style.borderColor='#C7F36B'" onmouseout="this.style.background='rgba(255,255,255,0.05)'; this.style.color='var(--text-muted)'; this.style.borderColor='var(--border)'">Pending payments dikhao</div>
+      <div class="quick-chip" onclick="sendQuickReply(this.innerText)" style="padding:6px 12px; background:rgba(255,255,255,0.05); border:1px solid var(--border); border-radius:99px; font-size:12px; cursor:pointer; color:var(--text-muted); transition:all 0.2s;" onmouseover="this.style.background='rgba(0, 201, 167, 0.1)'; this.style.color='#C7F36B'; this.style.borderColor='#C7F36B'" onmouseout="this.style.background='rgba(255,255,255,0.05)'; this.style.color='var(--text-muted)'; this.style.borderColor='var(--border)'">Recovery mode explain karo</div>
+      <div class="quick-chip" onclick="sendQuickReply(this.innerText)" style="padding:6px 12px; background:rgba(255,255,255,0.05); border:1px solid var(--border); border-radius:99px; font-size:12px; cursor:pointer; color:var(--text-muted); transition:all 0.2s;" onmouseover="this.style.background='rgba(0, 201, 167, 0.1)'; this.style.color='#C7F36B'; this.style.borderColor='#C7F36B'" onmouseout="this.style.background='rgba(255,255,255,0.05)'; this.style.color='var(--text-muted)'; this.style.borderColor='var(--border)'">Client ne pay nahi kiya — help</div>
     </div>
   </div>
   <div class="chat-input-area" style="padding:16px; border-top:1px solid var(--border); display:flex; gap:8px; background:rgba(0,0,0,0.2);">
-    <input type="text" id="chat-input" placeholder="Type your message..." onkeypress="if(event.key === 'Enter') sendChatMessage()" style="flex:1; background:rgba(255,255,255,0.05); border:1px solid var(--border); border-radius:8px; padding:10px 16px; color:white; outline:none;" onfocus="this.style.borderColor='#00C9A7'" onblur="this.style.borderColor='var(--border)'">
-    <button onclick="sendChatMessage()" style="background:#00C9A7; border:none; width:40px; height:40px; border-radius:8px; cursor:pointer; color:#000; display:flex; align-items:center; justify-content:center;">
+    <input type="text" id="chat-input" placeholder="Type your message..." onkeypress="if(event.key === 'Enter') sendChatMessage()" style="flex:1; background:rgba(255,255,255,0.05); border:1px solid var(--border); border-radius:8px; padding:10px 16px; color:white; outline:none;" onfocus="this.style.borderColor='#C7F36B'" onblur="this.style.borderColor='var(--border)'">
+    <button onclick="sendChatMessage()" style="background:#C7F36B; border:none; width:40px; height:40px; border-radius:8px; cursor:pointer; color:#000; display:flex; align-items:center; justify-content:center;">
       <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="22" y1="2" x2="11" y2="13"></line><polygon points="22 2 15 22 11 13 2 9 22 2"></polygon></svg>
     </button>
   </div>
@@ -2344,7 +2344,7 @@
     bottom: 0;
     left: 0;
     right: 0;
-    background: #0D1B3E;
+    background: #111111;
     border-top: 1px solid var(--border);
     padding: 12px 10px;
     justify-content: space-around;
@@ -2374,17 +2374,17 @@
 </style>
 
 <!-- LANGUAGE FIRST SCREEN -->
-<div id="language-screen" class="modal-overlay hidden" style="z-index: 999999 !important; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: #050D1F; display: flex; align-items: center; justify-content: center;">
+<div id="language-screen" class="modal-overlay hidden" style="z-index: 999999 !important; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: #111111; display: flex; align-items: center; justify-content: center;">
   <div class="modal-content" style="max-width: 500px; text-align: center; padding: 40px; background: #0b141a; border: 1px solid var(--teal); border-radius: 24px; box-shadow: 0 20px 40px rgba(0,0,0,0.8);">
     
     <!-- Pulse Avatar -->
     <div style="display:flex; justify-content:center; margin-bottom:24px;">
-      <div class="pulsing-avatar" style="width:100px; height:100px; border-radius:50%; background:url('emaa-avatar.png') center/cover; border:3px solid var(--teal); position:relative; box-shadow: 0 0 30px rgba(2,128,144,0.4);">
+      <div class="pulsing-avatar" style="width:100px; height:100px; border-radius:50%; background:url('emaa-avatar.png') center/cover; border:3px solid var(--teal); position:relative; box-shadow: 0 0 30px rgba(141, 115, 246,0.4);">
         <div class="avatar-pulse-ring"></div>
       </div>
     </div>
 
-    <h2 style="font-size:28px; font-weight:700; margin-bottom:8px; color:white; font-family:'Inter', sans-serif;">Welcome to PayVlt 👋</h2>
+    <h2 style="font-size:28px; font-weight:700; margin-bottom:8px; color:white; font-family:'Inter', sans-serif;">Welcome to BucksBuddy 👋</h2>
     <p style="font-size:16px; color:var(--teal); font-weight:600; margin-bottom:4px; font-family:'Inter', sans-serif;">Apni bhasha chuniye</p>
     <p style="font-size:14px; color:var(--text-muted); margin-bottom:28px; font-family:'Inter', sans-serif;">Choose your language</p>
 
@@ -2420,9 +2420,9 @@
 
 <style>
   @keyframes avatarPulse {
-    0% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(2, 128, 144, 0.7); }
-    70% { transform: scale(1); box-shadow: 0 0 0 15px rgba(2, 128, 144, 0); }
-    100% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(2, 128, 144, 0); }
+    0% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(141, 115, 246, 0.7); }
+    70% { transform: scale(1); box-shadow: 0 0 0 15px rgba(141, 115, 246, 0); }
+    100% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(141, 115, 246, 0); }
   }
   .pulsing-avatar {
     animation: avatarPulse 2s infinite;
@@ -2440,10 +2440,10 @@
     transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
   }
   .lang-card-btn:hover {
-    background: rgba(2, 128, 144, 0.1);
+    background: rgba(141, 115, 246, 0.1);
     border-color: var(--teal);
     transform: translateY(-3px);
-    box-shadow: 0 8px 16px rgba(2, 128, 144, 0.2);
+    box-shadow: 0 8px 16px rgba(141, 115, 246, 0.2);
   }
 </style>
 
@@ -2452,7 +2452,7 @@
   <div class="modal-content" style="max-width:500px; text-align:center; padding:40px; pointer-events: auto !important; position: relative; z-index: 999999 !important; background: #0b141a; border: 1px solid var(--teal); border-radius: 24px;">
     <!-- Greeting from Emaa -->
     <div style="display:flex; justify-content:center; margin-bottom:20px;">
-      <div style="width:80px; height:80px; border-radius:50%; background:url('emaa-avatar.png') center/cover; border:2px solid var(--teal); box-shadow: 0 0 20px rgba(2,128,144,0.3);"></div>
+      <div style="width:80px; height:80px; border-radius:50%; background:url('emaa-avatar.png') center/cover; border:2px solid var(--teal); box-shadow: 0 0 20px rgba(141, 115, 246,0.3);"></div>
     </div>
     
     <!-- Step 1: Business Type -->
@@ -2496,7 +2496,7 @@
         <div>
           <label style="display:flex; justify-content:space-between; align-items:center; font-size:12px; color:var(--text-muted); margin-bottom:6px;">
             <span>Company Name *</span>
-            <button onclick="startObVoiceInput('ob-company-name')" style="background:rgba(2,128,144,0.15); border:1px solid var(--teal); border-radius:4px; padding:2px 8px; color:var(--teal); cursor:pointer; font-size:11px; display:flex; align-items:center; gap:4px;">
+            <button onclick="startObVoiceInput('ob-company-name')" style="background:rgba(141, 115, 246,0.15); border:1px solid var(--teal); border-radius:4px; padding:2px 8px; color:var(--teal); cursor:pointer; font-size:11px; display:flex; align-items:center; gap:4px;">
               🎤 Speak Name
             </button>
           </label>
@@ -2525,14 +2525,14 @@
 <div id="emaa-widget-container" style="position:fixed; bottom:30px; right:100px; z-index:10000; font-family:'Inter',sans-serif;">
 
   <!-- Emaa Panel -->
-  <div id="emaa-panel" style="display:none; width:360px; background:#0b141a; border:1px solid rgba(2,128,144,0.4); border-radius:24px; margin-bottom:16px; box-shadow:0 20px 40px rgba(0,0,0,0.7); overflow:hidden; flex-direction:column; transform-origin:bottom right; transition:all 0.3s cubic-bezier(0.175,0.885,0.32,1.275); transform:scale(0.9); opacity:0;">
+  <div id="emaa-panel" style="display:none; width:360px; background:#0b141a; border:1px solid rgba(141, 115, 246,0.4); border-radius:24px; margin-bottom:16px; box-shadow:0 20px 40px rgba(0,0,0,0.7); overflow:hidden; flex-direction:column; transform-origin:bottom right; transition:all 0.3s cubic-bezier(0.175,0.885,0.32,1.275); transform:scale(0.9); opacity:0;">
     
     <!-- Header -->
-    <div style="padding:16px 20px; display:flex; align-items:center; justify-content:space-between; background:radial-gradient(circle at top, rgba(2,128,144,0.18) 0%, transparent 80%); border-bottom:1px solid rgba(255,255,255,0.06);">
+    <div style="padding:16px 20px; display:flex; align-items:center; justify-content:space-between; background:radial-gradient(circle at top, rgba(141, 115, 246,0.18) 0%, transparent 80%); border-bottom:1px solid rgba(255,255,255,0.06);">
       <div style="display:flex; align-items:center; gap:12px;">
-        <div style="width:44px; height:44px; border-radius:50%; background:url('emaa-avatar.png') center/cover; border:2px solid rgba(2,128,144,0.6); position:relative;">
-          <div class="emaa-ring" id="emaa-ring-1" style="position:absolute; inset:-10px; border-radius:50%; border:2px solid #028090; opacity:0; transition:all 0.2s;"></div>
-          <div class="emaa-ring" id="emaa-ring-2" style="position:absolute; inset:-20px; border-radius:50%; border:1px solid #028090; opacity:0; transition:all 0.2s;"></div>
+        <div style="width:44px; height:44px; border-radius:50%; background:url('emaa-avatar.png') center/cover; border:2px solid rgba(141, 115, 246,0.6); position:relative;">
+          <div class="emaa-ring" id="emaa-ring-1" style="position:absolute; inset:-10px; border-radius:50%; border:2px solid #8D73F6; opacity:0; transition:all 0.2s;"></div>
+          <div class="emaa-ring" id="emaa-ring-2" style="position:absolute; inset:-20px; border-radius:50%; border:1px solid #8D73F6; opacity:0; transition:all 0.2s;"></div>
         </div>
         <div>
           <div style="font-weight:700; font-size:15px; color:#fff;">EMAA</div>
@@ -2551,7 +2551,7 @@
 
     <!-- CHAT PANEL -->
     <div id="emaa-chat-panel" style="display:flex; flex-direction:column; height:420px;">
-      <div id="emaa-messages" style="flex:1; padding:16px; overflow-y:auto; display:flex; flex-direction:column; gap:0; scrollbar-width:thin; scrollbar-color:rgba(2,128,144,0.3) transparent;"></div>
+      <div id="emaa-messages" style="flex:1; padding:16px; overflow-y:auto; display:flex; flex-direction:column; gap:0; scrollbar-width:thin; scrollbar-color:rgba(141, 115, 246,0.3) transparent;"></div>
       
       <!-- Quick chips -->
       <div id="emaa-chips" style="padding:0 16px 10px; display:flex; flex-wrap:wrap; gap:6px;">
@@ -2574,10 +2574,10 @@
     </div>
 
     <!-- VOICE PANEL -->
-    <div id="emaa-voice-panel" style="display:none; flex-direction:column; height:420px; align-items:center; justify-content:center; padding:32px; background:radial-gradient(circle at center, rgba(2,128,144,0.08) 0%, transparent 70%);">
-      <div style="width:100px; height:100px; border-radius:50%; background:url('emaa-avatar.png') center/cover; position:relative; margin-bottom:24px; box-shadow:0 0 30px rgba(2,128,144,0.35); z-index:2;">
-        <div class="emaa-ring" id="emaa-ring-3" style="position:absolute; inset:-14px; border-radius:50%; border:2px solid #028090; opacity:0; transition:all 0.2s;"></div>
-        <div class="emaa-ring" id="emaa-ring-4" style="position:absolute; inset:-28px; border-radius:50%; border:1px solid #028090; opacity:0; transition:all 0.2s;"></div>
+    <div id="emaa-voice-panel" style="display:none; flex-direction:column; height:420px; align-items:center; justify-content:center; padding:32px; background:radial-gradient(circle at center, rgba(141, 115, 246,0.08) 0%, transparent 70%);">
+      <div style="width:100px; height:100px; border-radius:50%; background:url('emaa-avatar.png') center/cover; position:relative; margin-bottom:24px; box-shadow:0 0 30px rgba(141, 115, 246,0.35); z-index:2;">
+        <div class="emaa-ring" id="emaa-ring-3" style="position:absolute; inset:-14px; border-radius:50%; border:2px solid #8D73F6; opacity:0; transition:all 0.2s;"></div>
+        <div class="emaa-ring" id="emaa-ring-4" style="position:absolute; inset:-28px; border-radius:50%; border:1px solid #8D73F6; opacity:0; transition:all 0.2s;"></div>
       </div>
 
       <!-- Sound wave -->
@@ -2588,7 +2588,7 @@
       <div id="emaa-voice-transcript" style="font-size:14px; color:#94a3b8; text-align:center; min-height:44px; line-height:1.6; margin-bottom:24px; font-style:italic; max-width:260px;">Tap the mic to start talking...</div>
 
       <!-- Mic button -->
-      <button id="emaa-mic-btn" onclick="emaaStartListening()" style="width:72px; height:72px; border-radius:50%; background:#028090; border:none; color:#fff; cursor:pointer; display:flex; align-items:center; justify-content:center; box-shadow:0 8px 24px rgba(2,128,144,0.45); transition:all 0.2s; position:relative;">
+      <button id="emaa-mic-btn" onclick="emaaStartListening()" style="width:72px; height:72px; border-radius:50%; background:#8D73F6; border:none; color:#fff; cursor:pointer; display:flex; align-items:center; justify-content:center; box-shadow:0 8px 24px rgba(141, 115, 246,0.45); transition:all 0.2s; position:relative;">
         <svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2a3 3 0 0 0-3 3v7a3 3 0 0 0 6 0V5a3 3 0 0 0-3-3Z"/><path d="M19 10v2a7 7 0 0 1-14 0v-2"/><line x1="12" y1="19" x2="12" y2="22"/></svg>
       </button>
       <div style="margin-top:12px; font-size:12px; color:#475569; text-align:center;">Chrome/Edge recommended for voice</div>
@@ -2599,8 +2599,8 @@
   <div id="emaa-tooltip" class="emaa-tooltip">👋 Hi! I'm Emaa — ask me anything!</div>
 
   <!-- FAB Button -->
-  <button id="emaa-fab" onclick="toggleEmaaPanel()" style="width:60px; height:60px; border-radius:50%; background:url('emaa-avatar.png') center/cover; border:2px solid #028090; cursor:pointer; box-shadow:0 10px 30px rgba(0,0,0,0.5); position:relative; margin-left:auto; display:block; transition:transform 0.2s;">
-    <div style="position:absolute; bottom:1px; right:1px; width:13px; height:13px; background:#22c55e; border-radius:50%; border:2px solid #050D1F; box-shadow:0 0 8px rgba(34,197,94,0.5);"></div>
+  <button id="emaa-fab" onclick="toggleEmaaPanel()" style="width:60px; height:60px; border-radius:50%; background:url('emaa-avatar.png') center/cover; border:2px solid #8D73F6; cursor:pointer; box-shadow:0 10px 30px rgba(0,0,0,0.5); position:relative; margin-left:auto; display:block; transition:transform 0.2s;">
+    <div style="position:absolute; bottom:1px; right:1px; width:13px; height:13px; background:#22c55e; border-radius:50%; border:2px solid #111111; box-shadow:0 0 8px rgba(34,197,94,0.5);"></div>
     <span style="position:absolute; bottom:-20px; left:50%; transform:translateX(-50%); font-size:9px; font-weight:700; color:#94a3b8; white-space:nowrap;">EMAA</span>
   </button>
 </div>

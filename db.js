@@ -2,7 +2,7 @@
 const { DatabaseSync } = require('node:sqlite');
 const path = require('path');
 
-const dbPath = process.env.DATABASE_PATH || path.join(__dirname, 'paydost.db');
+const dbPath = process.env.DATABASE_PATH || path.join(__dirname, 'bucksbuddy.db');
 const db = new DatabaseSync(dbPath);
 
 // Enable WAL + foreign keys

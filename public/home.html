@@ -3,15 +3,15 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>PayVlt | Automated Payment Recovery for Indian Contractors</title>
-  <meta name="description" content="PayVlt helps Indian HVAC, Civil, and Electrical contractors recover payments automatically with digital agreements, smart workflows, and WhatsApp reminders.">
+  <title>BucksBuddy | Automated Payment Recovery for Indian Contractors</title>
+  <meta name="description" content="BucksBuddy helps Indian HVAC, Civil, and Electrical contractors recover payments automatically with digital agreements, smart workflows, and WhatsApp reminders.">
   
   <!-- OpenGraph / Social Meta Tags -->
   <meta property="og:type" content="website">
-  <meta property="og:title" content="PayVlt | Automated Payment Recovery for Indian Contractors">
-  <meta property="og:description" content="PayVlt helps Indian HVAC, Civil, and Electrical contractors recover payments automatically. Send professional WhatsApp reminders and manage your cash flow.">
-  <meta property="og:image" content="https://payvlt.in/og-image.png">
-  <meta property="og:url" content="https://payvlt.in/">
+  <meta property="og:title" content="BucksBuddy | Automated Payment Recovery for Indian Contractors">
+  <meta property="og:description" content="BucksBuddy helps Indian HVAC, Civil, and Electrical contractors recover payments automatically. Send professional WhatsApp reminders and manage your cash flow.">
+  <meta property="og:image" content="https://bucksbuddy.in/og-image.png">
+  <meta property="og:url" content="https://bucksbuddy.in/">
   <meta name="twitter:card" content="summary_large_image">
 
   <!-- JSON-LD Schema -->
@@ -19,7 +19,7 @@
   {
     "@context": "https://schema.org",
     "@type": "SoftwareApplication",
-    "name": "PayVlt",
+    "name": "BucksBuddy",
     "operatingSystem": "Web",
     "applicationCategory": "BusinessApplication",
     "offers": {
@@ -30,22 +30,7 @@
     "description": "B2B SaaS helping Indian contractors recover payments automatically with digital agreements, smart workflows, and automated reminders in local languages."
   }
   </script>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-  <style>
-    /* CSS VARIABLES & RESET */
-    :root {
-      --bg: #0D1B3E;
-      --bg-card: #16264f;
-      --teal: #028090;
-      --teal-light: #03a5b9;
-      --teal-glow: rgba(2, 128, 144, 0.4);
-      --text: #ffffff;
-      --text-muted: #94a3b8;
-      --border: rgba(255, 255, 255, 0.1);
-      --danger: #ef4444;
-      --danger-light: rgba(239, 68, 68, 0.1);
-    }
-    * { margin:0; padding:0; box-sizing:border-box; font-family:'Inter', sans-serif; }
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Sora:wght@400;600;700;800&display=swap'Inter', sans-serif; }
     body { background-color: var(--bg); color: var(--text); overflow-x: hidden; scroll-behavior: smooth; }
     a { text-decoration:none; color:inherit; }
     ul { list-style:none; }
@@ -74,7 +59,7 @@
 
     /* 1. NAVBAR */
     .navbar { position:fixed; top:0; left:0; width:100%; z-index:1000; padding:24px 5%; display:flex; justify-content:space-between; align-items:center; transition:all 0.3s ease; border-bottom:1px solid transparent; }
-    .navbar.scrolled { padding:16px 5%; background:rgba(13, 27, 62, 0.85); backdrop-filter:blur(12px); border-bottom:1px solid var(--border); }
+    .navbar.scrolled { padding:16px 5%; background:rgba(17, 17, 17, 0.85); backdrop-filter:blur(12px); border-bottom:1px solid var(--border); }
     .logo { font-size:24px; font-weight:800; letter-spacing:-0.5px; }
     .nav-links { display:flex; gap:32px; }
     .nav-links a { color:var(--text-muted); font-weight:500; transition:color 0.2s; }
@@ -105,7 +90,7 @@
     .badge-t { background:var(--teal-glow); color:var(--teal-light); padding:4px 8px; border-radius:4px; font-size:11px; font-weight:600; }
     .badge-r { background:var(--danger-light); color:var(--danger); padding:4px 8px; border-radius:4px; font-size:11px; font-weight:600; }
     
-    .wa-popup { position:absolute; bottom:-30px; right:-30px; background:#1e293b; border:1px solid var(--border); border-radius:12px; padding:16px; width:280px; box-shadow:0 20px 40px rgba(0,0,0,0.5); display:flex; gap:12px; animation:slide-up-fade 0.5s ease 2s both; }
+    .wa-popup { position:absolute; bottom:-30px; right:-30px; background:#1A1A1A; border:1px solid var(--border); border-radius:12px; padding:16px; width:280px; box-shadow:0 20px 40px rgba(0,0,0,0.5); display:flex; gap:12px; animation:slide-up-fade 0.5s ease 2s both; }
     .wa-icon { width:36px; height:36px; background:#25D366; border-radius:50%; display:flex; align-items:center; justify-content:center; flex-shrink:0; font-size:20px; }
     .wa-text { font-size:13px; line-height:1.4; color:#e2e8f0; }
 
@@ -130,25 +115,25 @@
     .bento-ui { margin-top:auto; background:rgba(0,0,0,0.3); border:1px solid var(--border); border-radius:12px; padding:16px; }
 
     /* 6. AI DEMO */
-    .ai-demo { background:radial-gradient(circle at center, #16264f 0%, #0D1B3E 100%); border:1px solid var(--border); border-radius:24px; padding:64px; text-align:center; }
+    .ai-demo { background:radial-gradient(circle at center, #16264f 0%, #111111 100%); border:1px solid var(--border); border-radius:24px; padding:64px; text-align:center; }
     .demo-input-group { display:flex; max-width:500px; margin:32px auto; gap:12px; background:rgba(0,0,0,0.3); padding:8px; border-radius:12px; border:1px solid var(--border); }
     .demo-input { flex:1; background:transparent; border:none; color:#fff; padding:12px; font-size:16px; outline:none; }
     .demo-result { max-width:400px; margin:32px auto 0; background:#075e54; border-radius:16px; border-top-left-radius:0; padding:16px; text-align:left; font-size:15px; line-height:1.5; box-shadow:0 10px 20px rgba(0,0,0,0.3); display:none; }
 
     /* 7.5 INTEGRATIONS - FLOW DIAGRAM */
-    .integrations-sec { padding:80px 5%; background:radial-gradient(ellipse at top, #16264f 0%, #0D1B3E 70%); text-align:center; overflow:hidden; border-top:1px solid var(--border); border-bottom:1px solid var(--border); }
+    .integrations-sec { padding:80px 5%; background:radial-gradient(ellipse at top, #16264f 0%, #111111 70%); text-align:center; overflow:hidden; border-top:1px solid var(--border); border-bottom:1px solid var(--border); }
     .flow-diagram { position:relative; max-width:760px; margin:60px auto 0; }
     .flow-row { display:flex; justify-content:center; gap:16px; margin-bottom:0; }
-    .flow-node { background:rgba(2,128,144,0.15); border:1px solid rgba(2,128,144,0.4); border-radius:10px; padding:10px 20px; font-size:14px; font-weight:600; color:var(--text); white-space:nowrap; position:relative; }
-    .flow-node.center { background:linear-gradient(135deg,#028090,#014d56); border-color:var(--teal); font-size:18px; font-weight:800; padding:16px 32px; border-radius:16px; box-shadow:0 0 40px rgba(2,128,144,0.4); }
+    .flow-node { background:rgba(141, 115, 246,0.15); border:1px solid rgba(141, 115, 246,0.4); border-radius:10px; padding:10px 20px; font-size:14px; font-weight:600; color:var(--text); white-space:nowrap; position:relative; }
+    .flow-node.center { background:linear-gradient(135deg,#8D73F6,#014d56); border-color:var(--teal); font-size:18px; font-weight:800; padding:16px 32px; border-radius:16px; box-shadow:0 0 40px rgba(141, 115, 246,0.4); }
     .flow-node.output { background:rgba(255,255,255,0.05); border-color:rgba(255,255,255,0.15); font-size:13px; }
     .flow-connector { display:flex; justify-content:center; position:relative; }
-    .flow-connector .line-v { width:2px; height:32px; background:rgba(2,128,144,0.4); margin:0 auto; }
+    .flow-connector .line-v { width:2px; height:32px; background:rgba(141, 115, 246,0.4); margin:0 auto; }
     .flow-connector .line-h { position:relative; display:flex; justify-content:center; align-items:flex-start; }
     .flow-connector .branch-wrap { display:flex; gap:0; position:relative; }
-    .flow-connector .branch-wrap::before { content:''; position:absolute; top:0; left:50px; right:50px; height:2px; background:rgba(2,128,144,0.4); }
+    .flow-connector .branch-wrap::before { content:''; position:absolute; top:0; left:50px; right:50px; height:2px; background:rgba(141, 115, 246,0.4); }
     .flow-branch { display:flex; flex-direction:column; align-items:center; flex:1; }
-    .flow-branch .v-line { width:2px; height:28px; background:rgba(2,128,144,0.4); }
+    .flow-branch .v-line { width:2px; height:28px; background:rgba(141, 115, 246,0.4); }
     
     /* Floating icon bubbles for hero */
     .float-icons { position:absolute; top:0; left:0; width:100%; height:100%; pointer-events:none; z-index:0; }
@@ -156,19 +141,19 @@
     @keyframes floatBobble { 0%,100%{transform:translateY(0px)} 50%{transform:translateY(-14px)} }
     .fi-whatsapp { width:52px;height:52px; background:#25D366; top:12%; right:55%; animation-delay:0s; box-shadow:0 8px 24px rgba(37,211,102,0.3); border-radius:14px; }
     .fi-gst { width:48px;height:48px; background:#0F52BA; top:20%; right:42%; animation-delay:1.2s; box-shadow:0 8px 24px rgba(15,82,186,0.3); border-radius:12px; }
-    .fi-razorpay { width:52px;height:52px; background:#02042b; border:1px solid #028090; top:8%; right:35%; animation-delay:0.6s; border-radius:14px; }
+    .fi-razorpay { width:52px;height:52px; background:#02042b; border:1px solid #8D73F6; top:8%; right:35%; animation-delay:0.6s; border-radius:14px; }
     .fi-tally { width:44px;height:44px; background:#F3A812; top:35%; right:48%; animation-delay:1.8s; box-shadow:0 8px 24px rgba(243,168,18,0.3); border-radius:12px; }
     .fi-upi { width:48px;height:48px; background:#fff; top:15%; right:28%; animation-delay:2.4s; box-shadow:0 8px 24px rgba(255,255,255,0.15); border-radius:14px; }
     .split-container { display:flex; gap:32px; margin-top:40px; overflow:hidden; }
     .split-card { flex:1; padding:40px; border-radius:24px; border:1px solid var(--border); }
     .split-bad { background:linear-gradient(180deg, rgba(239, 68, 68, 0.05) 0%, transparent 100%); border-top-color:var(--danger); }
-    .split-good { background:linear-gradient(180deg, rgba(2, 128, 144, 0.05) 0%, transparent 100%); border-top-color:var(--teal); }
+    .split-good { background:linear-gradient(180deg, rgba(141, 115, 246, 0.05) 0%, transparent 100%); border-top-color:var(--teal); }
     .chat-bubble { padding:16px; border-radius:16px; margin-bottom:16px; font-size:15px; line-height:1.5; display:inline-block; max-width:80%; }
     .bubble-sent { background:#2a3942; border-bottom-right-radius:4px; float:right; clear:both; }
     .bubble-received { background:#202c33; border-bottom-left-radius:4px; float:left; clear:both; }
 
     /* 7.5 INTEGRATIONS */
-    .integrations-sec { padding:80px 5%; background:radial-gradient(ellipse at top, #16264f 0%, #0D1B3E 70%); text-align:center; overflow:hidden; border-top:1px solid var(--border); border-bottom:1px solid var(--border); }
+    .integrations-sec { padding:80px 5%; background:radial-gradient(ellipse at top, #16264f 0%, #111111 70%); text-align:center; overflow:hidden; border-top:1px solid var(--border); border-bottom:1px solid var(--border); }
     .integrations-marquee { display:flex; gap:24px; margin-top:48px; flex-wrap:wrap; justify-content:center; max-width:900px; margin-left:auto; margin-right:auto; }
     .int-card { background:var(--bg-card); border:1px solid var(--border); border-radius:16px; padding:16px 24px; display:flex; align-items:center; gap:16px; font-weight:600; font-size:18px; color:var(--text); transition:transform 0.3s; box-shadow:0 10px 30px rgba(0,0,0,0.2); }
     .int-card:hover { transform:translateY(-5px); border-color:var(--teal); }
@@ -193,7 +178,7 @@
     .testi-carousel { display:flex; gap:24px; overflow-x:auto; padding:20px 0; scrollbar-width:none; }
     .testi-carousel::-webkit-scrollbar { display:none; }
     .testi-card { min-width:360px; background:var(--bg-card); border:1px solid var(--border); border-radius:20px; padding:32px; transition:border-color 0.3s; }
-    .testi-card:hover { border-color:rgba(2,128,144,0.4); }
+    .testi-card:hover { border-color:rgba(141, 115, 246,0.4); }
     .stars { color:#fbbf24; margin-bottom:16px; letter-spacing:2px; font-size:18px; }
 
     /* CHARACTER FLOAT ANIMATION */
@@ -268,7 +253,7 @@
 
   <!-- 1. NAVBAR -->
   <nav class="navbar" id="navbar">
-    <a href="#" class="logo">PayVlt <span style="color:var(--teal);">💰</span></a>
+    <a href="#" class="logo"><img src="/images/bucksbuddy_logo.svg" alt="BucksBuddy" style="height:32px; vertical-align:middle;"></a>
     <div class="nav-links">
       <a href="#features">Features</a>
       <a href="#pricing">Pricing</a>
@@ -287,7 +272,7 @@
     <div class="float-icons">
       <div class="float-icon fi-whatsapp"><svg width="28" height="28" viewBox="0 0 24 24" fill="#fff"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51a12.8 12.8 0 0 0-.57-.01c-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 0 1-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 0 1-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 0 1 2.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0 0 12.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 0 0 5.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 0 0-3.48-8.413Z"/></svg></div>
       <div class="float-icon fi-gst" style="color:#fff;font-weight:900;font-size:16px;">₹</div>
-      <div class="float-icon fi-razorpay" style="color:#028090;font-weight:900;font-size:14px;">Rz</div>
+      <div class="float-icon fi-razorpay" style="color:#8D73F6;font-weight:900;font-size:14px;">Rz</div>
       <div class="float-icon fi-tally" style="color:#fff;font-weight:900;font-size:16px;">T</div>
       <div class="float-icon fi-upi" style="color:#000;font-weight:900;font-style:italic;font-size:13px;">UPI</div>
     </div>
@@ -381,7 +366,7 @@
   <!-- 4. PROBLEM SECTION -->
   <section class="section-pad">
     <h2 class="sec-title fade-up">The Payment Chase Never Ends</h2>
-    <p class="sec-sub fade-up">PayVlt + Emaa automate the chase so you can focus on building.</p>
+    <p class="sec-sub fade-up">BucksBuddy + Emaa automate the chase so you can focus on building.</p>
     <div class="problem-grid">
       <div class="problem-card fade-up stagger-1">
         <div class="problem-icon">👻</div>
@@ -413,7 +398,7 @@
             <div style="display:flex; align-items:center; gap:10px;">
               <div class="wa-mock-avatar">💬</div>
               <div>
-                <div style="font-size:12px; font-weight:700; color:#fff; line-height:1.2;">PayVlt Automated</div>
+                <div style="font-size:12px; font-weight:700; color:#fff; line-height:1.2;">BucksBuddy Automated</div>
                 <div style="font-size:9px; color:#22c55e; font-weight:500;">• Online</div>
               </div>
             </div>
@@ -427,7 +412,7 @@
             </div>
             <div class="wa-bubble sent">
               <span style="font-weight:600; color:var(--teal-light); display:block; margin-bottom:2px;">Auto-Reminder ⏳</span>
-              Namaste Rahul ji 🙏. Balance of ₹1,60,000 is due. Please pay within 7 days as per our agreed terms. Pay via: <span style="text-decoration:underline; color:#38bdf8;">payvlt.in/p/9283</span>
+              Namaste Rahul ji 🙏. Balance of ₹1,60,000 is due. Please pay within 7 days as per our agreed terms. Pay via: <span style="text-decoration:underline; color:#38bdf8;">bucksbuddy.in/p/9283</span>
               <span class="wa-bubble-time">11:15 AM ✓✓</span>
             </div>
             <div class="wa-bubble received">
@@ -435,7 +420,7 @@
               <span class="wa-bubble-time">11:20 AM</span>
             </div>
             <div class="wa-bubble sent success">
-              🎉 Payment Received! Outstanding updated to ₹0. Thank you for using PayVlt.
+              🎉 Payment Received! Outstanding updated to ₹0. Thank you for using BucksBuddy.
               <span class="wa-bubble-time">11:22 AM ✓✓</span>
             </div>
           </div>
@@ -479,7 +464,7 @@
         <p style="color:var(--text-muted); line-height:1.5; font-size:15px;">Emaa tracks client promises and follows up automatically when they miss a date.</p>
         <div style="margin-top:24px; background:rgba(0,0,0,0.3); border:1px solid var(--border); border-radius:12px; padding:20px; text-align:center;">
           <div style="font-size:12px; color:var(--text-muted); margin-bottom:12px;">Next Action Suggested</div>
-          <div style="background:rgba(2,128,144,0.1); padding:12px; border-radius:8px; border:1px solid rgba(2,128,144,0.3);">
+          <div style="background:rgba(141, 115, 246,0.1); padding:12px; border-radius:8px; border:1px solid rgba(141, 115, 246,0.3);">
              <span style="display:block; font-size:13px; font-weight:600; margin-bottom:4px; color:#fff;">Client missed Thursday promise</span>
              <span style="font-size:11px; color:var(--text-muted);">Emaa will send a polite check-in at 10 AM.</span>
           </div>
@@ -510,15 +495,15 @@
 
   <!-- 6. EMAA AI VOICE ASSISTANT -->
   <section id="demo" class="section-pad" style="padding-top:0;">
-    <div class="ai-demo fade-up" style="background:radial-gradient(circle at right, #16264f 0%, #0D1B3E 100%); text-align:left; padding:64px; display:flex; gap:48px; align-items:center; flex-wrap:wrap;">
+    <div class="ai-demo fade-up" style="background:radial-gradient(circle at right, #16264f 0%, #111111 100%); text-align:left; padding:64px; display:flex; gap:48px; align-items:center; flex-wrap:wrap;">
       <div style="flex:1; min-width:300px;">
-        <div style="display:inline-block; padding:6px 12px; background:rgba(2,128,144,0.15); border:1px solid rgba(2,128,144,0.4); border-radius:99px; color:var(--teal-light); font-size:12px; font-weight:700; margin-bottom:16px;">MEET EMAA</div>
+        <div style="display:inline-block; padding:6px 12px; background:rgba(141, 115, 246,0.15); border:1px solid rgba(141, 115, 246,0.4); border-radius:99px; color:var(--teal-light); font-size:12px; font-weight:700; margin-bottom:16px;">MEET EMAA</div>
         <h2 style="font-size:40px; font-weight:800; line-height:1.2; margin-bottom:24px;">EMAA knows your business, not just the internet.</h2>
         <p style="color:var(--text-muted); font-size:18px; line-height:1.6; margin-bottom:24px;">
           Talk to EMAA like you'd talk to your smartest team member. Built for business. Fluent in your workflows. She is powered by voice — she listens, responds, and acts. No typing needed.
         </p>
         <ul style="margin-bottom:32px; display:flex; flex-direction:column; gap:12px; color:var(--text-muted);">
-          <li style="display:flex; align-items:flex-start; gap:10px;"><span style="color:var(--teal);">✓</span> <span>Deeply integrated with PayVlt (WhatsApp Reminders, Smart Workflows, GST Invoices, Site Diary, Client Risk Scores)</span></li>
+          <li style="display:flex; align-items:flex-start; gap:10px;"><span style="color:var(--teal);">✓</span> <span>Deeply integrated with BucksBuddy (WhatsApp Reminders, Smart Workflows, GST Invoices, Site Diary, Client Risk Scores)</span></li>
           <li style="display:flex; align-items:flex-start; gap:10px;"><span style="color:var(--teal);">✓</span> <span>Understands your business mindset and cash flow</span></li>
           <li style="display:flex; align-items:flex-start; gap:10px;"><span style="color:var(--teal);">✓</span> <span>Not a generic chatbot — a voice-first business intelligence layer</span></li>
         </ul>
@@ -540,8 +525,8 @@
         </style>
         <!-- Visual Demo Box -->
         <div id="emaa-demo-ui" class="emaa-demo-ui" style="background:var(--bg-card); border:1px solid var(--border); border-radius:24px; overflow:hidden; position:relative; box-shadow:0 20px 40px rgba(0,0,0,0.5);">
-          <div style="height:220px; display:flex; align-items:center; justify-content:center; background:linear-gradient(180deg, rgba(2,128,144,0.1) 0%, transparent 100%);">
-            <div style="width:100px; height:100px; border-radius:50%; background:url('emaa-avatar.png') center/cover; position:relative; box-shadow: 0 0 30px rgba(2,128,144,0.4); z-index:2;">
+          <div style="height:220px; display:flex; align-items:center; justify-content:center; background:linear-gradient(180deg, rgba(141, 115, 246,0.1) 0%, transparent 100%);">
+            <div style="width:100px; height:100px; border-radius:50%; background:url('emaa-avatar.png') center/cover; position:relative; box-shadow: 0 0 30px rgba(141, 115, 246,0.4); z-index:2;">
               <div class="emaa-wave-ring" style="inset:-10px; opacity:0.5;"></div>
               <div class="emaa-wave-ring delay" style="inset:-20px; border-width:1px; opacity:0.2;"></div>
             </div>
@@ -553,7 +538,7 @@
               </div>
               <div style="align-self:flex-start; display:flex; gap:12px; align-items:flex-start; max-width:90%;">
                 <div style="width:28px; height:28px; border-radius:50%; background:url('emaa-avatar.png') center/cover; flex-shrink:0; margin-top:4px;"></div>
-                <div style="background:rgba(2,128,144,0.1); padding:12px 16px; border-radius:16px; border-bottom-left-radius:4px; font-size:14px; border:1px solid rgba(2,128,144,0.3); color:#fff; box-shadow:0 4px 10px rgba(0,0,0,0.2);">
+                <div style="background:rgba(141, 115, 246,0.1); padding:12px 16px; border-radius:16px; border-bottom-left-radius:4px; font-size:14px; border:1px solid rgba(141, 115, 246,0.3); color:#fff; box-shadow:0 4px 10px rgba(0,0,0,0.2);">
                   "Sure, you've collected ₹2,80,000 today. You have 3 overdue invoices totaling ₹1,20,000. Want me to send them WhatsApp reminders now?"
                 </div>
               </div>
@@ -566,10 +551,10 @@
 
   <!-- 7. BEFORE / AFTER -->
   <section class="section-pad" style="padding-top:0;">
-    <h2 class="sec-title fade-up">The PayVlt Difference</h2>
+    <h2 class="sec-title fade-up">The BucksBuddy Difference</h2>
     <div class="split-container">
       <div class="split-card split-bad slide-left">
-        <h3 class="split-title"><span style="color:var(--danger);">✕</span> Without PayVlt</h3>
+        <h3 class="split-title"><span style="color:var(--danger);">✕</span> Without BucksBuddy</h3>
         <div style="margin-top:32px;">
           <div class="chat-bubble bubble-sent">Bhai paisa kab doge? 3 mahine ho gaye.</div>
           <div class="chat-bubble bubble-received">Dekhta hu bhai, abhi market tight hai.</div>
@@ -577,13 +562,13 @@
         </div>
       </div>
       <div class="split-card split-good slide-right">
-        <h3 class="split-title"><span style="color:var(--teal);">✓</span> With PayVlt</h3>
+        <h3 class="split-title"><span style="color:var(--teal);">✓</span> With BucksBuddy</h3>
         <div style="margin-top:32px;">
           <div class="chat-bubble bubble-sent" style="background:#075e54;">
             <strong>System Auto-Reminder</strong><br>
             Namaste Rahul Ji,<br>
             Aapka invoice INV-041 (₹50,000) due hai. Kripya 48 hours mein payment clear karein as per our project agreement.<br>
-            <a href="#" style="color:#60a5fa; text-decoration:underline;">payvlt.in/pay/INV-041</a>
+            <a href="#" style="color:#60a5fa; text-decoration:underline;">bucksbuddy.in/pay/INV-041</a>
           </div>
           <div class="chat-bubble bubble-received">Payment done sir. Receipt attached.</div>
         </div>
@@ -593,7 +578,7 @@
 
   <!-- 7.5 INTEGRATIONS - STRIPE STYLE FLOW -->
   <section class="integrations-sec">
-    <h2 class="sec-title fade-up" style="margin-bottom:16px;">PayVlt connects everything.</h2>
+    <h2 class="sec-title fade-up" style="margin-bottom:16px;">BucksBuddy connects everything.</h2>
     <p class="fade-up" style="color:var(--text-muted); font-size:18px; max-width:600px; margin:0 auto;">One platform. All your tools. Automated payment flow from contract to collection.</p>
     
     <div class="flow-diagram fade-up">
@@ -607,24 +592,24 @@
       <!-- Connector down to center -->
       <div class="flow-connector" style="margin:0; position:relative; height:40px;">
         <svg width="100%" height="40" viewBox="0 0 760 40" preserveAspectRatio="none" style="position:absolute;top:0;left:0;">
-          <line x1="95" y1="0" x2="380" y2="40" stroke="rgba(2,128,144,0.5)" stroke-width="1.5" stroke-dasharray="4 3"/>
-          <line x1="253" y1="0" x2="380" y2="40" stroke="rgba(2,128,144,0.5)" stroke-width="1.5" stroke-dasharray="4 3"/>
-          <line x1="507" y1="0" x2="380" y2="40" stroke="rgba(2,128,144,0.5)" stroke-width="1.5" stroke-dasharray="4 3"/>
-          <line x1="665" y1="0" x2="380" y2="40" stroke="rgba(2,128,144,0.5)" stroke-width="1.5" stroke-dasharray="4 3"/>
+          <line x1="95" y1="0" x2="380" y2="40" stroke="rgba(141, 115, 246,0.5)" stroke-width="1.5" stroke-dasharray="4 3"/>
+          <line x1="253" y1="0" x2="380" y2="40" stroke="rgba(141, 115, 246,0.5)" stroke-width="1.5" stroke-dasharray="4 3"/>
+          <line x1="507" y1="0" x2="380" y2="40" stroke="rgba(141, 115, 246,0.5)" stroke-width="1.5" stroke-dasharray="4 3"/>
+          <line x1="665" y1="0" x2="380" y2="40" stroke="rgba(141, 115, 246,0.5)" stroke-width="1.5" stroke-dasharray="4 3"/>
         </svg>
       </div>
-      <!-- Center: PayVlt -->
+      <!-- Center: BucksBuddy -->
       <div class="flow-row">
-        <div class="flow-node center">💰 PayVlt</div>
+        <div class="flow-node center">💰 BucksBuddy</div>
       </div>
       <!-- Connector out -->
       <div class="flow-connector" style="position:relative; height:40px;">
         <svg width="100%" height="40" viewBox="0 0 760 40" preserveAspectRatio="none" style="position:absolute;top:0;left:0;">
-          <line x1="380" y1="0" x2="100" y2="40" stroke="rgba(2,128,144,0.5)" stroke-width="1.5" stroke-dasharray="4 3"/>
-          <line x1="380" y1="0" x2="260" y2="40" stroke="rgba(2,128,144,0.5)" stroke-width="1.5" stroke-dasharray="4 3"/>
-          <line x1="380" y1="0" x2="380" y2="40" stroke="rgba(2,128,144,0.5)" stroke-width="1.5" stroke-dasharray="4 3"/>
-          <line x1="380" y1="0" x2="500" y2="40" stroke="rgba(2,128,144,0.5)" stroke-width="1.5" stroke-dasharray="4 3"/>
-          <line x1="380" y1="0" x2="660" y2="40" stroke="rgba(2,128,144,0.5)" stroke-width="1.5" stroke-dasharray="4 3"/>
+          <line x1="380" y1="0" x2="100" y2="40" stroke="rgba(141, 115, 246,0.5)" stroke-width="1.5" stroke-dasharray="4 3"/>
+          <line x1="380" y1="0" x2="260" y2="40" stroke="rgba(141, 115, 246,0.5)" stroke-width="1.5" stroke-dasharray="4 3"/>
+          <line x1="380" y1="0" x2="380" y2="40" stroke="rgba(141, 115, 246,0.5)" stroke-width="1.5" stroke-dasharray="4 3"/>
+          <line x1="380" y1="0" x2="500" y2="40" stroke="rgba(141, 115, 246,0.5)" stroke-width="1.5" stroke-dasharray="4 3"/>
+          <line x1="380" y1="0" x2="660" y2="40" stroke="rgba(141, 115, 246,0.5)" stroke-width="1.5" stroke-dasharray="4 3"/>
         </svg>
       </div>
       <!-- Row 3: Outputs -->
@@ -640,14 +625,14 @@
   </section>
 
   <section class="integrations-sec" style="padding-top: 40px;">
-    <h2 class="sec-title fade-up" style="margin-bottom:16px;">PayVlt works with tools you already use.</h2>
+    <h2 class="sec-title fade-up" style="margin-bottom:16px;">BucksBuddy works with tools you already use.</h2>
     <p class="fade-up" style="color:var(--text-muted); font-size:18px; max-width:600px; margin:0 auto;">Connect your existing accounting software, bank accounts, and communication channels instantly.</p>
     
     <div class="integrations-marquee fade-up">
       <div class="int-card"><div class="int-logo" style="background:#25D366; color:#fff;"><svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51a12.8 12.8 0 0 0-.57-.01c-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 0 1-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 0 1-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 0 1 2.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0 0 12.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 0 0 5.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 0 0-3.48-8.413Z"/></svg></div> WhatsApp</div>
       <div class="int-card"><div class="int-logo" style="background:#F3A812; color:#fff; font-weight:900;">T</div> Tally ERP</div>
       <div class="int-card"><div class="int-logo" style="background:#0F52BA; color:#fff; font-weight:900;">₹</div> GST Portal</div>
-      <div class="int-card"><div class="int-logo" style="background:#02042b; color:#028090; border:1px solid #028090;">Rz</div> Razorpay</div>
+      <div class="int-card"><div class="int-logo" style="background:#02042b; color:#8D73F6; border:1px solid #8D73F6;">Rz</div> Razorpay</div>
       <div class="int-card"><div class="int-logo" style="background:#0F9D58; color:#fff;">G</div> Google Sheets</div>
       <div class="int-card"><div class="int-logo" style="background:#E33B31; color:#fff;">Z</div> Zoho</div>
       <div class="int-card"><div class="int-logo" style="background:#1B3B8B; color:#fff; font-size:12px;">SBI</div> SBI / HDFC</div>
@@ -720,47 +705,47 @@
   <!-- 9. WHO IS IT FOR -->
   <section class="section-pad" style="padding-top:0;">
     <div class="fade-up" style="text-align:center; margin-bottom:64px;">
-      <div style="display:inline-block; background:rgba(2,128,144,0.15); border:1px solid rgba(2,128,144,0.4); border-radius:99px; padding:6px 16px; font-size:12px; font-weight:700; color:var(--teal); letter-spacing:2px; margin-bottom:16px;">BUILT FOR BOTH SIDES</div>
+      <div style="display:inline-block; background:rgba(141, 115, 246,0.15); border:1px solid rgba(141, 115, 246,0.4); border-radius:99px; padding:6px 16px; font-size:12px; font-weight:700; color:var(--teal); letter-spacing:2px; margin-bottom:16px;">BUILT FOR BOTH SIDES</div>
       <h2 style="font-size:44px; font-weight:800; letter-spacing:-1px; margin-bottom:16px;">Everyone wins when payment is professional.</h2>
-      <p style="color:var(--text-muted); font-size:18px; max-width:620px; margin:0 auto; line-height:1.6;">PayVlt doesn't chase payments — it makes contractors look so professional that clients pay on their own.</p>
+      <p style="color:var(--text-muted); font-size:18px; max-width:620px; margin:0 auto; line-height:1.6;">BucksBuddy doesn't chase payments — it makes contractors look so professional that clients pay on their own.</p>
     </div>
 
     <div style="display:grid; grid-template-columns:1fr 1fr; gap:32px; max-width:900px; margin:0 auto;">
       <!-- Contractor Card -->
-      <div class="fade-up" style="background:rgba(2,128,144,0.07); border:1px solid rgba(2,128,144,0.25); border-radius:24px; padding:40px; position:relative; overflow:hidden;">
+      <div class="fade-up" style="background:rgba(141, 115, 246,0.07); border:1px solid rgba(141, 115, 246,0.25); border-radius:24px; padding:40px; position:relative; overflow:hidden;">
         <div style="position:absolute; top:-30px; right:-20px; opacity:0.07; font-size:120px;">🔧</div>
         <!-- CSS Robot Character (Contractor) -->
         <div class="char-float" style="margin-bottom:28px;">
           <svg width="80" height="90" viewBox="0 0 80 90" fill="none" xmlns="http://www.w3.org/2000/svg">
             <!-- Head -->
-            <rect x="20" y="5" width="40" height="32" rx="10" fill="#028090" opacity="0.9"/>
+            <rect x="20" y="5" width="40" height="32" rx="10" fill="#8D73F6" opacity="0.9"/>
             <!-- Eyes -->
-            <rect x="28" y="14" width="8" height="6" rx="3" fill="#0D1B3E"/>
-            <rect x="44" y="14" width="8" height="6" rx="3" fill="#0D1B3E"/>
+            <rect x="28" y="14" width="8" height="6" rx="3" fill="#111111"/>
+            <rect x="44" y="14" width="8" height="6" rx="3" fill="#111111"/>
             <!-- Smile -->
-            <path d="M30 27 Q40 34 50 27" stroke="#0D1B3E" stroke-width="2" stroke-linecap="round" fill="none"/>
+            <path d="M30 27 Q40 34 50 27" stroke="#111111" stroke-width="2" stroke-linecap="round" fill="none"/>
             <!-- Antenna -->
-            <line x1="40" y1="5" x2="40" y2="0" stroke="#028090" stroke-width="2"/>
-            <circle cx="40" cy="0" r="3" fill="#02C39A"/>
+            <line x1="40" y1="5" x2="40" y2="0" stroke="#8D73F6" stroke-width="2"/>
+            <circle cx="40" cy="0" r="3" fill="#C7F36B"/>
             <!-- Body -->
             <rect x="15" y="40" width="50" height="30" rx="10" fill="#016f7c"/>
             <!-- Screen on chest -->
-            <rect x="25" y="47" width="30" height="16" rx="4" fill="#0D1B3E"/>
-            <text x="31" y="59" font-family="monospace" font-size="8" fill="#02C39A">PAY ✓</text>
+            <rect x="25" y="47" width="30" height="16" rx="4" fill="#111111"/>
+            <text x="31" y="59" font-family="monospace" font-size="8" fill="#C7F36B">PAY ✓</text>
             <!-- Left arm holding wrench -->
             <rect x="3" y="42" width="10" height="22" rx="5" fill="#016f7c"/>
-            <rect x="0" y="60" width="14" height="4" rx="2" fill="#028090"/>
-            <rect x="4" y="56" width="4" height="12" rx="2" fill="#02C39A"/>
+            <rect x="0" y="60" width="14" height="4" rx="2" fill="#8D73F6"/>
+            <rect x="4" y="56" width="4" height="12" rx="2" fill="#C7F36B"/>
             <!-- Right arm holding phone -->
             <rect x="67" y="42" width="10" height="22" rx="5" fill="#016f7c"/>
-            <rect x="65" y="48" width="14" height="20" rx="3" fill="#0D1B3E" stroke="#028090" stroke-width="1.5"/>
-            <rect x="68" y="52" width="8" height="10" rx="1" fill="#028090" opacity="0.6"/>
+            <rect x="65" y="48" width="14" height="20" rx="3" fill="#111111" stroke="#8D73F6" stroke-width="1.5"/>
+            <rect x="68" y="52" width="8" height="10" rx="1" fill="#8D73F6" opacity="0.6"/>
             <!-- Legs -->
             <rect x="22" y="72" width="14" height="18" rx="6" fill="#016f7c"/>
             <rect x="44" y="72" width="14" height="18" rx="6" fill="#016f7c"/>
             <!-- Feet -->
-            <ellipse cx="29" cy="90" rx="10" ry="4" fill="#028090"/>
-            <ellipse cx="51" cy="90" rx="10" ry="4" fill="#028090"/>
+            <ellipse cx="29" cy="90" rx="10" ry="4" fill="#8D73F6"/>
+            <ellipse cx="51" cy="90" rx="10" ry="4" fill="#8D73F6"/>
           </svg>
         </div>
         <div style="font-size:11px; font-weight:800; letter-spacing:2px; color:var(--teal); margin-bottom:8px;">FOR CONTRACTORS</div>
@@ -786,10 +771,10 @@
             <!-- Head -->
             <circle cx="40" cy="26" r="14" fill="#7c3aed" opacity="0.85"/>
             <!-- Eyes -->
-            <circle cx="35" cy="24" r="3" fill="#0D1B3E"/>
-            <circle cx="45" cy="24" r="3" fill="#0D1B3E"/>
+            <circle cx="35" cy="24" r="3" fill="#111111"/>
+            <circle cx="45" cy="24" r="3" fill="#111111"/>
             <!-- Smile -->
-            <path d="M34 31 Q40 37 46 31" stroke="#0D1B3E" stroke-width="2" stroke-linecap="round" fill="none"/>
+            <path d="M34 31 Q40 37 46 31" stroke="#111111" stroke-width="2" stroke-linecap="round" fill="none"/>
             <!-- Body -->
             <rect x="22" y="42" width="36" height="26" rx="10" fill="#6d28d9"/>
             <!-- Tie detail -->
@@ -800,7 +785,7 @@
             <!-- Desk surface -->
             <rect x="5" y="68" width="70" height="6" rx="3" fill="#4c1d95" opacity="0.8"/>
             <!-- Laptop on desk -->
-            <rect x="20" y="56" width="40" height="12" rx="3" fill="#0D1B3E" stroke="#8b5cf6" stroke-width="1"/>
+            <rect x="20" y="56" width="40" height="12" rx="3" fill="#111111" stroke="#8b5cf6" stroke-width="1"/>
             <rect x="23" y="59" width="34" height="7" rx="1" fill="#8b5cf6" opacity="0.3"/>
             <!-- Legs -->
             <rect x="25" y="74" width="10" height="14" rx="4" fill="#6d28d9"/>
@@ -823,8 +808,8 @@
     </div>
 
     <!-- Bottom Tagline Card -->
-    <div class="fade-up" style="max-width:900px; margin:32px auto 0; background:linear-gradient(135deg, rgba(2,128,144,0.1), rgba(139,92,246,0.1)); border:1px solid rgba(2,128,144,0.2); border-radius:16px; padding:28px 40px; text-align:center;">
-      <p style="font-size:17px; font-style:italic; color:var(--text-muted); line-height:1.7;">"PayVlt doesn't force payments — it builds the professional image that makes clients <em style="color:white; font-style:normal;">want</em> to pay."</p>
+    <div class="fade-up" style="max-width:900px; margin:32px auto 0; background:linear-gradient(135deg, rgba(141, 115, 246,0.1), rgba(139,92,246,0.1)); border:1px solid rgba(141, 115, 246,0.2); border-radius:16px; padding:28px 40px; text-align:center;">
+      <p style="font-size:17px; font-style:italic; color:var(--text-muted); line-height:1.7;">"BucksBuddy doesn't force payments — it builds the professional image that makes clients <em style="color:white; font-style:normal;">want</em> to pay."</p>
     </div>
   </section>
 
@@ -834,17 +819,17 @@
     <div class="testi-carousel fade-up mt-4">
       <div class="testi-card">
         <div class="stars">★★★★★</div>
-        <div class="testi-quote" style="font-size:16px; line-height:1.6; font-style:italic; margin-bottom:24px;">"Pehle client payment ke liye mahine tak wait karna padta tha. PayVlt ke auto-reminders se ab payment time pe aa jata hai. Meri AC service business mein cash flow bilkul smooth ho gaya."</div>
+        <div class="testi-quote" style="font-size:16px; line-height:1.6; font-style:italic; margin-bottom:24px;">"Pehle client payment ke liye mahine tak wait karna padta tha. BucksBuddy ke auto-reminders se ab payment time pe aa jata hai. Meri AC service business mein cash flow bilkul smooth ho gaya."</div>
         <div style="display:flex; align-items:center; gap:12px;">
-          <div style="width:48px; height:48px; background:rgba(2,128,144,0.2); border:2px solid var(--teal); border-radius:50%; display:flex; align-items:center; justify-content:center; font-weight:800; color:var(--teal); font-size:18px;">G</div>
+          <div style="width:48px; height:48px; background:rgba(141, 115, 246,0.2); border:2px solid var(--teal); border-radius:50%; display:flex; align-items:center; justify-content:center; font-weight:800; color:var(--teal); font-size:18px;">G</div>
           <div><div style="font-weight:700;">Gurukripa AC Services</div><div style="font-size:12px; color:var(--text-muted);">Indore, Madhya Pradesh</div></div>
         </div>
       </div>
       <div class="testi-card">
         <div class="stars">★★★★★</div>
-        <div class="testi-quote" style="font-size:16px; line-height:1.6; font-style:italic; margin-bottom:24px;">"GST invoice ek click mein ban jata hai — yeh feature alone itna time save karta hai. Our CA recommended we use something professional and PayVlt was the answer."</div>
+        <div class="testi-quote" style="font-size:16px; line-height:1.6; font-style:italic; margin-bottom:24px;">"GST invoice ek click mein ban jata hai — yeh feature alone itna time save karta hai. Our CA recommended we use something professional and BucksBuddy was the answer."</div>
         <div style="display:flex; align-items:center; gap:12px;">
-          <div style="width:48px; height:48px; background:rgba(2,128,144,0.2); border:2px solid var(--teal); border-radius:50%; display:flex; align-items:center; justify-content:center; font-weight:800; color:var(--teal); font-size:18px;">S</div>
+          <div style="width:48px; height:48px; background:rgba(141, 115, 246,0.2); border:2px solid var(--teal); border-radius:50%; display:flex; align-items:center; justify-content:center; font-weight:800; color:var(--teal); font-size:18px;">S</div>
           <div><div style="font-weight:700;">Shree Ram Electricals</div><div style="font-size:12px; color:var(--text-muted);">Pune, Maharashtra</div></div>
         </div>
       </div>
@@ -852,15 +837,15 @@
         <div class="stars">★★★★★</div>
         <div class="testi-quote" style="font-size:16px; line-height:1.6; font-style:italic; margin-bottom:24px;">"The automated workflows are exactly what we needed. Ab clients bina follow-up ke on time payment bhejte hain. Game-changing platform!"</div>
         <div style="display:flex; align-items:center; gap:12px;">
-          <div style="width:48px; height:48px; background:rgba(2,128,144,0.2); border:2px solid var(--teal); border-radius:50%; display:flex; align-items:center; justify-content:center; font-weight:800; color:var(--teal); font-size:18px;">J</div>
+          <div style="width:48px; height:48px; background:rgba(141, 115, 246,0.2); border:2px solid var(--teal); border-radius:50%; display:flex; align-items:center; justify-content:center; font-weight:800; color:var(--teal); font-size:18px;">J</div>
           <div><div style="font-weight:700;">Jai Ambey Construction</div><div style="font-size:12px; color:var(--text-muted);">Surat, Gujarat</div></div>
         </div>
       </div>
       <div class="testi-card">
         <div class="stars">★★★★★</div>
-        <div class="testi-quote" style="font-size:16px; line-height:1.6; font-style:italic; margin-bottom:24px;">"Digital agreement bhejne se clients serious ho jaate hain. Pehle sab verbal tha, ab sab kuch document mein hai. PayVlt ne hamare business ko truly professional bana diya."</div>
+        <div class="testi-quote" style="font-size:16px; line-height:1.6; font-style:italic; margin-bottom:24px;">"Digital agreement bhejne se clients serious ho jaate hain. Pehle sab verbal tha, ab sab kuch document mein hai. BucksBuddy ne hamare business ko truly professional bana diya."</div>
         <div style="display:flex; align-items:center; gap:12px;">
-          <div style="width:48px; height:48px; background:rgba(2,128,144,0.2); border:2px solid var(--teal); border-radius:50%; display:flex; align-items:center; justify-content:center; font-weight:800; color:var(--teal); font-size:18px;">M</div>
+          <div style="width:48px; height:48px; background:rgba(141, 115, 246,0.2); border:2px solid var(--teal); border-radius:50%; display:flex; align-items:center; justify-content:center; font-weight:800; color:var(--teal); font-size:18px;">M</div>
           <div><div style="font-weight:700;">Mahalaxmi HVAC</div><div style="font-size:12px; color:var(--text-muted);">Nagpur, Maharashtra</div></div>
         </div>
       </div>
@@ -868,7 +853,7 @@
         <div class="stars">★★★★★</div>
         <div class="testi-quote" style="font-size:16px; line-height:1.6; font-style:italic; margin-bottom:24px;">"Tally export saves our CA at least 12 hours per month. Aur client risk score ne ek baar humein ek bad client se bachaya — ₹2 lakh ka loss avoid ho gaya."</div>
         <div style="display:flex; align-items:center; gap:12px;">
-          <div style="width:48px; height:48px; background:rgba(2,128,144,0.2); border:2px solid var(--teal); border-radius:50%; display:flex; align-items:center; justify-content:center; font-weight:800; color:var(--teal); font-size:18px;">B</div>
+          <div style="width:48px; height:48px; background:rgba(141, 115, 246,0.2); border:2px solid var(--teal); border-radius:50%; display:flex; align-items:center; justify-content:center; font-weight:800; color:var(--teal); font-size:18px;">B</div>
           <div><div style="font-weight:700;">Balaji Aircon</div><div style="font-size:12px; color:var(--text-muted);">Ahmedabad, Gujarat</div></div>
         </div>
       </div>
@@ -890,7 +875,7 @@
   <footer class="footer">
     <div class="footer-grid">
       <div class="footer-col">
-        <a href="#" class="logo" style="margin-bottom:24px; display:block;">PayVlt <span style="color:var(--teal);">💰</span></a>
+        <a href="#" class="logo" style="margin-bottom:24px; display:block;"><img src="/images/bucksbuddy_logo.svg" alt="BucksBuddy" style="height:32px; vertical-align:middle;"></a>
         <p style="color:var(--text-muted); font-size:14px; line-height:1.6;">The complete financial OS for Indian HVAC, Civil, and Electrical contractors. Built to organize and protect your business.</p>
       </div>
       <div class="footer-col">
@@ -921,7 +906,7 @@
       </div>
     </div>
     <div class="footer-bottom">
-      <div>&copy; 2026 PayVlt. All rights reserved. GSTIN: 23AABCU9603R1ZX</div>
+      <div>&copy; 2026 BucksBuddy. All rights reserved. GSTIN: 23AABCU9603R1ZX</div>
       <div>Made with ❤️ in Indore 🇮🇳</div>
     </div>
   </footer>
@@ -1027,10 +1012,10 @@
 <!-- FEATURE: EMAA AI VOICE ASSISTANT WIDGET                 -->
 <!-- ═══════════════════════════════════════════════════════ -->
 <div id="emaa-widget-container" style="position:fixed; bottom:30px; right:30px; z-index:10000; font-family:'Inter', sans-serif;">
-  <div id="emaa-panel" style="display:none; width:340px; background:#0b141a; border:1px solid rgba(2,128,144,0.4); border-radius:24px; margin-bottom:16px; box-shadow:0 20px 40px rgba(0,0,0,0.6); overflow:hidden; flex-direction:column; transform-origin:bottom right; transition:all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275); transform:scale(0.9); opacity:0;">
-    <div style="padding:24px 20px; display:flex; flex-direction:column; align-items:center; position:relative; background:radial-gradient(circle at top, rgba(2,128,144,0.15) 0%, transparent 80%);">
+  <div id="emaa-panel" style="display:none; width:340px; background:#0b141a; border:1px solid rgba(141, 115, 246,0.4); border-radius:24px; margin-bottom:16px; box-shadow:0 20px 40px rgba(0,0,0,0.6); overflow:hidden; flex-direction:column; transform-origin:bottom right; transition:all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275); transform:scale(0.9); opacity:0;">
+    <div style="padding:24px 20px; display:flex; flex-direction:column; align-items:center; position:relative; background:radial-gradient(circle at top, rgba(141, 115, 246,0.15) 0%, transparent 80%);">
       <button onclick="toggleEmaaPanel()" style="position:absolute; top:16px; right:16px; background:transparent; border:none; color:var(--text-muted); cursor:pointer; font-size:20px; padding:4px;">✕</button>
-      <div id="emaa-avatar-active" style="width:90px; height:90px; border-radius:50%; background:url('emaa-avatar.png') center/cover; position:relative; margin-bottom:16px; box-shadow: 0 0 20px rgba(2,128,144,0.3); z-index:2;">
+      <div id="emaa-avatar-active" style="width:90px; height:90px; border-radius:50%; background:url('emaa-avatar.png') center/cover; position:relative; margin-bottom:16px; box-shadow: 0 0 20px rgba(141, 115, 246,0.3); z-index:2;">
          <!-- Waveforms will be animated via JS -->
          <div class="emaa-ring" id="emaa-ring-1" style="position:absolute; inset:-12px; border-radius:50%; border:2px solid var(--teal); opacity:0; transition:all 0.2s;"></div>
          <div class="emaa-ring" id="emaa-ring-2" style="position:absolute; inset:-24px; border-radius:50%; border:1px solid var(--teal); opacity:0; transition:all 0.2s;"></div>
@@ -1053,7 +1038,7 @@
   </div>
   
   <button id="emaa-fab" onclick="toggleEmaaPanel()" style="width:64px; height:64px; border-radius:50%; background:url('emaa-avatar.png') center/cover; border:2px solid var(--teal); cursor:pointer; box-shadow:0 10px 30px rgba(0,0,0,0.5); position:relative; margin-left:auto; display:block; transition:transform 0.2s;">
-    <div style="position:absolute; bottom:2px; right:2px; width:14px; height:14px; background:#22c55e; border-radius:50%; border:2px solid #050D1F; box-shadow:0 0 8px rgba(34,197,94,0.5);"></div>
+    <div style="position:absolute; bottom:2px; right:2px; width:14px; height:14px; background:#22c55e; border-radius:50%; border:2px solid #111111; box-shadow:0 0 8px rgba(34,197,94,0.5);"></div>
   </button>
 </div>
 <script src="emaa.js"></script>

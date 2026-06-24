@@ -245,7 +245,7 @@ Your payment of ${App.ui.fmt(payment?.total_due||0)} for "${proj.name||'Project'
 Please click the Pay Now button below to complete payment.
 
 Thank you,
-${App.state.user?.company||App.state.user?.name||'PayDost Contractor'}</textarea></div>
+${App.state.user?.company||App.state.user?.name||'BucksBuddy Contractor'}</textarea></div>
       <div class="modal-footer">
         <button class="btn btn-ghost" onclick="App.ui.closeModal()">Cancel</button>
         <button class="btn btn-primary" onclick="App.email.send(${paymentId})">📨 Send Email</button>

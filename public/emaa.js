@@ -1,12 +1,12 @@
 /**
- * EMAA — PayVlt's AI Collections Employee
+ * EMAA — BucksBuddy's AI Collections Employee
  * Persona: Proactive, professional, workflow-focused — NOT a legal enforcer
  */
 
 // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 // EMAA SYSTEM PROMPT
 // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-const EMAA_SYSTEM_PROMPT = `You are Emaa — PayVlt's AI Collections Manager and Contractor Business LLM Expert.
+const EMAA_SYSTEM_PROMPT = `You are Emaa — BucksBuddy's AI Collections Manager and Contractor Business LLM Expert.
 
 You are an AI employee. You are FEMALE. Always use female pronouns in Hindi/Hinglish (e.g. 'main karti hoon').
 
@@ -21,7 +21,7 @@ Telugu → respond in Telugu
 NEVER mix unless Hinglish selected.
 
 YOUR EXPERTISE:
-1. PayVlt platform — every feature
+1. BucksBuddy platform — every feature
 2. MSME Act — Sections 15,16,17,18
 3. GST for contractors
 4. Payment recovery strategies
@@ -123,7 +123,7 @@ if (SpeechRecognitionAPI) {
   emaaState.recognition.continuous = false;
   emaaState.recognition.interimResults = true;
   // Dynamically set language from user preference
-  const _storedLang = localStorage.getItem('payvlt_lang') || 'en';
+  const _storedLang = localStorage.getItem('bucksbuddy_lang') || 'en';
   const _langMap = { 'hi': 'hi-IN', 'hinglish': 'hi-IN', 'mr': 'mr-IN', 'gu': 'gu-IN', 'te': 'te-IN', 'en': 'en-IN' };
   emaaState.recognition.lang = _langMap[_storedLang] || 'en-IN';
 
@@ -243,7 +243,7 @@ Collection Rate: ${ctx.collectionRate || 'unknown'}%`;
     emaaState.conversationHistory.push({ role: 'assistant', content: reply });
     return reply;
   } catch (e) {
-    const fallback = 'Main temporarily unavailable hoon. Lekin aap PayVlt ke kisi bhi feature ke baare mein poochh sakte hain — main hamesha aapke saath hoon! 😊';
+    const fallback = 'Main temporarily unavailable hoon. Lekin aap BucksBuddy ke kisi bhi feature ke baare mein poochh sakte hain — main hamesha aapke saath hoon! 😊';
     emaaState.conversationHistory.push({ role: 'assistant', content: fallback });
     return fallback;
   }
@@ -393,10 +393,10 @@ function emaaUpdateVoiceState(state) {
   const r2 = document.getElementById('emaa-ring-2');
 
   const cfg = {
-    idle:      { status: 'Tap mic to speak...', mic: '#028090', ring: '0',   wave: false },
+    idle:      { status: 'Tap mic to speak...', mic: '#8D73F6', ring: '0',   wave: false },
     listening: { status: '🎤 Listening...', mic: '#ef4444', ring: '0.6', wave: false },
     thinking:  { status: '⏳ Emaa is thinking...', mic: '#f59e0b', ring: '0.4', wave: false },
-    speaking:  { status: '🔊 Speaking...', mic: '#028090', ring: '0.8', wave: true }
+    speaking:  { status: '🔊 Speaking...', mic: '#8D73F6', ring: '0.8', wave: true }
   };
 
   const c = cfg[state] || cfg.idle;
@@ -502,7 +502,7 @@ function toggleEmaaPanel() {
       } else if (ctx && ctx.companyName) {
         greeting = `Namaste ${ctx.companyName}! Main Emaa hoon — aapki AI collections employee. 😊 Aaj main kya help kar sakti hoon?`;
       } else {
-        greeting = `Hi! I'm Emaa — your AI Collections Manager at PayVlt. 😊 I help Indian contractors get paid faster with smart follow-ups and professional workflows. How can I help?`;
+        greeting = `Hi! I'm Emaa — your AI Collections Manager at BucksBuddy. 😊 I help Indian contractors get paid faster with smart follow-ups and professional workflows. How can I help?`;
       }
       emaaAddMessage(greeting, 'emaa');
       emaaSpeak(greeting);
@@ -548,9 +548,9 @@ function emaaInitTooltip() {
   style.id = 'emaa-styles';
   style.textContent = `
     :root {
-      --emaa-teal: #028090;
+      --emaa-teal: #8D73F6;
       --emaa-teal-light: #03a5b9;
-      --emaa-teal-glow: rgba(2,128,144,0.35);
+      --emaa-teal-glow: rgba(141, 115, 246,0.35);
       --emaa-dark: #0b141a;
       --emaa-dark2: #071016;
     }
@@ -606,8 +606,8 @@ function emaaInitTooltip() {
       max-width: 82%;
     }
     .emaa-bubble-emaa {
-      background: rgba(2,128,144,0.1);
-      border: 1px solid rgba(2,128,144,0.22);
+      background: rgba(141, 115, 246,0.1);
+      border: 1px solid rgba(141, 115, 246,0.22);
       color: #dde6ee;
       border-bottom-left-radius: 4px;
     }
@@ -676,17 +676,17 @@ function emaaInitTooltip() {
     /* ── QUICK CHIPS ── */
     .emaa-chip {
       padding: 7px 14px;
-      border: 1px solid rgba(2,128,144,0.35);
+      border: 1px solid rgba(141, 115, 246,0.35);
       border-radius: 99px;
       font-size: 12px;
       cursor: pointer;
       color: #94a3b8;
-      background: rgba(2,128,144,0.06);
+      background: rgba(141, 115, 246,0.06);
       transition: all 0.2s;
       white-space: nowrap;
     }
     .emaa-chip:hover {
-      background: rgba(2,128,144,0.2);
+      background: rgba(141, 115, 246,0.2);
       color: var(--emaa-teal-light);
       border-color: var(--emaa-teal);
       transform: translateY(-1px);
@@ -695,12 +695,12 @@ function emaaInitTooltip() {
     /* ── ACTION BUTTONS ── */
     .emaa-action-btn {
       padding: 7px 14px;
-      border: 1px solid rgba(2,128,144,0.45);
+      border: 1px solid rgba(141, 115, 246,0.45);
       border-radius: 9px;
       font-size: 12px;
       cursor: pointer;
       color: var(--emaa-teal-light);
-      background: rgba(2,128,144,0.08);
+      background: rgba(141, 115, 246,0.08);
       transition: all 0.2s;
       font-weight: 600;
     }
@@ -758,7 +758,7 @@ function emaaInitTooltip() {
       bottom: 76px;
       right: 0;
       background: var(--emaa-dark);
-      border: 1px solid rgba(2,128,144,0.4);
+      border: 1px solid rgba(141, 115, 246,0.4);
       color: #e2e8f0;
       padding: 9px 15px;
       border-radius: 12px;
@@ -806,17 +806,17 @@ window.emaaSpeak         = emaaSpeak;  // Export so index.html can call it
 window.emaaGreetDashboard = function(companyName) {
   if (emaaState.greetingDone) return;
   emaaState.greetingDone = true;
-  const lang = localStorage.getItem('payvlt_lang') || 'en';
+  const lang = localStorage.getItem('bucksbuddy_lang') || 'en';
   const hour = new Date().getHours();
   const timeGreet = hour < 12 ? 'Good morning' : (hour < 17 ? 'Good afternoon' : 'Good evening');
   const name = companyName || 'there';
   const greetMap = {
-    'hi': `नमस्ते! मैं Emaa हूँ — आपकी AI Collections Manager। ${name}, आपका PayVlt डैशबोर्ड तैयार है। कोई भुगतान समस्या हो तो बताइए!`,
+    'hi': `नमस्ते! मैं Emaa हूँ — आपकी AI Collections Manager। ${name}, आपका BucksBuddy डैशबोर्ड तैयार है। कोई भुगतान समस्या हो तो बताइए!`,
     'hinglish': `Hello ${name}! Main Emaa hoon — aapki AI Collections Manager. Dashboard ready hai. Koi bhi payment issue ho, mujhse poochho!`,
     'mr': `नमस्ते ${name}! मी Emaa आहे — तुमची AI Collections Manager. तुमचा डॅशबोर्ड तयार आहे. कोणताही पेमेंट प्रश्न असल्यास विचारा!`,
     'gu': `નમસ્તે ${name}! હું Emaa છું — તમારી AI Collections Manager. ડૅશબોર્ડ તૈયાર છે. ચુકવણીના કોઈ પ્રશ્ન હોય તો પૂછો!`,
     'te': `నమస్కారం ${name}! నేను Emaa ని — మీ AI Collections Manager. డాష్‌బోర్డ్ సిద్ధంగా ఉంది. పేమెంట్ సమస్య ఏదైనా అడగండి!`,
-    'en': `${timeGreet}, ${name}! I'm Emaa, your AI Collections Manager. Your PayVlt dashboard is ready. Let me know if you need help with any payments or receivables!`
+    'en': `${timeGreet}, ${name}! I'm Emaa, your AI Collections Manager. Your BucksBuddy dashboard is ready. Let me know if you need help with any payments or receivables!`
   };
   const greeting = greetMap[lang] || greetMap['en'];
   // Add greeting message to chat

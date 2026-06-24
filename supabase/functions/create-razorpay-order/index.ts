@@ -37,7 +37,7 @@ serve(async (req: Request) => {
       currency: "INR",
       receipt: `receipt_${project_id || Date.now()}`,
       notes: {
-        project_name: description || 'PayVlt Invoice',
+        project_name: description || 'BucksBuddy Invoice',
         client_name: client_name || 'N/A'
       }
     });

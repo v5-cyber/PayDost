@@ -76,6 +76,6 @@ setInterval(() => {
 
 app.listen(port, () => {
     console.log(`Server running at http://localhost:${port}/`);
-    console.log(`[PayVlt] Production features: Sentry, Offline, PostHog, AutoSave ✅`);
+    console.log(`[BucksBuddy] Production features: Sentry, Offline, PostHog, AutoSave ✅`);
     console.log(`[Emaa AI] Background Automation Engine Started 🕒`);
 });

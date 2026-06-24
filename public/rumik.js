@@ -1,5 +1,5 @@
 // ==========================================
-// RUMIK — PayVlt AI Voice & Chat Advisor
+// RUMIK — BucksBuddy AI Voice & Chat Advisor
 // ==========================================
 
 const RUMIK_VERSION = '2.0';
@@ -12,7 +12,7 @@ let voicesLoaded = false;
 const KNOWLEDGE_BASE = [
   {
     keywords: ['hello', 'hi', 'namaste', 'hey', 'start', 'help'],
-    response: "Namaste! 🙏 I'm Rumik, your PayVlt Business Advisor. I can help you with payment recovery, MSME law, GST invoices, site diary, and growing your contracting business. What would you like to know?",
+    response: "Namaste! 🙏 I'm Rumik, your BucksBuddy Business Advisor. I can help you with payment recovery, MSME law, GST invoices, site diary, and growing your contracting business. What would you like to know?",
     action: null
   },
   {
@@ -61,8 +61,8 @@ const KNOWLEDGE_BASE = [
     action: null
   },
   {
-    keywords: ['score', 'rating', 'client score', 'payvlt score'],
-    response: "The PayVlt Score system rates your clients from Excellent to Poor based on their payment history. Good payers get better credit terms. I can show you the Score module now.",
+    keywords: ['score', 'rating', 'client score', 'bucksbuddy score'],
+    response: "The BucksBuddy Score system rates your clients from Excellent to Poor based on their payment history. Good payers get better credit terms. I can show you the Score module now.",
     action: () => navigate('score')
   }
 ];
@@ -204,7 +204,7 @@ function toggleRumikChat() {
     const body = document.getElementById('rumik-chat-body');
     if (body && body.children.length === 0) {
       setTimeout(() => {
-        appendChatMessage("Namaste! 🙏 I'm Rumik, your PayVlt Business Advisor. Ask me anything — payment recovery, MSME law, or how to use PayVlt.", 'ai');
+        appendChatMessage("Namaste! 🙏 I'm Rumik, your BucksBuddy Business Advisor. Ask me anything — payment recovery, MSME law, or how to use BucksBuddy.", 'ai');
       }, 200);
     }
   }
@@ -219,7 +219,7 @@ function updateRumikUI() {
     btn.title = 'Listening... click to stop';
     if (ring) ring.style.display = 'block';
   } else {
-    btn.style.background = 'linear-gradient(135deg, #028090, #02C39A)';
+    btn.style.background = 'linear-gradient(135deg, #8D73F6, #C7F36B)';
     btn.title = 'Click to speak to Rumik';
     if (ring) ring.style.display = 'none';
   }

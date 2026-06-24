@@ -154,7 +154,7 @@ const translations = {
 };
 
 function updateLanguage(lang) {
-  localStorage.setItem('payvlt_lang', lang);
+  localStorage.setItem('bucksbuddy_lang', lang);
   const t = translations[lang] || translations.en;
   
   // Update elements with data-i18n attribute
@@ -172,7 +172,7 @@ function updateLanguage(lang) {
 
 // Initialize language on load
 document.addEventListener('DOMContentLoaded', () => {
-  const savedLang = localStorage.getItem('payvlt_lang') || 'en';
+  const savedLang = localStorage.getItem('bucksbuddy_lang') || 'en';
   const langSelector = document.getElementById('lang-selector');
   if (langSelector) langSelector.value = savedLang;
   updateLanguage(savedLang);

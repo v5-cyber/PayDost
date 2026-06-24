@@ -104,7 +104,7 @@ router.post('/schedule', auth, (req, res) => {
     const inserted = schedule.map(s => {
       const msg = generateMessage({
         tone: s.tone, clientName: project.client_name, amount: project.amount,
-        projectName: project.name, companyName: 'PayDost Contractor',
+        projectName: project.name, companyName: 'BucksBuddy Contractor',
         daysLate: s.day_offset - 30, lang: project.client_lang
       });
       const result = db.prepare(
