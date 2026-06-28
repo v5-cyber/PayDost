@@ -1,8 +1,25 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" width="100%" height="100%">
-  <path d="M 25,25 H 65 A 15,15 0 0,1 80,40 V 40 A 15,15 0 0,1 65,55 H 45 A 5,5 0 0,0 40,60 V 60 A 5,5 0 0,0 45,65 H 75" fill="none" stroke="#8D73F6" stroke-width="12" stroke-linecap="round" stroke-linejoin="round" />
-  <path d="M 75,65 A 15,15 0 0,1 90,80 V 80 A 15,15 0 0,1 75,95 H 25 A 15,15 0 0,1 10,80 V 40 A 15,15 0 0,1 25,25 Z" fill="none" stroke="#8D73F6" stroke-width="12" stroke-linecap="round" stroke-linejoin="round" />
-  
-  <circle cx="35" cy="75" r="5" fill="#C7F36B" />
-  <circle cx="50" cy="75" r="5" fill="#8FD8E8" />
-  <circle cx="65" cy="75" r="5" fill="#8D73F6" />
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 120" width="120" height="120">
+  <defs>
+    <linearGradient id="bGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#8D73F6;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#6B52D1;stop-opacity:1" />
+    </linearGradient>
+  </defs>
+  <!-- Outer B shape — top loop -->
+  <path d="
+    M 25 15
+    L 25 105
+    C 25 105 60 105 75 100
+    C 90 95 98 85 98 76
+    C 98 67 92 60 80 57
+    C 92 54 98 45 98 36
+    C 98 22 85 15 70 15
+    Z
+  " fill="none" stroke="url(#bGrad)" stroke-width="13" stroke-linecap="round" stroke-linejoin="round"/>
+  <!-- Inner cutout line to form the B middle -->
+  <line x1="25" y1="60" x2="78" y2="60" stroke="url(#bGrad)" stroke-width="13" stroke-linecap="round"/>
+  <!-- Three dots inside bottom bowl -->
+  <circle cx="44" cy="90" r="5" fill="#C7F36B"/>
+  <circle cx="60" cy="90" r="5" fill="#8FD8E8"/>
+  <circle cx="76" cy="90" r="5" fill="#8D73F6"/>
 </svg>
